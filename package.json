@@ -1,0 +1,27 @@
+{
+  "name": "fexa-api",
+  "version": "1.0.0",
+  "description": "基本情報技術者試験過去問データベース - Vercel API",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required for Vercel API'",
+    "start": "vercel dev --listen 43001"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "cors": "^2.8.5",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^1.1.1",
+    "pdf-lib": "^1.17.1",
+    "uuid": "^9.0.1",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "@vercel/node": "^3.0.0",
+    "vercel": "^33.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

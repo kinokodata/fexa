@@ -1,0 +1,88 @@
+# Fexa - 基本情報技術者試験過去問データベース
+# Docker Compose設定（V2形式）
+# Supabase直接接続版
+
+services:
+  # フロントエンド（Next.js）
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: fexa-frontend
+    ports:
+      - "43000:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      API_BASE_URL: ${API_BASE_URL:-http://localhost:43001}
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+      - /app/.next
+    working_dir: /app
+    command: npm run dev
+    restart: unless-stopped
+
+  # ローカル開発用APIサーバー（本番はVercel使用）
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fexa-backend
+    ports:
+      - "43001:3000"
+    environment:
+      NODE_ENV: ${NODE_ENV:-development}
+      # Supabase接続情報
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      # Supabase Storage設定
+      SUPABASE_STORAGE_BUCKET: ${SUPABASE_STORAGE_BUCKET}
+      # APIサーバー設定
+      PORT: 3000
+      CORS_ORIGIN: http://localhost:43000
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    working_dir: /app
+    command: npm run dev
+    restart: unless-stopped
+
+  # PDFインポートツール（Node.js版、廃止予定）
+  tools:
+    build:
+      context: ./tools
+      dockerfile: Dockerfile
+    container_name: fexa-tools
+    environment:
+      # Supabase接続情報
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      SUPABASE_STORAGE_BUCKET: ${SUPABASE_STORAGE_BUCKET}
+    volumes:
+      - ./tools:/app
+      - /app/node_modules
+      - ./pdfs:/pdfs  # PDFファイル共有
+    working_dir: /app
+    restart: unless-stopped
+
+  # PDFインポートツール（Python + OCR版）
+  tools-python:
+    build:
+      context: ./tools
+      dockerfile: Dockerfile.python
+    container_name: fexa-tools-python
+    environment:
+      # Supabase接続情報
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      SUPABASE_STORAGE_BUCKET: ${SUPABASE_STORAGE_BUCKET}
+    volumes:
+      - ./tools:/app
+      - ./pdfs:/pdfs  # PDFファイル共有
+    working_dir: /app
+    restart: unless-stopped
+
+networks:
+  default:
+    name: fexa_network

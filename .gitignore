@@ -1,0 +1,54 @@
+# 環境変数
+.env
+.env.local
+.env.*.local
+
+# 依存関係
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# ログ
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 一時ファイル
+temp/
+tmp/
+*.tmp
+*.temp
+
+# PDF保存ディレクトリ
+backend/pdfs/
+backend/temp/
+
+# OS生成ファイル
+.DS_Store
+Thumbs.db
+
+# IDE設定
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ビルド出力
+dist/
+build/
+out/
+
+# テストカバレッジ
+coverage/
+.nyc_output/
+
+# Docker
+docker-compose.override.yml
+
+# バックアップファイル
+*.backup
+*.bak
+*~

@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { isAuthenticated, logout } from '../lib/auth';
-import { AuthError } from '../lib/api';
+import { AuthError } from '../services/api';
 
 interface AuthContextType {
   isLoggedIn: boolean;

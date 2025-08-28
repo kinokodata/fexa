@@ -1,37 +1,45 @@
-# フロントエンド開発ルール
+# フロントエンド開発ルール (最新版)
 
-Next.js(React)を使用した確認用UIフロントエンドの開発ルールです。
+Next.js(React)を使用したFexa試験問題管理システムのフロントエンド開発ルールです。
 
 ## 基本方針
 
 ### 目的・用途
-- **動作確認用UI**: APIの動作を視覚的に確認
-- **データ閲覧**: インポートしたデータの表示・検索
-- **管理画面的な位置づけ**: 本格的なエンドユーザー向けUIではない
+- **試験問題管理システム**: 基本情報技術者試験の過去問データベース
+- **問題表示・管理**: LaTeX数式、Markdownテーブル、画像対応
+- **認証システム**: JWT認証による管理者機能
+- **画像アップロード**: ドラッグ&ドロップによる画像管理
 
 ### 技術選択
 - **Next.js 14**: App Router使用
 - **TypeScript**: 型安全性重視
-- **CSS**: インラインスタイル中心（シンプル重視）
-- **外部ライブラリ**: 最小限（依存関係を減らす）
+- **Material-UI (MUI)**: モダンなUIコンポーネント
+- **KaTeX**: LaTeX数式レンダリング
+- **React hooks**: 状態管理（useState/useEffect）
 
 ## ディレクトリ構成
 
 ```
 frontend/src/
 ├── app/
-│   ├── layout.tsx          # 共通レイアウト
-│   ├── page.tsx            # メインページ（問題一覧）
-│   └── questions/[id]/
-│       └── page.tsx        # 問題詳細ページ
+│   ├── layout.tsx                    # 共通レイアウト
+│   ├── page.tsx                      # メインページ（問題一覧）
+│   ├── login/page.tsx                # 認証ページ
+│   ├── exams/[year]/[season]/       # 年度・季節別問題一覧
+│   │   └── page.tsx
+│   └── exams/[year]/[season]/[qnumber]/  # 問題詳細ページ
+│       └── page.tsx
 ├── components/
-│   ├── QuestionCard.tsx    # 問題カード
-│   ├── SearchForm.tsx      # 検索フォーム
-│   └── HealthStatus.tsx    # APIサーバー状態表示
+│   ├── AuthProvider.tsx              # 認証コンテキスト
+│   ├── MathRenderer.tsx              # LaTeX/Markdown レンダリング
+│   ├── ImageUpload.tsx               # ファイルアップロード
+│   └── QuestionCard.tsx              # 問題カード
 ├── services/
-│   └── api.ts              # API呼び出し
+│   └── api.ts                        # API呼び出し（認証対応）
+├── lib/
+│   └── auth.ts                       # 認証ユーティリティ
 └── types/
-    └── api.ts              # 型定義
+    └── api.ts                        # 型定義
 ```
 
 ## API連携
@@ -39,49 +47,80 @@ frontend/src/
 ### APIクライアント設計
 ```typescript
 class ApiClient {
-  private baseURL = process.env.API_BASE_URL || 'http://localhost:43001';
+  private baseURL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:43001';
   
-  async request<T>(endpoint: string): Promise<ApiResponse<T>> {
-    // エラーハンドリング付きfetch実装
+  private async getAuthHeaders(): Promise<HeadersInit> {
+    const token = localStorage.getItem('accessToken');
+    return {
+      'Content-Type': 'application/json',
+      ...(token && { 'Authorization': `Bearer ${token}` })
+    };
   }
   
-  // 各エンドポイントのメソッド
+  async request<T>(endpoint: string, options?: RequestInit): Promise<ApiResponse<T>> {
+    const headers = await this.getAuthHeaders();
+    // 自動トークンリフレッシュ、エラーハンドリング付きfetch実装
+  }
+  
+  // 認証関連
+  async login(credentials: LoginRequest): Promise<ApiResponse<AuthResponse>>
+  async refresh(refreshToken: string): Promise<ApiResponse<AuthResponse>>
+  async logout(): Promise<void>
+  
+  // データ取得
   async getExams(): Promise<ApiResponse<Exam[]>>
   async getQuestions(params?): Promise<ApiResponse<Question[]>>
   async getQuestion(id: string): Promise<ApiResponse<Question>>
+  
+  // 画像アップロード
+  async uploadQuestionImage(questionId: string, file: File): Promise<ApiResponse<any>>
+  async uploadChoiceImage(choiceId: string, file: File): Promise<ApiResponse<any>>
 }
 ```
 
 ### エラーハンドリング
 - API接続エラーは日本語で表示
+- JWT認証エラー時の自動ログアウト
 - ローディング状態の表示
 - 404エラーの適切な処理
+- ファイルアップロードエラーの詳細表示
 - タイムアウト処理（30秒）
 
 ### 状態管理
-- React hooks（useState/useEffect）のみ使用
-- 複雑な状態管理ライブラリは使わない
+- React hooks（useState/useEffect）+ Context API
+- AuthProvider による認証状態の全体管理
+- ローカルストレージでのトークン永続化
 - コンポーネント間でのprops受け渡し
 
 ## UI設計
 
 ### デザインコンセプト
-- **機能重視**: 美しさよりも使いやすさ
-- **情報密度**: 多くの情報を効率的に表示
-- **レスポンシブ対応**: 基本的なブレークポイントのみ
+- **Material Design**: MUIによる統一されたデザインシステム
+- **機能重視**: 直感的で使いやすいインターフェース
+- **レスポンシブ対応**: モバイルファースト
+- **アクセシビリティ**: 適切なコントラストとARIAラベル
 
-### カラーパレット
-```css
-/* プライマリ */
---primary-blue: #007bff;
---primary-green: #28a745;
---primary-red: #dc3545;
+### Material-UI テーマ
+```typescript
+import { createTheme } from '@mui/material/styles';
 
-/* グレー系 */
---gray-100: #f8f9fa;
---gray-300: #e9ecef;
---gray-600: #666;
---gray-900: #333;
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2', // MUI デフォルトブルー
+    },
+    secondary: {
+      main: '#dc004e', // アクセントカラー
+    },
+    background: {
+      default: '#f5f5f5',
+      paper: '#ffffff',
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Noto Sans JP", sans-serif',
+  },
+});
 ```
 
 ### コンポーネント設計
@@ -92,12 +131,23 @@ interface QuestionCardProps {
   onClick?: (id: string) => void;
 }
 
-// インラインスタイルの活用
-const cardStyle: React.CSSProperties = {
-  border: '1px solid #e9ecef',
-  borderRadius: '0.5rem',
-  padding: '1.5rem',
-  backgroundColor: 'white'
+// MUIコンポーネントの活用
+const QuestionCard: React.FC<QuestionCardProps> = ({ question, onClick }) => {
+  return (
+    <Card elevation={2} sx={{ mb: 2 }}>
+      <CardContent>
+        <Typography variant="h6" component="h2">
+          問{question.question_number}
+        </Typography>
+        <MathRenderer text={question.question_text} />
+      </CardContent>
+      <CardActions>
+        <Button size="small" onClick={() => onClick?.(question.id)}>
+          詳細を見る
+        </Button>
+      </CardActions>
+    </Card>
+  );
 };
 ```
 
@@ -105,41 +155,61 @@ const cardStyle: React.CSSProperties = {
 
 ### メインページ（/）
 **機能**:
-- APIサーバーのヘルスチェック表示
-- 試験一覧からの検索フォーム
-- 問題一覧の表示（ページング付き）
+- 年度・季節別の問題一覧表示
+- LaTeX数式とMarkdownテーブルのレンダリング
+- 認証状態の表示とログイン/ログアウト
+- 問題検索とフィルタリング（年度・季節）
 
 **表示項目**:
-- 各問題の基本情報（年度・季節・問題番号）
-- 問題文の冒頭（200文字程度）
-- 選択肢の一部表示
-- 詳細ページへのリンク
+- 各問題の基本情報（年度・季節・問題番号・問題種別）
+- 問題文のプレビュー（LaTeX数式対応）
+- 画像の有無表示
+- 選択肢テーブルの有無表示
+- 詳細ページへのナビゲーション
 
-### 問題詳細ページ（/questions/[id]）
+### 問題詳細ページ（/exams/[year]/[season]/[qnumber]）
 **機能**:
-- 1問の完全な表示
-- 選択肢の全表示
-- 解答の表示/非表示切り替え
-- 画像の表示（アップロード済みの場合）
+- 1問の完全な表示（LaTeX数式、Markdownテーブル対応）
+- 画像アップロード機能（ドラッグ&ドロップ）
+- 選択肢テーブルの表示（問題レベルで管理）
+- 解答選択とフィードバック
+- 画像の動的表示/警告表示
 
 **表示項目**:
-- 問題メタデータ（年度・季節・カテゴリ）
-- 問題文（完全版、画像含む）
+- 問題メタデータ（年度・季節・問題番号・問題種別）
+- 問題文（LaTeX数式レンダリング、画像警告対応）
+- 画像アップロード用モーダルUI
+- 選択肢テーブル（Markdownテーブルまたは画像）
 - 選択肢（ア・イ・ウ・エ、画像含む）
-- 正解と解説（ボタンで切り替え）
+- 正解と解説（認証後表示）
 
-### 画像管理ページ（/admin/images）
+### 認証ページ（/login）
 **機能**:
-- 未アップロード画像の一覧表示
+- 管理者ログイン機能
+- JWT認証の実装
+- 自動リダイレクト機能
+- エラーハンドリング
+
+**表示項目**:
+- ログインフォーム（ユーザー名・パスワード）
+- エラーメッセージ表示
+- ローディング状態
+- ログイン成功後のリダイレクト
+
+### 画像アップロード機能（モーダル）
+**機能**:
 - ドラッグ&ドロップでの画像アップロード
+- ファイル選択による画像アップロード
 - アップロード進捗の表示
 - 画像プレビュー機能
+- UUIDベースファイル管理
 
 **表示項目**:
-- 画像ファイル名と説明
-- 対応する問題へのリンク
-- アップロード状態
-- アップロード用のドロップゾーン
+- アップロード用ドロップゾーン
+- ファイル選択ボタン
+- アップロード進捗バー
+- エラーメッセージ表示
+- 成功時のフィードバック
 
 ### 共通レイアウト
 - シンプルなヘッダー（プロジェクト名）
@@ -176,13 +246,58 @@ interface PaginationProps {
 
 ## 状態管理パターン
 
-### データフェッチパターン
+### 認証状態管理パターン
 ```typescript
+const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      // トークン検証とユーザー情報取得
+      verifyToken(token);
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  const login = async (credentials: LoginRequest) => {
+    const response = await apiClient.login(credentials);
+    if (response.success) {
+      localStorage.setItem('accessToken', response.data.accessToken);
+      localStorage.setItem('refreshToken', response.data.refreshToken);
+      setUser({ username: credentials.username });
+      return true;
+    }
+    return false;
+  };
+
+  const logout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+### データフェッチパターン
 const [questions, setQuestions] = useState<Question[]>([]);
 const [loading, setLoading] = useState(false);
 const [error, setError] = useState<string>('');
+const { user } = useAuth();
 
 const loadQuestions = async (params?: SearchParams) => {
+  if (!user) {
+    setError('認証が必要です');
+    return;
+  }
+  
   setLoading(true);
   setError('');
   try {
@@ -193,29 +308,54 @@ const loadQuestions = async (params?: SearchParams) => {
       setError(response.error?.message || 'データの取得に失敗しました');
     }
   } catch (error) {
-    setError('ネットワークエラーが発生しました');
+    if (error.status === 401) {
+      // 認証エラー時のハンドリング
+      logout();
+      router.push('/login');
+    } else {
+      setError('ネットワークエラーが発生しました');
+    }
   } finally {
     setLoading(false);
   }
 };
 ```
 
-### エラー表示
+### エラー表示（Material-UI）
 ```typescript
 {error && (
-  <div style={{ 
-    backgroundColor: '#f8d7da', 
-    color: '#721c24', 
-    padding: '0.75rem',
-    borderRadius: '0.25rem',
-    marginBottom: '1rem'
-  }}>
-    ⚠️ {error}
-  </div>
+  <Alert severity="error" sx={{ mb: 2 }}>
+    {error}
+  </Alert>
+)}
+
+{/* ローディング表示 */}
+{loading && (
+  <Box display="flex" justifyContent="center" p={2}>
+    <CircularProgress />
+  </Box>
 )}
 ```
 
 ## 画像アップロード機能
+
+### MathRenderer コンポーネント
+```typescript
+interface MathRendererProps {
+  text: string;
+  hasImages?: boolean;    // 実際の画像が存在するかどうか
+  shouldShowImages?: boolean; // has_imageフラグの状態
+}
+
+// LaTeX数式、Markdownテーブル、画像警告を統合処理
+const MathRenderer: React.FC<MathRendererProps> = ({ text, hasImages = false, shouldShowImages = false }) => {
+  if (!text) return null;
+
+  // 画像マークダウンを検出して警告ボックスに変換
+  // LaTeX数式をKaTeXでレンダリング
+  // Markdownテーブルを Material-UI Table でレンダリング
+};
+```
 
 ### ドラッグ&ドロップ実装
 ```typescript
@@ -226,56 +366,84 @@ const handleDrop = useCallback(async (e: React.DragEvent) => {
   setDragActive(false);
   
   const files = Array.from(e.dataTransfer.files);
-  const imageFiles = files.filter(file => file.type.startsWith('image/'));
+  const imageFiles = files.filter(file => 
+    file.type.startsWith('image/') && file.size <= 10 * 1024 * 1024 // 10MB制限
+  );
   
-  for (const file of imageFiles) {
-    await uploadImage(file, targetFilename);
+  if (imageFiles.length > 0) {
+    await uploadImage(imageFiles[0]); // 1ファイルのみ
   }
 }, []);
 
-const uploadImage = async (file: File, filename: string) => {
+const uploadImage = async (file: File) => {
   const formData = new FormData();
-  formData.append('file', file);
-  formData.append('filename', filename);
+  formData.append('image', file);
   
-  const response = await fetch('/api/upload-image', {
-    method: 'POST',
-    body: formData
-  });
+  const endpoint = isQuestionImage 
+    ? `/api/images/upload/question/${questionId}`
+    : `/api/images/upload/choice/${choiceId}`;
   
-  if (response.ok) {
-    // アップロード状態を更新
-    await updateImageStatus(filename, true);
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      },
+      body: formData
+    });
+    
+    if (response.ok) {
+      setUploadSuccess(true);
+      onUploadSuccess?.(); // 親コンポーネントに通知
+    } else {
+      const errorData = await response.json();
+      setError(errorData.error?.message || 'アップロードに失敗しました');
+    }
+  } catch (error) {
+    setError('ネットワークエラーが発生しました');
   }
 };
 ```
 
-### 画像表示コンポーネント
+### 画像表示コンポーネント（Material-UI版）
 ```typescript
 interface ImageDisplayProps {
   src?: string;
   alt: string;
   filename: string;
-  isUploaded: boolean;
+  hasImage: boolean;
+  shouldShowImages: boolean;
 }
 
-const ImageDisplay: React.FC<ImageDisplayProps> = ({ src, alt, filename, isUploaded }) => {
-  if (!isUploaded) {
+const ImageDisplay: React.FC<ImageDisplayProps> = ({ src, alt, filename, hasImage, shouldShowImages }) => {
+  if (!shouldShowImages) {
+    return null; // 画像マークダウンを表示しない
+  }
+  
+  if (!hasImage) {
     return (
-      <div style={{ 
-        backgroundColor: '#f8f9fa',
-        border: '2px dashed #dee2e6',
-        padding: '2rem',
-        textAlign: 'center',
-        borderRadius: '0.5rem'
-      }}>
-        <p>📸 画像未アップロード: {filename}</p>
-        <p style={{ fontSize: '0.875rem', color: '#6c757d' }}>{alt}</p>
-      </div>
+      <Alert severity="warning" icon={<WarningAmberIcon />} sx={{ my: 2 }}>
+        <AlertTitle>画像が見つかりません</AlertTitle>
+        推奨ファイル名: <strong>{filename}</strong><br />
+        {alt && <Typography variant="body2" color="text.secondary">{alt}</Typography>}
+      </Alert>
     );
   }
   
-  return <img src={src} alt={alt} style={{ maxWidth: '100%', height: 'auto' }} />;
+  return (
+    <Box sx={{ my: 2, textAlign: 'left' }}>
+      <img 
+        src={src} 
+        alt={alt} 
+        style={{ 
+          maxWidth: '100%', 
+          height: 'auto',
+          border: '1px solid #e0e0e0',
+          borderRadius: '4px'
+        }} 
+      />
+    </Box>
+  );
 };
 ```
 
@@ -345,8 +513,14 @@ const updateImageStatus = async (filename: string, isUploaded: boolean) => {
 
 ### 環境変数
 ```env
-API_BASE_URL=http://localhost:43001  # 開発環境
-# API_BASE_URL=https://api.example.com  # 本番環境
+# 開発環境
+NEXT_PUBLIC_API_BASE_URL=http://localhost:43001
+
+# 本番環境
+# NEXT_PUBLIC_API_BASE_URL=https://api.example.com
+
+# 認証設定
+NEXTPUBLIC_APP_NAME=Fexa
 ```
 
 ### Next.js設定
@@ -354,32 +528,35 @@ API_BASE_URL=http://localhost:43001  # 開発環境
 // next.config.js
 const nextConfig = {
   reactStrictMode: true,
-  env: {
-    API_BASE_URL: process.env.API_BASE_URL
+  experimental: {
+    appDir: true, // App Router使用
   },
-  // API Proxy設定（開発時）
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: `${process.env.API_BASE_URL}/api/:path*`
-      }
-    ];
-  }
+  // 画像最適化設定
+  images: {
+    domains: ['your-supabase-project.supabase.co'],
+    formats: ['image/webp', 'image/avif'],
+  },
 };
+
+module.exports = nextConfig;
 ```
 
 ## テスト・品質保証
 
 ### ブラウザテスト
 - Chrome/Firefox/Safari での動作確認
-- モバイル端末での基本動作確認
-- APIエラー時の表示確認
+- モバイル端末でのレスポンシブ表示確認
+- 認証フローのテスト
+- 画像アップロード機能のテスト
+- LaTeX数式レンダリングの確認
+- Markdownテーブル表示の確認
 
-### データ整合性確認
-- 問題数の一致確認
-- 選択肢の表示確認
-- 画像の表示確認（将来）
+### 機能テスト
+- JWT認証とトークンリフレッシュ
+- 画像アップロード（問題・選択肢別）
+- 選択肢テーブル表示（新形式・旧形式対応）
+- 数式レンダリング（inline/block）
+- エラーハンドリング（認証・ネットワーク・アップロード）
 - 日本語の文字化け確認
 
 このシンプルな設計により、開発・保守が容易で、APIの動作確認に必要十分な機能を提供できます。

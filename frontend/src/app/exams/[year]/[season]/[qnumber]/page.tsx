@@ -28,25 +28,26 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
+import Modal from '@mui/material/Modal';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from '@mui/icons-material/Home';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ImageIcon from '@mui/icons-material/Image';
 import TableChartIcon from '@mui/icons-material/TableChart';
+import EditIcon from '@mui/icons-material/Edit';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import MathRenderer from '../../../../../components/MathRenderer';
 import ImageUpload from '../../../../../components/ImageUpload';
+import QuestionFeatures from '../../../../../components/QuestionFeatures';
 
 interface Choice {
   id: string;
   choice_label: string;
   choice_text: string;
   has_image: boolean;
-  is_table_format: boolean;
-  table_headers?: string[];
-  table_data?: string[][];
   images?: {
     id: string;
     image_url: string;
@@ -59,6 +60,9 @@ interface Question {
   question_number: number;
   question_text: string;
   has_image: boolean;
+  has_choice_table?: boolean;  // 選択肢が表形式かどうか
+  choice_table_type?: 'markdown' | 'image';  // 表の種類
+  choice_table_markdown?: string;  // 表のMarkdownテキスト
   choices: Choice[];
   category?: {
     name: string;
@@ -73,14 +77,13 @@ export default function QuestionDetail() {
   // qnumberから数値部分を抽出
   const number = qnumber ? qnumber.toString().replace('q', '') : '';
   
-  // パラメータをログ出力
-  console.log('URL params:', { year, season, qnumber, number, params });
   const [question, setQuestion] = useState<Question | null>(null);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedChoice, setSelectedChoice] = useState<string>('');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [uploadModal, setUploadModal] = useState<{open: boolean, questionId: string, choiceId: string, choiceLabel: string}>({open: false, questionId: '', choiceId: '', choiceLabel: ''});
 
   const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : '';
   const questionNumber = parseInt(number as string);
@@ -95,9 +98,12 @@ export default function QuestionDetail() {
   const fetchQuestions = async () => {
     try {
       setLoading(true);
-      const { get } = await import('../../../../../lib/api');
-      const response = await get(`http://localhost:43001/api/questions?year=${year}&season=${season}&limit=100`);
-      const data = await response.json();
+      const { default: apiClient } = await import('../../../../../services/api');
+      const data = await apiClient.getQuestions({
+        year: parseInt(year),
+        season: season,
+        limit: 100
+      });
       
       if (data.success) {
         const allQuestions = data.data || [];
@@ -142,166 +148,123 @@ export default function QuestionDetail() {
     setMobileOpen(!mobileOpen);
   };
 
-  const getChoiceInfo = (choices: Choice[]) => {
-    if (!choices || choices.length === 0) {
-      return null;
-    }
-
-    const hasTable = choices.some(c => c.is_table_format);
-    const hasImage = choices.some(c => c.has_image);
-
-    const chips = [];
-    if (hasTable) {
-      chips.push(
-        <Chip 
-          key="choice-table"
-          icon={<TableChartIcon />} 
-          label="選択肢:表" 
-          size="small" 
-          color="info"
-          sx={{ ml: 1 }}
-        />
-      );
-    }
-    if (hasImage) {
-      chips.push(
-        <Chip 
-          key="choice-image"
-          icon={<ImageIcon />} 
-          label="選択肢:画像" 
-          size="small" 
-          color="warning"
-          sx={{ ml: 1 }}
-        />
-      );
-    }
-    
-    return chips;
+  const openUploadModal = (questionId: string, choiceId: string, choiceLabel: string) => {
+    setUploadModal({open: true, questionId, choiceId, choiceLabel});
   };
 
-  const getQuestionInfo = (question: Question) => {
-    const chips = [];
-    
-    // Markdown表形式の文字列があるかチェック（|で始まり|で終わる行が複数行）
-    const hasMarkdownTable = /\|[^\n]+\|\n\|[-:| ]+\|\n(?:\|[^\n]+\|\n?)+/m.test(question.question_text);
-    
-    // 問題文に画像が含まれているかチェック
-    const hasQuestionImage = question.has_image || 
-                            question.question_text.includes('/images/') || 
-                            question.question_text.includes('[画像:') || 
-                            question.question_text.includes('![');
-
-    if (hasMarkdownTable) {
-      chips.push(
-        <Chip 
-          key="question-table"
-          icon={<TableChartIcon />} 
-          label="問題文:表" 
-          size="small" 
-          color="info"
-          variant="outlined"
-          sx={{ ml: 1 }}
-        />
-      );
-    }
-
-    if (hasQuestionImage) {
-      chips.push(
-        <Chip 
-          key="question-image"
-          icon={<ImageIcon />} 
-          label="問題文:画像" 
-          size="small" 
-          color="warning"
-          variant="outlined"
-          sx={{ ml: 1 }}
-        />
-      );
-    }
-    
-    return chips;
+  const closeUploadModal = () => {
+    setUploadModal({open: false, questionId: '', choiceId: '', choiceLabel: ''});
   };
+
 
   const renderChoice = (choice: Choice) => {
-    if (choice.is_table_format && Array.isArray(choice.table_headers) && Array.isArray(choice.table_data)) {
-      return (
-        <TableContainer component={Paper} variant="outlined">
-            <Table size="small">
-              <TableHead>
-                <TableRow>
-                  {choice.table_headers.map((header, index) => (
-                    <TableCell key={index} sx={{ fontWeight: 'bold', backgroundColor: 'grey.50' }}>
-                      <MathRenderer text={header} />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {choice.table_data.map((row, rowIndex) => (
-                  <TableRow key={rowIndex}>
-                    {row.map((cell, cellIndex) => (
-                      <TableCell key={cellIndex}>
-                        <MathRenderer text={cell} />
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-      );
-    }
+    // choice_imagesをimagesとしても使えるようにする
+    const images = choice.images || (choice as any).choice_images || [];
+    
+    // choice_textから画像マークダウンを除去
+    const cleanChoiceText = choice.choice_text 
+      ? choice.choice_text
+          .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '')  // 標準形式 ![alt](url)
+          .replace(/\[画像:\s*([^\]]*)\]\(([^)]+)\)/g, '')  // カスタム形式 [画像: alt](url)
+          .trim()
+      : '';
 
     if (choice.has_image) {
       return (
         <Box>
-          {choice.images && choice.images.length > 0 ? (
+          {images && images.length > 0 ? (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {/* アップロード済みの画像を表示 */}
-              {choice.images.map((image) => (
-                <Box key={image.id} sx={{ 
-                  display: 'flex', 
-                  justifyContent: 'center',
-                  backgroundColor: 'grey.50',
-                  borderRadius: 1,
-                  p: 2
-                }}>
-                  <img 
-                    src={image.image_url} 
-                    alt={image.caption || `${choice.choice_label}の画像`}
-                    style={{
-                      maxWidth: '400px',
-                      maxHeight: '300px',
-                      width: 'auto',
-                      height: 'auto',
-                      objectFit: 'contain',
-                      borderRadius: '4px',
-                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+              {images.map((image) => (
+                <Box key={image.id} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+                  <Box sx={{ 
+                    backgroundColor: 'grey.50',
+                    borderRadius: 1,
+                    p: 2
+                  }}>
+                    <img 
+                      src={image.image_url} 
+                      alt={image.caption || `${choice.choice_label}の画像`}
+                      style={{
+                        maxWidth: '400px',
+                        maxHeight: '300px',
+                        width: 'auto',
+                        height: 'auto',
+                        objectFit: 'contain',
+                        borderRadius: '4px',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                      }}
+                    />
+                  </Box>
+                  <IconButton
+                    onClick={() => openUploadModal(question?.id || '', choice.id, choice.choice_label)}
+                    sx={{
+                      backgroundColor: 'primary.main',
+                      color: 'white',
+                      boxShadow: 2,
+                      '&:hover': {
+                        backgroundColor: 'primary.dark'
+                      }
                     }}
-                  />
+                  >
+                    <EditIcon />
+                  </IconButton>
                 </Box>
               ))}
               {/* 画像の説明テキスト */}
-              {choice.choice_text && (
+              {cleanChoiceText && (
                 <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                  <MathRenderer text={choice.choice_text} />
+                  <MathRenderer 
+                    text={cleanChoiceText} 
+                    hasImages={images && images.length > 0}
+                    shouldShowImages={false}  // 画像はすでに表示済みなので警告ボックスは不要
+                  />
                 </Typography>
               )}
             </Box>
           ) : (
-            <Box>
-              <Typography variant="body2" color="text.secondary">
-                [画像: {choice.choice_text}]
-              </Typography>
-              <ImageUpload
-                questionId={question?.id || ''}
-                choiceId={choice.id}
-                choiceLabel={choice.choice_label}
-                onImageUploaded={() => {
-                  // 画像アップロード後の処理（問題を再取得）
-                  fetchQuestions();
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+              <Alert 
+                severity="warning"
+                iconMapping={{
+                  warning: <WarningAmberIcon sx={{ fontSize: 40 }} />
                 }}
-              />
+                sx={{ 
+                  margin: '16px 0',
+                  padding: '20px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  flex: 1,
+                  '& .MuiAlert-icon': {
+                    fontSize: '40px',
+                    marginRight: '28px'
+                  }
+                }}
+              >
+                <Box>
+                  <strong>画像をアップロードしてください</strong>
+                  <br />
+                  選択肢: {choice.choice_label}
+                  {choice.choice_text && (
+                    <>
+                      <br />
+                      内容: {choice.choice_text}
+                    </>
+                  )}
+                </Box>
+              </Alert>
+              <IconButton
+                onClick={() => openUploadModal(question?.id || '', choice.id, choice.choice_label)}
+                sx={{
+                  backgroundColor: 'primary.main',
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: 'primary.dark'
+                  }
+                }}
+              >
+                <EditIcon />
+              </IconButton>
             </Box>
           )}
         </Box>
@@ -310,7 +273,11 @@ export default function QuestionDetail() {
 
     return (
       <Typography variant="body1">
-        <MathRenderer text={choice.choice_text} />
+        <MathRenderer 
+          text={cleanChoiceText || choice.choice_text} 
+          hasImages={choice.has_image && images && images.length > 0}
+          shouldShowImages={choice.has_image} 
+        />
       </Typography>
     );
   };
@@ -359,12 +326,7 @@ export default function QuestionDetail() {
               >
                 <ListItemText
                   primary={`問${q.question_number}`}
-                  secondary={
-                    <Box>
-                      {getQuestionInfo(q)}
-                      {getChoiceInfo(q.choices)}
-                    </Box>
-                  }
+                  secondary={<QuestionFeatures question={q} variant="detailed" />}
                 />
               </ListItemButton>
             </ListItem>
@@ -502,20 +464,72 @@ export default function QuestionDetail() {
         {/* 問題文 */}
         <Paper elevation={1} sx={{ p: 3, mb: 4 }}>
           <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', lineHeight: 1.8 }}>
-            <MathRenderer text={question.question_text} />
-          </Typography>
-          {(question.has_image || question.question_text.includes('/images/') || question.question_text.includes('[画像:') || question.question_text.includes('![')) && (
-            <Box sx={{ mt: 3 }}>
-              <ImageUpload
-                questionId={question.id}
-                choiceId="question"
-                choiceLabel="問題文"
-                onImageUploaded={() => {
-                  console.log('問題文の画像がアップロードされました');
-                }}
+            <>
+              <MathRenderer 
+                text={question.question_text} 
+                hasImages={question.has_image && question.question_images && question.question_images.length > 0}
+                shouldShowImages={false}  // 問題文では警告ボックスを表示しない
               />
-            </Box>
-          )}
+              {/* 画像が実際に存在する場合のみimgタグを表示 */}
+              {question.has_image && question.question_images && question.question_images.length > 0 && (
+                <Box sx={{ mt: 2 }}>
+                  {question.question_images.map((image: any, index: number) => (
+                    <img 
+                      key={index}
+                      src={image.image_url} 
+                      alt="問題画像" 
+                      style={{ maxWidth: '100%', height: 'auto' }}
+                    />
+                  ))}
+                </Box>
+              )}
+              
+              {/* 問題画像がない場合の警告ボックス */}
+              {question.has_image && (!question.question_images || question.question_images.length === 0) && (
+                <Alert 
+                  severity="warning"
+                  iconMapping={{
+                    warning: <WarningAmberIcon sx={{ fontSize: 40 }} />
+                  }}
+                  sx={{ 
+                    margin: '16px 0',
+                    padding: '20px',
+                    display: 'flex',
+                    alignItems: 'center',
+                    '& .MuiAlert-icon': {
+                      fontSize: '40px',
+                      marginRight: '28px'
+                    }
+                  }}
+                >
+                  <Box>
+                    <strong>画像をアップロードしてください</strong>
+                    <br />
+                    推奨ファイル名: 問題画像
+                  </Box>
+                </Alert>
+              )}
+            </>
+          </Typography>
+          <Box sx={{ mt: 3, display: 'flex', alignItems: 'center', gap: 2 }}>
+            <Typography variant="body2" color="text.secondary">
+              {question.has_image && question.question_images && question.question_images.length > 0 
+                ? '画像を変更' 
+                : '画像をアップロード'}
+            </Typography>
+            <IconButton
+              onClick={() => openUploadModal(question.id, 'question', '問題文')}
+              sx={{
+                backgroundColor: 'primary.main',
+                color: 'white',
+                '&:hover': {
+                  backgroundColor: 'primary.dark'
+                }
+              }}
+            >
+              <EditIcon />
+            </IconButton>
+          </Box>
         </Paper>
 
         {/* 選択肢 */}
@@ -523,6 +537,59 @@ export default function QuestionDetail() {
           <Typography variant="h6" gutterBottom>
             選択肢
           </Typography>
+          
+          {/* 選択肢の表 */}
+          {question.has_choice_table && (
+            <Box sx={{ mb: 3 }}>
+              {question.choice_table_type === 'markdown' && question.choice_table_markdown ? (
+                <MathRenderer text={question.choice_table_markdown} />
+              ) : question.choice_table_type === 'image' ? (
+                <Typography color="text.secondary">
+                  選択肢の表画像が表示されます（未実装）
+                </Typography>
+              ) : (
+                // 古い形式の表データがある場合の表示（後方互換性）
+                question.choices.some(choice => 
+                  (choice as any).is_table_format || 
+                  (choice as any).table_headers || 
+                  (choice as any).table_data
+                ) && (
+                  <Box>
+                    {question.choices.map((choice) => {
+                      const legacyChoice = choice as any;
+                      if (legacyChoice.is_table_format && (legacyChoice.table_headers || legacyChoice.table_data)) {
+                        let tableMarkdown = '';
+                        if (legacyChoice.table_headers && legacyChoice.table_data) {
+                          const headers = Array.isArray(legacyChoice.table_headers) 
+                            ? legacyChoice.table_headers 
+                            : JSON.parse(legacyChoice.table_headers || '[]');
+                          const data = Array.isArray(legacyChoice.table_data) 
+                            ? legacyChoice.table_data 
+                            : JSON.parse(legacyChoice.table_data || '[]');
+                          
+                          if (headers.length > 0) {
+                            tableMarkdown = `| ${headers.join(' | ')} |\n`;
+                            tableMarkdown += `| ${headers.map(() => '---').join(' | ')} |\n`;
+                            data.forEach((row: string[]) => {
+                              tableMarkdown += `| ${row.join(' | ')} |\n`;
+                            });
+                          }
+                        }
+                        
+                        return tableMarkdown ? (
+                          <Box key={choice.id} sx={{ mb: 2 }}>
+                            <MathRenderer text={tableMarkdown} />
+                          </Box>
+                        ) : null;
+                      }
+                      return null;
+                    })}
+                  </Box>
+                )
+              )}
+            </Box>
+          )}
+          
           <FormControl component="fieldset" sx={{ width: '100%' }}>
             <RadioGroup value={selectedChoice} onChange={handleChoiceChange}>
               {question.choices.map((choice) => (
@@ -532,7 +599,7 @@ export default function QuestionDetail() {
                     control={<Radio />}
                     label={
                       <Box sx={{ display: 'flex', alignItems: 'flex-start', width: '100%', gap: 2 }}>
-                        <Typography variant="h6" component="span" sx={{ fontWeight: 'bold', minWidth: '30px', flexShrink: 0 }}>
+                        <Typography variant="body1" component="span" sx={{ fontWeight: 'bold', minWidth: '30px', flexShrink: 0 }}>
                           {choice.choice_label}.
                         </Typography>
                         <Box sx={{ flex: 1 }}>
@@ -562,6 +629,40 @@ export default function QuestionDetail() {
             問題一覧に戻る
           </Button>
         </Box>
+
+        {/* 画像アップロードモーダル */}
+        <Modal
+          open={uploadModal.open}
+          onClose={closeUploadModal}
+          aria-labelledby="upload-modal-title"
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: { xs: '90%', sm: 600 },
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              borderRadius: 2,
+              p: 4,
+            }}
+          >
+            <Typography id="upload-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>
+              {uploadModal.choiceLabel}の画像をアップロード
+            </Typography>
+            <ImageUpload
+              questionId={uploadModal.questionId}
+              choiceId={uploadModal.choiceId}
+              choiceLabel={uploadModal.choiceLabel}
+              onImageUploaded={() => {
+                fetchQuestions();
+                closeUploadModal();
+              }}
+            />
+          </Box>
+        </Modal>
       </Box>
     </Box>
   );

@@ -1,4 +1,12 @@
 import { ApiResponse, Question, Exam, HealthStatus } from '../types/api';
+import { getAuthToken } from '../lib/auth';
+
+export class AuthError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'AuthError';
+  }
+}
 
 const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:43001';
 
@@ -14,9 +22,13 @@ class ApiClient {
     options?: RequestInit
   ): Promise<ApiResponse<T>> {
     try {
+      // 既存の認証システムからトークンを取得
+      const token = getAuthToken();
+      
       const response = await fetch(`${this.baseURL}${endpoint}`, {
         headers: {
           'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
           ...options?.headers,
         },
         ...options,
@@ -70,21 +82,40 @@ class ApiClient {
     }
 
     const query = searchParams.toString();
-    return this.request<Question[]>(`/api/questions${query ? `?${query}` : ''}`);
+    const endpoint = `/api/questions${query ? `?${query}` : ''}`;
+    const result = await this.request<Question[]>(endpoint);
+    console.log('API Response - Questions:', result);
+    return result;
   }
 
   // 問題詳細取得
   async getQuestion(id: string): Promise<ApiResponse<Question>> {
-    return this.request<Question>(`/api/questions/${id}`);
+    const result = await this.request<Question>(`/api/questions/${id}`);
+    console.log('API Response - Question Detail:', result);
+    return result;
   }
 
   // 問題検索（年度・季節指定）
   async searchQuestions(year: number, season: string, page: number = 1): Promise<ApiResponse<Question[]>> {
     return this.getQuestions({ year, season, page, limit: 20 });
   }
+
+  // 認証API
+  async login(email: string, password: string): Promise<ApiResponse<{ token: string; refreshToken: string }>> {
+    return this.request<{ token: string; refreshToken: string }>('/api/auth/login', {
+      method: 'POST',
+      body: JSON.stringify({ email, password }),
+    });
+  }
+
+  async refreshToken(refreshToken: string): Promise<ApiResponse<{ token: string }>> {
+    return this.request<{ token: string }>('/api/auth/refresh', {
+      method: 'POST',
+      body: JSON.stringify({ refreshToken }),
+    });
+  }
 }
 
-// デフォルトAPIクライアントインスタンス
-export const apiClient = new ApiClient();
+const apiClient = new ApiClient();
 
 export default apiClient;

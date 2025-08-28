@@ -139,9 +139,10 @@ GET /api/questions
 ```
 
 **重要な仕様**:
-- 選択肢は必ず「ア、イ、ウ、エ」の順番でソートして返す
+- 選択肢は「ア、イ、ウ、エ」の順番でソートして返す
 - ページング対応（offset/limit）
 - 問題番号順でソート
+- 選択肢画像がある場合は`choice_images`から`image_url`を含める
 
 ### 4. 問題詳細
 ```
@@ -165,12 +166,24 @@ GET /api/questions/:id
       "season": "春期",
       "exam_date": "2023-04-01"
     },
+    "has_choice_table": true,
+    "choice_table_type": "markdown",
+    "choice_table_markdown": "| 項目 | 値 |\n|------|-----|\n| A | 1 |",
+    "question_images": [
+      {
+        "id": "uuid",
+        "image_type": "png", 
+        "image_url": "signed_url"
+      }
+    ],
     "choices": [
       {
         "id": 1,
         "choice_label": "ア",
         "choice_text": "選択肢A",
-        "is_correct": false
+        "has_image": false,
+        "is_correct": false,
+        "choice_images": []
       }
     ],
     "answer": [
@@ -239,18 +252,22 @@ POST /api/images/upload
 - `explanation`: 解説
 
 ### question_images テーブル（画像機能用）
-- `id`: Primary Key
+- `id`: Primary Key (UUID)
 - `question_id`: 問題ID (FK)
-- `image_url`: 画像URL
+- `image_id`: 画像ファイルパス（例: "2018a/am_q77/uuid"）
+- `image_type`: 拡張子（png, jpg, gif等）
 - `caption`: キャプション
-- `image_type`: 画像タイプ
+- `display_order`: 表示順
+- `created_at`: 作成日時
 
 ### choice_images テーブル（画像機能用）
-- `id`: Primary Key
+- `id`: Primary Key (UUID)
 - `choice_id`: 選択肢ID (FK)
-- `image_url`: 画像URL
+- `image_id`: 画像ファイルパス（例: "2018a/am_q77/uuid"）
+- `image_type`: 拡張子（png, jpg, gif等）
 - `caption`: キャプション
-- `image_type`: 画像タイプ
+- `display_order`: 表示順
+- `created_at`: 作成日時
 
 ## 環境設定
 
@@ -301,8 +318,9 @@ backend/
 - 問題関連API (routes/questions.js) ※選択肢ソート機能付き
 - 画像アップロードAPI (routes/images.js)
 
-### 🎯 重点対応事項
-1. **選択肢ソート**: 「ア、イ、ウ、エ」の順番を確実に維持
-2. **エラーハンドリング**: 統一されたエラーレスポンス
-3. **ログ出力**: デバッグしやすいログ形式
-4. **ファイル分割**: 責務の明確な分離
+### ✅ 実装完了事項
+1. **選択肢ソート**: 「ア、イ、ウ、エ」の順番で確実にソート実装済み
+2. **画像機能**: アップロード・表示機能完全実装済み
+3. **認証機能**: JWT認証完全実装済み
+4. **エラーハンドリング**: 統一されたエラーレスポンス実装済み
+5. **ファイル構成**: 責務明確な分離完了

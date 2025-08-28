@@ -1,252 +1,288 @@
 # Fexa - 基本情報技術者試験過去問データベース
 
-IPAが公開している基本情報技術者試験の過去問PDFを解析し、Supabaseで管理するシステムです。  
-**APIサーバーはVercelにデプロイ、フロントエンドも含めた確認用UIを提供します。**
+基本情報技術者試験の過去問を管理・表示するための統合データベースシステムです。  
+**モダンなWeb UI、認証システム、画像アップロード機能を備えた包括的なプラットフォーム**
+
+## ✨ 主要機能
+
+### 🔐 認証システム
+- JWT ベース認証（アクセス/リフレッシュトークン）
+- 管理者用ログイン画面
+- 自動トークン更新とセッション管理
+
+### 📝 問題管理
+- 年度・季節別の問題一覧表示
+- LaTeX数式レンダリング（KaTeX）
+- Markdownテーブル対応
+- 選択肢の表形式表示（問題レベルで管理）
+- 問題・選択肢別の画像アップロード
+
+### 🖼️ 画像管理システム
+- UUID ベースのファイル管理
+- ドラッグ&ドロップ対応アップロード
+- Supabase Storage 統合
+- 署名付きURL（24時間有効）
+- 自動的な画像警告表示
+
+### 🎨 ユーザーインターフェース
+- Material-UI による現代的なデザイン
+- レスポンシブ対応
+- リアルタイムプレビュー
+- エラー処理とユーザーフィードバック
+
+## 🚀 技術スタック
+
+### フロントエンド
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Material-UI (MUI)**
+- **KaTeX** (数式レンダリング)
+- **React hooks** (状態管理)
+
+### バックエンド
+- **Express.js** (Node.js)
+- **ES6 Modules**
+- **JWT認証**
+- **Multer** (ファイルアップロード)
+- **Winston** (ログ管理)
+
+### データベース・ストレージ
+- **Supabase PostgreSQL**
+- **Supabase Storage**
+- **UUID** ベースのファイル管理
+
+### インフラ
+- **Docker Compose** (開発環境)
+- **Vercel** (本番デプロイ対応)
+
+## 🏗️ アーキテクチャ概要
+
+### データベース設計
+```sql
+-- 最新のスキーマ構造
+exams (id, year, season, exam_date)
+questions (
+  id, exam_id, question_number, question_type,
+  question_text, has_image,
+  has_choice_table, choice_table_type, choice_table_markdown
+)
+choices (id, question_id, choice_label, choice_text, is_correct, has_image)
+question_images (id, question_id, image_type, caption)
+choice_images (id, choice_id, image_type, caption)
+answers (id, question_id, correct_choice, explanation)
+```
+
+### ファイル管理システム
+```
+Storage Structure:
+{year}{season_code}/{time_code}_q{question_number}/{uuid}.{extension}
+
+Example:
+2018a/am_q77/550e8400-e29b-41d4-a716-446655440000.png
+```
+
+### API エンドポイント
+```bash
+# 認証
+POST /api/auth/login
+POST /api/auth/refresh
+POST /api/auth/logout
+
+# コンテンツ管理（要認証）
+GET  /api/exams
+GET  /api/questions
+GET  /api/questions/:id
+POST /api/images/upload/question/:id
+POST /api/images/upload/choice/:id
+
+# システム
+GET  /api/health
+```
 
 ## 🚀 セットアップ
 
 ### 1. 前提条件
-
 - Docker & Docker Compose
 - Supabaseアカウント
 - Node.js 18以上（ローカル開発時）
 
-### 2. Supabaseプロジェクトの準備
-
-1. [Supabase](https://supabase.com)でプロジェクトを作成
-2. `init.sql`の内容をSupabaseのSQL Editorで実行してテーブルを作成
-3. Settings > API から以下の情報を取得：
-   - Project URL
-   - anon key
-   - service_role key
-
-### 3. 環境変数の設定
-
+### 2. 環境変数設定
 ```bash
-# .env.exampleをコピー
 cp .env.example .env
-
-# .envファイルを編集してSupabaseの接続情報を設定
+# 以下を設定：
+SUPABASE_URL=your_supabase_url
+SUPABASE_ANON_KEY=your_anon_key
+SUPABASE_SERVICE_KEY=your_service_key
+SUPABASE_STORAGE_BUCKET=fexa-images
+JWT_SECRET=your_jwt_secret
+REFRESH_TOKEN_SECRET=your_refresh_secret
 ```
 
-### 4. Docker環境の起動
+### 3. データベース初期化
+1. Supabaseプロジェクトを作成
+2. `sql/` ディレクトリのSQLファイルを順次実行：
+   ```sql
+   -- 基本スキーマ
+   init.sql
+   
+   -- 選択肢テーブル機能拡張
+   add_choice_table_columns.sql
+   remove_obsolete_choice_columns.sql
+   ```
 
+### 4. 開発環境起動
 ```bash
-# コンテナの起動（フロントエンド + バックエンド）
+# Docker環境
 docker compose up -d
 
-# ログの確認
-docker compose logs -f
-
-# フロントエンドアクセス: http://localhost:43000
-# バックエンドAPI: http://localhost:43001
+# ローカル開発
+cd frontend && npm install && npm run dev  # :43000
+cd backend && npm install && npm run dev   # :43001
 ```
 
-## 📁 ディレクトリ構成
+## 📁 プロジェクト構造
 
 ```
 fexa/
-├── compose.yml                   # Docker Compose設定
-├── vercel.json                   # Vercel設定
-├── package.json                  # Vercel API依存関係
-├── init.sql                     # データベース初期化SQL
-├── .env.example                 # 環境変数テンプレート
-├── api/                         # Vercel Functions
-│   ├── health.js                # ヘルスチェック
-│   ├── exams/index.js           # 試験一覧
-│   └── questions/
-│       ├── index.js             # 問題一覧
-│       └── [id].js              # 問題詳細
-├── backend/                     # ローカル開発用APIサーバー
-│   ├── Dockerfile
-│   ├── lib/
-│   │   ├── logger.js            # ロガー
-│   │   └── supabase.js          # Supabase接続
-│   ├── middleware/cors.js       # CORS設定
-│   └── src/server.js            # 簡易APIサーバー
-├── tools/                       # PDFインポートツール（独立）
-│   ├── Dockerfile
-│   ├── package.json
-│   ├── import-pdf.js            # インポートスクリプト
+├── frontend/src/
+│   ├── app/                          # Next.js App Router
+│   │   ├── login/page.tsx           # 認証ページ
+│   │   ├── exams/[year]/[season]/   # 年度・季節別問題一覧
+│   │   └── questions/[id]/          # 問題詳細ページ
+│   ├── components/
+│   │   ├── AuthProvider.tsx         # 認証コンテキスト
+│   │   ├── MathRenderer.tsx         # LaTeX/Markdown レンダリング
+│   │   └── ImageUpload.tsx          # ファイルアップロード
+│   └── services/api.ts              # API クライアント
+├── backend/src/
+│   ├── routes/
+│   │   ├── auth.js                  # 認証エンドポイント
+│   │   ├── questions.js             # 問題管理API
+│   │   └── images.js                # 画像アップロードAPI
+│   ├── middleware/
+│   │   └── auth.js                  # JWT認証ミドルウェア
 │   └── lib/
-│       ├── logger.js            # ロガー
-│       ├── supabase.js          # Supabase接続
-│       └── pdfParser.js         # PDF解析
-├── frontend/                    # Next.jsフロントエンド
-│   ├── Dockerfile
-│   ├── package.json
-│   ├── next.config.js
-│   └── src/
-│       ├── app/
-│       │   ├── layout.tsx       # レイアウト
-│       │   ├── page.tsx         # メインページ
-│       │   └── questions/[id]/page.tsx # 問題詳細
-│       ├── components/          # UIコンポーネント
-│       ├── services/api.ts      # API接続
-│       └── types/api.ts         # 型定義
-└── claude-rules/                # Claude用ルール
+│       ├── supabase.js              # DB/Storage クライアント
+│       └── logger.js                # ログシステム
+├── sql/                             # データベーススキーマ
+└── claude-rules/                    # 開発ルール・ガイドライン
 ```
 
-## 🏗️ システム構成
+## 🔄 最近の主要変更
 
-### 開発環境
-- **フロントエンド**: Next.js (ポート: 43000)
-- **バックエンド**: Express API (ポート: 43001)
-- **データベース**: Supabase PostgreSQL
-- **ストレージ**: Supabase Storage
+### バックエンド再構築 ("backend作り直し")
+- **モジュラー化**: ルート、ミドルウェア、ユーティリティの分離
+- **ES6 Modules**: 完全な ES6 import/export 移行
+- **統合認証**: 全エンドポイントでJWT認証必須化
+- **エラーハンドリング**: 統一されたエラーレスポンス形式
 
-### 本番環境
-- **フロントエンド**: Vercel
-- **バックエンド**: Vercel Functions
-- **データベース**: Supabase PostgreSQL
-- **ストレージ**: Supabase Storage
+### 選択肢テーブルシステム再設計
+**旧システム**: 複雑なテーブルデータを choices テーブルで管理
+**新システム**: シンプルな Markdown テーブルを questions テーブルで一元管理
 
-## 🔌 APIエンドポイント（読み取り専用）
+```sql
+-- 削除されたカラム
+choices: is_table_format, table_headers, table_data
 
-### ヘルスチェック
+-- 新規追加カラム  
+questions: has_choice_table, choice_table_type, choice_table_markdown
+```
+
+### 画像システム強化
+- **UUID ベース**: データベースIDとファイル名の統一
+- **動的パス生成**: メタデータからの自動パス構築
+- **警告システム**: 不足画像の自動検出と表示
+- **セキュア アクセス**: 署名付きURL による安全なファイル配信
+
+## 🧪 開発・テスト
+
+### 認証テスト
 ```bash
-GET /api/health
-GET /api/health?detailed=true  # 詳細チェック付き
+# ログイン
+curl -X POST http://localhost:43001/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "password"}'
+
+# 認証が必要なAPI
+curl -H "Authorization: Bearer YOUR_TOKEN" \
+  http://localhost:43001/api/questions
 ```
 
-### 試験情報
+### 画像アップロード
 ```bash
-# 試験一覧取得
-GET /api/exams
+# 問題画像アップロード
+curl -X POST http://localhost:43001/api/images/upload/question/QUESTION_ID \
+  -H "Authorization: Bearer YOUR_TOKEN" \
+  -F "image=@test-image.png"
 ```
 
-### 問題情報
-```bash
-# 問題一覧取得
-GET /api/questions?year=2023&season=春期&page=1&limit=20
+## 🔧 開発ガイドライン
 
-# 問題詳細取得
-GET /api/questions/:id
-```
+### コード規約
+- **TypeScript**: 厳格な型チェック使用
+- **ES6 Modules**: import/export 必須
+- **エラーハンドリング**: 統一されたエラーレスポンス
+- **認証**: 全保護ルートでJWT検証
 
-※ 問題の作成・更新・削除はローカル環境でのみ実行可能です
+### データベース変更
+1. SQLファイルを `sql/` ディレクトリに作成
+2. マイグレーション手順をドキュメント化
+3. 後方互換性の確保
 
-## 🧪 テスト方法
+### UI/UX パターン
+- **Material-UI**: 一貫したデザインシステム
+- **レスポンシブ**: モバイルファースト
+- **アクセシビリティ**: ARIA ラベルと適切な色コントラスト
+- **エラー表示**: ユーザーフレンドリーなメッセージ
 
-### フロントエンド確認
-```bash
-# Webブラウザでアクセス
-open http://localhost:43000
-```
+## 🚨 重要な注意事項
 
-### API確認
-```bash
-# ヘルスチェック
-curl http://localhost:43001/api/health
+### セキュリティ
+- 本番環境では認証情報をハードコードしない
+- 環境変数で機密情報を管理
+- CORS設定を適切に構成
 
-# 試験一覧取得
-curl http://localhost:43001/api/exams
+### パフォーマンス
+- 大きな画像ファイル（10MB制限）
+- データベースクエリの最適化
+- 適切なページネーション実装
 
-# 問題一覧取得
-curl http://localhost:43001/api/questions
-
-# 問題詳細取得（IDは実際のものを使用）
-curl http://localhost:43001/api/questions/{question_id}
-```
-
-## 📊 データベース構造
-
-- **exams**: 試験情報（年度、季節）
-- **questions**: 問題本体
-- **choices**: 選択肢（ア、イ、ウ、エ）
-- **answers**: 正解と解説
-- **categories**: 問題カテゴリ
-- **question_images**: 問題内の画像
-- **import_history**: PDFインポート履歴
-
-## 🔧 開発
-
-### ローカル開発
-```bash
-# フロントエンド
-cd frontend
-npm install
-npm run dev
-
-# バックエンド
-cd backend
-npm install
-npm run dev
-```
-
-### Docker開発
-```bash
-# 全体ビルド
-docker compose build
-
-# 起動
-docker compose up -d
-
-# 特定サービスのみ
-docker compose up -d frontend
-docker compose up -d backend
-```
-
-### Vercelデプロイ
-```bash
-# APIサーバーのデプロイ（プロジェクトルートで実行）
-vercel --prod
-
-# 環境変数の設定
-vercel env add SUPABASE_URL
-vercel env add SUPABASE_SERVICE_KEY
-# ... 他の環境変数
-```
-
-## 📝 注意事項
-
-- PDFの解析精度は100%ではありません
-- 複雑なレイアウトや図表を含む問題は手動調整が必要な場合があります
-- Supabaseの無料プランには制限があるため、大量のPDFをインポートする際は注意してください
+### 互換性
+- 既存の選択肢テーブルデータとの後方互換性
+- 段階的なマイグレーション対応
 
 ## 🐛 トラブルシューティング
 
-### Supabase接続エラー
-- 環境変数が正しく設定されているか確認
-- Supabaseプロジェクトがアクティブか確認
+### よくある問題
 
-### PDF解析エラー
-- PDFファイルが破損していないか確認
-- ファイルサイズが50MB以下か確認
-
-### Docker起動エラー
-- ポート43000（フロントエンド）、43001（バックエンド）が使用されていないか確認
-- `docker compose down`してから再起動
-
-### フロントエンドがAPIに接続できない
-- `API_BASE_URL`環境変数が正しく設定されているか確認
-- CORSエラーの場合は`CORS_ORIGIN`設定を確認
-
-## 📥 PDFインポート方法
-
-### 1. PDFファイルの準備
+**認証エラー**
 ```bash
-# IPAから過去問PDFをダウンロード
-mkdir -p pdfs/2024
-# https://www.jitec.ipa.go.jp/ から該当年度のPDFをダウンロード
+# トークンの確認
+curl -H "Authorization: Bearer $TOKEN" http://localhost:43001/api/health
 ```
 
-### 2. インポート実行（専用コンテナ）
+**画像アップロードエラー**
 ```bash
-# インポートツールコンテナで実行
-docker compose exec tools node import-pdf.js /pdfs/2024/fe24s_am.pdf 2024 春期
-
-# 複数ファイルの一括インポート
-docker compose exec tools sh -c 'for pdf in /pdfs/2024/*.pdf; do node import-pdf.js "$pdf" 2024 春期; done'
+# ファイルサイズとフォーマット確認
+file test-image.png
+du -h test-image.png
 ```
 
-### 3. 結果確認
+**データベース接続エラー**
 ```bash
-# APIで確認
-curl "http://localhost:43001/api/questions?year=2024&season=春期"
-
-# フロントエンドで確認  
-open http://localhost:43000
+# Supabase接続テスト
+curl "https://YOUR_PROJECT.supabase.co/rest/v1/exams" \
+  -H "apikey: YOUR_ANON_KEY"
 ```
 
-詳細は `pdfs/README.md` を参照してください。
+## 📈 今後の開発予定
+
+- [ ] 問題検索機能の強化
+- [ ] 画像OCR機能の追加  
+- [ ] マルチユーザー対応
+- [ ] バックアップ・リストア機能
+- [ ] パフォーマンス最適化
+
+---
+
+**Fexa** は現代的な Web 技術スタックを使用して構築された、包括的な試験問題管理システムです。継続的な改善と拡張により、教育分野でのデジタルツール活用を支援します。

@@ -40,9 +40,25 @@ router.post('/upload', authenticateToken, upload.single('image'), async (req, re
 
     const supabase = getSupabase();
     
+    // 問題情報を取得してファイルパスを生成
+    const { data: questionData, error: questionError } = await supabase
+      .from('questions')
+      .select('question_number, question_type, exam:exams(year, season)')
+      .eq('id', questionId)
+      .single();
+    
+    if (questionError) {
+      throw new Error(`問題情報の取得に失敗しました: ${questionError.message}`);
+    }
+    
+    // 画像用のUUIDを一つだけ生成（データベースIDとストレージファイル名で共通使用）
+    const imageUuid = uuidv4();
+    
     // ファイル名を生成
     const fileExtension = file.originalname.split('.').pop();
-    const fileName = `${questionId}/${choiceId}/${uuidv4()}.${fileExtension}`;
+    const seasonCode = questionData.exam.season === '春期' ? 'h' : 'a';
+    const timeCode = questionData.question_type === '午前' ? 'am' : 'pm';
+    const fileName = `${questionData.exam.year}${seasonCode}/${timeCode}_q${questionData.question_number}/${imageUuid}.${fileExtension}`;
 
     // Supabase Storageにアップロード
     const bucketName = process.env.SUPABASE_STORAGE_BUCKET || 'fexa-images';
@@ -58,29 +74,24 @@ router.post('/upload', authenticateToken, upload.single('image'), async (req, re
       throw uploadError;
     }
 
-    // 画像URLを取得
-    const { data: urlData } = supabase.storage
-      .from(bucketName)
-      .getPublicUrl(fileName);
-
     // データベースに画像情報を保存
     let imageData;
     
     if (choiceId === 'question') {
       // 問題画像の場合
       imageData = {
+        id: imageUuid,
         question_id: questionId,
-        image_url: urlData.publicUrl,
-        caption: file.originalname,
-        image_type: 'question'
+        caption: Buffer.from(file.originalname, 'latin1').toString('utf8'),
+        image_type: fileExtension.toLowerCase()
       };
     } else {
       // 選択肢画像の場合
       imageData = {
+        id: imageUuid,
         choice_id: choiceId,
-        image_url: urlData.publicUrl,
-        caption: file.originalname,
-        image_type: 'choice'
+        caption: Buffer.from(file.originalname, 'latin1').toString('utf8'),
+        image_type: fileExtension.toLowerCase()
       };
     }
 
@@ -115,7 +126,6 @@ router.post('/upload', authenticateToken, upload.single('image'), async (req, re
 
     res.json(success({
       id: dbData.id,
-      imageUrl: urlData.publicUrl,
       fileName: fileName
     }));
 

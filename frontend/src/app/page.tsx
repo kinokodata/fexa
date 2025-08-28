@@ -34,9 +34,8 @@ export default function Home() {
   const fetchExams = async () => {
     try {
       setLoading(true);
-      const { get } = await import('../lib/api');
-      const response = await get('http://localhost:43001/api/exams');
-      const data = await response.json();
+      const { default: apiClient } = await import('../services/api');
+      const data = await apiClient.getExams();
       
       if (data.success) {
         // 年度順（降順）、季節順でソート

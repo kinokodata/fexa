@@ -6,6 +6,7 @@ import { getSupabase } from './lib/supabase.js';
 
 // ルーターのインポート
 import healthRouter from './routes/health.js';
+import authRouter from './routes/auth.js';
 import examsRouter from './routes/exams.js';
 import questionsRouter from './routes/questions.js';
 import imagesRouter from './routes/images.js';
@@ -29,6 +30,7 @@ app.use((req, res, next) => {
 
 // ルーターの設定
 app.use('/api/health', healthRouter);
+app.use('/api/auth', authRouter);
 app.use('/api/exams', examsRouter);
 app.use('/api/questions', questionsRouter);
 app.use('/api/images', imagesRouter);

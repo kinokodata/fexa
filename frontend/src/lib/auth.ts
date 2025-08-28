@@ -22,16 +22,26 @@ interface RefreshTokenResponse {
 
 export const login = async (email: string, password: string): Promise<LoginResponse> => {
   try {
-    const response = await fetch('http://localhost:43001/api/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await response.json();
-    return data;
+    // services/api.tsのloginメソッドを使用
+    const { default: apiClient } = await import('../services/api');
+    const result = await apiClient.login(email, password);
+    
+    if (result.success && result.data) {
+      setAuthToken(result.data.token);
+      if (result.data.refreshToken) {
+        setRefreshToken(result.data.refreshToken);
+      }
+      return {
+        success: true,
+        token: result.data.token,
+        refreshToken: result.data.refreshToken
+      };
+    }
+    
+    return {
+      success: false,
+      error: result.error || { message: 'ログインに失敗しました' }
+    };
   } catch (error) {
     return {
       success: false,
@@ -44,8 +54,8 @@ export const login = async (email: string, password: string): Promise<LoginRespo
 
 export const refreshToken = async (): Promise<RefreshTokenResponse> => {
   try {
-    const refreshToken = getRefreshToken();
-    if (!refreshToken) {
+    const currentRefreshToken = getRefreshToken();
+    if (!currentRefreshToken) {
       return {
         success: false,
         error: {
@@ -54,16 +64,22 @@ export const refreshToken = async (): Promise<RefreshTokenResponse> => {
       };
     }
 
-    const response = await fetch('http://localhost:43001/api/auth/refresh', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ refreshToken }),
-    });
-
-    const data = await response.json();
-    return data;
+    // services/api.tsのrefreshTokenメソッドを使用
+    const { default: apiClient } = await import('../services/api');
+    const result = await apiClient.refreshToken(currentRefreshToken);
+    
+    if (result.success && result.data) {
+      setAuthToken(result.data.token);
+      return {
+        success: true,
+        token: result.data.token
+      };
+    }
+    
+    return {
+      success: false,
+      error: result.error || { message: 'トークンリフレッシュに失敗しました' }
+    };
   } catch (error) {
     return {
       success: false,

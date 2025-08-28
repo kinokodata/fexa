@@ -25,6 +25,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import ImageIcon from '@mui/icons-material/Image';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import MenuIcon from '@mui/icons-material/Menu';
+import QuestionFeatures from '../../../../components/QuestionFeatures';
 
 interface Choice {
   id: string;
@@ -38,6 +39,7 @@ interface Question {
   id: string;
   question_number: number;
   question_text: string;
+  has_image?: boolean;
   choices: Choice[];
   category?: {
     name: string;
@@ -65,14 +67,17 @@ export default function ExamQuestions() {
   const fetchQuestions = async () => {
     try {
       setLoading(true);
-      const { get } = await import('../../../../lib/api');
-      const response = await get(`http://localhost:43001/api/questions?year=${year}&season=${season}&limit=100`);
-      const data = await response.json();
+      const { default: apiClient } = await import('../../../../services/api');
+      const result = await apiClient.getQuestions({
+        year: parseInt(year),
+        season: season,
+        limit: 100
+      });
       
-      if (data.success) {
-        setQuestions(data.data || []);
+      if (result.success) {
+        setQuestions(result.data || []);
       } else {
-        setError('問題の取得に失敗しました');
+        setError(result.error?.message || '問題の取得に失敗しました');
       }
     } catch (err) {
       setError('データの取得中にエラーが発生しました');
@@ -91,42 +96,6 @@ export default function ExamQuestions() {
     setMobileOpen(!mobileOpen);
   };
 
-  const getChoiceInfo = (choices: Choice[]) => {
-    if (!choices || choices.length === 0) {
-      return null;
-    }
-
-    const hasTable = choices.some(c => c.is_table_format);
-    const hasImage = choices.some(c => c.has_image);
-
-    const chips = [];
-    if (hasTable) {
-      chips.push(
-        <Chip 
-          key="table"
-          icon={<TableChartIcon />} 
-          label="表" 
-          size="small" 
-          color="info"
-          sx={{ ml: 1 }}
-        />
-      );
-    }
-    if (hasImage) {
-      chips.push(
-        <Chip 
-          key="image"
-          icon={<ImageIcon />} 
-          label="画像" 
-          size="small" 
-          color="warning"
-          sx={{ ml: 1 }}
-        />
-      );
-    }
-    
-    return chips;
-  };
 
   if (loading) {
     return (
@@ -171,7 +140,7 @@ export default function ExamQuestions() {
             >
               <ListItemText
                 primary={`問${question.question_number}`}
-                secondary={getChoiceInfo(question.choices)}
+                secondary={<QuestionFeatures question={question} variant="list" />}
               />
             </ListItemButton>
           </ListItem>
@@ -205,7 +174,12 @@ export default function ExamQuestions() {
           variant="permanent"
           sx={{
             display: { xs: 'none', md: 'block' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            '& .MuiDrawer-paper': { 
+              boxSizing: 'border-box', 
+              width: drawerWidth,
+              marginTop: '64px',
+              height: 'calc(100% - 64px)'
+            },
           }}
           open
         >
@@ -294,7 +268,7 @@ export default function ExamQuestions() {
                           >
                             {question.question_text?.substring(0, 100)}...
                           </Typography>
-                          {getChoiceInfo(question.choices)}
+                          <QuestionFeatures question={question} variant="list" />
                         </Box>
                       }
                       secondary={

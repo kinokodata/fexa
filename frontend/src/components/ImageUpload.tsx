@@ -30,6 +30,7 @@ interface ImageUploadProps {
 }
 
 export default function ImageUpload({ questionId, choiceId, choiceLabel, onImageUploaded }: ImageUploadProps) {
+  console.log('ImageUpload props:', { questionId, choiceId, choiceLabel });
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -101,6 +102,7 @@ export default function ImageUpload({ questionId, choiceId, choiceLabel, onImage
       return;
     }
 
+    console.log('Starting upload:', { questionId, choiceId, file: selectedFile.name });
     setUploading(true);
     setError(null);
 
@@ -125,6 +127,7 @@ export default function ImageUpload({ questionId, choiceId, choiceLabel, onImage
       });
 
       const data = await response.json();
+      console.log('Upload response:', { status: response.status, data });
 
       if (data.success) {
         setSuccess(true);
@@ -144,52 +147,59 @@ export default function ImageUpload({ questionId, choiceId, choiceLabel, onImage
   if (success) {
     return (
       <Alert severity="success" sx={{ mt: 1 }}>
-        選択肢{choiceLabel}の画像がアップロードされました
+        画像がアップロードされました
       </Alert>
     );
   }
 
   return (
-    <Paper variant="outlined" sx={{ p: 2, mt: 1, backgroundColor: 'grey.50' }}>
-      {/* ヘッダー */}
-      <Box sx={{ mb: 2 }}>
-        <Typography variant="subtitle2" color="text.secondary">
-          選択肢{choiceLabel}の画像をアップロード
-        </Typography>
-      </Box>
-
+    <Box>
       {/* メイン */}
-      <Box sx={{ display: 'flex', gap: 3, minWidth: 600, mb: 2 }}>
-        {/* 左側: アップロードフォーム */}
-        <Box sx={{ flex: 1 }}>
-          {/* ドラッグアンドドロップエリア */}
-          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Box
-              onDragEnter={handleDragEnter}
-              onDragLeave={handleDragLeave}
-              onDragOver={handleDragOver}
-              onDrop={handleDrop}
-              sx={{
-                border: '2px dashed',
-                borderColor: isDragging ? 'primary.main' : 'grey.300',
-                borderRadius: 2,
-                p: 4,
-                textAlign: 'center',
-                backgroundColor: isDragging ? 'action.hover' : 'transparent',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease',
-                minHeight: 150,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                '&:hover': {
-                  borderColor: 'primary.main',
-                  backgroundColor: 'action.hover',
-                }
-              }}
-              component="label"
-            >
+      <Box sx={{ mb: 3 }}>
+        {/* 統合アップロード&プレビューエリア */}
+        <Box
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          sx={{
+            border: '2px dashed',
+            borderColor: isDragging ? 'primary.main' : 'grey.300',
+            borderRadius: 2,
+            p: 4,
+            textAlign: 'center',
+            backgroundColor: isDragging ? 'action.hover' : 'transparent',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            minHeight: 250,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            '&:hover': {
+              borderColor: 'primary.main',
+              backgroundColor: 'action.hover',
+            }
+          }}
+          component="label"
+        >
+          {previewUrl ? (
+            // プレビュー表示
+            <Box sx={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img
+                src={previewUrl}
+                alt="プレビュー"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '200px',
+                  objectFit: 'contain',
+                }}
+                onError={() => setError('画像を読み込めませんでした')}
+              />
+            </Box>
+          ) : (
+            // アップロードプロンプト
+            <>
               <CloudUploadIcon 
                 sx={{ 
                   fontSize: 64, 
@@ -200,43 +210,25 @@ export default function ImageUpload({ questionId, choiceId, choiceLabel, onImage
               <Typography variant="h6" color={isDragging ? 'primary.main' : 'text.secondary'}>
                 {isDragging ? 'ここにドロップしてください' : '画像をドラッグ&ドロップ'}
               </Typography>
-              <VisuallyHiddenInput type="file" accept="image/*" onChange={handleFileSelect} />
-            </Box>
-            
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center' }}>
-              <Typography variant="body2" color="text.secondary">
-                または
-              </Typography>
-              <Button
-                variant="outlined"
-                startIcon={<CloudUploadIcon />}
-                disabled={uploading}
-                component="label"
-              >
-                ファイル選択
-                <VisuallyHiddenInput type="file" accept="image/*" onChange={handleFileSelect} />
-              </Button>
-            </Box>
-          </Box>
+            </>
+          )}
+          <VisuallyHiddenInput type="file" accept="image/*" onChange={handleFileSelect} />
         </Box>
-
-        {/* 右側: プレビュー */}
-        {previewUrl && (
-          <Box sx={{ width: 300, flexShrink: 0 }}>
-            <Paper variant="outlined" sx={{ p: 2, textAlign: 'center', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <img
-                src={previewUrl}
-                alt="プレビュー"
-                style={{
-                  maxWidth: '100%',
-                  maxHeight: '100%',
-                  objectFit: 'contain',
-                }}
-                onError={() => setError('画像を読み込めませんでした')}
-              />
-            </Paper>
-          </Box>
-        )}
+        
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, justifyContent: 'center', mt: 2 }}>
+          <Typography variant="body2" color="text.secondary">
+            または
+          </Typography>
+          <Button
+            variant="outlined"
+            startIcon={<CloudUploadIcon />}
+            disabled={uploading}
+            component="label"
+          >
+            ファイル選択
+            <VisuallyHiddenInput type="file" accept="image/*" onChange={handleFileSelect} />
+          </Button>
+        </Box>
       </Box>
 
       {/* フッター */}
@@ -252,7 +244,7 @@ export default function ImageUpload({ questionId, choiceId, choiceLabel, onImage
           <Box>
             {selectedFile && (
               <Typography variant="body2" color="success.main" sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                ✓ 選択済み: {selectedFile.name}
+                ✓ {selectedFile.name}
               </Typography>
             )}
           </Box>
@@ -264,7 +256,7 @@ export default function ImageUpload({ questionId, choiceId, choiceLabel, onImage
               color="error"
               onClick={handleCancel}
               disabled={uploading || !selectedFile}
-              size="small"
+              sx={{ width: 120 }}
             >
               キャンセル
             </Button>
@@ -272,13 +264,13 @@ export default function ImageUpload({ questionId, choiceId, choiceLabel, onImage
               variant="contained"
               onClick={handleUpload}
               disabled={uploading || !selectedFile}
-              size="small"
+              sx={{ width: 120 }}
             >
               {uploading ? 'アップロード中...' : 'アップロード'}
             </Button>
           </Box>
         </Box>
       </Box>
-    </Paper>
+    </Box>
   );
 }

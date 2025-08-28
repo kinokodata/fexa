@@ -83,6 +83,26 @@ services:
     working_dir: /app
     restart: unless-stopped
 
+  # Markdownエクスポートツール
+  export-markdown:
+    build:
+      context: ./tools/export-markdown
+      dockerfile: Dockerfile
+    container_name: fexa-export-markdown
+    environment:
+      # Supabase接続情報
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      SUPABASE_STORAGE_BUCKET: ${SUPABASE_STORAGE_BUCKET}
+    volumes:
+      - ./tools/export-markdown:/app
+      - /app/node_modules
+      - ./pdfs:/pdfs  # PDFファイル共有
+    working_dir: /app
+    profiles:
+      - tools
+    restart: unless-stopped
+
   # PDF画像抽出ツール
   pdf-extractor:
     build:

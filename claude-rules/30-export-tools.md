@@ -60,12 +60,45 @@ docker compose exec export-markdown sh -c 'for md in /pdfs/*/text-data.md; do no
 // 問題番号パターン（見出しから）
 /^##\s*問\s*(\d+)/gm
 
-// 選択肢パターン  
-/^-\s*([アイウエ])[、．\s]\s*(.+)/gm
+// 選択肢パターン（統一形式）
+/^-\s*([アイウエ])\.\s*(.+)/gm
 
 // 画像リンクパターン
-/!\[([^\]]*)\]\(\.\/images\/(q?\d+_\d+\.png)\)/g
+/!\[([^\]]*)\]\(\.\/images\/([^)]+)\)/g
 ```
+
+### 選択肢形式の統一ルール
+
+**テキスト選択肢:**
+```markdown
+- ア. 選択肢の内容
+- イ. 選択肢の内容  
+- ウ. 選択肢の内容
+- エ. 選択肢の内容
+```
+
+**画像選択肢:**
+```markdown
+- ア. ![選択肢ア](./images/q22_choice_a.png)
+- イ. ![選択肢イ](./images/q22_choice_b.png)
+- ウ. ![選択肢ウ](./images/q22_choice_c.png)
+- エ. ![選択肢エ](./images/q22_choice_d.png)
+```
+
+**表形式選択肢:**
+```markdown
+| | 真正性 | 信頼性 |
+|---|-------|-------|
+| ア | a | c |
+| イ | b | a |
+| ウ | b | d |
+| エ | d | a |
+```
+
+**重要:** 
+- 選択肢が画像の場合でも、必ず統一形式で記述すること
+- 表形式選択肢は現在のMarkdown表記法を維持すること
+- パーサーが自動的にテキスト・画像・表形式を識別し、適切に処理します
 
 ### 解析対象要素
 - 問題番号（見出し `## 問1` から抽出）
@@ -78,28 +111,87 @@ docker compose exec export-markdown sh -c 'for md in /pdfs/*/text-data.md; do no
 
 ### データベーステーブル
 1. **exams**: 試験情報（年度・季節）
-2. **questions**: 問題本体（画像参照情報含む）
-3. **choices**: 選択肢（画像参照情報含む）
-4. **question_images**: 問題に含まれる画像情報
-5. **import_history**: インポート履歴
+2. **questions**: 問題本体
+3. **choices**: 選択肢（has_imageフラグ、表形式対応）
+4. **question_images**: 問題に含まれる画像情報  
+5. **choice_images**: 選択肢に含まれる画像情報（新規分離）
+
+**choicesテーブル拡張:**
+- `is_table_format`: 表形式選択肢かどうかのフラグ
+- `table_headers`: 表のヘッダー情報（JSON配列）
+- `table_data`: 表の行データ（JSON配列）
+
+**テーブル分離の理由:**
+- 問題画像と選択肢画像を明確に分離
+- 表形式とテキスト形式を統一的に管理
+- 責任の分離によりデータ整合性向上
+- 将来的な機能拡張に対応
 
 ### 画像データ処理
 ```javascript
-// 問題文内の画像検出・保存
-const imageMatches = questionText.match(/!\[([^\]]*)\]\(\.\/images\/(q?\d+_\d+\.png)\)/g);
-if (imageMatches) {
-  for (const match of imageMatches) {
-    const [, altText, filename] = match.match(/!\[([^\]]*)\]\(\.\/images\/(.+)\)/);
-    await saveImageReference(questionId, filename, altText, 'question');
+// 問題文内の画像検出・保存（question_images テーブル）
+const questionImages = extractImages(questionText);
+if (questionImages.length > 0) {
+  const imageData = questionImages.map(img => ({
+    question_id: savedQuestion.id,
+    image_url: img.filename,
+    caption: img.altText,
+    image_type: 'question'
+  }));
+  await supabase.from('question_images').insert(imageData);
+}
+
+// 選択肢内の画像検出・保存（choice_images テーブル）
+for (let i = 0; i < question.choices.length; i++) {
+  const choice = question.choices[i];
+  const savedChoice = savedChoices[i];
+  
+  if (choice.images.length > 0 && savedChoice) {
+    const choiceImageData = choice.images.map(img => ({
+      choice_id: savedChoice.id,
+      image_url: img.filename,
+      caption: img.altText,
+      image_type: 'choice'
+    }));
+    await supabase.from('choice_images').insert(choiceImageData);
+    
+    // has_imageフラグも更新
+    await supabase.from('choices')
+      .update({ has_image: true })
+      .eq('id', savedChoice.id);
   }
 }
 
-// 選択肢内の画像検出・保存
-const choiceImages = choiceText.match(/!\[([^\]]*)\]\(\.\/images\/(q?\d+_\d+\.png)\)/g);
-if (choiceImages) {
-  // 選択肢画像情報をchoicesテーブルに保存
-  await saveImageReference(choiceId, filename, altText, 'choice');
-}
+// 統一形式の選択肢解析例
+
+// テキスト選択肢: "- ア. オブジェクト指向言語であり..."
+// ↓ 解析結果
+// {
+//   option: 'ア',
+//   text: 'オブジェクト指向言語であり...',
+//   images: [],
+//   isTableFormat: false
+// }
+
+// 画像選択肢: "- ア. ![選択肢ア](./images/q22_choice_a.png)"
+// ↓ 解析結果
+// {
+//   option: 'ア',
+//   text: '![選択肢ア](./images/q22_choice_a.png)',
+//   images: [{ filename: 'q22_choice_a.png', altText: '選択肢ア' }],
+//   isTableFormat: false
+// }
+
+// 表形式選択肢: "| ア | a | c |"
+// ↓ 解析結果
+// {
+//   option: 'ア',
+//   text: '真正性=a, 信頼性=c',
+//   images: [],
+//   isTableFormat: true,
+//   tableHeaders: ['', '真正性', '信頼性'],
+//   tableData: ['ア', 'a', 'c']
+// }
 ```
 
 ### 重複処理

@@ -1,9 +1,23 @@
-import type { Metadata } from 'next';
+'use client';
 
-export const metadata: Metadata = {
-  title: 'Fexa - 基本情報技術者試験過去問データベース',
-  description: 'IPAが公開している基本情報技術者試験の過去問をAPI経由で検索・閲覧できるシステム',
-};
+import * as React from 'react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import AuthProvider from '../components/AuthProvider';
+import Header from '../components/Header';
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
 
 export default function RootLayout({
   children,
@@ -13,24 +27,30 @@ export default function RootLayout({
   return (
     <html lang="ja">
       <body>
-        <header style={{ backgroundColor: '#f8f9fa', padding: '1rem', borderBottom: '1px solid #e9ecef' }}>
-          <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-            <h1 style={{ margin: 0, color: '#333' }}>🎯 Fexa</h1>
-            <p style={{ margin: '0.5rem 0 0 0', color: '#666', fontSize: '0.9rem' }}>
-              基本情報技術者試験過去問データベース
-            </p>
-          </div>
-        </header>
-        
-        <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem 1rem' }}>
-          {children}
-        </main>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <AuthProvider>
+            <Header />
+            
+            <Box component="main" sx={{ minHeight: 'calc(100vh - 64px - 60px)', paddingTop: '64px' }}>
+              {children}
+            </Box>
 
-        <footer style={{ backgroundColor: '#f8f9fa', padding: '2rem 1rem', marginTop: '3rem', borderTop: '1px solid #e9ecef', textAlign: 'center' }}>
-          <p style={{ margin: 0, color: '#666', fontSize: '0.8rem' }}>
-            © 2024 Fexa - 基本情報技術者試験過去問データベース
-          </p>
-        </footer>
+            <Box 
+              component="footer" 
+              sx={{ 
+                backgroundColor: 'grey.100', 
+                p: 2, 
+                mt: 'auto',
+                textAlign: 'center'
+              }}
+            >
+              <Typography variant="body2" color="text.secondary">
+                © 2024 Fexa - 基本情報技術者試験過去問データベース
+              </Typography>
+            </Box>
+          </AuthProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

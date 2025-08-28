@@ -21,6 +21,8 @@ class MarkdownExporter {
       totalQuestions: 0,
       successfulQuestions: 0,
       failedQuestions: 0,
+      skippedQuestions: 0,
+      reregisteredQuestions: 0,
       errors: [],
       startTime: null,
       endTime: null
@@ -77,7 +79,6 @@ class MarkdownExporter {
 
       await this.processQuestions(parseResult.questions, exam.id);
 
-      await this.saveImportHistory(mdPath, exam.id, parseResult.stats);
 
       this.stats.endTime = new Date();
       this.printFinalReport();
@@ -95,11 +96,22 @@ class MarkdownExporter {
       const question = questions[i];
       
       try {
-        const existing = await this.supabase.findExistingQuestion(examId, question.number);
+        const existing = await this.supabase.findExistingQuestion(examId, question.number, '午前');
         
         if (existing) {
-          logger.warn(`問題${question.number}: 既に存在するためスキップ`);
-          continue;
+          // 選択肢の存在を確認
+          const hasChoices = await this.supabase.checkQuestionHasChoices(existing.id);
+          
+          if (hasChoices) {
+            logger.warn(`問題${question.number}: 既に完全に登録済みのためスキップ`);
+            this.stats.skippedQuestions++;
+            continue;
+          } else {
+            logger.warn(`問題${question.number}: 選択肢が不完全なため削除して再登録`);
+            // 不完全な問題を削除してから再登録
+            await this.supabase.deleteQuestion(existing.id);
+            this.stats.reregisteredQuestions++;
+          }
         }
 
         await this.saveQuestion(question, examId);
@@ -124,65 +136,72 @@ class MarkdownExporter {
     const questionData = {
       exam_id: examId,
       question_number: question.number,
-      question_text: question.text,
-      has_images: question.hasImages
+      question_type: '午前',
+      question_text: question.text
     };
 
     const savedQuestion = await this.supabase.insertQuestion(questionData);
 
+    let savedChoices = [];
     if (question.choices.length > 0) {
       const choicesData = question.choices.map(choice => ({
         question_id: savedQuestion.id,
-        option: choice.option,
-        text: choice.text,
-        has_images: choice.images.length > 0
+        choice_label: choice.option,
+        choice_text: choice.text,
+        has_image: choice.images.length > 0,
+        is_table_format: choice.isTableFormat || false,
+        table_headers: choice.tableHeaders ? JSON.stringify(choice.tableHeaders) : null,
+        table_data: choice.tableData ? JSON.stringify(choice.tableData) : null
       }));
 
-      await this.supabase.insertChoices(choicesData);
+      savedChoices = await this.supabase.insertChoices(choicesData);
     }
 
-    const allImages = [
-      ...question.images.map(img => ({ ...img, type: 'question' })),
-      ...question.choices.flatMap(choice => 
-        choice.images.map(img => ({ ...img, type: 'choice', choice_option: choice.option }))
-      )
-    ];
-
-    if (allImages.length > 0) {
-      const imageData = allImages.map(img => ({
+    // 問題画像の保存
+    if (question.images.length > 0) {
+      const questionImageData = question.images.map(img => ({
         question_id: savedQuestion.id,
-        filename: img.filename,
-        alt_text: img.altText,
-        image_type: img.type,
-        choice_option: img.choice_option || null,
-        is_uploaded: false
+        image_url: img.filename,
+        caption: img.altText,
+        image_type: 'question'
       }));
 
-      await this.supabase.insertQuestionImages(imageData);
+      await this.supabase.insertQuestionImages(questionImageData);
+    }
+
+    // 選択肢画像の保存
+    for (let i = 0; i < question.choices.length; i++) {
+      const choice = question.choices[i];
+      const savedChoice = savedChoices[i];
+      
+      if (choice.images.length > 0 && savedChoice) {
+        const choiceImageData = choice.images.map(img => ({
+          choice_id: savedChoice.id,
+          image_url: img.filename,
+          caption: img.altText,
+          image_type: 'choice'
+        }));
+
+        await this.supabase.insertChoiceImages(choiceImageData);
+      }
     }
   }
 
-  async saveImportHistory(mdPath, examId, stats) {
-    const historyData = {
-      exam_id: examId,
-      source_file: path.basename(mdPath),
-      questions_imported: this.stats.successfulQuestions,
-      questions_failed: this.stats.failedQuestions,
-      total_images: stats.totalImages,
-      import_status: this.stats.failedQuestions > 0 ? 'partial_success' : 'success',
-      error_details: this.stats.errors.length > 0 ? JSON.stringify(this.stats.errors) : null,
-      imported_at: new Date()
-    };
-
-    await this.supabase.insertImportHistory(historyData);
-  }
 
   printFinalReport() {
     const duration = Math.round((this.stats.endTime - this.stats.startTime) / 1000);
     
     logger.complete('エクスポート完了!');
     logger.stats(`処理時間: ${duration}秒`);
-    logger.stats(`成功: ${this.stats.successfulQuestions}問`);
+    logger.stats(`新規登録: ${this.stats.successfulQuestions - this.stats.reregisteredQuestions}問`);
+    
+    if (this.stats.reregisteredQuestions > 0) {
+      logger.stats(`再登録: ${this.stats.reregisteredQuestions}問`);
+    }
+    
+    if (this.stats.skippedQuestions > 0) {
+      logger.stats(`スキップ: ${this.stats.skippedQuestions}問（既に完全登録済み）`);
+    }
     
     if (this.stats.failedQuestions > 0) {
       logger.stats(`失敗: ${this.stats.failedQuestions}問`);
@@ -191,6 +210,9 @@ class MarkdownExporter {
         logger.error(`  - 問題${error.questionNumber}: ${error.error}`);
       });
     }
+    
+    const totalProcessed = this.stats.successfulQuestions + this.stats.skippedQuestions + this.stats.failedQuestions;
+    logger.stats(`合計: ${totalProcessed}問を処理`);
   }
 }
 

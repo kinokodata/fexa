@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getSupabase } from '../services/supabaseClient.js';
 import logger from '../utils/logger.js';
+import { authenticateToken } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -8,7 +9,7 @@ const router = Router();
  * 問題一覧取得
  * GET /api/questions
  */
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
     const { 
@@ -27,7 +28,15 @@ router.get('/', async (req, res) => {
         *,
         exam:exams!inner(year, season),
         category:categories(name),
-        choices(id, choice_label, choice_text),
+        choices(
+          id, 
+          choice_label, 
+          choice_text,
+          has_image,
+          is_table_format,
+          table_headers,
+          table_data
+        ),
         answer:answers(correct_choice, explanation)
       `);
 
@@ -79,7 +88,7 @@ router.get('/', async (req, res) => {
  * 問題詳細取得
  * GET /api/questions/:id
  */
-router.get('/:id', async (req, res) => {
+router.get('/:id', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
     const { id } = req.params;
@@ -90,7 +99,16 @@ router.get('/:id', async (req, res) => {
         *,
         exam:exams(year, season, exam_date),
         category:categories(name, description),
-        choices(id, choice_label, choice_text, is_correct),
+        choices(
+          id, 
+          choice_label, 
+          choice_text, 
+          is_correct,
+          has_image,
+          is_table_format,
+          table_headers,
+          table_data
+        ),
         images:question_images(id, image_url, image_type, caption),
         answer:answers(correct_choice, explanation, reference_url)
       `)
@@ -129,7 +147,7 @@ router.get('/:id', async (req, res) => {
  * 問題作成
  * POST /api/questions
  */
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
     const { 
@@ -212,7 +230,7 @@ router.post('/', async (req, res) => {
  * 問題更新
  * PUT /api/questions/:id
  */
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
     const { id } = req.params;
@@ -257,7 +275,7 @@ router.put('/:id', async (req, res) => {
  * 問題削除
  * DELETE /api/questions/:id
  */
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
     const { id } = req.params;

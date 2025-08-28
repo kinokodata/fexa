@@ -43,23 +43,12 @@ class SupabaseClient {
     }
   }
 
-  async retryOperation(operation, maxRetries = 3) {
-    let lastError;
-    
-    for (let attempt = 1; attempt <= maxRetries; attempt++) {
-      try {
-        return await operation();
-      } catch (error) {
-        lastError = error;
-        if (attempt < maxRetries) {
-          const delay = Math.pow(2, attempt) * 1000;
-          logger.warn(`操作失敗 (${attempt}/${maxRetries}), ${delay}ms後にリトライ...`);
-          await new Promise(resolve => setTimeout(resolve, delay));
-        }
-      }
+  async retryOperation(operation, maxRetries = 1) {
+    try {
+      return await operation();
+    } catch (error) {
+      throw error;
     }
-    
-    throw lastError;
   }
 
   async upsertExam(year, season) {
@@ -78,13 +67,14 @@ class SupabaseClient {
     });
   }
 
-  async findExistingQuestion(examId, questionNumber) {
+  async findExistingQuestion(examId, questionNumber, questionType = '午前') {
     return this.retryOperation(async () => {
       const { data, error } = await this.client
         .from('questions')
         .select('id')
         .eq('exam_id', examId)
         .eq('question_number', questionNumber)
+        .eq('question_type', questionType)
         .maybeSingle();
 
       if (error) {
@@ -138,28 +128,62 @@ class SupabaseClient {
         .select();
 
       if (error) {
-        throw new Error(`画像情報の保存に失敗: ${error.message}`);
+        throw new Error(`問題画像の保存に失敗: ${error.message}`);
       }
 
       return data;
     });
   }
 
-  async insertImportHistory(historyData) {
+  async insertChoiceImages(imageData) {
+    if (imageData.length === 0) return [];
+
     return this.retryOperation(async () => {
       const { data, error } = await this.client
-        .from('import_history')
-        .insert(historyData)
-        .select()
-        .single();
+        .from('choice_images')
+        .insert(imageData)
+        .select();
 
       if (error) {
-        throw new Error(`インポート履歴の保存に失敗: ${error.message}`);
+        throw new Error(`選択肢画像の保存に失敗: ${error.message}`);
       }
 
       return data;
     });
   }
+
+  async checkQuestionHasChoices(questionId) {
+    return this.retryOperation(async () => {
+      const { data, error, count } = await this.client
+        .from('choices')
+        .select('id', { count: 'exact', head: true })
+        .eq('question_id', questionId);
+
+      if (error) {
+        throw new Error(`選択肢の確認に失敗: ${error.message}`);
+      }
+
+      // 通常4つの選択肢があるはずなので、4つあれば完全とみなす
+      return count >= 4;
+    });
+  }
+
+  async deleteQuestion(questionId) {
+    return this.retryOperation(async () => {
+      const { error } = await this.client
+        .from('questions')
+        .delete()
+        .eq('id', questionId);
+
+      if (error) {
+        throw new Error(`問題の削除に失敗: ${error.message}`);
+      }
+
+      logger.info(`問題ID ${questionId} を削除しました`);
+      return true;
+    });
+  }
+
 }
 
 export default SupabaseClient;

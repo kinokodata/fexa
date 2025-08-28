@@ -4,6 +4,9 @@ import cors from 'cors';
 import { getSupabase } from '../lib/supabase.js';
 import { corsMiddleware } from '../middleware/cors.js';
 import logger from '../lib/logger.js';
+import authRouter from './routes/auth.js';
+import imagesRouter from './routes/images.js';
+import { authenticateToken } from './middleware/auth.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,6 +17,18 @@ app.use(cors({
   credentials: true
 }));
 app.use(express.json());
+
+// リクエストログ
+app.use((req, res, next) => {
+  logger.info(`${req.method} ${req.path} - Query: ${JSON.stringify(req.query)}`);
+  next();
+});
+
+// 認証ルート
+app.use('/api/auth', authRouter);
+
+// 画像ルート
+app.use('/api/images', imagesRouter);
 
 // ヘルスチェック
 app.get('/api/health', async (req, res) => {
@@ -37,7 +52,7 @@ app.get('/api/health', async (req, res) => {
 });
 
 // 試験一覧
-app.get('/api/exams', async (req, res) => {
+app.get('/api/exams', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
     const { data, error } = await supabase
@@ -53,29 +68,48 @@ app.get('/api/exams', async (req, res) => {
 });
 
 // 問題一覧
-app.get('/api/questions', async (req, res) => {
+app.get('/api/questions', authenticateToken, async (req, res) => {
   try {
+    logger.info(`問題一覧API呼び出し - year: ${req.query.year}, season: ${req.query.season}, limit: ${req.query.limit}`);
     const supabase = getSupabase();
-    const { year, season, page = 1, limit = 20 } = req.query;
+    const { year, page = 1, limit = 20 } = req.query;
+    
+    // URLパラメータの英語を日本語に変換
+    let season = req.query.season;
+    if (season === 'spring') season = '春期';
+    if (season === 'autumn') season = '秋期';
 
     let query = supabase
       .from('questions')
       .select(`
         id, question_number, question_type, question_text, has_image, created_at,
-        exam:exams!inner(year, season),
-        choices(id, choice_label, choice_text)
+        exam_id,
+        choices(id, choice_label, choice_text, has_image, is_table_format, table_headers, table_data),
+        categories(id, name)
       `);
 
+    // year, seasonで絞り込む場合は、まずexamのIDを取得
     if (year && season) {
-      query = query.eq('exam.year', year).eq('exam.season', season);
+      const { data: examData, error: examError } = await supabase
+        .from('exams')
+        .select('id')
+        .eq('year', year)
+        .eq('season', season)
+        .single();
+      
+      if (examError) throw new Error(`試験が見つかりません: ${examError.message}`);
+      
+      query = query.eq('exam_id', examData.id);
     }
 
     const offset = (parseInt(page) - 1) * parseInt(limit);
     query = query.order('question_number').range(offset, offset + parseInt(limit) - 1);
 
     const { data, error } = await query;
-    if (error) throw error;
+    if (error) throw new Error(`クエリエラー: ${error.message}`);
 
+    logger.info(`問題一覧取得完了 - 件数: ${data?.length || 0}`);
+    
     res.json({
       success: true,
       data,
@@ -87,7 +121,7 @@ app.get('/api/questions', async (req, res) => {
 });
 
 // 問題詳細
-app.get('/api/questions/:id', async (req, res) => {
+app.get('/api/questions/:id', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
     const { data, error } = await supabase

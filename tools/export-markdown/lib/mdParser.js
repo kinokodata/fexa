@@ -7,8 +7,9 @@ const logger = new Logger();
 class MarkdownParser {
   constructor() {
     this.questionPattern = /^##\s*問\s*(\d+)/gm;
-    this.choicePattern = /^-\s*([アイウエ])[、．\s]\s*(.+)/gm;
+    this.choicePattern = /^-\s*([アイウエ])\.\s*(.+)/gm;
     this.imagePattern = /!\[([^\]]*)\]\(\.\/images\/([^)]+)\)/g;
+    this.tablePattern = /^\|\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|$/gm;
   }
 
   async parseFile(mdPath) {
@@ -96,34 +97,104 @@ class MarkdownParser {
   parseQuestionContent(questionNumber, content) {
     const choiceMatches = [...content.matchAll(this.choicePattern)];
     
-    if (choiceMatches.length === 0) {
-      logger.warn(`問題${questionNumber}: 選択肢が見つかりません`);
-      return null;
+    // 通常の箇条書き選択肢がある場合
+    if (choiceMatches.length > 0) {
+      const firstChoiceIndex = content.search(this.choicePattern);
+      const questionText = content.substring(0, firstChoiceIndex).trim();
+      
+      if (!questionText) {
+        logger.warn(`問題${questionNumber}: 問題文が空です`);
+        return null;
+      }
+      
+      const choices = choiceMatches.map(match => ({
+        option: match[1],
+        text: match[2].trim(),
+        images: this.extractImages(match[2]),
+        isTableFormat: false
+      }));
+      
+      const questionImages = this.extractImages(questionText);
+      
+      return {
+        number: questionNumber,
+        text: questionText,
+        choices,
+        images: questionImages,
+        hasImages: questionImages.length > 0 || choices.some(c => c.images.length > 0)
+      };
     }
     
-    const firstChoiceIndex = content.search(this.choicePattern);
-    const questionText = content.substring(0, firstChoiceIndex).trim();
-    
-    if (!questionText) {
-      logger.warn(`問題${questionNumber}: 問題文が空です`);
-      return null;
+    // 表形式選択肢を検出
+    const tableChoices = this.parseTableChoices(content);
+    if (tableChoices.length > 0) {
+      const tableStartIndex = content.search(/^\|\s*\|/gm);
+      const questionText = content.substring(0, tableStartIndex).trim();
+      
+      if (!questionText) {
+        logger.warn(`問題${questionNumber}: 問題文が空です`);
+        return null;
+      }
+      
+      const questionImages = this.extractImages(questionText);
+      
+      return {
+        number: questionNumber,
+        text: questionText,
+        choices: tableChoices,
+        images: questionImages,
+        hasImages: questionImages.length > 0
+      };
     }
     
-    const choices = choiceMatches.map(match => ({
-      option: match[1],
-      text: match[2].trim(),
-      images: this.extractImages(match[2])
-    }));
+    logger.warn(`問題${questionNumber}: 選択肢が見つかりません`);
+    return null;
+  }
+
+  parseTableChoices(content) {
+    // Markdown表の行を抽出
+    const tableLines = content.split('\n').filter(line => line.trim().startsWith('|'));
     
-    const questionImages = this.extractImages(questionText);
+    if (tableLines.length < 3) { // ヘッダー、区切り線、データ行が必要
+      return [];
+    }
     
-    return {
-      number: questionNumber,
-      text: questionText,
-      choices,
-      images: questionImages,
-      hasImages: questionImages.length > 0 || choices.some(c => c.images.length > 0)
-    };
+    // ヘッダー行を解析
+    const headerLine = tableLines[0];
+    const headers = headerLine.split('|').map(cell => cell.trim()).filter(cell => cell !== '');
+    
+    // データ行を解析（区切り線をスキップ）
+    const dataRows = tableLines.slice(2); // 最初の2行（ヘッダーと区切り線）をスキップ
+    const choices = [];
+    
+    for (const row of dataRows) {
+      const cells = row.split('|').map(cell => cell.trim()).filter(cell => cell !== '');
+      
+      if (cells.length >= 2 && ['ア', 'イ', 'ウ', 'エ'].includes(cells[0])) {
+        const option = cells[0];
+        const rowData = cells.slice(1); // 最初のセル（選択肢記号）を除く
+        
+        // テキスト表現を作成
+        const textParts = [];
+        for (let i = 0; i < Math.min(headers.length - 1, rowData.length); i++) {
+          if (headers[i + 1] && rowData[i]) { // headers[0]は空の可能性があるので+1
+            textParts.push(`${headers[i + 1]}=${rowData[i]}`);
+          }
+        }
+        const text = textParts.join(', ');
+        
+        choices.push({
+          option,
+          text,
+          images: this.extractImages(text),
+          isTableFormat: true,
+          tableHeaders: headers,
+          tableData: [option, ...rowData]
+        });
+      }
+    }
+    
+    return choices;
   }
 
   extractImages(text) {

@@ -275,7 +275,10 @@ DRAMの説明として、適切なものはどれか。
 
 2入力NAND素子を用いて4入力NAND回路を構成したものはどれか。
 
-![4入力NAND回路選択肢](./images/q22_nand_circuit_1.png)
+- ア. ![選択肢ア](./images/q22_choice_a.png)
+- イ. ![選択肢イ](./images/q22_choice_b.png)
+- ウ. ![選択肢ウ](./images/q22_choice_c.png)
+- エ. ![選択肢エ](./images/q22_choice_d.png)
 
 ## 問23
 
@@ -539,13 +542,19 @@ IDSの機能はどれか。
 
 公衆無線LANのアクセスポイントを設置するときのセキュリティ対策と効果の組みのうち、適切なものはどれか。
 
-![無線LANセキュリティ対策表](./images/q44_wireless_security_1.png)
+- ア. ![選択肢ア](./images/q44_wireless_security_a.png)
+- イ. ![選択肢イ](./images/q44_wireless_security_b.png)
+- ウ. ![選択肢ウ](./images/q44_wireless_security_c.png)
+- エ. ![選択肢エ](./images/q44_wireless_security_d.png)
 
 ## 問45
 
 自社の中継用メールサーバで、接続元IPアドレス、電子メールの送信者のメールアドレスのドメイン名、及び電子メールの受信者のメールアドレスのドメイン名から成るログを取得するとき、外部ネットワークからの第三者中継と判断できるログはどれか。ここで、AAA.168.1.5とAAA.168.1.10は自社のグローバルIPアドレスとし、BBB.45.67.89とBBB.45.67.90は社外のグローバルIPアドレスとする。a.b.cは自社のドメイン名とし、a.b.dとa.b.eは他社のドメイン名とする。また、IPアドレスとドメイン名は併称されていないものとする。
 
-![メール中継判定表](./images/q45_mail_relay_1.png)
+- ア. ![選択肢ア](./images/q45_mail_relay_a.png)
+- イ. ![選択肢イ](./images/q45_mail_relay_b.png)
+- ウ. ![選択肢ウ](./images/q45_mail_relay_c.png)
+- エ. ![選択肢エ](./images/q45_mail_relay_d.png)
 
 ## 問46
 

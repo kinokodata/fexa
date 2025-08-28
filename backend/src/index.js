@@ -6,8 +6,11 @@ import { dirname, join } from 'path';
 import logger from './utils/logger.js';
 import { initSupabase } from './services/supabaseClient.js';
 import questionsRouter from './routes/questions.js';
+import examsRouter from './routes/exams.js';
 import importRouter from './routes/import.js';
 import healthRouter from './routes/health.js';
+import authRouter from './routes/auth.js';
+import imagesRouter from './routes/images.js';
 
 // 環境変数の読み込み
 dotenv.config();
@@ -41,6 +44,9 @@ app.use((req, res, next) => {
 
 // ルーターの設定
 app.use('/health', healthRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/images', imagesRouter);
+app.use('/api/exams', examsRouter);
 app.use('/api/questions', questionsRouter);
 app.use('/api/import', importRouter);
 

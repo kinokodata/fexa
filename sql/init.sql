@@ -1,5 +1,6 @@
--- Fexa データベース初期化スクリプト
+-- Fexa データベース初期化スクリプト（更新版）
 -- 基本情報技術者試験の過去問題を管理するテーブル構造
+-- question_images と choice_images を分離した構造
 
 -- 拡張機能の有効化
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
@@ -29,7 +30,7 @@ CREATE TABLE IF NOT EXISTS questions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     exam_id UUID REFERENCES exams(id) ON DELETE CASCADE,
     question_number INTEGER NOT NULL,
-    question_type VARCHAR(20) NOT NULL, -- 午前/午後
+    question_type VARCHAR(20) NOT NULL DEFAULT '午前', -- 午前/午後
     question_text TEXT NOT NULL,
     category_id UUID REFERENCES categories(id),
     difficulty_level INTEGER CHECK (difficulty_level >= 1 AND difficulty_level <= 5),
@@ -51,10 +52,21 @@ CREATE TABLE IF NOT EXISTS choices (
     UNIQUE(question_id, choice_label)
 );
 
--- 問題画像テーブル
+-- 問題画像テーブル（分離版）
 CREATE TABLE IF NOT EXISTS question_images (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     question_id UUID REFERENCES questions(id) ON DELETE CASCADE,
+    image_url TEXT NOT NULL,
+    image_type VARCHAR(50), -- diagram/table/code など
+    caption TEXT,
+    display_order INTEGER DEFAULT 0,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+-- 選択肢画像テーブル（新規追加）
+CREATE TABLE IF NOT EXISTS choice_images (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    choice_id UUID REFERENCES choices(id) ON DELETE CASCADE,
     image_url TEXT NOT NULL,
     image_type VARCHAR(50), -- diagram/table/code など
     caption TEXT,
@@ -87,12 +99,13 @@ CREATE TABLE IF NOT EXISTS import_history (
 );
 
 -- インデックスの作成
-CREATE INDEX idx_questions_exam_id ON questions(exam_id);
-CREATE INDEX idx_questions_category_id ON questions(category_id);
-CREATE INDEX idx_questions_type ON questions(question_type);
-CREATE INDEX idx_choices_question_id ON choices(question_id);
-CREATE INDEX idx_question_images_question_id ON question_images(question_id);
-CREATE INDEX idx_exams_year_season ON exams(year, season);
+CREATE INDEX IF NOT EXISTS idx_questions_exam_id ON questions(exam_id);
+CREATE INDEX IF NOT EXISTS idx_questions_category_id ON questions(category_id);
+CREATE INDEX IF NOT EXISTS idx_questions_type ON questions(question_type);
+CREATE INDEX IF NOT EXISTS idx_choices_question_id ON choices(question_id);
+CREATE INDEX IF NOT EXISTS idx_question_images_question_id ON question_images(question_id);
+CREATE INDEX IF NOT EXISTS idx_choice_images_choice_id ON choice_images(choice_id);
+CREATE INDEX IF NOT EXISTS idx_exams_year_season ON exams(year, season);
 
 -- 更新時刻を自動更新するトリガー関数
 CREATE OR REPLACE FUNCTION update_updated_at_column()

@@ -4,15 +4,23 @@
   "description": "基本情報技術者試験過去問データベース - フロントエンド",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 43000",
+    "dev": "next dev",
     "build": "next build",
-    "start": "next start -p 43000",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^7.3.1",
+    "@mui/material": "^7.3.1",
+    "@mui/system": "^7.3.1",
+    "@types/katex": "^0.16.7",
+    "katex": "^0.16.22",
     "next": "^14.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-katex": "^3.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

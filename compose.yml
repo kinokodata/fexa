@@ -48,41 +48,6 @@ services:
     command: npm run dev
     restart: unless-stopped
 
-  # PDFインポートツール（Node.js版、廃止予定）
-  tools:
-    build:
-      context: ./tools
-      dockerfile: Dockerfile
-    container_name: fexa-tools
-    environment:
-      # Supabase接続情報
-      SUPABASE_URL: ${SUPABASE_URL}
-      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
-      SUPABASE_STORAGE_BUCKET: ${SUPABASE_STORAGE_BUCKET}
-    volumes:
-      - ./tools:/app
-      - /app/node_modules
-      - ./pdfs:/pdfs  # PDFファイル共有
-    working_dir: /app
-    restart: unless-stopped
-
-  # PDFインポートツール（Python + OCR版）
-  tools-python:
-    build:
-      context: ./tools
-      dockerfile: Dockerfile.python
-    container_name: fexa-tools-python
-    environment:
-      # Supabase接続情報
-      SUPABASE_URL: ${SUPABASE_URL}
-      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
-      SUPABASE_STORAGE_BUCKET: ${SUPABASE_STORAGE_BUCKET}
-    volumes:
-      - ./tools:/app
-      - ./pdfs:/pdfs  # PDFファイル共有
-    working_dir: /app
-    restart: unless-stopped
-
   # Markdownエクスポートツール
   export-markdown:
     build:
@@ -101,22 +66,7 @@ services:
     working_dir: /app
     profiles:
       - tools
-    restart: unless-stopped
 
-  # PDF画像抽出ツール
-  pdf-extractor:
-    build:
-      context: ./tools/pdf-image-extractor
-      dockerfile: Dockerfile
-    volumes:
-      - ./pdfs:/work/pdfs
-      - ./tools/pdf-image-extractor:/app
-    working_dir: /app
-    environment:
-      - PYTHONPATH=/app
-    profiles:
-      - tools
-    entrypoint: ["python", "extract_images.py"]
 
 networks:
   default:

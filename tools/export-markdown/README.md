@@ -49,12 +49,24 @@ SUPABASE_STORAGE_BUCKET=fexa-images
 ```
 
 ### 選択肢
+
+**テキスト選択肢:**
 ```markdown
 - ア. 選択肢の内容
-- イ、選択肢の内容
-- ウ．選択肢の内容
-- エ 選択肢の内容
+- イ. 選択肢の内容  
+- ウ. 選択肢の内容
+- エ. 選択肢の内容
 ```
+
+**画像選択肢:**
+```markdown
+- ア. ![選択肢ア](./images/q22_choice_a.png)
+- イ. ![選択肢イ](./images/q22_choice_b.png)
+- ウ. ![選択肢ウ](./images/q22_choice_c.png)
+- エ. ![選択肢エ](./images/q22_choice_d.png)
+```
+
+**注意:** 選択肢が画像の場合でも、上記の統一形式で記述してください。パーサーが自動的にテキストと画像を識別します。
 
 ### 画像リンク
 ```markdown
@@ -65,9 +77,12 @@ SUPABASE_STORAGE_BUCKET=fexa-images
 
 1. Markdownファイルの読み込み
 2. 年度・季節情報の抽出（ディレクトリ名またはファイル内容から）
-3. 問題・選択肢・画像情報の解析
+3. 問題・選択肢・画像情報の解析（テキスト/画像選択肢の自動識別）
 4. Supabaseへのデータ保存（重複チェック付き）
-5. インポート履歴の記録
+   - 問題テーブル（questions）
+   - 選択肢テーブル（choices）- has_imageフラグ付き
+   - 問題画像テーブル（question_images）
+   - 選択肢画像テーブル（choice_images）
 
 ## エラーハンドリング
 

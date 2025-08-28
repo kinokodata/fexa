@@ -47,7 +47,7 @@ class MarkdownParser {
     
     if (yearMatch) {
       const year = parseInt(yearMatch[1]);
-      const season = yearMatch[2] === 'h' ? '秋期' : '春期';
+      const season = yearMatch[2] === 'a' ? '秋期' : '春期';
       return { year, season };
     }
     

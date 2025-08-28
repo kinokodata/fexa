@@ -1,9 +1,8 @@
 import { Router } from 'express';
 import multer from 'multer';
-import { getSupabase } from '../lib/supabase.js';
-import { success, error } from '../utils/response.js';
+import { getSupabase } from '../../lib/supabase.js';
+import logger from '../../lib/logger.js';
 import { authenticateToken } from '../middleware/auth.js';
-import logger from '../lib/logger.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const router = Router();
@@ -24,18 +23,27 @@ const upload = multer({
   }
 });
 
-// 画像アップロード
+/**
+ * 画像アップロード
+ * POST /api/images/upload
+ */
 router.post('/upload', authenticateToken, upload.single('image'), async (req, res) => {
   try {
     const { questionId, choiceId } = req.body;
     const file = req.file;
 
     if (!file) {
-      return res.status(400).json(error('画像ファイルが必要です'));
+      return res.status(400).json({
+        success: false,
+        error: { message: '画像ファイルが必要です' }
+      });
     }
 
     if (!questionId || !choiceId) {
-      return res.status(400).json(error('questionIdとchoiceIdが必要です'));
+      return res.status(400).json({
+        success: false,
+        error: { message: 'questionIdとchoiceIdが必要です' }
+      });
     }
 
     const supabase = getSupabase();
@@ -113,19 +121,31 @@ router.post('/upload', authenticateToken, upload.single('image'), async (req, re
         .eq('id', choiceId);
     }
 
-    res.json(success({
-      id: dbData.id,
-      imageUrl: urlData.publicUrl,
-      fileName: fileName
-    }));
+    res.json({
+      success: true,
+      data: {
+        id: dbData.id,
+        imageUrl: urlData.publicUrl,
+        fileName: fileName
+      }
+    });
 
-  } catch (err) {
-    logger.error('画像アップロードエラー:', err);
-    res.status(500).json(error('画像のアップロードに失敗しました'));
+  } catch (error) {
+    logger.error('画像アップロードエラー:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: '画像のアップロードに失敗しました',
+        details: error.message
+      }
+    });
   }
 });
 
-// 画像削除
+/**
+ * 画像削除
+ * DELETE /api/images/:id
+ */
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
@@ -140,7 +160,10 @@ router.delete('/:id', authenticateToken, async (req, res) => {
 
     if (fetchError) {
       if (fetchError.code === 'PGRST116') {
-        return res.status(404).json(error('画像が見つかりません'));
+        return res.status(404).json({
+          success: false,
+          error: { message: '画像が見つかりません' }
+        });
       }
       throw fetchError;
     }
@@ -166,11 +189,20 @@ router.delete('/:id', authenticateToken, async (req, res) => {
       throw deleteError;
     }
 
-    res.json(success({ message: '画像を削除しました' }));
+    res.json({
+      success: true,
+      message: '画像を削除しました'
+    });
 
-  } catch (err) {
-    logger.error('画像削除エラー:', err);
-    res.status(500).json(error('画像の削除に失敗しました'));
+  } catch (error) {
+    logger.error('画像削除エラー:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: '画像の削除に失敗しました',
+        details: error.message
+      }
+    });
   }
 });
 

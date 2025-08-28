@@ -1,245 +1,308 @@
-# API開発ルール
+# Fexa Backend API 仕様書
 
-VercelデプロイのAPIおよびローカル開発用APIサーバーの開発ルールです。
+## システム概要
 
-## 基本方針
+- **フレームワーク**: Express.js (Node.js)
+- **データベース**: Supabase (PostgreSQL)
+- **認証**: JWT認証
+- **ストレージ**: Supabase Storage (画像ファイル)
+- **言語**: Japanese (日本語)
+- **用途**: 基本情報技術者試験の過去問データベース
 
-### 読み取り専用API
-- **GET メソッドのみ対応**
-- POST/PUT/DELETE は一切実装しない
-- データ作成・更新はインポートツール専用
+## 共通仕様
 
-### Vercel Functions対応
-- 各エンドポイントは独立したファイル
-- `api/` ディレクトリ配下に配置
-- サーバーレス環境での軽量動作を重視
+### レスポンス形式
+```json
+// 成功時
+{
+  "success": true,
+  "data": {}, // データ内容
+  "pagination": {} // ページング情報（該当する場合）
+}
+
+// エラー時
+{
+  "success": false,
+  "error": {
+    "message": "エラーメッセージ"
+  }
+}
+```
+
+### 認証
+- JWT認証が必要（`/api/health` 除く）
+- `Authorization: Bearer <token>` ヘッダーが必要
+
+### CORS設定
+- Origin: `http://localhost:43000`
+- Credentials: true
+
+## API エンドポイント仕様
+
+### 1. ヘルスチェック
+```
+GET /api/health
+```
+
+**パラメータ**:
+- `detailed=true` (optional): データベース接続状況も含める
+
+**レスポンス**:
+```json
+{
+  "success": true,
+  "data": {
+    "status": "healthy",
+    "timestamp": "2024-01-01T00:00:00.000Z",
+    "environment": "development",
+    "database": { "status": "healthy" } // detailedパラメータ時のみ
+  }
+}
+```
+
+### 2. 試験一覧
+```
+GET /api/exams
+```
+
+**認証**: 必要
+
+**レスポンス**:
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "year": 2023,
+      "season": "春期",
+      "exam_date": "2023-04-01",
+      "created_at": "2024-01-01T00:00:00.000Z"
+    }
+  ]
+}
+```
+
+**ソート**: 年度の降順 (year DESC)
+
+### 3. 問題一覧
+```
+GET /api/questions
+```
+
+**認証**: 必要
+
+**クエリパラメータ**:
+- `year` (optional): 年度
+- `season` (optional): 季節 (`spring` → `春期`, `autumn` → `秋期`)
+- `page` (optional): ページ番号 (default: 1)
+- `limit` (optional): 取得件数 (default: 20)
+
+**レスポンス**:
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "question_number": 1,
+      "question_type": "選択式",
+      "question_text": "問題文...",
+      "has_image": false,
+      "created_at": "2024-01-01T00:00:00.000Z",
+      "exam_id": 1,
+      "choices": [
+        {
+          "id": 1,
+          "choice_label": "ア",
+          "choice_text": "選択肢A",
+          "has_image": false,
+          "is_table_format": false,
+          "table_headers": null,
+          "table_data": null
+        }
+      ],
+      "categories": [
+        {
+          "id": 1,
+          "name": "カテゴリ名"
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "page": 1,
+    "limit": 20,
+    "total": 15
+  }
+}
+```
+
+**重要な仕様**:
+- 選択肢は必ず「ア、イ、ウ、エ」の順番でソートして返す
+- ページング対応（offset/limit）
+- 問題番号順でソート
+
+### 4. 問題詳細
+```
+GET /api/questions/:id
+```
+
+**認証**: 必要
+
+**レスポンス**:
+```json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "question_number": 1,
+    "question_type": "選択式",
+    "question_text": "問題文...",
+    "has_image": false,
+    "exam": {
+      "year": 2023,
+      "season": "春期",
+      "exam_date": "2023-04-01"
+    },
+    "choices": [
+      {
+        "id": 1,
+        "choice_label": "ア",
+        "choice_text": "選択肢A",
+        "is_correct": false
+      }
+    ],
+    "answer": [
+      {
+        "correct_choice": "ア",
+        "explanation": "解説..."
+      }
+    ]
+  }
+}
+```
+
+### 5. 画像アップロード
+```
+POST /api/images/upload
+```
+
+**認証**: 必要
+
+**Content-Type**: `multipart/form-data`
+
+**パラメータ**:
+- `image`: 画像ファイル (max 10MB)
+- `questionId`: 問題ID
+- `choiceId`: 選択肢ID or "question"
+
+**機能**:
+- Supabase Storageに画像をアップロード
+- `question_images` または `choice_images` テーブルに記録
+- `questions` または `choices` テーブルの `has_image` フラグを更新
+
+## データベーススキーマ
+
+### exams テーブル
+- `id`: Primary Key
+- `year`: 年度
+- `season`: 季節（春期/秋期）
+- `exam_date`: 試験日
+- `created_at`: 作成日時
+
+### questions テーブル
+- `id`: Primary Key
+- `question_number`: 問題番号
+- `question_type`: 問題タイプ
+- `question_text`: 問題文
+- `has_image`: 画像有無フラグ
+- `exam_id`: 試験ID (FK)
+- `created_at`: 作成日時
+
+### choices テーブル
+- `id`: Primary Key
+- `choice_label`: 選択肢ラベル（ア、イ、ウ、エ）
+- `choice_text`: 選択肢テキスト
+- `has_image`: 画像有無フラグ
+- `is_table_format`: テーブル形式フラグ
+- `table_headers`: テーブルヘッダー
+- `table_data`: テーブルデータ
+- `is_correct`: 正解フラグ
+
+### categories テーブル
+- `id`: Primary Key
+- `name`: カテゴリ名
+
+### answers テーブル
+- `correct_choice`: 正解選択肢
+- `explanation`: 解説
+
+### question_images テーブル（画像機能用）
+- `id`: Primary Key
+- `question_id`: 問題ID (FK)
+- `image_url`: 画像URL
+- `caption`: キャプション
+- `image_type`: 画像タイプ
+
+### choice_images テーブル（画像機能用）
+- `id`: Primary Key
+- `choice_id`: 選択肢ID (FK)
+- `image_url`: 画像URL
+- `caption`: キャプション
+- `image_type`: 画像タイプ
+
+## 環境設定
+
+### 必要な環境変数
+- `PORT`: サーバーポート (default: 3000)
+- `NODE_ENV`: 実行環境
+- `CORS_ORIGIN`: CORS許可オリジン (default: http://localhost:43000)
+- `SUPABASE_STORAGE_BUCKET`: Supabase Storage バケット名
+
+### 起動方法
+```bash
+npm start  # または npm run dev
+```
 
 ## ファイル構成
 
 ```
-api/
-├── health.js              # ヘルスチェック
-├── exams/
-│   └── index.js          # 試験一覧
-└── questions/
-    ├── index.js          # 問題一覧
-    └── [id].js           # 問題詳細
-
-backend/src/
-└── server.js             # ローカル開発用簡易サーバー
+backend/
+├── package.json              # 依存関係と設定
+├── src/
+│   ├── index.js              # メインエントリーポイント
+│   ├── lib/
+│   │   ├── supabase.js       # Supabaseクライアント設定
+│   │   └── logger.js         # ログ設定（Winston）
+│   ├── middleware/
+│   │   ├── auth.js           # JWT認証ミドルウェア
+│   │   └── cors.js           # CORS設定
+│   ├── routes/
+│   │   ├── health.js         # ヘルスチェックAPI
+│   │   ├── exams.js          # 試験関連API
+│   │   ├── questions.js      # 問題関連API
+│   │   └── images.js         # 画像アップロードAPI
+│   └── utils/
+│       └── response.js       # 統一レスポンス形式
 ```
 
-## エンドポイント設計
+## 実装方針
 
-### ヘルスチェック
-```
-GET /api/health
-GET /api/health?detailed=true
-```
-- Supabase接続状態を確認
-- detailed=true で詳細診断
-- レスポンス時間 < 1秒
+### ✅ 今回実装する機能
+- メインエントリーポイント (index.js)
+- 統一レスポンス形式 (utils/response.js)
+- ログ機能 (lib/logger.js)
+- Supabaseクライアント (lib/supabase.js)
+- JWT認証ミドルウェア (middleware/auth.js)
+- CORS設定 (middleware/cors.js)
+- ヘルスチェックAPI (routes/health.js)
+- 試験一覧API (routes/exams.js)
+- 問題関連API (routes/questions.js) ※選択肢ソート機能付き
+- 画像アップロードAPI (routes/images.js)
 
-### 試験一覧
-```
-GET /api/exams
-```
-- 年度・季節の組み合わせ一覧
-- 新しい年度順でソート
-- 問題数も含めて返却
-
-### 問題一覧
-```
-GET /api/questions
-GET /api/questions?year=2024&season=春期
-GET /api/questions?page=2&limit=10
-```
-- デフォルト: 20件/ページ
-- 年度・季節でフィルタリング可能
-- 選択肢も含めて返却
-
-### 問題詳細
-```
-GET /api/questions/{id}
-```
-- UUID指定で1問の詳細取得
-- 選択肢・解答・画像も含む
-- 404時は適切なエラーレスポンス
-
-## レスポンス形式
-
-### 成功レスポンス
-```javascript
-{
-  "success": true,
-  "data": { ... },
-  "pagination": {        // 一覧系のみ
-    "page": 1,
-    "limit": 20,
-    "total": 100
-  }
-}
-```
-
-### エラーレスポンス
-```javascript
-{
-  "success": false,
-  "error": {
-    "message": "日本語エラーメッセージ",
-    "details": "技術的詳細（開発環境のみ）"
-  }
-}
-```
-
-## Supabase連携
-
-### クライアント初期化
-```javascript
-import { createClient } from '@supabase/supabase-js';
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_ANON_KEY,  // 読み取り専用
-  {
-    auth: { autoRefreshToken: false, persistSession: false }
-  }
-);
-```
-
-### クエリパターン
-```javascript
-// 基本取得
-const { data, error } = await supabase
-  .from('questions')
-  .select('*')
-  .eq('exam_id', examId);
-
-// JOINを含む取得
-const { data, error } = await supabase
-  .from('questions')
-  .select(`
-    *,
-    exam:exams(year, season),
-    choices(choice_label, choice_text)
-  `);
-```
-
-## エラーハンドリング
-
-### Supabaseエラー処理
-```javascript
-if (error) {
-  if (error.code === 'PGRST116') {
-    return res.status(404).json({
-      success: false,
-      error: { message: 'データが見つかりません' }
-    });
-  }
-  throw error;
-}
-```
-
-### 一般的なエラー処理
-```javascript
-try {
-  // API処理
-} catch (error) {
-  logger.error('APIエラー:', error);
-  res.status(500).json({
-    success: false,
-    error: {
-      message: 'サーバーエラーが発生しました',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
-    }
-  });
-}
-```
-
-## CORS設定
-
-### 許可オリジン
-- `http://localhost:43000` (開発環境フロントエンド)
-- `https://*.vercel.app` (本番フロントエンド)
-- カスタムドメイン（環境変数で指定）
-
-### ヘッダー設定
-```javascript
-res.setHeader('Access-Control-Allow-Origin', origin);
-res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-```
-
-## パフォーマンス
-
-### 応答時間目標
-- ヘルスチェック: < 500ms
-- 単純取得: < 1秒
-- 複雑なJOIN: < 2秒
-
-### キャッシュ戦略
-- Vercel Edge Cache活用
-- 頻繁に変更されないデータは長めのTTL
-- 開発環境では無効化
-
-### データ量制限
-- 一覧取得: 最大100件/リクエスト
-- 問題詳細: 1件ずつ
-- 大きなレスポンスはページング必須
-
-## ログ・モニタリング
-
-### ログ出力
-```javascript
-// 構造化ログ
-logger.info('API呼び出し', {
-  endpoint: req.path,
-  method: req.method,
-  params: req.query,
-  userAgent: req.headers['user-agent']
-});
-```
-
-### エラートラッキング
-- 全てのエラーをログ出力
-- 本番環境では詳細情報を隠す
-- レスポンス時間の監視
-
-## 環境変数
-
-### 必須設定
-```env
-SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_ANON_KEY=eyJ...
-CORS_ORIGIN=http://localhost:43000
-```
-
-### オプション設定
-```env
-LOG_LEVEL=info
-API_BASE_URL=http://localhost:43001
-```
-
-## テスト方法
-
-### cURLテスト
-```bash
-# ヘルスチェック
-curl http://localhost:43001/api/health
-
-# 試験一覧
-curl http://localhost:43001/api/exams
-
-# 問題一覧
-curl "http://localhost:43001/api/questions?year=2024"
-
-# 問題詳細
-curl http://localhost:43001/api/questions/{id}
-```
-
-### ブラウザテスト
-- フロントエンドから実際にAPIを呼び出し
-- ネットワークタブでレスポンス確認
-- エラー状態の動作確認
-
-この設計により、外部システムから安全にデータを取得できる、堅牢で高速なAPIを提供します。
+### 🎯 重点対応事項
+1. **選択肢ソート**: 「ア、イ、ウ、エ」の順番を確実に維持
+2. **エラーハンドリング**: 統一されたエラーレスポンス
+3. **ログ出力**: デバッグしやすいログ形式
+4. **ファイル分割**: 責務の明確な分離

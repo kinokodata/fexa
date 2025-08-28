@@ -22,8 +22,8 @@ export const apiRequest = async (url: string, options: ApiOptions = {}): Promise
 
   if (requireAuth) {
     const token = getAuthToken();
-    console.log('Debug - Token exists:', !!token);
-    console.log('Debug - Token preview:', token ? token.substring(0, 20) + '...' : 'null');
+    // console.log('Debug - Token exists:', !!token);
+    // console.log('Debug - Token preview:', token ? token.substring(0, 20) + '...' : 'null');
     if (!token) {
       throw new AuthError('認証トークンがありません。ログインしてください。');
     }

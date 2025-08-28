@@ -101,6 +101,23 @@ class SupabaseClient {
     });
   }
 
+  async updateQuestion(questionId, questionData) {
+    return this.retryOperation(async () => {
+      const { data, error } = await this.client
+        .from('questions')
+        .update(questionData)
+        .eq('id', questionId)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`問題の更新に失敗: ${error.message}`);
+      }
+
+      return data;
+    });
+  }
+
   async insertChoices(choicesData) {
     if (choicesData.length === 0) return [];
 
@@ -115,6 +132,41 @@ class SupabaseClient {
       }
 
       return data;
+    });
+  }
+
+  async updateChoices(questionId, choicesData) {
+    if (choicesData.length === 0) return [];
+
+    return this.retryOperation(async () => {
+      // 既存の選択肢を取得
+      const { data: existingChoices, error: selectError } = await this.client
+        .from('choices')
+        .select('*')
+        .eq('question_id', questionId)
+        .order('choice_label');
+
+      if (selectError) {
+        throw new Error(`既存選択肢の取得に失敗: ${selectError.message}`);
+      }
+
+      // 各選択肢を更新
+      const updatedChoices = [];
+      for (let i = 0; i < choicesData.length && i < existingChoices.length; i++) {
+        const { data, error } = await this.client
+          .from('choices')
+          .update(choicesData[i])
+          .eq('id', existingChoices[i].id)
+          .select()
+          .single();
+
+        if (error) {
+          throw new Error(`選択肢の更新に失敗: ${error.message}`);
+        }
+        updatedChoices.push(data);
+      }
+
+      return updatedChoices;
     });
   }
 
@@ -135,6 +187,21 @@ class SupabaseClient {
     });
   }
 
+  async deleteQuestionImages(questionId) {
+    return this.retryOperation(async () => {
+      const { error } = await this.client
+        .from('question_images')
+        .delete()
+        .eq('question_id', questionId);
+
+      if (error) {
+        throw new Error(`問題画像の削除に失敗: ${error.message}`);
+      }
+
+      return true;
+    });
+  }
+
   async insertChoiceImages(imageData) {
     if (imageData.length === 0) return [];
 
@@ -149,6 +216,36 @@ class SupabaseClient {
       }
 
       return data;
+    });
+  }
+
+  async deleteChoiceImagesByQuestionId(questionId) {
+    return this.retryOperation(async () => {
+      // まず question_id に関連する choice_id を取得
+      const { data: choices, error: choicesError } = await this.client
+        .from('choices')
+        .select('id')
+        .eq('question_id', questionId);
+
+      if (choicesError) {
+        throw new Error(`選択肢の取得に失敗: ${choicesError.message}`);
+      }
+
+      if (choices.length === 0) return true;
+
+      const choiceIds = choices.map(choice => choice.id);
+
+      // 選択肢画像を削除
+      const { error } = await this.client
+        .from('choice_images')
+        .delete()
+        .in('choice_id', choiceIds);
+
+      if (error) {
+        throw new Error(`選択肢画像の削除に失敗: ${error.message}`);
+      }
+
+      return true;
     });
   }
 

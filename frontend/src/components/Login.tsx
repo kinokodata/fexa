@@ -37,7 +37,7 @@ export default function Login({ onLoginSuccess, authError }: LoginProps) {
       console.log('Debug - Login result:', result);
       
       if (result.success && result.token) {
-        console.log('Debug - Setting token:', result.token.substring(0, 20) + '...');
+        // console.log('Debug - Setting token:', result.token.substring(0, 20) + '...');
         setAuthToken(result.token);
         if (result.refreshToken) {
           setRefreshToken(result.refreshToken);

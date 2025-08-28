@@ -21,6 +21,9 @@ docker compose exec export-markdown node index.js /pdfs/2018_a/text-data.md
 # 年度・季節を明示的に指定
 docker compose exec export-markdown node index.js /pdfs/2018_a/text-data.md 2018 秋期
 
+# 単体問題の上書きエクスポート（問題文修正時など）
+docker compose exec export-markdown node index.js /pdfs/2018_a/text-data.md --question 9 --overwrite
+
 # 複数ファイルの一括エクスポート
 docker compose exec export-markdown sh -c 'for md in /pdfs/*/text-data.md; do node index.js "$md"; done'
 ```
@@ -29,8 +32,18 @@ docker compose exec export-markdown sh -c 'for md in /pdfs/*/text-data.md; do no
 
 ```bash
 npm install
+
+# 通常のエクスポート
 node index.js ./pdfs/2018_a/text-data.md
+
+# 単体問題の上書きエクスポート
+node index.js ./pdfs/2018_a/text-data.md --question 9 --overwrite
 ```
+
+### オプション
+
+- `--question N`: 指定した問題番号のみ処理する
+- `--overwrite`: 既存データを強制上書きする（--questionと組み合わせて使用）
 
 ## 環境変数
 

@@ -1,56 +1,29 @@
 import { Router } from 'express';
-import { getSupabase } from '../services/supabaseClient.js';
-import logger from '../utils/logger.js';
+import { getSupabase } from '../lib/supabase.js';
+import { success, error } from '../utils/response.js';
+import logger from '../lib/logger.js';
 
 const router = Router();
 
-/**
- * ヘルスチェックエンドポイント
- * GET /health
- */
 router.get('/', async (req, res) => {
-  const health = {
-    status: 'healthy',
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime(),
-    environment: process.env.NODE_ENV || 'development'
-  };
+  try {
+    const health = {
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      environment: process.env.NODE_ENV || 'development'
+    };
 
-  // 詳細チェックが要求された場合
-  if (req.query.detailed === 'true') {
-    try {
+    if (req.query.detailed === 'true') {
       const supabase = getSupabase();
-      
-      // データベース接続確認
-      const { error: dbError } = await supabase
-        .from('exams')
-        .select('count')
-        .limit(1);
-
-      health.database = {
-        status: dbError ? 'unhealthy' : 'healthy',
-        ...(dbError && { error: dbError.message })
-      };
-
-      // ストレージ接続確認
-      const { error: storageError } = await supabase
-        .storage
-        .listBuckets();
-
-      health.storage = {
-        status: storageError ? 'unhealthy' : 'healthy',
-        ...(storageError && { error: storageError.message })
-      };
-
-    } catch (error) {
-      logger.error('ヘルスチェックエラー:', error);
-      health.status = 'degraded';
-      health.error = error.message;
+      const { error: dbError } = await supabase.from('exams').select('count').limit(1);
+      health.database = { status: dbError ? 'unhealthy' : 'healthy' };
     }
-  }
 
-  const statusCode = health.status === 'healthy' ? 200 : 503;
-  res.status(statusCode).json(health);
+    res.json(success(health));
+  } catch (err) {
+    logger.error('ヘルスチェックエラー:', err);
+    res.status(500).json(error(err.message));
+  }
 });
 
 export default router;

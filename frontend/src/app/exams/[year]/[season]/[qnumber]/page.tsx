@@ -47,6 +47,11 @@ interface Choice {
   is_table_format: boolean;
   table_headers?: string[];
   table_data?: string[][];
+  images?: {
+    id: string;
+    image_url: string;
+    caption?: string;
+  }[];
 }
 
 interface Question {
@@ -149,9 +154,9 @@ export default function QuestionDetail() {
     if (hasTable) {
       chips.push(
         <Chip 
-          key="table"
+          key="choice-table"
           icon={<TableChartIcon />} 
-          label="表" 
+          label="選択肢:表" 
           size="small" 
           color="info"
           sx={{ ml: 1 }}
@@ -161,11 +166,54 @@ export default function QuestionDetail() {
     if (hasImage) {
       chips.push(
         <Chip 
-          key="image"
+          key="choice-image"
           icon={<ImageIcon />} 
-          label="画像" 
+          label="選択肢:画像" 
           size="small" 
           color="warning"
+          sx={{ ml: 1 }}
+        />
+      );
+    }
+    
+    return chips;
+  };
+
+  const getQuestionInfo = (question: Question) => {
+    const chips = [];
+    
+    // Markdown表形式の文字列があるかチェック（|で始まり|で終わる行が複数行）
+    const hasMarkdownTable = /\|[^\n]+\|\n\|[-:| ]+\|\n(?:\|[^\n]+\|\n?)+/m.test(question.question_text);
+    
+    // 問題文に画像が含まれているかチェック
+    const hasQuestionImage = question.has_image || 
+                            question.question_text.includes('/images/') || 
+                            question.question_text.includes('[画像:') || 
+                            question.question_text.includes('![');
+
+    if (hasMarkdownTable) {
+      chips.push(
+        <Chip 
+          key="question-table"
+          icon={<TableChartIcon />} 
+          label="問題文:表" 
+          size="small" 
+          color="info"
+          variant="outlined"
+          sx={{ ml: 1 }}
+        />
+      );
+    }
+
+    if (hasQuestionImage) {
+      chips.push(
+        <Chip 
+          key="question-image"
+          icon={<ImageIcon />} 
+          label="問題文:画像" 
+          size="small" 
+          color="warning"
+          variant="outlined"
           sx={{ ml: 1 }}
         />
       );
@@ -207,18 +255,55 @@ export default function QuestionDetail() {
     if (choice.has_image) {
       return (
         <Box>
-          <Typography variant="body2" color="text.secondary">
-            [画像: {choice.choice_text}]
-          </Typography>
-          <ImageUpload
-            questionId={question?.id || ''}
-            choiceId={choice.id}
-            choiceLabel={choice.choice_label}
-            onImageUploaded={() => {
-              // 画像アップロード後の処理（必要に応じて問題を再取得）
-              console.log('画像がアップロードされました');
-            }}
-          />
+          {choice.images && choice.images.length > 0 ? (
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+              {/* アップロード済みの画像を表示 */}
+              {choice.images.map((image) => (
+                <Box key={image.id} sx={{ 
+                  display: 'flex', 
+                  justifyContent: 'center',
+                  backgroundColor: 'grey.50',
+                  borderRadius: 1,
+                  p: 2
+                }}>
+                  <img 
+                    src={image.image_url} 
+                    alt={image.caption || `${choice.choice_label}の画像`}
+                    style={{
+                      maxWidth: '400px',
+                      maxHeight: '300px',
+                      width: 'auto',
+                      height: 'auto',
+                      objectFit: 'contain',
+                      borderRadius: '4px',
+                      boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                    }}
+                  />
+                </Box>
+              ))}
+              {/* 画像の説明テキスト */}
+              {choice.choice_text && (
+                <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
+                  <MathRenderer text={choice.choice_text} />
+                </Typography>
+              )}
+            </Box>
+          ) : (
+            <Box>
+              <Typography variant="body2" color="text.secondary">
+                [画像: {choice.choice_text}]
+              </Typography>
+              <ImageUpload
+                questionId={question?.id || ''}
+                choiceId={choice.id}
+                choiceLabel={choice.choice_label}
+                onImageUploaded={() => {
+                  // 画像アップロード後の処理（問題を再取得）
+                  fetchQuestions();
+                }}
+              />
+            </Box>
+          )}
         </Box>
       );
     }
@@ -274,7 +359,12 @@ export default function QuestionDetail() {
               >
                 <ListItemText
                   primary={`問${q.question_number}`}
-                  secondary={getChoiceInfo(q.choices)}
+                  secondary={
+                    <Box>
+                      {getQuestionInfo(q)}
+                      {getChoiceInfo(q.choices)}
+                    </Box>
+                  }
                 />
               </ListItemButton>
             </ListItem>

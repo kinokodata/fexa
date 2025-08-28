@@ -31,7 +31,7 @@ class MarkdownExporter {
 
   async validateArgs(args) {
     if (args.length < 1) {
-      throw new Error('使用方法: node index.js <text-data.mdファイルパス> [年度] [季節]');
+      throw new Error('使用方法: node index.js <text-data.mdファイルパス> [年度] [季節] [--question N] [--overwrite]');
     }
 
     const mdPath = path.resolve(args[0]);
@@ -46,17 +46,50 @@ class MarkdownExporter {
       throw new Error('Markdownファイル(.md)を指定してください');
     }
 
+    // オプション引数の解析
+    let year = null;
+    let season = null;
+    let questionNumber = null;
+    let overwrite = false;
+
+    for (let i = 1; i < args.length; i++) {
+      const arg = args[i];
+      
+      if (arg === '--question' && i + 1 < args.length) {
+        questionNumber = parseInt(args[i + 1]);
+        i++; // 次の引数もスキップ
+      } else if (arg === '--overwrite') {
+        overwrite = true;
+      } else if (!arg.startsWith('--')) {
+        // 位置引数として年度、季節を処理
+        if (year === null && !isNaN(parseInt(arg))) {
+          year = parseInt(arg);
+        } else if (season === null) {
+          season = arg;
+        }
+      }
+    }
+
     return {
       mdPath,
-      year: args[1] ? parseInt(args[1]) : null,
-      season: args[2] || null
+      year,
+      season,
+      questionNumber,
+      overwrite
     };
   }
 
-  async exportMarkdown(mdPath, overrideYear = null, overrideSeason = null) {
+  async exportMarkdown(mdPath, overrideYear = null, overrideSeason = null, questionNumber = null, overwrite = false) {
     this.stats.startTime = new Date();
     logger.start('Markdownエクスポート開始...');
     logger.info(`ファイル: ${mdPath}`);
+
+    if (questionNumber) {
+      logger.info(`単体問題モード: 問${questionNumber}`);
+      if (overwrite) {
+        logger.info(`上書きモード: 有効`);
+      }
+    }
 
     try {
       await this.supabase.connect();
@@ -70,14 +103,24 @@ class MarkdownExporter {
       };
 
       logger.info(`年度: ${examInfo.year}年 ${examInfo.season}`);
-      this.stats.totalQuestions = parseResult.questions.length;
+
+      // 単体問題指定の場合は対象問題をフィルタ
+      let targetQuestions = parseResult.questions;
+      if (questionNumber) {
+        targetQuestions = parseResult.questions.filter(q => q.number === questionNumber);
+        if (targetQuestions.length === 0) {
+          throw new Error(`問題${questionNumber}が見つかりません`);
+        }
+      }
+      
+      this.stats.totalQuestions = targetQuestions.length;
 
       const exam = await this.supabase.upsertExam(examInfo.year, examInfo.season);
       logger.success(`試験情報: ${examInfo.year}年 ${examInfo.season} (ID: ${exam.id})`);
 
-      await this.parser.validateImageFiles(parseResult.questions, mdPath);
+      await this.parser.validateImageFiles(targetQuestions, mdPath);
 
-      await this.processQuestions(parseResult.questions, exam.id);
+      await this.processQuestions(targetQuestions, exam.id, overwrite);
 
 
       this.stats.endTime = new Date();
@@ -89,7 +132,7 @@ class MarkdownExporter {
     }
   }
 
-  async processQuestions(questions, examId) {
+  async processQuestions(questions, examId, overwrite = false) {
     logger.info(`問題保存開始: ${questions.length}問`);
 
     for (let i = 0; i < questions.length; i++) {
@@ -99,23 +142,31 @@ class MarkdownExporter {
         const existing = await this.supabase.findExistingQuestion(examId, question.number, '午前');
         
         if (existing) {
-          // 選択肢の存在を確認
-          const hasChoices = await this.supabase.checkQuestionHasChoices(existing.id);
-          
-          if (hasChoices) {
-            logger.warn(`問題${question.number}: 既に完全に登録済みのためスキップ`);
-            this.stats.skippedQuestions++;
-            continue;
-          } else {
-            logger.warn(`問題${question.number}: 選択肢が不完全なため削除して再登録`);
-            // 不完全な問題を削除してから再登録
-            await this.supabase.deleteQuestion(existing.id);
+          if (overwrite) {
+            logger.warn(`問題${question.number}: 上書きモードのため更新`);
+            await this.updateExistingQuestion(question, existing.id);
             this.stats.reregisteredQuestions++;
+          } else {
+            // 選択肢の存在を確認
+            const hasChoices = await this.supabase.checkQuestionHasChoices(existing.id);
+            
+            if (hasChoices) {
+              logger.warn(`問題${question.number}: 既に完全に登録済みのためスキップ`);
+              this.stats.skippedQuestions++;
+              continue;
+            } else {
+              logger.warn(`問題${question.number}: 選択肢が不完全なため削除して再登録`);
+              // 不完全な問題を削除してから再登録
+              await this.supabase.deleteQuestion(existing.id);
+              this.stats.reregisteredQuestions++;
+            }
           }
         }
 
-        await this.saveQuestion(question, examId);
-        this.stats.successfulQuestions++;
+        if (!existing || !overwrite) {
+          await this.saveQuestion(question, examId);
+          this.stats.successfulQuestions++;
+        }
 
         if ((i + 1) % 10 === 0 || i === questions.length - 1) {
           logger.progress('問題保存中', i + 1, questions.length);
@@ -187,6 +238,61 @@ class MarkdownExporter {
     }
   }
 
+  async updateExistingQuestion(question, questionId) {
+    // 問題本文を更新
+    const questionData = {
+      question_text: question.text
+    };
+
+    await this.supabase.updateQuestion(questionId, questionData);
+
+    // 既存の画像データを削除
+    await this.supabase.deleteQuestionImages(questionId);
+
+    // 選択肢を更新
+    let savedChoices = [];
+    if (question.choices.length > 0) {
+      const choicesData = question.choices.map(choice => ({
+        choice_text: choice.text,
+        has_image: choice.images.length > 0,
+        is_table_format: choice.isTableFormat || false,
+        table_headers: choice.tableHeaders ? JSON.stringify(choice.tableHeaders) : null,
+        table_data: choice.tableData ? JSON.stringify(choice.tableData) : null
+      }));
+
+      savedChoices = await this.supabase.updateChoices(questionId, choicesData);
+    }
+
+    // 問題画像の保存
+    if (question.images.length > 0) {
+      const questionImageData = question.images.map(img => ({
+        question_id: questionId,
+        image_url: img.filename,
+        caption: img.altText,
+        image_type: 'question'
+      }));
+
+      await this.supabase.insertQuestionImages(questionImageData);
+    }
+
+    // 選択肢画像の保存
+    for (let i = 0; i < question.choices.length; i++) {
+      const choice = question.choices[i];
+      const savedChoice = savedChoices[i];
+      
+      if (choice.images.length > 0 && savedChoice) {
+        const choiceImageData = choice.images.map(img => ({
+          choice_id: savedChoice.id,
+          image_url: img.filename,
+          caption: img.altText,
+          image_type: 'choice'
+        }));
+
+        await this.supabase.insertChoiceImages(choiceImageData);
+      }
+    }
+  }
+
 
   printFinalReport() {
     const duration = Math.round((this.stats.endTime - this.stats.startTime) / 1000);
@@ -221,8 +327,8 @@ async function main() {
   const exporter = new MarkdownExporter();
 
   try {
-    const { mdPath, year, season } = await exporter.validateArgs(args);
-    await exporter.exportMarkdown(mdPath, year, season);
+    const { mdPath, year, season, questionNumber, overwrite } = await exporter.validateArgs(args);
+    await exporter.exportMarkdown(mdPath, year, season, questionNumber, overwrite);
     process.exit(0);
   } catch (error) {
     logger.error('実行エラー:', error.message);

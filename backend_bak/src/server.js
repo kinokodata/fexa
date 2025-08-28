@@ -4,8 +4,8 @@ import cors from 'cors';
 import { getSupabase } from '../lib/supabase.js';
 import { corsMiddleware } from '../middleware/cors.js';
 import logger from '../lib/logger.js';
-import authRouter from './routes/auth.js';
-import imagesRouter from './routes/images.js';
+// import authRouter from './routes/auth.js';
+// import imagesRouter from './routes/images.js';
 import { authenticateToken } from './middleware/auth.js';
 
 const app = express();
@@ -24,11 +24,11 @@ app.use((req, res, next) => {
   next();
 });
 
-// 認証ルート
-app.use('/api/auth', authRouter);
+// 認証ルート（後で実装）
+// app.use('/api/auth', authRouter);
 
-// 画像ルート
-app.use('/api/images', imagesRouter);
+// 画像ルート（後で実装）
+// app.use('/api/images', imagesRouter);
 
 // ヘルスチェック
 app.get('/api/health', async (req, res) => {
@@ -107,6 +107,25 @@ app.get('/api/questions', authenticateToken, async (req, res) => {
 
     const { data, error } = await query;
     if (error) throw new Error(`クエリエラー: ${error.message}`);
+
+    // 各問題の選択肢をア、イ、ウ、エの順番にソート
+    if (data && Array.isArray(data)) {
+      logger.info('ソート処理開始');
+      data.forEach(question => {
+        if (question.choices && Array.isArray(question.choices)) {
+          const before = question.choices.map(c => c.choice_label).join(',');
+          question.choices.sort((a, b) => {
+            const order = { 'ア': 1, 'イ': 2, 'ウ': 3, 'エ': 4 };
+            return (order[a.choice_label] || 999) - (order[b.choice_label] || 999);
+          });
+          const after = question.choices.map(c => c.choice_label).join(',');
+          if (before !== after) {
+            logger.info(`問題${question.question_number}: ${before} → ${after}`);
+          }
+        }
+      });
+      logger.info('ソート処理完了');
+    }
 
     logger.info(`問題一覧取得完了 - 件数: ${data?.length || 0}`);
     

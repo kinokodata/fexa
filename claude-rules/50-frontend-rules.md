@@ -120,18 +120,32 @@ const cardStyle: React.CSSProperties = {
 - 1問の完全な表示
 - 選択肢の全表示
 - 解答の表示/非表示切り替え
-- 画像の表示（将来対応）
+- 画像の表示（アップロード済みの場合）
 
 **表示項目**:
 - 問題メタデータ（年度・季節・カテゴリ）
-- 問題文（完全版）
-- 選択肢（ア・イ・ウ・エ）
+- 問題文（完全版、画像含む）
+- 選択肢（ア・イ・ウ・エ、画像含む）
 - 正解と解説（ボタンで切り替え）
+
+### 画像管理ページ（/admin/images）
+**機能**:
+- 未アップロード画像の一覧表示
+- ドラッグ&ドロップでの画像アップロード
+- アップロード進捗の表示
+- 画像プレビュー機能
+
+**表示項目**:
+- 画像ファイル名と説明
+- 対応する問題へのリンク
+- アップロード状態
+- アップロード用のドロップゾーン
 
 ### 共通レイアウト
 - シンプルなヘッダー（プロジェクト名）
 - パンくずリスト
 - フッター（著作権表示）
+- 管理機能へのナビゲーション
 
 ## データ表示
 
@@ -201,12 +215,102 @@ const loadQuestions = async (params?: SearchParams) => {
 )}
 ```
 
+## 画像アップロード機能
+
+### ドラッグ&ドロップ実装
+```typescript
+const [dragActive, setDragActive] = useState(false);
+
+const handleDrop = useCallback(async (e: React.DragEvent) => {
+  e.preventDefault();
+  setDragActive(false);
+  
+  const files = Array.from(e.dataTransfer.files);
+  const imageFiles = files.filter(file => file.type.startsWith('image/'));
+  
+  for (const file of imageFiles) {
+    await uploadImage(file, targetFilename);
+  }
+}, []);
+
+const uploadImage = async (file: File, filename: string) => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('filename', filename);
+  
+  const response = await fetch('/api/upload-image', {
+    method: 'POST',
+    body: formData
+  });
+  
+  if (response.ok) {
+    // アップロード状態を更新
+    await updateImageStatus(filename, true);
+  }
+};
+```
+
+### 画像表示コンポーネント
+```typescript
+interface ImageDisplayProps {
+  src?: string;
+  alt: string;
+  filename: string;
+  isUploaded: boolean;
+}
+
+const ImageDisplay: React.FC<ImageDisplayProps> = ({ src, alt, filename, isUploaded }) => {
+  if (!isUploaded) {
+    return (
+      <div style={{ 
+        backgroundColor: '#f8f9fa',
+        border: '2px dashed #dee2e6',
+        padding: '2rem',
+        textAlign: 'center',
+        borderRadius: '0.5rem'
+      }}>
+        <p>📸 画像未アップロード: {filename}</p>
+        <p style={{ fontSize: '0.875rem', color: '#6c757d' }}>{alt}</p>
+      </div>
+    );
+  }
+  
+  return <img src={src} alt={alt} style={{ maxWidth: '100%', height: 'auto' }} />;
+};
+```
+
+### アップロード状態管理
+```typescript
+const [uploadProgress, setUploadProgress] = useState<Record<string, number>>({});
+const [uploadStatus, setUploadStatus] = useState<Record<string, 'pending' | 'uploading' | 'success' | 'error'>>({});
+
+const updateImageStatus = async (filename: string, isUploaded: boolean) => {
+  try {
+    const response = await fetch('/api/update-image-status', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ filename, isUploaded })
+    });
+    
+    if (response.ok) {
+      // UI状態を更新
+      setUploadStatus(prev => ({ ...prev, [filename]: 'success' }));
+      // 画像一覧を再取得
+      await refreshImageList();
+    }
+  } catch (error) {
+    setUploadStatus(prev => ({ ...prev, [filename]: 'error' }));
+  }
+};
+```
+
 ## パフォーマンス
 
 ### 最適化方針
 - 不要な再レンダリングの防止
-- 大きな画像の遅延読み込み（将来対応）
+- 大きな画像の遅延読み込み
 - APIレスポンスのキャッシュ（Next.jsのデフォルト機能活用）
+- 画像アップロード時の進捗表示
 
 ### 読み込み状態
 ```typescript

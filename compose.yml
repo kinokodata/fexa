@@ -83,6 +83,21 @@ services:
     working_dir: /app
     restart: unless-stopped
 
+  # PDF画像抽出ツール
+  pdf-extractor:
+    build:
+      context: ./tools/pdf-image-extractor
+      dockerfile: Dockerfile
+    volumes:
+      - ./pdfs:/work/pdfs
+      - ./tools/pdf-image-extractor:/app
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app
+    profiles:
+      - tools
+    entrypoint: ["python", "extract_images.py"]
+
 networks:
   default:
     name: fexa_network

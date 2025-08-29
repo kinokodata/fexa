@@ -54,12 +54,12 @@ class ApiClient {
   // ヘルスチェック
   async getHealth(detailed: boolean = false): Promise<ApiResponse<HealthStatus>> {
     const query = detailed ? '?detailed=true' : '';
-    return this.request<HealthStatus>(`/api/health${query}`);
+    return this.request<HealthStatus>(`/health${query}`);
   }
 
   // 試験一覧取得
   async getExams(): Promise<ApiResponse<Exam[]>> {
-    return this.request<Exam[]>('/api/exams');
+    return this.request<Exam[]>('/exams');
   }
 
   // 問題一覧取得
@@ -82,7 +82,7 @@ class ApiClient {
     }
 
     const query = searchParams.toString();
-    const endpoint = `/api/questions${query ? `?${query}` : ''}`;
+    const endpoint = `/questions${query ? `?${query}` : ''}`;
     const result = await this.request<Question[]>(endpoint);
     console.log('API Response - Questions:', result);
     return result;
@@ -90,7 +90,7 @@ class ApiClient {
 
   // 問題詳細取得
   async getQuestion(id: string): Promise<ApiResponse<Question>> {
-    const result = await this.request<Question>(`/api/questions/${id}`);
+    const result = await this.request<Question>(`/questions/${id}`);
     console.log('API Response - Question Detail:', result);
     return result;
   }
@@ -102,14 +102,14 @@ class ApiClient {
 
   // 認証API
   async login(email: string, password: string): Promise<ApiResponse<{ token: string; refreshToken: string }>> {
-    return this.request<{ token: string; refreshToken: string }>('/api/auth/login', {
+    return this.request<{ token: string; refreshToken: string }>('/auth/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     });
   }
 
   async refreshToken(refreshToken: string): Promise<ApiResponse<{ token: string }>> {
-    return this.request<{ token: string }>('/api/auth/refresh', {
+    return this.request<{ token: string }>('/auth/refresh', {
       method: 'POST',
       body: JSON.stringify({ refreshToken }),
     });

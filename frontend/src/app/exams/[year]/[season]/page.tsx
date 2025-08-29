@@ -74,8 +74,8 @@ export default function ExamQuestions() {
       setLoading(true);
       const { default: apiClient } = await import('../../../../services/api');
       const result = await apiClient.getQuestions({
-        year: parseInt(year),
-        season: season,
+        year: parseInt(year as string),
+        season: season as string,
         limit: 100
       });
       

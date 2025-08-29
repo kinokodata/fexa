@@ -145,8 +145,8 @@ export default function QuestionDetail() {
       setLoading(true);
       const { default: apiClient } = await import('../../../../../services/api');
       const data = await apiClient.getQuestions({
-        year: parseInt(year),
-        season: season,
+        year: parseInt(year as string),
+        season: season as string,
         limit: 100
       });
       

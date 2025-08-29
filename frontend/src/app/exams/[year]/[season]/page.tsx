@@ -22,6 +22,7 @@ import IconButton from '@mui/material/IconButton';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from '@mui/icons-material/Home';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ImageIcon from '@mui/icons-material/Image';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -44,6 +45,9 @@ interface Question {
   category?: {
     name: string;
   };
+  is_checked?: boolean;
+  checked_at?: string;
+  checked_by?: string;
 }
 
 export default function ExamQuestions() {
@@ -56,7 +60,7 @@ export default function ExamQuestions() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : '';
-  const drawerWidth = 280;
+  const drawerWidth = 350;
 
   useEffect(() => {
     if (year && season) {
@@ -138,10 +142,31 @@ export default function ExamQuestions() {
                 }
               }}
             >
-              <ListItemText
-                primary={`問${question.question_number}`}
-                secondary={<QuestionFeatures question={question} variant="list" />}
-              />
+              <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                {question.is_checked ? (
+                  <CheckCircleIcon 
+                    sx={{ 
+                      color: 'success.main', 
+                      fontSize: 20, 
+                      mr: 1,
+                      flexShrink: 0
+                    }} 
+                  />
+                ) : (
+                  <CheckCircleOutlineIcon 
+                    sx={{ 
+                      color: 'action.disabled', 
+                      fontSize: 20, 
+                      mr: 1,
+                      flexShrink: 0
+                    }} 
+                  />
+                )}
+                <ListItemText
+                  primary={`問${question.question_number}`}
+                  secondary={<QuestionFeatures question={question} variant="list" />}
+                />
+              </Box>
             </ListItemButton>
           </ListItem>
         ))}
@@ -253,6 +278,25 @@ export default function ExamQuestions() {
                     <ListItemText
                       primary={
                         <Box display="flex" alignItems="center">
+                          {question.is_checked ? (
+                            <CheckCircleIcon 
+                              sx={{ 
+                                color: 'success.main', 
+                                fontSize: 24, 
+                                mr: 2,
+                                flexShrink: 0
+                              }} 
+                            />
+                          ) : (
+                            <CheckCircleOutlineIcon 
+                              sx={{ 
+                                color: 'action.disabled', 
+                                fontSize: 24, 
+                                mr: 2,
+                                flexShrink: 0
+                              }} 
+                            />
+                          )}
                           <Typography variant="h6" component="span" sx={{ mr: 2, minWidth: '80px' }}>
                             問{question.question_number}
                           </Typography>

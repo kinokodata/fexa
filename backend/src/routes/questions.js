@@ -20,7 +20,7 @@ router.get('/', authenticateToken, async (req, res) => {
     let query = supabase
       .from('questions')
       .select(`
-        id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at,
+        id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at, is_checked, checked_at, checked_by,
         exam_id,
         choices(id, choice_label, choice_text, has_image, choice_images(id, image_type)),
         categories(id, name),
@@ -130,7 +130,8 @@ router.get('/:id', authenticateToken, async (req, res) => {
     const { data, error: queryError } = await supabase
       .from('questions')
       .select(`
-        *, exam:exams(year, season, exam_date),
+        id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at, updated_at, is_checked, checked_at, checked_by, exam_id, category_id, difficulty_level, pdf_page_number,
+        exam:exams(year, season, exam_date),
         choices(id, choice_label, choice_text, is_correct, choice_images(id, image_type)),
         answer:answers(correct_choice, explanation),
         question_images(id, image_type)

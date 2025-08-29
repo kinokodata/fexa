@@ -184,25 +184,45 @@ class MarkdownExporter {
   }
 
   async saveQuestion(question, examId) {
+    // 表形式選択肢かどうかを判定
+    const hasChoiceTable = question.choices.some(c => c.isTableFormat);
+    let choiceTableMarkdown = null;
+    
+    if (hasChoiceTable && question.choices.length > 0) {
+      // 表形式の場合、Markdownテーブルを生成
+      choiceTableMarkdown = this.generateChoiceTableMarkdown(question.choices);
+    }
+    
     const questionData = {
       exam_id: examId,
       question_number: question.number,
       question_type: '午前',
-      question_text: question.text
+      question_text: question.text,
+      has_choice_table: hasChoiceTable,
+      choice_table_type: hasChoiceTable ? 'markdown' : null,
+      choice_table_markdown: choiceTableMarkdown
     };
 
     const savedQuestion = await this.supabase.insertQuestion(questionData);
 
     let savedChoices = [];
-    if (question.choices.length > 0) {
+    if (question.choices.length > 0 && !hasChoiceTable) {
+      // 表形式でない場合のみ、通常の選択肢として保存
       const choicesData = question.choices.map(choice => ({
         question_id: savedQuestion.id,
         choice_label: choice.option,
         choice_text: choice.text,
-        has_image: choice.images.length > 0,
-        is_table_format: choice.isTableFormat || false,
-        table_headers: choice.tableHeaders ? JSON.stringify(choice.tableHeaders) : null,
-        table_data: choice.tableData ? JSON.stringify(choice.tableData) : null
+        has_image: choice.images.length > 0
+      }));
+
+      savedChoices = await this.supabase.insertChoices(choicesData);
+    } else if (hasChoiceTable) {
+      // 表形式の場合も選択肢レコードは作成（ただしchoice_textは簡略化）
+      const choicesData = question.choices.map(choice => ({
+        question_id: savedQuestion.id,
+        choice_label: choice.option,
+        choice_text: choice.text || '',  // 表形式の場合の簡略テキスト
+        has_image: false
       }));
 
       savedChoices = await this.supabase.insertChoices(choicesData);
@@ -239,9 +259,21 @@ class MarkdownExporter {
   }
 
   async updateExistingQuestion(question, questionId) {
+    // 表形式選択肢かどうかを判定
+    const hasChoiceTable = question.choices.some(c => c.isTableFormat);
+    let choiceTableMarkdown = null;
+    
+    if (hasChoiceTable && question.choices.length > 0) {
+      // 表形式の場合、Markdownテーブルを生成
+      choiceTableMarkdown = this.generateChoiceTableMarkdown(question.choices);
+    }
+    
     // 問題本文を更新
     const questionData = {
-      question_text: question.text
+      question_text: question.text,
+      has_choice_table: hasChoiceTable,
+      choice_table_type: hasChoiceTable ? 'markdown' : null,
+      choice_table_markdown: choiceTableMarkdown
     };
 
     await this.supabase.updateQuestion(questionId, questionData);
@@ -254,10 +286,7 @@ class MarkdownExporter {
     if (question.choices.length > 0) {
       const choicesData = question.choices.map(choice => ({
         choice_text: choice.text,
-        has_image: choice.images.length > 0,
-        is_table_format: choice.isTableFormat || false,
-        table_headers: choice.tableHeaders ? JSON.stringify(choice.tableHeaders) : null,
-        table_data: choice.tableData ? JSON.stringify(choice.tableData) : null
+        has_image: choice.images.length > 0
       }));
 
       savedChoices = await this.supabase.updateChoices(questionId, choicesData);
@@ -293,6 +322,26 @@ class MarkdownExporter {
     }
   }
 
+
+  generateChoiceTableMarkdown(choices) {
+    if (!choices || choices.length === 0 || !choices[0].isTableFormat) {
+      return null;
+    }
+    
+    // ヘッダー行の生成
+    const headers = choices[0].tableHeaders || [];
+    let markdown = '| ' + headers.join(' | ') + ' |\n';
+    markdown += '|' + headers.map(() => '---').join('|') + '|\n';
+    
+    // データ行の生成
+    for (const choice of choices) {
+      if (choice.tableData) {
+        markdown += '| ' + choice.tableData.join(' | ') + ' |\n';
+      }
+    }
+    
+    return markdown.trim();
+  }
 
   printFinalReport() {
     const duration = Math.round((this.stats.endTime - this.stats.startTime) / 1000);

@@ -29,15 +29,24 @@ import ListItemText from '@mui/material/ListItemText';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import Modal from '@mui/material/Modal';
+import Fab from '@mui/material/Fab';
+import Checkbox from '@mui/material/Checkbox';
+import FormGroup from '@mui/material/FormGroup';
+import Collapse from '@mui/material/Collapse';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from '@mui/icons-material/Home';
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import ImageIcon from '@mui/icons-material/Image';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import EditIcon from '@mui/icons-material/Edit';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import MenuIcon from '@mui/icons-material/Menu';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CloseIcon from '@mui/icons-material/Close';
 import Toolbar from '@mui/material/Toolbar';
 import MathRenderer from '../../../../../components/MathRenderer';
 import ImageUpload from '../../../../../components/ImageUpload';
@@ -67,6 +76,9 @@ interface Question {
   category?: {
     name: string;
   };
+  is_checked?: boolean;
+  checked_at?: string;
+  checked_by?: string;
 }
 
 export default function QuestionDetail() {
@@ -84,16 +96,44 @@ export default function QuestionDetail() {
   const [selectedChoice, setSelectedChoice] = useState<string>('');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [uploadModal, setUploadModal] = useState<{open: boolean, questionId: string, choiceId: string, choiceLabel: string}>({open: false, questionId: '', choiceId: '', choiceLabel: ''});
+  
+  // チェックエリア関連の状態
+  const [checkAreaOpen, setCheckAreaOpen] = useState(false);
+  const [checkAreaExpanded, setCheckAreaExpanded] = useState(false);
+  const [checkList, setCheckList] = useState({
+    questionNumber: false,
+    questionContent: false,
+    choiceA: false,
+    choiceI: false,
+    choiceU: false,
+    choiceE: false,
+    overall: false
+  });
 
   const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : '';
   const questionNumber = parseInt(number as string);
-  const drawerWidth = 280;
+  const drawerWidth = 350;
 
   useEffect(() => {
     if (year && season && number) {
       fetchQuestions();
     }
   }, [year, season, number]);
+
+  // 問題が変わったときにチェックリストをリセット
+  useEffect(() => {
+    setCheckList({
+      questionNumber: false,
+      questionContent: false,
+      choiceA: false,
+      choiceI: false,
+      choiceU: false,
+      choiceE: false,
+      overall: false
+    });
+    setCheckAreaOpen(false);
+    setCheckAreaExpanded(false);
+  }, [questionNumber]);
 
   const fetchQuestions = async () => {
     try {
@@ -154,6 +194,61 @@ export default function QuestionDetail() {
 
   const closeUploadModal = () => {
     setUploadModal({open: false, questionId: '', choiceId: '', choiceLabel: ''});
+  };
+
+  // チェックエリア関連の関数
+  const handleCheckChange = (key: keyof typeof checkList) => {
+    setCheckList(prev => ({
+      ...prev,
+      [key]: !prev[key]
+    }));
+  };
+
+  // 未登録の画像があるかチェック
+  const hasUnregisteredImages = () => {
+    if (!question) return false;
+    
+    // 問題画像のチェック
+    if (question.has_image && (!question.question_images || question.question_images.length === 0)) {
+      return true;
+    }
+    
+    // 選択肢画像のチェック
+    for (const choice of question.choices) {
+      if (choice.has_image) {
+        const images = choice.images || (choice as any).choice_images || [];
+        if (images.length === 0) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  };
+
+  const isAllChecked = () => {
+    const allItemsChecked = Object.values(checkList).every(checked => checked);
+    const noUnregisteredImages = !hasUnregisteredImages();
+    return allItemsChecked && noUnregisteredImages;
+  };
+
+  const handleCheckComplete = async () => {
+    if (!isAllChecked()) return;
+    
+    try {
+      // TODO: APIでチェック完了を送信
+      // await apiClient.markQuestionChecked(question.id);
+      console.log('チェック完了:', question?.id);
+      
+      // 成功時の処理
+      setCheckAreaOpen(false);
+      setCheckAreaExpanded(false);
+      
+      // 問題一覧を再取得してチェック状態を更新
+      await fetchQuestions();
+    } catch (error) {
+      console.error('チェック完了の送信に失敗:', error);
+    }
   };
 
 
@@ -324,10 +419,31 @@ export default function QuestionDetail() {
                   }
                 }}
               >
-                <ListItemText
-                  primary={`問${q.question_number}`}
-                  secondary={<QuestionFeatures question={q} variant="detailed" />}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                  {q.is_checked ? (
+                    <CheckCircleIcon 
+                      sx={{ 
+                        color: 'success.main', 
+                        fontSize: 20, 
+                        mr: 1,
+                        flexShrink: 0
+                      }} 
+                    />
+                  ) : (
+                    <CheckCircleOutlineIcon 
+                      sx={{ 
+                        color: 'action.disabled', 
+                        fontSize: 20, 
+                        mr: 1,
+                        flexShrink: 0
+                      }} 
+                    />
+                  )}
+                  <ListItemText
+                    primary={`問${q.question_number}`}
+                    secondary={<QuestionFeatures question={q} variant="detailed" />}
+                  />
+                </Box>
               </ListItemButton>
             </ListItem>
           ))}
@@ -628,6 +744,238 @@ export default function QuestionDetail() {
           >
             問題一覧に戻る
           </Button>
+        </Box>
+
+        {/* チェックエリア */}
+        <Box
+          sx={{
+            position: 'fixed',
+            bottom: 16,
+            left: 16,
+            zIndex: 1200
+          }}
+        >
+          {!checkAreaOpen ? (
+            <Fab
+              color="primary"
+              onClick={() => setCheckAreaOpen(true)}
+              sx={{
+                '&:hover': {
+                  transform: 'scale(1.1)'
+                }
+              }}
+            >
+              <PlaylistAddCheckIcon />
+            </Fab>
+          ) : (
+            <Paper
+              elevation={8}
+              sx={{
+                width: 400,
+                maxHeight: checkAreaExpanded ? '80vh' : '200px',
+                overflow: 'hidden',
+                borderRadius: 2
+              }}
+            >
+              {/* ヘッダー */}
+              <Box
+                sx={{
+                  p: 2,
+                  bgcolor: 'primary.main',
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  <PlaylistAddCheckIcon />
+                  <Typography variant="h6">チェックリスト</Typography>
+                </Box>
+                <Box>
+                  <IconButton
+                    size="small"
+                    onClick={() => setCheckAreaExpanded(!checkAreaExpanded)}
+                    sx={{ color: 'white', mr: 1 }}
+                  >
+                    {checkAreaExpanded ? <ExpandMoreIcon /> : <ExpandLessIcon />}
+                  </IconButton>
+                  <IconButton
+                    size="small"
+                    onClick={() => setCheckAreaOpen(false)}
+                    sx={{ color: 'white' }}
+                  >
+                    <CloseIcon />
+                  </IconButton>
+                </Box>
+              </Box>
+
+              <Collapse in={checkAreaExpanded} timeout={200}>
+                {/* チェックリスト内容 */}
+                <Box sx={{ p: 2, maxHeight: 'calc(80vh - 100px)', overflow: 'auto' }}>
+                  {/* 未登録画像の警告 */}
+                  {hasUnregisteredImages() && (
+                    <Alert 
+                      severity="warning"
+                      sx={{ 
+                        mb: 2,
+                        '& .MuiAlert-message': {
+                          width: '100%'
+                        }
+                      }}
+                    >
+                      <Typography variant="body2" fontWeight="bold">
+                        未登録の画像があります
+                      </Typography>
+                      <Typography variant="caption" display="block" sx={{ mt: 0.5 }}>
+                        すべての画像を登録してからチェックを完了してください
+                      </Typography>
+                    </Alert>
+                  )}
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkList.questionNumber}
+                          onChange={() => handleCheckChange('questionNumber')}
+                        />
+                      }
+                      label={`問題番号: 問${question?.question_number || ''}`}
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkList.questionContent}
+                          onChange={() => handleCheckChange('questionContent')}
+                        />
+                      }
+                      label="問題文の内容（画像や表を含む）"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkList.choiceA}
+                          onChange={() => handleCheckChange('choiceA')}
+                        />
+                      }
+                      label="選択肢アの内容（画像や表を含む）"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkList.choiceI}
+                          onChange={() => handleCheckChange('choiceI')}
+                        />
+                      }
+                      label="選択肢イの内容（画像や表を含む）"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkList.choiceU}
+                          onChange={() => handleCheckChange('choiceU')}
+                        />
+                      }
+                      label="選択肢ウの内容（画像や表を含む）"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkList.choiceE}
+                          onChange={() => handleCheckChange('choiceE')}
+                        />
+                      }
+                      label="選択肢エの内容（画像や表を含む）"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkList.overall}
+                          onChange={() => handleCheckChange('overall')}
+                        />
+                      }
+                      label="その他違和感がないか"
+                    />
+                  </FormGroup>
+
+                  {/* チェック完了ボタン */}
+                  <Button
+                    variant="contained"
+                    color="success"
+                    fullWidth
+                    disabled={!isAllChecked()}
+                    onClick={handleCheckComplete}
+                    sx={{
+                      mt: 2,
+                      py: 1.5,
+                      fontWeight: 'bold'
+                    }}
+                  >
+                    チェック完了
+                  </Button>
+                </Box>
+              </Collapse>
+
+              {!checkAreaExpanded && (
+                <Box sx={{ p: 2 }}>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                    問{question?.question_number || ''}のチェック
+                  </Typography>
+                  
+                  {/* 未登録画像の警告（コンパクト表示） */}
+                  {hasUnregisteredImages() && (
+                    <Alert 
+                      severity="warning"
+                      sx={{ 
+                        mb: 2,
+                        py: 0.5,
+                        '& .MuiAlert-message': {
+                          fontSize: '0.75rem'
+                        }
+                      }}
+                    >
+                      未登録の画像があります
+                    </Alert>
+                  )}
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 2 }}>
+                    <Typography variant="body2">
+                      {Object.values(checkList).filter(checked => checked).length} / {Object.keys(checkList).length} 完了
+                    </Typography>
+                    <Box sx={{ flexGrow: 1 }}>
+                      {/* プログレスバー風の表示 */}
+                      <Box
+                        sx={{
+                          height: 4,
+                          bgcolor: 'grey.300',
+                          borderRadius: 2,
+                          overflow: 'hidden'
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            height: '100%',
+                            bgcolor: isAllChecked() ? 'success.main' : 'primary.main',
+                            width: `${(Object.values(checkList).filter(checked => checked).length / Object.keys(checkList).length) * 100}%`,
+                            transition: 'width 0.3s ease'
+                          }}
+                        />
+                      </Box>
+                    </Box>
+                  </Box>
+                  <Button
+                    variant="contained"
+                    color="success"
+                    fullWidth
+                    disabled={!isAllChecked()}
+                    onClick={handleCheckComplete}
+                    size="small"
+                  >
+                    チェック完了
+                  </Button>
+                </Box>
+              )}
+            </Paper>
+          )}
         </Box>
 
         {/* 画像アップロードモーダル */}

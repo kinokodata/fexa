@@ -144,9 +144,14 @@ export default function QuestionDetail() {
     try {
       setLoading(true);
       const { default: apiClient } = await import('../../../../../services/api');
+      
+      // パラメータの型を安全に処理
+      const yearStr = Array.isArray(year) ? year[0] : year;
+      const seasonStr = Array.isArray(season) ? season[0] : season;
+      
       const data = await apiClient.getQuestions({
-        year: parseInt(year as string),
-        season: season as string,
+        year: parseInt(yearStr),
+        season: seasonStr,
         limit: 100
       });
       

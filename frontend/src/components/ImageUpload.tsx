@@ -120,7 +120,7 @@ export default function ImageUpload({ questionId, choiceId, choiceLabel, onImage
         headers.Authorization = `Bearer ${token}`;
       }
 
-      const response = await fetch('http://localhost:43001/api/images/upload', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:43001'}/api/images/upload`, {
         method: 'POST',
         headers,
         body: formData,

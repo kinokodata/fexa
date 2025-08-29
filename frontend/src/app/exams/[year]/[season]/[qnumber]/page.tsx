@@ -288,7 +288,7 @@ export default function QuestionDetail() {
           {images && images.length > 0 ? (
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
               {/* アップロード済みの画像を表示 */}
-              {images.map((image) => (
+              {images.map((image: any) => (
                 <Box key={image.id} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                   <Box sx={{ 
                     backgroundColor: 'grey.50',

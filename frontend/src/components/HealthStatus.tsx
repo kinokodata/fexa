@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { HealthStatus as HealthStatusType } from '../types/api';
-import { apiClient } from '../services/api';
+import apiClient from '../services/api';
 
 export default function HealthStatus() {
   const [health, setHealth] = useState<HealthStatusType | null>(null);

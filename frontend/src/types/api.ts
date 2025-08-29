@@ -52,6 +52,10 @@ export interface Choice {
   choice_label: string;
   choice_text: string;
   is_correct?: boolean;
+  has_image?: boolean;
+  is_table_format?: boolean;
+  images?: any[];
+  choice_images?: any[];
 }
 
 // 画像

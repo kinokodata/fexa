@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Grid';
+import Grid from '@mui/material/Grid2';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
@@ -111,13 +111,13 @@ export default function Home() {
 
       <Grid container spacing={3}>
         {Object.entries(examsByYear).map(([year, yearExams]) => (
-          <Grid item xs={12} key={year}>
+          <Grid size={12} key={year}>
             <Typography variant="h5" gutterBottom sx={{ mb: 2, fontWeight: 'bold' }}>
               {year}年度
             </Typography>
             <Grid container spacing={2}>
               {yearExams.map((exam) => (
-                <Grid item xs={12} sm={6} md={3} key={`${exam.year}-${exam.season}`}>
+                <Grid size={{ xs: 12, sm: 6, md: 3 }} key={`${exam.year}-${exam.season}`}>
                   <Card 
                     sx={{ 
                       height: '100%',
@@ -140,8 +140,8 @@ export default function Home() {
                           <Chip 
                             label={exam.season}
                             color={getSeasonColor(exam.season) as any}
-                            size="large"
-                            sx={{ fontWeight: 'bold', fontSize: '1.1rem' }}
+                            size="medium"
+                            sx={{ fontWeight: 'bold', fontSize: '1.1rem', py: 2, px: 3 }}
                           />
                           {exam.question_count && exam.question_count > 0 && (
                             <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>

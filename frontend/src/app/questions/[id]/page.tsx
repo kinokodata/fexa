@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { Question } from '../../../types/api';
-import { apiClient } from '../../../services/api';
+import apiClient from '../../../services/api';
 
 export default function QuestionDetail() {
   const params = useParams();

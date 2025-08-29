@@ -124,3 +124,17 @@ export const setRefreshToken = (token: string) => {
 export const isAuthenticated = (): boolean => {
   return getAuthToken() !== null;
 };
+
+export const getUserEmail = (): string | null => {
+  const token = getAuthToken();
+  if (!token) return null;
+  
+  try {
+    // JWTトークンの中央部分（payload）をデコード
+    const payload = JSON.parse(atob(token.split('.')[1]));
+    return payload.email || null;
+  } catch (error) {
+    console.error('トークンの解析に失敗:', error);
+    return null;
+  }
+};

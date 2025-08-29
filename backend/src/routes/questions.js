@@ -190,4 +190,43 @@ router.get('/:id', authenticateToken, async (req, res) => {
   }
 });
 
+// 問題チェック完了
+router.patch('/:id/check', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { id } = req.params;
+    const { checked_by } = req.body;
+
+    if (!checked_by) {
+      return res.status(400).json(error('checked_by は必須です'));
+    }
+
+    const { data, error: updateError } = await supabase
+      .from('questions')
+      .update({
+        is_checked: true,
+        checked_at: new Date().toISOString(),
+        checked_by: checked_by
+      })
+      .eq('id', id)
+      .select('id, is_checked, checked_at, checked_by')
+      .single();
+
+    if (updateError) {
+      logger.error('問題チェック更新エラー:', updateError);
+      return res.status(500).json(error('チェック状態の更新に失敗しました'));
+    }
+
+    if (!data) {
+      return res.status(404).json(error('問題が見つかりません'));
+    }
+
+    logger.info(`問題 ${id} がチェック完了されました (by: ${checked_by})`);
+    res.json(success(data));
+  } catch (err) {
+    logger.error('問題チェック完了エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
 export default router;

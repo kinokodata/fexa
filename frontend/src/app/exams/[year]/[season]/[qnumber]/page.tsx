@@ -103,6 +103,7 @@ export default function QuestionDetail() {
   const [selectedChoice, setSelectedChoice] = useState<string>('');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [uploadModal, setUploadModal] = useState<{open: boolean, questionId: string, choiceId: string, choiceLabel: string}>({open: false, questionId: '', choiceId: '', choiceLabel: ''});
+  const [checkingQuestion, setCheckingQuestion] = useState(false);
   
   // フィルター状態をコンテキストから取得
   const { filters, toggleFilter } = useFilter();
@@ -117,7 +118,7 @@ export default function QuestionDetail() {
     choiceI: false,
     choiceU: false,
     choiceE: false,
-    overall: false
+    other: false
   });
 
   const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : '';
@@ -139,7 +140,7 @@ export default function QuestionDetail() {
       choiceI: false,
       choiceU: false,
       choiceE: false,
-      overall: false
+      other: false
     });
     // 問題が変わってもチェックエリアは表示したまま
     setCheckAreaExpanded(false);
@@ -188,6 +189,7 @@ export default function QuestionDetail() {
   const handleChoiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedChoice(event.target.value);
   };
+
 
   const handleNavigation = (direction: 'prev' | 'next') => {
     const newNumber = direction === 'prev' ? questionNumber - 1 : questionNumber + 1;
@@ -252,21 +254,70 @@ export default function QuestionDetail() {
   };
 
   const handleCheckComplete = async () => {
-    if (!isAllChecked()) return;
+    if (!isAllChecked() || !question?.id) return;
     
     try {
-      // TODO: APIでチェック完了を送信
-      // await apiClient.markQuestionChecked(question.id);
-      console.log('チェック完了:', question?.id);
+      setCheckingQuestion(true);
+      const { getUserEmail } = await import('../../../../../lib/auth');
+      const userEmail = getUserEmail() || 'unknown@example.com';
       
-      // 成功時の処理
-      setCheckAreaExpanded(false);
+      const { default: apiClient } = await import('../../../../../services/api');
+      const result = await apiClient.markQuestionAsChecked(question.id, userEmail);
       
-      // 問題一覧を再取得してチェック状態を更新
-      await fetchQuestions();
+      if (result.success) {
+        // 問題データを更新
+        setQuestion(prev => prev ? {
+          ...prev,
+          is_checked: true,
+          checked_at: result.data?.checked_at || new Date().toISOString(),
+          checked_by: result.data?.checked_by || userEmail
+        } : null);
+        
+        // 問題一覧も更新
+        setQuestions(prev => prev.map(q => 
+          q.id === question.id 
+            ? { ...q, is_checked: true, checked_at: result.data?.checked_at, checked_by: result.data?.checked_by }
+            : q
+        ));
+        
+        // 成功時の処理
+        setCheckAreaExpanded(false);
+        console.log('チェック完了:', question.id);
+      } else {
+        setError('チェック完了の更新に失敗しました');
+      }
     } catch (error) {
       console.error('チェック完了の送信に失敗:', error);
+      setError('チェック完了の更新中にエラーが発生しました');
+    } finally {
+      setCheckingQuestion(false);
     }
+  };
+
+  // 再チェック用の関数
+  const handleReCheck = () => {
+    // チェックリストをリセット
+    setCheckList({
+      questionNumber: false,
+      questionContent: false,
+      choiceA: false,
+      choiceI: false,
+      choiceU: false,
+      choiceE: false,
+      other: false,
+    });
+    // チェック完了状態をリセット（ローカルのみ）
+    if (question) {
+      setQuestion(prev => prev ? {
+        ...prev,
+        is_checked: false,
+        checked_at: undefined,
+        checked_by: undefined
+      } : null);
+    }
+    // チェックエリアを展開状態で表示
+    setCheckAreaExpanded(true);
+    setCheckAreaOpen(true);
   };
 
 
@@ -752,6 +803,49 @@ export default function QuestionDetail() {
               <Collapse in={checkAreaExpanded} timeout={200}>
                 {/* チェックリスト内容 */}
                 <Box sx={{ p: 2, maxHeight: 'calc(80vh - 100px)', overflow: 'auto' }}>
+                  {/* チェック完了状態の表示 */}
+                  {question?.is_checked && (
+                    <Alert 
+                      severity="success"
+                      sx={{ 
+                        mb: 2,
+                        '& .MuiAlert-message': {
+                          display: 'flex',
+                          flexDirection: 'column',
+                          gap: 1
+                        }
+                      }}
+                    >
+                      <Typography variant="body2" fontWeight="bold">
+                        ✅ チェック完了
+                      </Typography>
+                      <Typography variant="caption" display="block">
+                        完了日時: {question.checked_at ? new Date(question.checked_at).toLocaleString('ja-JP') : '不明'}
+                      </Typography>
+                      <Typography variant="caption" display="block">
+                        チェック者: {question.checked_by || '不明'}
+                      </Typography>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        onClick={handleReCheck}
+                        sx={{ 
+                          mt: 1, 
+                          alignSelf: 'flex-start',
+                          borderColor: 'success.main',
+                          color: 'success.main',
+                          '&:hover': {
+                            borderColor: 'success.dark',
+                            backgroundColor: 'success.light',
+                            color: 'success.dark'
+                          }
+                        }}
+                      >
+                        再チェックする
+                      </Button>
+                    </Alert>
+                  )}
+                  
                   {/* 未登録画像の警告 */}
                   {hasUnregisteredImages() && (
                     <Alert 
@@ -771,11 +865,15 @@ export default function QuestionDetail() {
                       </Typography>
                     </Alert>
                   )}
-                  <FormGroup>
+                  
+                  {/* チェックリスト（チェック完了していない場合のみ表示） */}
+                  {!question?.is_checked && (
+                    <>
+                      <FormGroup>
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={checkList.questionNumber}
+                          checked={checkList.questionNumber || false}
                           onChange={() => handleCheckChange('questionNumber')}
                         />
                       }
@@ -784,7 +882,7 @@ export default function QuestionDetail() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={checkList.questionContent}
+                          checked={checkList.questionContent || false}
                           onChange={() => handleCheckChange('questionContent')}
                         />
                       }
@@ -793,7 +891,7 @@ export default function QuestionDetail() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={checkList.choiceA}
+                          checked={checkList.choiceA || false}
                           onChange={() => handleCheckChange('choiceA')}
                         />
                       }
@@ -802,7 +900,7 @@ export default function QuestionDetail() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={checkList.choiceI}
+                          checked={checkList.choiceI || false}
                           onChange={() => handleCheckChange('choiceI')}
                         />
                       }
@@ -811,7 +909,7 @@ export default function QuestionDetail() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={checkList.choiceU}
+                          checked={checkList.choiceU || false}
                           onChange={() => handleCheckChange('choiceU')}
                         />
                       }
@@ -820,7 +918,7 @@ export default function QuestionDetail() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={checkList.choiceE}
+                          checked={checkList.choiceE || false}
                           onChange={() => handleCheckChange('choiceE')}
                         />
                       }
@@ -829,8 +927,8 @@ export default function QuestionDetail() {
                     <FormControlLabel
                       control={
                         <Checkbox
-                          checked={checkList.overall}
-                          onChange={() => handleCheckChange('overall')}
+                          checked={checkList.other || false}
+                          onChange={() => handleCheckChange('other')}
                         />
                       }
                       label="その他違和感がないか"
@@ -842,7 +940,7 @@ export default function QuestionDetail() {
                     variant="contained"
                     color="success"
                     fullWidth
-                    disabled={!isAllChecked()}
+                    disabled={!isAllChecked() || checkingQuestion}
                     onClick={handleCheckComplete}
                     sx={{
                       mt: 2,
@@ -850,16 +948,48 @@ export default function QuestionDetail() {
                       fontWeight: 'bold'
                     }}
                   >
-                    チェック完了
+                    {checkingQuestion ? 'チェック中...' : 'チェック完了'}
                   </Button>
+                    </>
+                  )}
                 </Box>
               </Collapse>
 
               {!checkAreaExpanded && (
                 <Box sx={{ p: 2 }}>
-                  <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                    問{question?.question_number || ''}のチェック
-                  </Typography>
+                  {question?.is_checked ? (
+                    <>
+                      <Typography variant="body2" color="success.main" fontWeight="bold" sx={{ mb: 1 }}>
+                        ✅ 問{question?.question_number || ''}チェック完了
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary" display="block">
+                        {question.checked_at ? new Date(question.checked_at).toLocaleString('ja-JP') : '完了日時不明'}
+                      </Typography>
+                      <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 2 }}>
+                        チェック者: {question.checked_by || '不明'}
+                      </Typography>
+                      <Button
+                        variant="outlined"
+                        size="small"
+                        fullWidth
+                        onClick={handleReCheck}
+                        sx={{ 
+                          borderColor: 'success.main',
+                          color: 'success.main',
+                          '&:hover': {
+                            borderColor: 'success.dark',
+                            backgroundColor: 'success.light'
+                          }
+                        }}
+                      >
+                        再チェックする
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                        問{question?.question_number || ''}のチェック
+                      </Typography>
                   
                   {/* 未登録画像の警告（コンパクト表示） */}
                   {hasUnregisteredImages() && (
@@ -905,12 +1035,14 @@ export default function QuestionDetail() {
                     variant="contained"
                     color="success"
                     fullWidth
-                    disabled={!isAllChecked()}
+                    disabled={!isAllChecked() || checkingQuestion}
                     onClick={handleCheckComplete}
                     size="small"
                   >
-                    チェック完了
+                    {checkingQuestion ? 'チェック中...' : 'チェック完了'}
                   </Button>
+                    </>
+                  )}
                 </Box>
               )}
             </Paper>

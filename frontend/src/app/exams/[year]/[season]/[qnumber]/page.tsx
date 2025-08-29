@@ -74,6 +74,11 @@ interface Question {
   has_choice_table?: boolean;  // 選択肢が表形式かどうか
   choice_table_type?: 'markdown' | 'image';  // 表の種類
   choice_table_markdown?: string;  // 表のMarkdownテキスト
+  question_images?: {
+    id: string;
+    image_url: string;
+    caption?: string;
+  }[];
   choices: Choice[];
   category?: {
     name: string;

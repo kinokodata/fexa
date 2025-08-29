@@ -39,6 +39,12 @@ interface Question {
   question_number: number;
   question_text: string;
   has_image?: boolean;
+  has_choice_table?: boolean;
+  question_images?: {
+    id: string;
+    image_url: string;
+    caption?: string;
+  }[];
   choices: Choice[];
   category?: {
     name: string;

@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import AuthProvider from '../components/AuthProvider';
 import Header from '../components/Header';
+import { FilterProvider } from '../contexts/FilterContext';
 
 const theme = createTheme({
   palette: {
@@ -30,7 +31,8 @@ export default function RootLayout({
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <AuthProvider>
-            <Header />
+            <FilterProvider>
+              <Header />
             
             <Box component="main" sx={{ minHeight: 'calc(100vh - 64px - 60px)', paddingTop: '64px' }}>
               {children}
@@ -49,6 +51,7 @@ export default function RootLayout({
                 © 2024 Fexa - 基本情報技術者試験過去問データベース
               </Typography>
             </Box>
+            </FilterProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

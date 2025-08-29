@@ -2,8 +2,10 @@
 
 import React from 'react';
 import Chip from '@mui/material/Chip';
+import Box from '@mui/material/Box';
 import ImageIcon from '@mui/icons-material/Image';
 import TableChartIcon from '@mui/icons-material/TableChart';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 interface Choice {
   id: string;
@@ -19,14 +21,35 @@ interface Question {
   has_image?: boolean;
   has_choice_table?: boolean;
   choices: Choice[];
+  question_images?: any[];
 }
 
 interface QuestionFeaturesProps {
   question: Question;
   variant?: 'list' | 'detailed';
+  showWarning?: boolean;
 }
 
-export default function QuestionFeatures({ question, variant = 'list' }: QuestionFeaturesProps) {
+export default function QuestionFeatures({ question, variant = 'list', showWarning = true }: QuestionFeaturesProps) {
+  // 未登録の画像があるかチェック
+  const hasUnregisteredImages = () => {
+    // 問題画像のチェック
+    if (question.has_image && (!question.question_images || question.question_images.length === 0)) {
+      return true;
+    }
+    
+    // 選択肢画像のチェック
+    for (const choice of question.choices) {
+      if (choice.has_image) {
+        const images = (choice as any).images || (choice as any).choice_images || [];
+        if (images.length === 0) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  };
   const getChoiceFeatures = (choices: Choice[]) => {
     if (!choices || choices.length === 0) {
       return [];
@@ -112,5 +135,39 @@ export default function QuestionFeatures({ question, variant = 'list' }: Questio
 
   const allFeatures = [...getQuestionFeatures(), ...getChoiceFeatures(question.choices)];
   
-  return <>{allFeatures}</>;
+  // 警告アイコンを適切な位置に挿入
+  if (showWarning && hasUnregisteredImages()) {
+    const warningIcon = (
+      <WarningAmberIcon 
+        key="warning"
+        sx={{ 
+          color: 'warning.main', 
+          fontSize: 20, 
+          ml: 1,
+          verticalAlign: 'middle'
+        }} 
+      />
+    );
+    
+    // 画像関連のチップの前に警告アイコンを挿入
+    const result = [];
+    let insertedWarning = false;
+    
+    for (const feature of allFeatures) {
+      const label = feature.props?.label;
+      if (!insertedWarning && label && (label.includes(':画像'))) {
+        result.push(warningIcon);
+        insertedWarning = true;
+      }
+      result.push(feature);
+    }
+    
+    if (!insertedWarning && allFeatures.length > 0) {
+      result.push(warningIcon);
+    }
+    
+    return <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center' }}>{result}</Box>;
+  }
+  
+  return <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center' }}>{allFeatures}</Box>;
 }

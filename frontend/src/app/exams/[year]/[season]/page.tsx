@@ -16,17 +16,15 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from '@mui/icons-material/Home';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import ImageIcon from '@mui/icons-material/Image';
-import TableChartIcon from '@mui/icons-material/TableChart';
 import MenuIcon from '@mui/icons-material/Menu';
 import QuestionFeatures from '../../../../components/QuestionFeatures';
+import QuestionSidebar from '../../../../components/QuestionSidebar';
+import { useFilter } from '../../../../contexts/FilterContext';
 
 interface Choice {
   id: string;
@@ -58,6 +56,9 @@ export default function ExamQuestions() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
+  
+  // フィルター状態をコンテキストから取得
+  const { filters, toggleFilter } = useFilter();
 
   const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : '';
   const drawerWidth = 350;
@@ -93,7 +94,6 @@ export default function ExamQuestions() {
 
   const handleQuestionClick = (questionId: string, questionNumber: number) => {
     router.push(`/exams/${year}/${season}/q${questionNumber}`);
-    setMobileOpen(false); // モバイルでドロワーを閉じる
   };
 
   const handleDrawerToggle = () => {
@@ -124,93 +124,19 @@ export default function ExamQuestions() {
     );
   }
 
-  const drawer = (
-    <Box sx={{ p: 2 }}>
-      <Typography variant="h6" gutterBottom>
-        問題一覧
-      </Typography>
-      <List dense>
-        {questions.map((question) => (
-          <ListItem key={question.id} disablePadding>
-            <ListItemButton 
-              onClick={() => handleQuestionClick(question.id, question.question_number)}
-              sx={{ 
-                borderRadius: 1,
-                mb: 0.5,
-                '&:hover': {
-                  backgroundColor: 'action.hover',
-                }
-              }}
-            >
-              <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                {question.is_checked ? (
-                  <CheckCircleIcon 
-                    sx={{ 
-                      color: 'success.main', 
-                      fontSize: 20, 
-                      mr: 1,
-                      flexShrink: 0
-                    }} 
-                  />
-                ) : (
-                  <CheckCircleOutlineIcon 
-                    sx={{ 
-                      color: 'action.disabled', 
-                      fontSize: 20, 
-                      mr: 1,
-                      flexShrink: 0
-                    }} 
-                  />
-                )}
-                <ListItemText
-                  primary={`問${question.question_number}`}
-                  secondary={<QuestionFeatures question={question} variant="list" />}
-                />
-              </Box>
-            </ListItemButton>
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
 
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* Left Navigation Drawer */}
-      <Box
-        component="nav"
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-      >
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', md: 'block' },
-            '& .MuiDrawer-paper': { 
-              boxSizing: 'border-box', 
-              width: drawerWidth,
-              marginTop: '64px',
-              height: 'calc(100% - 64px)'
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
+      {/* 共通サイドバーコンポーネント */}
+      <QuestionSidebar
+        questions={questions}
+        filters={filters}
+        onFilterChange={toggleFilter}
+        onQuestionClick={handleQuestionClick}
+        mobileOpen={mobileOpen}
+        onMobileClose={() => setMobileOpen(false)}
+        drawerWidth={drawerWidth}
+      />
 
       {/* Main Content */}
       <Box

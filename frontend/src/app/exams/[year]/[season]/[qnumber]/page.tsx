@@ -51,6 +51,8 @@ import Toolbar from '@mui/material/Toolbar';
 import MathRenderer from '../../../../../components/MathRenderer';
 import ImageUpload from '../../../../../components/ImageUpload';
 import QuestionFeatures from '../../../../../components/QuestionFeatures';
+import QuestionSidebar from '../../../../../components/QuestionSidebar';
+import { useFilter } from '../../../../../contexts/FilterContext';
 
 interface Choice {
   id: string;
@@ -97,8 +99,11 @@ export default function QuestionDetail() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [uploadModal, setUploadModal] = useState<{open: boolean, questionId: string, choiceId: string, choiceLabel: string}>({open: false, questionId: '', choiceId: '', choiceLabel: ''});
   
+  // フィルター状態をコンテキストから取得
+  const { filters, toggleFilter } = useFilter();
+  
   // チェックエリア関連の状態
-  const [checkAreaOpen, setCheckAreaOpen] = useState(false);
+  const [checkAreaOpen, setCheckAreaOpen] = useState(true);  // デフォルトで表示
   const [checkAreaExpanded, setCheckAreaExpanded] = useState(false);
   const [checkList, setCheckList] = useState({
     questionNumber: false,
@@ -131,7 +136,7 @@ export default function QuestionDetail() {
       choiceE: false,
       overall: false
     });
-    setCheckAreaOpen(false);
+    // 問題が変わってもチェックエリアは表示したまま
     setCheckAreaExpanded(false);
   }, [questionNumber]);
 
@@ -204,17 +209,18 @@ export default function QuestionDetail() {
     }));
   };
 
-  // 未登録の画像があるかチェック
-  const hasUnregisteredImages = () => {
-    if (!question) return false;
+  // 未登録の画像があるかチェック（任意の問題）
+  const hasUnregisteredImagesForQuestion = (q?: Question) => {
+    const targetQuestion = q || question;
+    if (!targetQuestion) return false;
     
     // 問題画像のチェック
-    if (question.has_image && (!question.question_images || question.question_images.length === 0)) {
+    if (targetQuestion.has_image && (!targetQuestion.question_images || targetQuestion.question_images.length === 0)) {
       return true;
     }
     
     // 選択肢画像のチェック
-    for (const choice of question.choices) {
+    for (const choice of targetQuestion.choices) {
       if (choice.has_image) {
         const images = choice.images || (choice as any).choice_images || [];
         if (images.length === 0) {
@@ -225,6 +231,9 @@ export default function QuestionDetail() {
     
     return false;
   };
+
+  // 現在の問題の未登録画像チェック
+  const hasUnregisteredImages = () => hasUnregisteredImagesForQuestion();
 
   const isAllChecked = () => {
     const allItemsChecked = Object.values(checkList).every(checked => checked);
@@ -241,7 +250,6 @@ export default function QuestionDetail() {
       console.log('チェック完了:', question?.id);
       
       // 成功時の処理
-      setCheckAreaOpen(false);
       setCheckAreaExpanded(false);
       
       // 問題一覧を再取得してチェック状態を更新
@@ -400,99 +408,20 @@ export default function QuestionDetail() {
     );
   }
 
-  const drawer = (
-    <Box sx={{ p: 2 }}>
-      <Typography variant="h6" gutterBottom>
-        問題一覧
-      </Typography>
-        <List dense>
-          {questions.map((q) => (
-            <ListItem key={q.id} disablePadding>
-              <ListItemButton 
-                onClick={() => handleQuestionClick(q.id, q.question_number)}
-                selected={q.question_number === questionNumber}
-                sx={{ 
-                  borderRadius: 1,
-                  mb: 0.5,
-                  '&:hover': {
-                    backgroundColor: 'action.hover',
-                  }
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                  {q.is_checked ? (
-                    <CheckCircleIcon 
-                      sx={{ 
-                        color: 'success.main', 
-                        fontSize: 20, 
-                        mr: 1,
-                        flexShrink: 0
-                      }} 
-                    />
-                  ) : (
-                    <CheckCircleOutlineIcon 
-                      sx={{ 
-                        color: 'action.disabled', 
-                        fontSize: 20, 
-                        mr: 1,
-                        flexShrink: 0
-                      }} 
-                    />
-                  )}
-                  <ListItemText
-                    primary={`問${q.question_number}`}
-                    secondary={<QuestionFeatures question={q} variant="detailed" />}
-                  />
-                </Box>
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-    </Box>
-  );
 
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* Left Navigation Drawer */}
-      <Box
-        component="nav"
-        sx={{ width: { md: drawerWidth }, flexShrink: { md: 0 } }}
-      >
-        <Drawer
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true,
-          }}
-          sx={{
-            display: { xs: 'block', md: 'none' },
-            '& .MuiDrawer-paper': { 
-              boxSizing: 'border-box', 
-              width: drawerWidth,
-              marginTop: '64px',
-              height: 'calc(100% - 64px)'
-            },
-          }}
-        >
-          {drawer}
-        </Drawer>
-        <Drawer
-          variant="permanent"
-          sx={{
-            display: { xs: 'none', md: 'block' },
-            '& .MuiDrawer-paper': { 
-              boxSizing: 'border-box', 
-              width: drawerWidth,
-              marginTop: '64px',
-              height: 'calc(100% - 64px)'
-            },
-          }}
-          open
-        >
-          {drawer}
-        </Drawer>
-      </Box>
+      {/* 共通サイドバーコンポーネント */}
+      <QuestionSidebar
+        questions={questions}
+        filters={filters}
+        onFilterChange={toggleFilter}
+        onQuestionClick={handleQuestionClick}
+        currentQuestionNumber={questionNumber}
+        mobileOpen={mobileOpen}
+        onMobileClose={() => setMobileOpen(false)}
+        drawerWidth={drawerWidth}
+      />
 
       {/* Main Content */}
       <Box

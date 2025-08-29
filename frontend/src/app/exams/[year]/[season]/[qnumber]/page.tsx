@@ -58,7 +58,7 @@ interface Choice {
   id: string;
   choice_label: string;
   choice_text: string;
-  has_image: boolean;
+  has_image?: boolean;
   images?: {
     id: string;
     image_url: string;
@@ -70,7 +70,7 @@ interface Question {
   id: string;
   question_number: number;
   question_text: string;
-  has_image: boolean;
+  has_image?: boolean;
   has_choice_table?: boolean;  // 選択肢が表形式かどうか
   choice_table_type?: 'markdown' | 'image';  // 表の種類
   choice_table_markdown?: string;  // 表のMarkdownテキスト

@@ -30,8 +30,8 @@ interface Choice {
   id: string;
   choice_label: string;
   choice_text: string;
-  has_image: boolean;
-  is_table_format: boolean;
+  has_image?: boolean;
+  is_table_format?: boolean;
 }
 
 interface Question {

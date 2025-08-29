@@ -26,7 +26,7 @@ interface Choice {
   id: string;
   choice_label: string;
   choice_text: string;
-  has_image: boolean;
+  has_image?: boolean;
   images?: any[];
   choice_images?: any[];
 }

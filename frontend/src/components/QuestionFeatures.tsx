@@ -11,7 +11,7 @@ interface Choice {
   id: string;
   choice_label: string;
   choice_text: string;
-  has_image: boolean;
+  has_image?: boolean;
 }
 
 interface Question {

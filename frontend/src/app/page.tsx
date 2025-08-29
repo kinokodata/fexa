@@ -4,11 +4,10 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
-import Grid from '@mui/material/Unstable_Grid2';
+import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActionArea from '@mui/material/CardActionArea';
 import CardContent from '@mui/material/CardContent';
-import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
@@ -109,15 +108,20 @@ export default function Home() {
         </Typography>
       </Box>
 
-      <Grid container spacing={3}>
+      <Box>
         {Object.entries(examsByYear).map(([year, yearExams]) => (
-          <Grid size={12} key={year}>
+          <Box key={year} sx={{ mb: 4 }}>
             <Typography variant="h5" gutterBottom sx={{ mb: 2, fontWeight: 'bold' }}>
               {year}年度
             </Typography>
-            <Grid container spacing={2}>
+            <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2 }}>
               {yearExams.map((exam) => (
-                <Grid size={{ xs: 12, sm: 6, md: 3 }} key={`${exam.year}-${exam.season}`}>
+                <Box 
+                  key={`${exam.year}-${exam.season}`}
+                  sx={{
+                    width: { xs: '100%', sm: 'calc(50% - 8px)', md: 'calc(25% - 12px)' }
+                  }}
+                >
                   <Card 
                     sx={{ 
                       height: '100%',
@@ -152,12 +156,12 @@ export default function Home() {
                       </CardContent>
                     </CardActionArea>
                   </Card>
-                </Grid>
+                </Box>
               ))}
-            </Grid>
-          </Grid>
+            </Box>
+          </Box>
         ))}
-      </Grid>
+      </Box>
 
       {exams.length === 0 && !loading && (
         <Box textAlign="center" py={8}>

@@ -11,13 +11,17 @@ import CardContent from '@mui/material/CardContent';
 import Chip from '@mui/material/Chip';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
+import LinearProgress from '@mui/material/LinearProgress';
 import SchoolIcon from '@mui/icons-material/School';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
 interface Exam {
   id: string;
   year: number;
   season: string;
   question_count?: number;
+  total_questions?: number;
+  checked_questions?: number;
 }
 
 export default function Home() {
@@ -159,7 +163,39 @@ export default function Home() {
                             size="medium"
                             sx={{ fontWeight: 'bold', fontSize: '1.1rem', py: 2, px: 3 }}
                           />
-                          {exam.question_count && exam.question_count > 0 && (
+                          
+                          {/* 進捗表示 */}
+                          {exam.total_questions !== undefined && exam.total_questions > 0 && (
+                            <Box sx={{ width: '100%', mt: 2 }}>
+                              <Box display="flex" alignItems="center" justifyContent="space-between" mb={0.5}>
+                                <Box display="flex" alignItems="center" gap={0.5}>
+                                  <CheckCircleIcon sx={{ fontSize: 16, color: 'success.main' }} />
+                                  <Typography variant="body2" color="text.secondary">
+                                    {exam.checked_questions || 0}/{exam.total_questions}
+                                  </Typography>
+                                </Box>
+                                <Typography variant="body2" color="text.secondary">
+                                  {Math.round(((exam.checked_questions || 0) / exam.total_questions) * 100)}%
+                                </Typography>
+                              </Box>
+                              <LinearProgress 
+                                variant="determinate" 
+                                value={((exam.checked_questions || 0) / exam.total_questions) * 100}
+                                sx={{ 
+                                  height: 6, 
+                                  borderRadius: 3,
+                                  backgroundColor: 'grey.200',
+                                  '& .MuiLinearProgress-bar': {
+                                    borderRadius: 3,
+                                    backgroundColor: exam.checked_questions === exam.total_questions ? 'success.main' : 'primary.main'
+                                  }
+                                }}
+                              />
+                            </Box>
+                          )}
+                          
+                          {/* 問題数表示（進捗表示がない場合） */}
+                          {exam.question_count && exam.question_count > 0 && !exam.total_questions && (
                             <Typography variant="body2" color="text.secondary" sx={{ mt: 2 }}>
                               {exam.question_count}問
                             </Typography>

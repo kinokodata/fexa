@@ -66,7 +66,7 @@ export default function ExamQuestions() {
   // フィルター状態をコンテキストから取得
   const { filters, toggleFilter } = useFilter();
 
-  const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : '';
+  const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : season === 'special' ? '特別' : '';
   const drawerWidth = 350;
 
   useEffect(() => {
@@ -84,9 +84,15 @@ export default function ExamQuestions() {
       const yearStr = Array.isArray(year) ? year[0] : year;
       const seasonStr = Array.isArray(season) ? season[0] : season;
       
+      // URL季節パラメータを日本語に変換
+      let seasonJP = '';
+      if (seasonStr === 'spring') seasonJP = '春期';
+      else if (seasonStr === 'autumn') seasonJP = '秋期';  
+      else if (seasonStr === 'special') seasonJP = '特別';
+      
       const result = await apiClient.getQuestions({
         year: parseInt(yearStr),
-        season: seasonStr,
+        season: seasonJP,
         limit: 100
       });
       

@@ -228,34 +228,11 @@ class MarkdownExporter {
       savedChoices = await this.supabase.insertChoices(choicesData);
     }
 
-    // 問題画像の保存
-    if (question.images.length > 0) {
-      const questionImageData = question.images.map(img => ({
-        question_id: savedQuestion.id,
-        image_url: img.filename,
-        caption: img.altText,
-        image_type: 'question'
-      }));
+    // 問題画像のマーカー設定（実際のファイル保存はしない）
+    // has_imageフラグは問題保存時に既に設定済み
 
-      await this.supabase.insertQuestionImages(questionImageData);
-    }
-
-    // 選択肢画像の保存
-    for (let i = 0; i < question.choices.length; i++) {
-      const choice = question.choices[i];
-      const savedChoice = savedChoices[i];
-      
-      if (choice.images.length > 0 && savedChoice) {
-        const choiceImageData = choice.images.map(img => ({
-          choice_id: savedChoice.id,
-          image_url: img.filename,
-          caption: img.altText,
-          image_type: 'choice'
-        }));
-
-        await this.supabase.insertChoiceImages(choiceImageData);
-      }
-    }
+    // 選択肢画像のマーカー設定（実際のファイル保存はしない）
+    // has_imageフラグは選択肢保存時に既に設定済み
   }
 
   async updateExistingQuestion(question, questionId) {
@@ -292,34 +269,11 @@ class MarkdownExporter {
       savedChoices = await this.supabase.updateChoices(questionId, choicesData);
     }
 
-    // 問題画像の保存
-    if (question.images.length > 0) {
-      const questionImageData = question.images.map(img => ({
-        question_id: questionId,
-        image_url: img.filename,
-        caption: img.altText,
-        image_type: 'question'
-      }));
+    // 問題画像のマーカー設定（実際のファイル保存はしない）
+    // has_imageフラグは問題更新時に既に設定済み
 
-      await this.supabase.insertQuestionImages(questionImageData);
-    }
-
-    // 選択肢画像の保存
-    for (let i = 0; i < question.choices.length; i++) {
-      const choice = question.choices[i];
-      const savedChoice = savedChoices[i];
-      
-      if (choice.images.length > 0 && savedChoice) {
-        const choiceImageData = choice.images.map(img => ({
-          choice_id: savedChoice.id,
-          image_url: img.filename,
-          caption: img.altText,
-          image_type: 'choice'
-        }));
-
-        await this.supabase.insertChoiceImages(choiceImageData);
-      }
-    }
+    // 選択肢画像のマーカー設定（実際のファイル保存はしない）
+    // has_imageフラグは選択肢保存時に既に設定済み
   }
 
 

@@ -56,15 +56,27 @@ export default function Home() {
   };
 
   const handleExamClick = (exam: Exam) => {
-    router.push(`/exams/${exam.year}/${exam.season === '春期' ? 'spring' : 'autumn'}`);
+    let seasonPath = 'autumn'; // デフォルト
+    if (exam.season === '春期') {
+      seasonPath = 'spring';
+    } else if (exam.season === '秋期') {
+      seasonPath = 'autumn';
+    } else if (exam.season === '特別') {
+      seasonPath = 'special';
+    }
+    router.push(`/exams/${exam.year}/${seasonPath}`);
   };
 
   const getSeasonColor = (season: string) => {
-    return season === '春期' ? 'success' : 'warning';
+    if (season === '春期') return 'success';
+    if (season === '特別') return 'info';
+    return 'warning'; // 秋期
   };
 
   const getSeasonIcon = (season: string) => {
-    return season === '春期' ? '🌸' : '🍁';
+    if (season === '春期') return '🌸';
+    if (season === '特別') return '⭐';
+    return '🍁'; // 秋期
   };
 
   if (loading) {

@@ -16,13 +16,13 @@ text-data.mdファイルからSupabaseへ問題データをエクスポートす
 
 ```bash
 # 単一ファイルのエクスポート
-docker compose exec export-markdown node index.js /pdfs/2018_a/text-data.md
+docker compose run export-markdown node index.js /pdfs/2018_a/text-data.md
 
 # 年度・季節を明示的に指定
-docker compose exec export-markdown node index.js /pdfs/2018_a/text-data.md 2018 秋期
+docker compose run export-markdown node index.js /pdfs/2018_a/text-data.md 2018 秋期
 
 # 単体問題の上書きエクスポート（問題文修正時など）
-docker compose exec export-markdown node index.js /pdfs/2018_a/text-data.md --question 9 --overwrite
+docker compose run export-markdown node index.js /pdfs/2018_a/text-data.md --question 9 --overwrite
 
 # 複数ファイルの一括エクスポート
 docker compose exec export-markdown sh -c 'for md in /pdfs/*/text-data.md; do node index.js "$md"; done'

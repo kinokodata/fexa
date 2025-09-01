@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "supabase": {
+      "command": "node",
+      "args": [
+        "./mcp-servers/supabase/supabase-mcp-server.js"
+      ],
+      "env": {
+        "SUPABASE_URL": "https://rkzsviihkrvxnazhqulc.supabase.co",
+        "SUPABASE_SERVICE_ROLE_KEY": "sb_secret_PN2Xt1_hnfzpmtmcCFtxzg_p6SGaFJ5",
+        "PROJECT_NAME": "fexa"
+      }
+    }
+  }
+}

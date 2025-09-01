@@ -7,7 +7,7 @@ const logger = new Logger();
 class MarkdownParser {
   constructor() {
     this.questionPattern = /^##\s*問\s*(\d+)/gm;
-    this.choicePattern = /^-\s*([アイウエ])\.\s*(.+)/gm;
+    this.choicePattern = /^-\s*([アイウエ])\s*\.?\s*(.+)/gm;
     this.imagePattern = /!\[([^\]]*)\]\(\.\/images\/([^)]+)\)/g;
     this.tablePattern = /^\|\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|$/gm;
   }
@@ -43,15 +43,21 @@ class MarkdownParser {
 
   extractExamInfo(mdPath, content) {
     const dirName = path.dirname(mdPath);
-    const yearMatch = dirName.match(/(\d{4})_([ah])/);
+    const yearMatch = dirName.match(/(\d{4})_([aht])/);
     
     if (yearMatch) {
       const year = parseInt(yearMatch[1]);
-      const season = yearMatch[2] === 'a' ? '秋期' : '春期';
+      let season;
+      switch (yearMatch[2]) {
+        case 'a': season = '秋期'; break;
+        case 'h': season = '春期'; break;
+        case 't': season = '特別'; break;
+        default: season = '不明'; break;
+      }
       return { year, season };
     }
     
-    const contentMatch = content.match(/([平成令和]*\d+年度)\s*(春期|秋期)/);
+    const contentMatch = content.match(/([平成令和]*\d+年度)\s*(春期|秋期|特別)/);
     if (contentMatch) {
       let yearStr = contentMatch[1];
       const season = contentMatch[2];

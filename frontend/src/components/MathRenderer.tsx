@@ -40,6 +40,54 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
     return { headers, rows };
   };
 
+  // 強調表現のみを処理する軽量関数
+  const parseEmphasis = (text: string): (string | JSX.Element)[] => {
+    const parts: (string | JSX.Element)[] = [];
+    let lastIndex = 0;
+    let key = 0;
+
+    // 太字と斜体の検出
+    const boldMatches = Array.from(text.matchAll(/\*\*([^*]+)\*\*/g));
+    const italicMatches = Array.from(text.matchAll(/(?<!\*)\*([^*]+)\*(?!\*)/g));
+
+    const allMatches = [...boldMatches, ...italicMatches]
+      .map(match => ({
+        match,
+        index: match.index!,
+        isBold: match[0].startsWith('**') && match[0].endsWith('**'),
+        isItalic: match[0].startsWith('*') && match[0].endsWith('*') && !match[0].startsWith('**')
+      }))
+      .sort((a, b) => a.index - b.index);
+
+    for (const { match, index, isBold, isItalic } of allMatches) {
+      // マッチ前のテキストを追加
+      if (index > lastIndex) {
+        const beforeText = text.slice(lastIndex, index);
+        if (beforeText) {
+          parts.push(beforeText);
+        }
+      }
+
+      if (isBold) {
+        parts.push(<strong key={key++}>{match[1]}</strong>);
+      } else if (isItalic) {
+        parts.push(<em key={key++}>{match[1]}</em>);
+      }
+
+      lastIndex = index + match[0].length;
+    }
+
+    // 残りのテキストを追加
+    if (lastIndex < text.length) {
+      const remainingText = text.slice(lastIndex);
+      if (remainingText) {
+        parts.push(remainingText);
+      }
+    }
+
+    return parts.length > 0 ? parts : [text];
+  };
+
   // LaTeX数式とMarkdownテーブルを検出してレンダリングする
   const renderContent = (inputText: string) => {
     const parts: (string | JSX.Element)[] = [];
@@ -103,23 +151,43 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
     const inlineMatches = Array.from(processedText.matchAll(/\$([^$]+)\$/g));
     const blockMatches = Array.from(processedText.matchAll(/\$\$([^$]+)\$\$/g));
 
-    // 数式とテーブルマッチをインデックス順にソート
-    const allMatches = [...tableMatches, ...inlineMatches, ...blockMatches]
+    // リスト項目の検出
+    const listMatches = Array.from(processedText.matchAll(/^[\s]*[-*]\s+(.+)$/gm));
+    
+    // 強調表現の検出
+    const boldMatches = Array.from(processedText.matchAll(/\*\*([^*]+)\*\*/g));
+    const italicMatches = Array.from(processedText.matchAll(/(?<!\*)\*([^*]+)\*(?!\*)/g));
+
+    // 数式、テーブル、リスト、強調表現マッチをインデックス順にソート
+    const allMatches = [...tableMatches, ...inlineMatches, ...blockMatches, ...listMatches, ...boldMatches, ...italicMatches]
       .map(match => ({
         match,
         index: match.index!,
         isBlock: match[0].startsWith('$$'),
         isTable: match[0].includes('|') && match[0].includes('\n'),
+        isList: match[0].match(/^[\s]*[-*]\s+/),
+        isBold: match[0].startsWith('**') && match[0].endsWith('**'),
+        isItalic: match[0].startsWith('*') && match[0].endsWith('*') && !match[0].startsWith('**'),
         isImage: false  // 画像は既に処理済み
       }))
       .sort((a, b) => a.index - b.index);
 
-    for (const { match, index, isBlock, isTable } of allMatches) {
+    for (const { match, index, isBlock, isTable, isList, isBold, isItalic } of allMatches) {
       // マッチ前のテキストを追加
       if (index > lastIndex) {
         const beforeText = processedText.slice(lastIndex, index);
         if (beforeText.trim()) {
-          parts.push(beforeText);
+          // 改行を<br>に変換し、強調表現もパース
+          const lines = beforeText.split('\n');
+          for (let i = 0; i < lines.length; i++) {
+            if (i > 0) {
+              parts.push(<br key={`br-${key++}`} />);
+            }
+            if (lines[i].trim()) {
+              const emphasizedParts = parseEmphasis(lines[i]);
+              parts.push(...emphasizedParts);
+            }
+          }
         }
       }
 
@@ -170,6 +238,32 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
         } else {
           parts.push(match[0]);
         }
+      } else if (isList) {
+        // リスト項目をレンダリング（強調表現をパース）
+        const listContent = match[1];
+        const parsedListContent = parseEmphasis(listContent);
+        parts.push(
+          <Box key={key++} component="div" sx={{ display: 'flex', alignItems: 'flex-start', mb: 1 }}>
+            <Box component="span" sx={{ mr: 1 }}>•</Box>
+            <Box component="span">
+              {parsedListContent.map((part, i) => 
+                typeof part === 'string' ? (
+                  <span key={i}>{part}</span>
+                ) : (
+                  part
+                )
+              )}
+            </Box>
+          </Box>
+        );
+      } else if (isBold) {
+        // 太字をレンダリング
+        const boldContent = match[1];
+        parts.push(<strong key={key++}>{boldContent}</strong>);
+      } else if (isItalic) {
+        // 斜体をレンダリング
+        const italicContent = match[1];
+        parts.push(<em key={key++}>{italicContent}</em>);
       } else {
         // 数式をレンダリング
         const mathContent = match[1];
@@ -192,7 +286,17 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
     if (lastIndex < processedText.length) {
       const remainingText = processedText.slice(lastIndex);
       if (remainingText.trim()) {
-        parts.push(remainingText);
+        // 改行を<br>に変換し、強調表現もパース
+        const lines = remainingText.split('\n');
+        for (let i = 0; i < lines.length; i++) {
+          if (i > 0) {
+            parts.push(<br key={`br-${key++}`} />);
+          }
+          if (lines[i].trim()) {
+            const emphasizedParts = parseEmphasis(lines[i]);
+            parts.push(...emphasizedParts);
+          }
+        }
       }
     }
 
@@ -218,5 +322,34 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
     );
   }
 
+  // 単純な文字列の場合も改行と強調表現を処理
+  if (typeof renderedContent === 'string') {
+    const lines = renderedContent.split('\n');
+    const processedParts: (string | JSX.Element)[] = [];
+    let key = 0;
+    
+    for (let i = 0; i < lines.length; i++) {
+      if (i > 0) {
+        processedParts.push(<br key={`br-${key++}`} />);
+      }
+      if (lines[i].trim()) {
+        const emphasizedParts = parseEmphasis(lines[i]);
+        processedParts.push(...emphasizedParts);
+      }
+    }
+    
+    return (
+      <div>
+        {processedParts.map((part, index) => 
+          typeof part === 'string' ? (
+            <span key={index}>{part}</span>
+          ) : (
+            part
+          )
+        )}
+      </div>
+    );
+  }
+  
   return <span style={{ whiteSpace: 'pre-wrap' }}>{renderedContent}</span>;
 }

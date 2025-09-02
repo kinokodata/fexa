@@ -1,5 +1,5 @@
-# Node.js 18 Alpine image
-FROM node:18-alpine
+# Node.js 20 Alpine image  
+FROM node:20-alpine
 
 # 作業ディレクトリの設定
 WORKDIR /app

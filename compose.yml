@@ -69,6 +69,25 @@ services:
     profiles:
       - tools
 
+  # 解答エクスポートツール
+  export-answer:
+    build:
+      context: ./tools/export-answer
+      dockerfile: Dockerfile
+    environment:
+      # Supabase接続情報
+      NEXT_PUBLIC_SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_KEY}
+      NODE_ENV: development
+    volumes:
+      - ./tools/export-answer:/app
+      - /app/node_modules
+      - ./pdfs:/app/pdfs  # PDFファイル共有
+      - ./.env.local:/app/.env.local:ro
+    working_dir: /app
+    profiles:
+      - tools
+
 
 networks:
   default:

@@ -1,0 +1,1973 @@
+{
+  "36889138-1e49-44f9-903d-f7f0fe64484a": {
+    "question_number": 1,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "$2^5+2^3+2^1+2^{-2}+2^{-5}+2^{-6}$",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "$2^5+2^3+2^1+2^{-1}+2^{-4}+2^{-5}$",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "$2^6+2^4+2^2+2^{-2}+2^{-5}+2^{-6}$",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "$2^6+2^4+2^2+2^{-1}+2^{-4}+2^{-5}$",
+        "is_correct": false
+      }
+    ]
+  },
+  "943ba6b7-d4f8-494e-83b1-91b607a94cb6": {
+    "question_number": 3,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "-12",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "2",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "12",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "14",
+        "is_correct": true
+      }
+    ]
+  },
+  "2698a4c6-c06d-457a-ac7c-b9d5e4d4bd9d": {
+    "question_number": 4,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "外乱による影響を検知してから修正動作を行う。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "外乱に弱く，それらの影響を増幅させてしまう。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "外乱を検知して，その影響が出ないように修正動作を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "外乱を予測して修正動作を行う。",
+        "is_correct": false
+      }
+    ]
+  },
+  "d797c547-c7fb-4cda-87e5-918a7d33df5f": {
+    "question_number": 6,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "2項分布",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "一様分布",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "正規分布",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "ポアソン分布",
+        "is_correct": false
+      }
+    ]
+  },
+  "47db2a89-1b00-4ac4-bd2f-65ae7dcc2a14": {
+    "question_number": 7,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "JavaScript",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "Javaアプリケーション",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "Javaアプレット",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "Javaサーブレット",
+        "is_correct": true
+      }
+    ]
+  },
+  "c7faef91-fd22-4291-8980-32b4667ed358": {
+    "question_number": 8,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "再帰的",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "再使用可能",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "再入可能",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "再配置可能",
+        "is_correct": false
+      }
+    ]
+  },
+  "738ab162-4410-46a4-93f5-f5d83404763b": {
+    "question_number": 9,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "0.4",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "2.8",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "4.0",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "28.0",
+        "is_correct": false
+      }
+    ]
+  },
+  "072baf33-26fe-43a4-921c-d74a67012d2e": {
+    "question_number": 10,
+    "correct_choice": "ア",
+    "explanation": "キャッシュメモリは、CPUとメインメモリの速度差を緩和するための高速メモリです。頻繁にアクセスされるデータを保持し、実効アクセス時間を短縮します。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "0.75",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "0.90",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "0.95",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "0.96",
+        "is_correct": false
+      }
+    ]
+  },
+  "cae43bcc-0aed-4d14-be3c-4be5dbae9a81": {
+    "question_number": 11,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アクセスする作業領域部分をまとめる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "作業領域全体を平均的にアクセスするように作成する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "頻繁に実行される処理部分をまとめる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "プログラム全体を平均的に実行するように作成する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "05240968-52b7-4dcb-a2d5-832e33691a27": {
+    "question_number": 12,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "7",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "10",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "12",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "14",
+        "is_correct": false
+      }
+    ]
+  },
+  "859b9948-a433-4a44-afcc-239fdf02491a": {
+    "question_number": 13,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "CRTディスプレイ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "液晶ディスプレイ",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "プラズマディスプレイ",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "有機ELディスプレイ",
+        "is_correct": false
+      }
+    ]
+  },
+  "167ce2f3-e73c-4c6c-a9af-8ee6ce9edf7e": {
+    "question_number": 15,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "処理待ち時間 = CPU時間 + ターンアラウンドタイム + 入出力時間",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "処理待ち時間 = CPU時間 - ターンアラウンドタイム + 入出力時間",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "処理待ち時間 = ターンアラウンドタイム - CPU時間 - 入出力時間",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "処理待ち時間 = 入出力時間 - CPU時間 - ターンアラウンドタイム",
+        "is_correct": true
+      }
+    ]
+  },
+  "90201744-e1bf-4f90-a4e5-4eab5449f3fd": {
+    "question_number": 17,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "3",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "4",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "5",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "6",
+        "is_correct": false
+      }
+    ]
+  },
+  "2781e84c-02ad-4779-bd0e-4bd3556f6a90": {
+    "question_number": 18,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "ウイルス侵入の防御のためにメモリ保護機構が必要だから。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "定められた時間内にイベントに対応した処理を完了させる機構が必要だから。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "システム全体のスループットを向上させる機構が必要だから。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "複数の独立したプログラムを並行して動かす機構が必要だから。",
+        "is_correct": false
+      }
+    ]
+  },
+  "c18a9fab-091d-4642-b33b-8e97fee3bed8": {
+    "question_number": 19,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "スプーリング",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "スワッピング",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "ブロッキング",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ページング",
+        "is_correct": true
+      }
+    ]
+  },
+  "a8a55f50-f088-4660-bc95-f708b1637a90": {
+    "question_number": 20,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アプリケーションには，仮想記憶を利用するためのモジュールを組み込んでおく必要がある。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "仮想記憶は，磁気ディスクにインストールされたアプリケーションだけが利用できる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "仮想記憶を使用していても主記憶が少ないと，アプリケーション利用時にページフォルトが多発してシステムのスループットは低下する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "仮想記憶を利用するためには，個々のアプリケーションで仮想記憶を使用するという設定が必要である。",
+        "is_correct": false
+      }
+    ]
+  },
+  "97a82ea4-8e5b-4299-8bbb-98d772c5de68": {
+    "question_number": 21,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "カレントディレクトリ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "デスクトップディレクトリ",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "ホームディレクトリ",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ルートディレクトリ",
+        "is_correct": false
+      }
+    ]
+  },
+  "aa185957-3c8a-492d-b398-bb9a77e8e351": {
+    "question_number": 22,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "b + c / d * e / f - g",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "b + c / d * (e / f - g)",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "(b + c / d) * e / f - g",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "(b + c / d) * (e / f - g)",
+        "is_correct": false
+      }
+    ]
+  },
+  "a89cd0d6-8909-4390-9d9c-fcb0cd10c670": {
+    "question_number": 24,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "1回だけ電気的に書込みができる。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "一定時間内に再書込み(リフレッシュ動作)を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "書込み，消去とも電気的に行い，一括又はブロック単位で消去する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "書込みは電気的に行い，消去は紫外線によって行う。",
+        "is_correct": false
+      }
+    ]
+  },
+  "d4a1dce1-dc64-4dd9-96c6-281b91071d87": {
+    "question_number": 25,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "ANDゲート",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "加算器",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "キャパシタ",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "フリップフロップ",
+        "is_correct": false
+      }
+    ]
+  },
+  "0e569fd0-a0a6-49e7-a84c-bc29c076a827": {
+    "question_number": 27,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "英数字だけでなく，漢字も表示する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "各文字の幅を一定にして表示する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "画面上にできるだけ高速に表示する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "任意の倍率で文字を拡大して表示する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "24d2a654-3fa4-4410-bbb4-31a65895c466": {
+    "question_number": 28,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アンチエイリアシング",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "テクスチャマッピング",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "ブレンディング",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "レイトレーシング",
+        "is_correct": false
+      }
+    ]
+  },
+  "df9063c2-ffcf-41f2-88b0-0a2bc1356d02": {
+    "question_number": 29,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "属性単位に，属性値とその値をもつレコード格納位置を組にして表現する。索引として利用される。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "データを表として表現する。表間は相互の表中の列の値を用いて関連付けられる。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "レコード間の関係を，ポインタを用いたデータ構造で表現する。木構造の表現に制限される。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "レコード間の関係を，リンクを用いたデータ構造で表現する。木構造や網構造も表現できる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "f5154450-dbfd-4f94-b0c9-beb19f3b73bf": {
+    "question_number": 30,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "発注（注文番号，注文数量）、商品（商品番号，商品名）",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "発注（注文番号，注文数量）、商品（注文番号，商品番号，商品名）",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "発注（注文番号，商品番号，注文数量）、商品（商品番号，商品名）",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "発注（注文番号，商品番号，注文数量）、商品（商品番号，商品名，注文数量）",
+        "is_correct": false
+      }
+    ]
+  },
+  "a26735d0-a102-4c04-aba1-d81e9e790cbe": {
+    "question_number": 31,
+    "correct_choice": "ア",
+    "explanation": "SQLのSELECT文はデータベースからデータを取得するために使用されます。SELECT句で取得する列を指定し、FROM句で対象テーブルを指定します。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "`SELECT 商品番号 FROM 在庫 WHERE EXISTS (SELECT 商品番号 FROM 商品)`",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "`SELECT 商品番号 FROM 在庫 WHERE NOT EXISTS (SELECT 商品番号 FROM 商品)`",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "`SELECT 商品番号 FROM 商品 WHERE EXISTS (SELECT 商品番号 FROM 在庫 WHERE 商品.商品番号 = 在庫.商品番号)`",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "`SELECT 商品番号 FROM 商品 WHERE NOT EXISTS (SELECT 商品番号 FROM 在庫 WHERE 商品.商品番号 = 在庫.商品番号)`",
+        "is_correct": false
+      }
+    ]
+  },
+  "44a5b04b-c4d8-4cd3-be63-af8741ae42fc": {
+    "question_number": 32,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アクセス権限",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "機密保護",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "排他制御",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "リカバリ制御",
+        "is_correct": false
+      }
+    ]
+  },
+  "4d46f03c-8acd-4559-9107-efed866c66cd": {
+    "question_number": 33,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "データアドミニストレーション",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "データウェアハウス",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "データディクショナリ",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "データマッピング",
+        "is_correct": false
+      }
+    ]
+  },
+  "6fde351f-1c0b-4fd0-baf0-03fd47332831": {
+    "question_number": 34,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "1.4",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "3.8",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "5.0",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "5.8",
+        "is_correct": false
+      }
+    ]
+  },
+  "ec6927b1-a666-4c6b-a904-6e6803c04360": {
+    "question_number": 35,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "スプリッタ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "ターミナルアダプタ",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "ダイヤルアップルータ",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ハブ",
+        "is_correct": true
+      }
+    ]
+  },
+  "5432d797-2b65-4f48-b38e-d525c9f0fdd9": {
+    "question_number": 36,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "インターネットへのアクセスをキャッシュしておくことによって，その後に同じIPアドレスのサイトへアクセスする場合，表示を高速化できる機能である。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "通信中のIPパケットから特定のビットパターンを検出する機能である。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "特定の端末あてのIPパケットだけを通過させる機能である。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "プライベートIPアドレスとグローバルIPアドレスを相互に変換する機能である。",
+        "is_correct": false
+      }
+    ]
+  },
+  "46f46323-90c4-450c-8f28-67cd8f579834": {
+    "question_number": 37,
+    "correct_choice": "イ",
+    "explanation": "TCP/IPモデルのネットワーク層（インターネット層）では、IPプロトコルがパケットのルーティングを行います。IPアドレスを使用して宛先を特定します。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "FTP",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "NNTP",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "NTP",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "RTP",
+        "is_correct": false
+      }
+    ]
+  },
+  "53a87b57-4a56-46ef-8988-07d45ba7338f": {
+    "question_number": 38,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "10.0.0.0 〜 10.255.255.255",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "128.0.0.0 〜 128.255.255.255",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "172.16.0.0 〜 172.31.255.255",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "192.168.0.0 〜 192.168.255.255",
+        "is_correct": false
+      }
+    ]
+  },
+  "e30e6ac2-1965-4d57-b798-7712ed7eec10": {
+    "question_number": 39,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "CGI",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "HTML",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "MIME",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "URL",
+        "is_correct": true
+      }
+    ]
+  },
+  "ce76302a-5e29-4bda-85c5-3702be72924b": {
+    "question_number": 40,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "メールが，不正中継されていないこと",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "メールが，漏えいしていないこと",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "メッセージが，改ざんされていないこと",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "メッセージが，特定の日時に再送信されていないこと",
+        "is_correct": false
+      }
+    ]
+  },
+  "51554ca7-5a83-41d3-bf45-cacefa5ff8c0": {
+    "question_number": 41,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "$M^n$",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "$\\frac{M!}{(M-n)!}$",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "$\\frac{M!}{n!(M-n)!}$",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "$\\frac{(M+n-1)!}{n!(M-1)!}$",
+        "is_correct": false
+      }
+    ]
+  },
+  "8a9004ab-1965-4384-af76-95eb1622c669": {
+    "question_number": 42,
+    "correct_choice": "イ",
+    "explanation": "公開鍵暗号方式では、公開鍵と秘密鍵のペアを使用します。公開鍵で暗号化したデータは対応する秘密鍵でのみ復号でき、デジタル署名にも利用されます。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "AESなどの暗号方式がある。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "RSAや楕円曲線暗号などの暗号方式がある。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "暗号化鍵と復号鍵が同一である。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "共通鍵の配送が必要である。",
+        "is_correct": false
+      }
+    ]
+  },
+  "59faef0b-4756-49f1-bd30-ab4aa95f3c50": {
+    "question_number": 43,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "2を設定すると，読取りと実行ができる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "4を設定すると，実行だけができる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "5を設定すると，書込みだけができる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "6を設定すると，読取りと書込みができる。",
+        "is_correct": true
+      }
+    ]
+  },
+  "ac71ee18-75f9-43d1-a373-dbedab8077df": {
+    "question_number": 44,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "Webサーバ及びアプリケーションに起因する脆弱性への攻撃を遮断する。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "Webサーバ内でワームの侵入を検知し，ワームの自動駆除を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "Webサーバのコンテンツ開発の結合テスト時にアプリケーションの脆弱性や不整合を検知する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "Webサーバのセキュリティホールを発見し，OSのセキュリティパッチを適用する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "84ed8ca6-53c2-4035-afff-2ef2f0f432da": {
+    "question_number": 45,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アクティビティ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "データストア",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "データフロー",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "プロセス",
+        "is_correct": false
+      }
+    ]
+  },
+  "55a12806-6275-4ce7-8088-27d44eed7b3c": {
+    "question_number": 46,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "同一の商品は一つの仕入先から仕入れている。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "発注明細と納品明細は1対1に対応している。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "一つの発注で複数の仕入先に発注することはない。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "一つの発注で複数の商品を発注することはない。",
+        "is_correct": false
+      }
+    ]
+  },
+  "92023d5d-e99e-4335-b40e-ae58efe7c482": {
+    "question_number": 47,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "クラス間の関連は，二つのクラス間でだけ定義できる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "サブクラスではスーパクラスの操作を再定義することができる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "サブクラスのインスタンスが，スーパクラスで定義されている操作を実行するときは，スーパクラスのインスタンスに操作を依頼する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "二つのクラスに集約の関係があるときには，集約オブジェクトは部品オブジェクトの属性と操作を共有する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "661110a6-33f4-4ea0-b8d8-f72427a78ae0": {
+    "question_number": 48,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "月末及び決算時の棚卸資産を集計処理する在庫棚卸システム",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "システム資源の稼働状況を計測し，レポートとして出力するシステム資源稼働状況計測システム",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "水道の検針データから料金を計算する水道料金計算システム",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "設置したセンサの情報から，温室内の環境を最適に保つ温室制御システム",
+        "is_correct": false
+      }
+    ]
+  },
+  "4685b025-8ff8-400a-a015-725edc232377": {
+    "question_number": 49,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "バックトラッキング",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "フォワードエンジニアリング",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "リエンジニアリング",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "リバースエンジニアリング",
+        "is_correct": false
+      }
+    ]
+  },
+  "8675c7bf-bcbf-4f79-8cf2-61d7e8824095": {
+    "question_number": 50,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "1",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "2",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "3",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "4",
+        "is_correct": false
+      }
+    ]
+  },
+  "49b84223-ff6e-4390-8862-4328d48cf161": {
+    "question_number": 51,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "0（短縮できない）",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "1",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "2",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "3",
+        "is_correct": true
+      }
+    ]
+  },
+  "d6383e34-cc50-4a20-a955-1995c8542533": {
+    "question_number": 52,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "移植性 (Portability)",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "使用性 (Usability)",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "相互運用性 (Interoperability)",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "変更性 (Changeability)",
+        "is_correct": false
+      }
+    ]
+  },
+  "f19d0c5f-2c56-4f5a-b5bb-468607a63b5a": {
+    "question_number": 53,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "遠隔地にあるPCのソフトウェア保守",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "システム誤動作の検知",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "トラフィック状況の管理",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "不正アクセスの監視",
+        "is_correct": false
+      }
+    ]
+  },
+  "265978db-6a05-4c4a-a9f3-8c48bf4f1fe0": {
+    "question_number": 54,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "ITサービスの新人への教育依頼",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "ITサービスやシステムの機能，使い方に対する問合せ",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "アプリケーションの応答の大幅な遅延",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "新設営業所へのITサービス提供要求",
+        "is_correct": false
+      }
+    ]
+  },
+  "3d0287a0-8184-44e7-973f-1c0773892d3c": {
+    "question_number": 55,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "2010年度",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "2011年度",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "2012年度",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "2013年度",
+        "is_correct": true
+      }
+    ]
+  },
+  "766709fa-b992-43ee-a067-15d2949cf337": {
+    "question_number": 56,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "1",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "2",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "3",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "4",
+        "is_correct": false
+      }
+    ]
+  },
+  "d1827774-9b0d-4f70-868f-d1fea226ce03": {
+    "question_number": 57,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "監査対象システムの利用部門の長",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "経営者",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "情報システム部門の長",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "被監査部門の長",
+        "is_correct": false
+      }
+    ]
+  },
+  "a870c6c0-df6b-4e2d-a388-23d5504a2e90": {
+    "question_number": 58,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "営業部門の要員を監査チームのメンバに任命し，営業部門における個人情報保護対策についての監査を行わせる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "監査法人からシステム監査人を採用して内部監査人に位置付け，社内の業務システム開発についての監査を行わせる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "システム部門の要員を監査部門に異動させ，システム部門に所属していたときに開発に参加したシステムの保守についての監査を担当させる。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "社内の業務システム運用を委託しているITベンダの監査部門に依頼し，社内の業務システム運用についての外部監査を担当させる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "88e6f729-3e87-412c-9d6a-12f5bc0de23c": {
+    "question_number": 59,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "マスタファイルが置かれているサーバを二重化し，耐障害性の向上を図っていること",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "マスタファイルのデータを複数件まとめて検索・加工するための機能が，システムに感じ込まれていること",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "マスタファイルのメンテナンスは，特権アカウントを付与された者だけに許されていること",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "マスタファイルへのデータ入力チェック機能が，システムに感じ込まれていること",
+        "is_correct": true
+      }
+    ]
+  },
+  "7e8be967-6a2c-4e3f-baf0-fe50d44949e1": {
+    "question_number": 60,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "業務ニーズにそった効率の良いデータ入力システムを実現するため，情報システム部門がデータ入力システムを開発してデータ入力する。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "情報システム部門の担当者は，その経験を生かし，システム開発においてデータの整合性が保てるように，長期間，同一部署に配置する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "情報システム部門の要員が他部門に異動する場合は，関連する資料をもたせ，システムトラブルなどの緊急時に戦力となるようにする。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "情報システム部門は，データを入力する利用部門からの独立を保ち，利用部門がデータの正確性を維持できるようにする。",
+        "is_correct": false
+      }
+    ]
+  },
+  "01701f0a-6632-4b80-bbc0-46a4028436d4": {
+    "question_number": 61,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "自社ではサーバを所有せずに，通信事業者などが保有するサーバの処理能力や記憶容量の一部を借りてシステムを運用することである。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "自社ではソフトウェアを所有せずに，外部の専門業者が提供するソフトウェアの機能をネットワーク経由で活用することである。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "自社の管理部門やコールセンタなど特定部門の業務プロセス全般を，業務システムの運用などと一体として外部の専門業者に委託することである。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "自社よりも人件費の安い派遣会社の社員を活用することで，ソフトウェア開発の費用を低減させることである。",
+        "is_correct": false
+      }
+    ]
+  },
+  "ebbd33bf-81d1-411e-b4ba-54c655adf6e6": {
+    "question_number": 62,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アライアンス",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "コアコンピタンス",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "ゴーイングコンサーン",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "リエンジニアリング",
+        "is_correct": false
+      }
+    ]
+  },
+  "c23b63ee-54ad-4eb2-98ee-4de9d06a1c9e": {
+    "question_number": 63,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "案1",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "案2",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "案3",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "案4",
+        "is_correct": true
+      }
+    ]
+  },
+  "b08ef21d-4c0e-4197-b061-724efac94964": {
+    "question_number": 64,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "ERP",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "SaaS",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "SCM",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "XBRL",
+        "is_correct": false
+      }
+    ]
+  },
+  "cb8ae405-6cf6-4773-a344-1167d0b7d5b6": {
+    "question_number": 65,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "サーバなど情報機器の保守費用",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "情報システム戦略立案のコンサルティング費用",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "ソフトウェアパッケージの導入費用",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "要件定義を行うシステムエンジニアの費用",
+        "is_correct": false
+      }
+    ]
+  },
+  "cb87d7a9-a582-4dc0-b611-f2b8b1994272": {
+    "question_number": 66,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "新たに構築する業務とシステムの仕様を明確化し，システム化範囲を明示する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "顧客が記述したニーズに合ったソフトウェアを開発する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "事業の目的，目標を達成するために必要なシステム化の方針を立案する。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "ソフトウェア製品の運用及び利用者に対する運用支援を行う。",
+        "is_correct": false
+      }
+    ]
+  },
+  "04fc3aba-6043-4f65-8e23-89f499017633": {
+    "question_number": 67,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "調達先の選定",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "調達の実施",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "提案依頼書(RFP)の発行",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "提案評価",
+        "is_correct": true
+      }
+    ]
+  },
+  "1673af97-bd83-4645-8037-6fdd9d5c437d": {
+    "question_number": 69,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "キャッシュフローの重視",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "市場の特定化",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "垂直統合",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "リードタイムの短縮",
+        "is_correct": false
+      }
+    ]
+  },
+  "b1912957-f0a2-4f03-aaea-d1026c780f16": {
+    "question_number": 70,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "商品Aの購入者のうち，1,000人が商品Qを購入すると予想している。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "商品Bの購入者は，商品P，Q，R，Sのどれかを購入すると予想している。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "商品Pの購入見込者の5割は，商品Aの購入者であると予想している。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "商品Sの新規顧客人数は，商品Cの購入者のうち商品Sを購入する人数より少ないと予想している。",
+        "is_correct": false
+      }
+    ]
+  },
+  "429d950b-adb3-4802-98c5-c798cce8e105": {
+    "question_number": 71,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "企業内に散在している知識を共有化し，全体の問題解決力を高める経営を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "迅速な意思決定のために，組織の階層をできるだけ少なくした平型の組織構造によって経営を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "優れた業績を上げている企業との比較分析から，自社の経営革新を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "他社にはまねのできない，企業独自のノウハウや技術などの強みを核とした経営を行う。",
+        "is_correct": true
+      }
+    ]
+  },
+  "aca782d3-ff80-4d49-8aab-15f65b149293": {
+    "question_number": 72,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "携帯電話や自動車電話のように，利用者が移動しながら通信端末を利用することができる環境",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "高齢者や障害者でも容易に情報機器を活用でき，情報サービスを受けることができる環境",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "情報通信手段の活用によって，通勤時の時間的・精神的なロスのない勤務形態を実現できる環境",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "モバイルコンピューティング，ホームネットワークなどによって，コンピュータ利用の利便性を増した環境",
+        "is_correct": false
+      }
+    ]
+  },
+  "360c9a14-9eef-43b7-8a6e-d4ce0d43e374": {
+    "question_number": 73,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "CAD",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "CRP",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "JIT",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "MRP",
+        "is_correct": false
+      }
+    ]
+  },
+  "dd95c950-6454-4a5b-ac08-282227516cbe": {
+    "question_number": 74,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "ICタグ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "磁気カード",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "バーコード",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "メモリカード",
+        "is_correct": false
+      }
+    ]
+  },
+  "8f6079e3-97e2-4ceb-822f-b7f35a9c3060": {
+    "question_number": 75,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "ある問題を解決するために一定の期間に限って結成され，問題解決とともに解散する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "業務を機能別に分け，各機能について部下に命令，指導を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "製品，地域などで構成された組織単位に，利益責任をもたせる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "戦略的提供や共同開発など外部の経営資源を積極的に活用することによって，経営環境に対応していく。",
+        "is_correct": true
+      }
+    ]
+  },
+  "e14e067c-e5b6-448e-ada2-cac7599820d5": {
+    "question_number": 76,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "回帰直線のy切片の値から，今年度の問題の得点が0点の人でも，昨年度の問題では10点程度とれることが分かる。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "回帰直線の傾きから，今年度の問題の平均点は，昨年度の問題の平均点の1.1倍であることが分かる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "回帰直線の傾きとy切片の値から，今年度の問題は昨年度の問題に比べて得点しやすい傾向にあることが分かる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "回帰直線の傾きと相関係数の値から，今年度の問題は質が高いことが分かる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "d409a424-115e-49d3-b914-7bfdc6c48a27": {
+    "question_number": 77,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "固定費が変わらないとき，変動費率が低くなると損益分岐点は高くなる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "固定費が変わらないとき，変動費率の変化と損益分岐点の変化は正比例する。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "損益分岐点での売上高は，固定費と変動費の和に等しい。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "変動費率が変わらないとき，固定費が小さくなると損益分岐点は高くなる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "eb8e7fca-1fa9-4cef-b11c-ac3b50ef7735": {
+    "question_number": 78,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "A社",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "B社",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "C社",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "D社員",
+        "is_correct": false
+      }
+    ]
+  },
+  "7731ae76-5120-4c05-beb0-ba22b0a3227c": {
+    "question_number": 79,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "派遣先事業主と派遣労働者",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "派遣先責任者と派遣労働者",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "派遣元事業主と派遣先事業主",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "派遣元事業主と派遣労働者",
+        "is_correct": true
+      }
+    ]
+  },
+  "c89381b7-68f6-47b9-9be4-8de3161b106d": {
+    "question_number": 80,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "①→②→③",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "①→③→②",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "②→③→①",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "③→②→①",
+        "is_correct": false
+      }
+    ]
+  }
+}

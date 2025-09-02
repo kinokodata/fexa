@@ -12,10 +12,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Link from '@mui/material/Link';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Radio from '@mui/material/Radio';
-import FormControl from '@mui/material/FormControl';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -32,6 +28,8 @@ import Modal from '@mui/material/Modal';
 import Fab from '@mui/material/Fab';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Collapse from '@mui/material/Collapse';
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from '@mui/icons-material/Home';
@@ -43,11 +41,14 @@ import TableChartIcon from '@mui/icons-material/TableChart';
 import EditIcon from '@mui/icons-material/Edit';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import MenuIcon from '@mui/icons-material/Menu';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import CloseIcon from '@mui/icons-material/Close';
 import Toolbar from '@mui/material/Toolbar';
+import MarkdownRenderer from '../../../../../components/MarkdownRenderer';
 import MathRenderer from '../../../../../components/MathRenderer';
 import ImageUpload from '../../../../../components/ImageUpload';
 import QuestionFeatures from '../../../../../components/QuestionFeatures';
@@ -59,6 +60,12 @@ interface Choice {
   choice_label: string;
   choice_text: string;
   has_image?: boolean;
+  is_correct?: boolean;
+  choice_images?: {
+    id: string;
+    image_url: string;
+    caption?: string;
+  }[];
   images?: {
     id: string;
     image_url: string;
@@ -83,6 +90,7 @@ interface Question {
   category?: {
     name: string;
   };
+  explanation?: string;
   is_checked?: boolean;
   checked_at?: string;
   checked_by?: string;
@@ -100,10 +108,16 @@ export default function QuestionDetail() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedChoice, setSelectedChoice] = useState<string>('');
   const [mobileOpen, setMobileOpen] = useState(false);
   const [uploadModal, setUploadModal] = useState<{open: boolean, questionId: string, choiceId: string, choiceLabel: string}>({open: false, questionId: '', choiceId: '', choiceLabel: ''});
   const [checkingQuestion, setCheckingQuestion] = useState(false);
+  const [editingCorrectAnswer, setEditingCorrectAnswer] = useState(false);
+  const [selectedCorrectAnswerId, setSelectedCorrectAnswerId] = useState<string | null>(null);
+  const [updatingCorrectAnswer, setUpdatingCorrectAnswer] = useState(false);
+  const [questionTextModal, setQuestionTextModal] = useState<{open: boolean, text: string}>({open: false, text: ''});
+  const [updatingQuestionText, setUpdatingQuestionText] = useState(false);
+  const [explanationModal, setExplanationModal] = useState<{open: boolean, text: string}>({open: false, text: ''});
+  const [updatingExplanation, setUpdatingExplanation] = useState(false);
   
   // フィルター状態をコンテキストから取得
   const { filters, toggleFilter } = useFilter();
@@ -118,12 +132,14 @@ export default function QuestionDetail() {
     choiceI: false,
     choiceU: false,
     choiceE: false,
+    correctAnswer: false,
+    appropriateExplanation: false,
     other: false
   });
 
   const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : '';
   const questionNumber = parseInt(number as string);
-  const drawerWidth = 350;
+  const drawerWidth = 450;  // チェックリストの幅をさらに拡張
 
   useEffect(() => {
     if (year && season && number) {
@@ -140,6 +156,8 @@ export default function QuestionDetail() {
       choiceI: false,
       choiceU: false,
       choiceE: false,
+      correctAnswer: false,
+      appropriateExplanation: false,
       other: false
     });
     // 問題が変わってもチェックエリアは表示したまま
@@ -186,10 +204,6 @@ export default function QuestionDetail() {
     }
   };
 
-  const handleChoiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedChoice(event.target.value);
-  };
-
 
   const handleNavigation = (direction: 'prev' | 'next') => {
     const newNumber = direction === 'prev' ? questionNumber - 1 : questionNumber + 1;
@@ -211,6 +225,163 @@ export default function QuestionDetail() {
 
   const closeUploadModal = () => {
     setUploadModal({open: false, questionId: '', choiceId: '', choiceLabel: ''});
+  };
+
+  const handleUpdateCorrectAnswer = async () => {
+    if (!question?.id || !selectedCorrectAnswerId || updatingCorrectAnswer) return;
+    
+    try {
+      setUpdatingCorrectAnswer(true);
+      const { default: apiClient } = await import('../../../../../services/api');
+      const result = await apiClient.updateCorrectAnswer(question.id, selectedCorrectAnswerId);
+      
+      if (result.success) {
+        // 問題データを更新
+        setQuestion(prev => {
+          if (!prev) return null;
+          return {
+            ...prev,
+            choices: prev.choices.map(c => ({
+              ...c,
+              is_correct: c.id === selectedCorrectAnswerId
+            }))
+          };
+        });
+        
+        // 問題一覧も更新
+        setQuestions(prev => prev.map(q => {
+          if (q.id === question.id) {
+            return {
+              ...q,
+              choices: q.choices.map(c => ({
+                ...c,
+                is_correct: c.id === selectedCorrectAnswerId
+              }))
+            };
+          }
+          return q;
+        }));
+        
+        setEditingCorrectAnswer(false);
+        setSelectedCorrectAnswerId(null);
+        setError(null);
+      } else {
+        setError('正答の更新に失敗しました');
+      }
+    } catch (error) {
+      console.error('正答更新エラー:', error);
+      setError('正答の更新中にエラーが発生しました');
+    } finally {
+      setUpdatingCorrectAnswer(false);
+    }
+  };
+
+  const handleStartEditingCorrectAnswer = () => {
+    setEditingCorrectAnswer(true);
+    // 現在の正答を初期選択状態にする
+    const currentCorrectChoice = question?.choices.find(c => c.is_correct === true);
+    if (currentCorrectChoice) {
+      setSelectedCorrectAnswerId(currentCorrectChoice.id);
+    }
+  };
+
+  const handleCancelEditingCorrectAnswer = () => {
+    setEditingCorrectAnswer(false);
+    setSelectedCorrectAnswerId(null);
+  };
+
+  const handleOpenQuestionTextModal = () => {
+    if (question?.question_text) {
+      setQuestionTextModal({
+        open: true,
+        text: question.question_text
+      });
+    }
+  };
+
+  const handleCloseQuestionTextModal = () => {
+    setQuestionTextModal({open: false, text: ''});
+  };
+
+  const handleUpdateQuestionText = async () => {
+    if (!question?.id || !questionTextModal.text.trim() || updatingQuestionText) return;
+    
+    try {
+      setUpdatingQuestionText(true);
+      const { default: apiClient } = await import('../../../../../services/api');
+      const result = await apiClient.updateQuestionText(question.id, questionTextModal.text.trim());
+      
+      if (result.success) {
+        // 問題データを更新
+        setQuestion(prev => prev ? {
+          ...prev,
+          question_text: questionTextModal.text.trim()
+        } : null);
+        
+        // 問題一覧も更新
+        setQuestions(prev => prev.map(q => 
+          q.id === question.id 
+            ? { ...q, question_text: questionTextModal.text.trim() }
+            : q
+        ));
+        
+        handleCloseQuestionTextModal();
+        setError(null);
+      } else {
+        setError('問題文の更新に失敗しました');
+      }
+    } catch (error) {
+      console.error('問題文更新エラー:', error);
+      setError('問題文の更新中にエラーが発生しました');
+    } finally {
+      setUpdatingQuestionText(false);
+    }
+  };
+
+  const handleOpenExplanationModal = () => {
+    setExplanationModal({
+      open: true,
+      text: question?.explanation || ''
+    });
+  };
+
+  const handleCloseExplanationModal = () => {
+    setExplanationModal({open: false, text: ''});
+  };
+
+  const handleUpdateExplanation = async () => {
+    if (!question?.id || updatingExplanation) return;
+    
+    try {
+      setUpdatingExplanation(true);
+      const { default: apiClient } = await import('../../../../../services/api');
+      const result = await apiClient.updateExplanation(question.id, explanationModal.text);
+      
+      if (result.success) {
+        // 問題データを更新
+        setQuestion(prev => prev ? {
+          ...prev,
+          explanation: explanationModal.text
+        } : null);
+        
+        // 問題一覧も更新
+        setQuestions(prev => prev.map(q => 
+          q.id === question.id 
+            ? { ...q, explanation: explanationModal.text }
+            : q
+        ));
+        
+        handleCloseExplanationModal();
+        setError(null);
+      } else {
+        setError('解説の更新に失敗しました');
+      }
+    } catch (error) {
+      console.error('解説更新エラー:', error);
+      setError('解説の更新中にエラーが発生しました');
+    } finally {
+      setUpdatingExplanation(false);
+    }
   };
 
   // チェックエリア関連の関数
@@ -304,6 +475,8 @@ export default function QuestionDetail() {
       choiceI: false,
       choiceU: false,
       choiceE: false,
+      correctAnswer: false,
+      appropriateExplanation: false,
       other: false,
     });
     // チェック完了状態をリセット（ローカルのみ）
@@ -379,7 +552,7 @@ export default function QuestionDetail() {
               {cleanChoiceText && (
                 <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
                   <MathRenderer 
-                    text={cleanChoiceText} 
+                    text={cleanChoiceText}
                     hasImages={images && images.length > 0}
                     shouldShowImages={false}  // 画像はすでに表示済みなので警告ボックスは不要
                   />
@@ -438,7 +611,7 @@ export default function QuestionDetail() {
     return (
       <Typography variant="body1">
         <MathRenderer 
-          text={cleanChoiceText || choice.choice_text} 
+          text={cleanChoiceText || choice.choice_text}
           hasImages={choice.has_image && images && images.length > 0}
           shouldShowImages={choice.has_image} 
         />
@@ -569,10 +742,23 @@ export default function QuestionDetail() {
 
         {/* 問題文 */}
         <Paper elevation={1} sx={{ p: 3, mb: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h6">
+              問題文
+            </Typography>
+            <Button
+              startIcon={<EditIcon />}
+              onClick={handleOpenQuestionTextModal}
+              variant="outlined"
+              size="small"
+            >
+              問題文を修正
+            </Button>
+          </Box>
           <Typography variant="body1" sx={{ whiteSpace: 'pre-wrap', lineHeight: 1.8 }}>
             <>
               <MathRenderer 
-                text={question.question_text} 
+                text={question.question_text}
                 hasImages={question.has_image && question.question_images && question.question_images.length > 0}
                 shouldShowImages={false}  // 問題文では警告ボックスを表示しない
               />
@@ -639,10 +825,52 @@ export default function QuestionDetail() {
         </Paper>
 
         {/* 選択肢 */}
-        <Paper elevation={1} sx={{ p: 3 }}>
-          <Typography variant="h6" gutterBottom>
-            選択肢
-          </Typography>
+        <Paper elevation={1} sx={{ p: 3, mb: 4 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h6">
+              選択肢
+            </Typography>
+            {!editingCorrectAnswer ? (
+              <Button
+                startIcon={<EditIcon />}
+                onClick={handleStartEditingCorrectAnswer}
+                variant="outlined"
+                size="small"
+              >
+                正答を修正
+              </Button>
+            ) : (
+              <Box sx={{ display: 'flex', gap: 1 }}>
+                <Button
+                  onClick={handleUpdateCorrectAnswer}
+                  variant="contained"
+                  size="small"
+                  color="primary"
+                  disabled={
+                    !selectedCorrectAnswerId || 
+                    updatingCorrectAnswer ||
+                    selectedCorrectAnswerId === question?.choices.find(c => c.is_correct === true)?.id
+                  }
+                >
+                  {updatingCorrectAnswer ? '更新中...' : '更新'}
+                </Button>
+                <Button
+                  onClick={handleCancelEditingCorrectAnswer}
+                  variant="outlined"
+                  size="small"
+                  color="secondary"
+                >
+                  キャンセル
+                </Button>
+              </Box>
+            )}
+          </Box>
+          
+          {editingCorrectAnswer && (
+            <Alert severity="info" sx={{ mb: 2 }}>
+              ラジオボタンをクリックして正答を選択し、更新ボタンを押してください
+            </Alert>
+          )}
           
           {/* 選択肢の表 */}
           {question.has_choice_table && (
@@ -696,33 +924,94 @@ export default function QuestionDetail() {
             </Box>
           )}
           
-          <FormControl component="fieldset" sx={{ width: '100%' }}>
-            <RadioGroup value={selectedChoice} onChange={handleChoiceChange}>
-              {question.choices.map((choice) => (
-                <Box key={choice.id} sx={{ mb: 3, border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 2 }}>
-                  <FormControlLabel
-                    value={choice.id}
-                    control={<Radio />}
-                    label={
-                      <Box sx={{ display: 'flex', alignItems: 'flex-start', width: '100%', gap: 2 }}>
-                        <Typography variant="body1" component="span" sx={{ fontWeight: 'bold', minWidth: '30px', flexShrink: 0 }}>
-                          {choice.choice_label}.
-                        </Typography>
-                        <Box sx={{ flex: 1 }}>
-                          {renderChoice(choice)}
-                        </Box>
+          <Box sx={{ width: '100%' }}>
+            {question.choices.map((choice) => (
+              <Box 
+                key={choice.id} 
+                sx={{ 
+                  mb: 3, 
+                  border: '1px solid', 
+                  borderColor: choice.is_correct === true ? 'success.main' : 'divider', 
+                  borderRadius: 1, 
+                  p: 2,
+                  backgroundColor: choice.is_correct === true ? '#e8f5e8' : 'transparent',
+                  position: 'relative'
+                }}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'flex-start', width: '100%', gap: 2 }}>
+                  <Typography variant="body1" component="span" sx={{ fontWeight: 'bold', minWidth: '30px', flexShrink: 0 }}>
+                    {choice.choice_label}.
+                  </Typography>
+                  <Box sx={{ flex: 1 }}>
+                    {renderChoice(choice)}
+                  </Box>
+                  {editingCorrectAnswer ? (
+                    <IconButton
+                      onClick={() => setSelectedCorrectAnswerId(choice.id)}
+                      disabled={updatingCorrectAnswer}
+                      sx={{ 
+                        color: selectedCorrectAnswerId === choice.id ? 'success.main' : 'action.disabled',
+                      }}
+                    >
+                      {selectedCorrectAnswerId === choice.id ? (
+                        <RadioButtonCheckedIcon />
+                      ) : (
+                        <RadioButtonUncheckedIcon />
+                      )}
+                    </IconButton>
+                  ) : (
+                    choice.is_correct === true && (
+                      <Box sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        justifyContent: 'center',
+                        minWidth: '32px',
+                        height: '32px',
+                        backgroundColor: 'success.main',
+                        color: 'white',
+                        borderRadius: '50%',
+                        fontWeight: 'bold',
+                        fontSize: '18px'
+                      }}>
+                        ✓
                       </Box>
-                    }
-                    sx={{ 
-                      alignItems: 'flex-start',
-                      width: '100%',
-                      m: 0
-                    }}
-                  />
+                    )
+                  )}
                 </Box>
-              ))}
-            </RadioGroup>
-          </FormControl>
+              </Box>
+            ))}
+          </Box>
+        </Paper>
+
+        {/* 解説 */}
+        <Paper elevation={1} sx={{ p: 3, mb: 4, backgroundColor: '#f8f9fa' }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
+            <Typography variant="h6">
+              解説
+            </Typography>
+            <Button
+              startIcon={<EditIcon />}
+              onClick={handleOpenExplanationModal}
+              variant="outlined"
+              size="small"
+            >
+              {question.explanation ? '解説を修正' : '解説を追加'}
+            </Button>
+          </Box>
+          {question.explanation ? (
+            <Box sx={{ mt: 2 }}>
+              <MarkdownRenderer 
+                hasImages={false}
+                shouldShowImages={false}
+              >
+                {question.explanation}
+              </MarkdownRenderer>
+            </Box>
+          ) : (
+            <Box sx={{ mt: 2, p: 2, border: '1px dashed #ccc', borderRadius: 1, textAlign: 'center', color: 'text.secondary' }}>
+              解説が登録されていません
+            </Box>
+          )}
         </Paper>
 
         {/* 問題一覧に戻るボタン */}
@@ -927,6 +1216,24 @@ export default function QuestionDetail() {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          checked={checkList.correctAnswer || false}
+                          onChange={() => handleCheckChange('correctAnswer')}
+                        />
+                      }
+                      label="正答が正しい"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={checkList.appropriateExplanation || false}
+                          onChange={() => handleCheckChange('appropriateExplanation')}
+                        />
+                      }
+                      label="解説が適切である"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
                           checked={checkList.other || false}
                           onChange={() => handleCheckChange('other')}
                         />
@@ -1076,10 +1383,125 @@ export default function QuestionDetail() {
               choiceId={uploadModal.choiceId}
               choiceLabel={uploadModal.choiceLabel}
               onImageUploaded={() => {
+                // 画像アップロード後はデータを再取得
                 fetchQuestions();
                 closeUploadModal();
               }}
             />
+          </Box>
+        </Modal>
+
+        {/* 問題文修正モーダル */}
+        <Modal
+          open={questionTextModal.open}
+          onClose={handleCloseQuestionTextModal}
+          aria-labelledby="question-text-modal-title"
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: { xs: '90%', sm: '80%', md: '70%' },
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              borderRadius: 2,
+              p: 4,
+              maxHeight: '80vh',
+              overflow: 'auto'
+            }}
+          >
+            <Typography id="question-text-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>
+              問題文を修正
+            </Typography>
+            <TextField
+              multiline
+              rows={10}
+              fullWidth
+              variant="outlined"
+              label="問題文"
+              value={questionTextModal.text}
+              onChange={(e) => setQuestionTextModal(prev => ({...prev, text: e.target.value}))}
+              sx={{ mb: 3 }}
+            />
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+              <Button
+                onClick={handleCloseQuestionTextModal}
+                variant="outlined"
+                disabled={updatingQuestionText}
+              >
+                キャンセル
+              </Button>
+              <Button
+                onClick={handleUpdateQuestionText}
+                variant="contained"
+                disabled={
+                  updatingQuestionText || 
+                  !questionTextModal.text.trim() ||
+                  questionTextModal.text.trim() === question?.question_text
+                }
+              >
+                {updatingQuestionText ? '更新中...' : '更新'}
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
+
+        {/* 解説修正モーダル */}
+        <Modal
+          open={explanationModal.open}
+          onClose={handleCloseExplanationModal}
+          aria-labelledby="explanation-modal-title"
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: { xs: '90%', sm: '80%', md: '70%' },
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              borderRadius: 2,
+              p: 4,
+              maxHeight: '80vh',
+              overflow: 'auto'
+            }}
+          >
+            <Typography id="explanation-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>
+              解説を{question?.explanation ? '修正' : '追加'}
+            </Typography>
+            <TextField
+              multiline
+              rows={12}
+              fullWidth
+              variant="outlined"
+              label="解説"
+              value={explanationModal.text}
+              onChange={(e) => setExplanationModal(prev => ({...prev, text: e.target.value}))}
+              placeholder="Markdownで解説を記述してください..."
+              sx={{ mb: 3 }}
+            />
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+              <Button
+                onClick={handleCloseExplanationModal}
+                variant="outlined"
+                disabled={updatingExplanation}
+              >
+                キャンセル
+              </Button>
+              <Button
+                onClick={handleUpdateExplanation}
+                variant="contained"
+                disabled={
+                  updatingExplanation ||
+                  explanationModal.text === (question?.explanation || '')
+                }
+              >
+                {updatingExplanation ? '更新中...' : '更新'}
+              </Button>
+            </Box>
           </Box>
         </Modal>
       </Box>

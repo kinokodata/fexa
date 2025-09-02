@@ -16,13 +16,13 @@ Fexaは**基本情報技術者試験の過去問データベース**です。
 ```
 PDFファイル(ローカル) → インポートツール → Supabase
                                         ↓
-                     API (Vercel Functions) → フロントエンド (Next.js)
+                     Vercel Functions API → Next.js フロントエンド
 ```
 
-### コンテナ構成
-- **frontend**: Next.js UI (43000番ポート)
-- **backend**: ローカル開発用API (43001番ポート)
-- **tools**: PDFインポートツール (バックグラウンド)
+### 開発・本番環境
+- **本番**: Vercel (API + フロントエンド) + Supabase
+- **開発**: ローカル Next.js (43000番ポート) + Supabaseクラウド
+- **tools**: PDFインポートツール (Dockerコンテナ)
 
 ## 技術スタック
 
@@ -31,13 +31,15 @@ PDFファイル(ローカル) → インポートツール → Supabase
 - **Supabase Storage**: 問題内画像のみ（PDFは保存しない）
 
 ### 開発環境
-- **Docker Compose**: ローカル開発
+- **Next.js**: App Router + TypeScript
+- **Material-UI**: UIコンポーネント
+- **KaTeX**: LaTeX数式レンダリング
 - **Node.js 18+**: 全サービス共通
 - **ESModules**: import/export構文使用
 
 ### 本番環境
-- **Vercel**: API + フロントエンドデプロイ
-- **Supabase**: データベース・ストレージ
+- **Vercel**: Next.js + API Routes デプロイ
+- **Supabase**: データベース・ストレージ・認証
 
 ## データ管理方針
 
@@ -58,26 +60,28 @@ PDFファイル(ローカル) → インポートツール → Supabase
 ## セキュリティ・権限
 
 ### API制限
-- **認証必須**: `/api/health` と `/api/auth/login` を除く全てのエンドポイントで JWT 認証が必要
+- **認証必須**: `/api/health` を除く全てのエンドポイントで JWT 認証が必要
 - **メソッド対応**: 
   - GET: 試験情報・問題データの取得
   - POST: 画像アップロード、ユーザー認証
   - PUT/PATCH: 問題データの更新
   - DELETE: データの削除
-- **CORS設定**: フロントエンドからのアクセスのみ許可
+- **Vercel Functions**: サーバーレス関数として実行
 - **JWT認証**: Bearer トークンによる認証（有効期限: 24時間）
 
 ### Supabase接続
 - インポートツール: SERVICE_ROLE_KEY を使用（管理者権限）
-- APIサーバー: SERVICE_ROLE_KEY を使用（認証済みユーザーの操作を実行）
-- フロントエンド: APIサーバー経由でのみアクセス（直接接続なし）
+- Vercel Functions: SERVICE_ROLE_KEY を使用（認証済みユーザーの操作を実行）
+- フロントエンド: Vercel Functions 経由でのみアクセス（直接接続なし）
+- MCPサーバー: SERVICE_ROLE_KEY を使用（Claude Code連携）
 
 ## 開発フロー
 
 ### 新機能開発
-1. ローカルDocker環境で開発・テスト
-2. API変更はVercel Functionsに反映
-3. フロントエンド変更はNext.jsで実装
+1. ローカルNext.js環境で開発・テスト
+2. API変更は `/api` ディレクトリで実装
+3. フロントエンド変更は App Router で実装
+4. TypeScript 型定義の更新
 
 ### データ更新
 1. IPAから最新PDFをダウンロード
@@ -89,8 +93,9 @@ PDFファイル(ローカル) → インポートツール → Supabase
 
 ### ログ管理
 - 本番: Vercel Functions ログ
-- 開発: Docker Compose ログ
+- 開発: Next.js dev server ログ
 - インポート: コンソール出力
+- MCPサーバー: stderr 出力
 
 ### エラーハンドリング
 - APIエラーは日本語メッセージで返却
@@ -105,14 +110,17 @@ PDFファイル(ローカル) → インポートツール → Supabase
 ## 品質管理
 
 ### コード品質
+- TypeScript 型安全性の確保
 - ES6+ 機能を積極使用
 - async/await での非同期処理
 - エラーの適切なログ出力
+- Material-UI のデザインシステム準拠
 
 ### テスト方針
-- APIエンドポイント: curl でのマニュアルテスト
+- APIエンドポイント: Vercel Functions での動作確認
 - インポート機能: サンプルPDFでの動作確認
 - UI: ブラウザでの手動確認
+- TypeScript: コンパイル時型チェック
 
 ### 文書化
 - README.md: セットアップ手順
@@ -127,7 +135,9 @@ PDFファイル(ローカル) → インポートツール → Supabase
 - **20-pdf-analysis.md**: PDF解析・変換処理ルール
 - **30-export-tools.md**: エクスポートツール開発ルール
 - **40-api-rules.md**: Vercel Functions API開発ルール  
-- **50-frontend-rules.md**: Next.jsフロントエンド開発ルール
+- **50-frontend-rules.md**: Next.js + TypeScript フロントエンド開発ルール
+- **90-database-rules.md**: Supabase データベース操作ルール
+- **95-mcp-server-rules.md**: MCP サーバー開発・運用ルール
 
 ## 適用順序
 

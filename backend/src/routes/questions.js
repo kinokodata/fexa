@@ -20,9 +20,9 @@ router.get('/', authenticateToken, async (req, res) => {
     let query = supabase
       .from('questions')
       .select(`
-        id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at, is_checked, checked_at, checked_by,
+        id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at, is_checked, checked_at, checked_by, explanation,
         exam_id,
-        choices(id, choice_label, choice_text, has_image, choice_images(id, image_type)),
+        choices(id, choice_label, choice_text, has_image, is_correct, choice_images(id, image_type)),
         categories(id, name),
         question_images(id, image_type)
       `);
@@ -130,10 +130,9 @@ router.get('/:id', authenticateToken, async (req, res) => {
     const { data, error: queryError } = await supabase
       .from('questions')
       .select(`
-        id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at, updated_at, is_checked, checked_at, checked_by, exam_id, category_id, difficulty_level, pdf_page_number,
+        id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at, updated_at, is_checked, checked_at, checked_by, exam_id, category_id, difficulty_level, pdf_page_number, explanation,
         exam:exams(year, season, exam_date),
         choices(id, choice_label, choice_text, is_correct, choice_images(id, image_type)),
-        answer:answers(correct_choice, explanation),
         question_images(id, image_type)
       `)
       .eq('id', req.params.id)
@@ -225,6 +224,152 @@ router.patch('/:id/check', authenticateToken, async (req, res) => {
     res.json(success(data));
   } catch (err) {
     logger.error('問題チェック完了エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
+// 正答更新エンドポイント
+router.patch('/:id/correct-answer', async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { id } = req.params;
+    const { correctChoiceId } = req.body;
+
+    if (!correctChoiceId) {
+      return res.status(400).json(error('正答の選択肢IDが必要です'));
+    }
+
+    // まず、該当問題のすべての選択肢を取得
+    const { data: choices, error: fetchError } = await supabase
+      .from('choices')
+      .select('id, question_id')
+      .eq('question_id', id);
+
+    if (fetchError) {
+      logger.error('選択肢取得エラー:', fetchError);
+      return res.status(500).json(error('選択肢の取得に失敗しました'));
+    }
+
+    if (!choices || choices.length === 0) {
+      return res.status(404).json(error('選択肢が見つかりません'));
+    }
+
+    // 選択された選択肢が該当問題に属しているか確認
+    const selectedChoice = choices.find(c => c.id === correctChoiceId);
+    if (!selectedChoice) {
+      return res.status(400).json(error('指定された選択肢がこの問題に属していません'));
+    }
+
+    // トランザクション的に更新
+    // 1. まず全ての選択肢のis_correctをfalseに
+    const { error: resetError } = await supabase
+      .from('choices')
+      .update({ is_correct: false })
+      .eq('question_id', id);
+
+    if (resetError) {
+      logger.error('選択肢リセットエラー:', resetError);
+      return res.status(500).json(error('選択肢のリセットに失敗しました'));
+    }
+
+    // 2. 指定された選択肢のみis_correctをtrueに
+    const { data: updatedChoice, error: updateError } = await supabase
+      .from('choices')
+      .update({ is_correct: true })
+      .eq('id', correctChoiceId)
+      .select()
+      .single();
+
+    if (updateError) {
+      logger.error('正答更新エラー:', updateError);
+      return res.status(500).json(error('正答の更新に失敗しました'));
+    }
+
+    logger.info(`問題 ${id} の正答を選択肢 ${correctChoiceId} に更新しました`);
+    res.json(success({
+      message: '正答を更新しました',
+      data: updatedChoice
+    }));
+  } catch (err) {
+    logger.error('正答更新エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
+// 問題文更新エンドポイント
+router.patch('/:id/question-text', async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { id } = req.params;
+    const { questionText } = req.body;
+
+    if (!questionText || typeof questionText !== 'string') {
+      return res.status(400).json(error('問題文が必要です'));
+    }
+
+    // 問題文を更新
+    const { data: updatedQuestion, error: updateError } = await supabase
+      .from('questions')
+      .update({ question_text: questionText })
+      .eq('id', id)
+      .select('id, question_text')
+      .single();
+
+    if (updateError) {
+      logger.error('問題文更新エラー:', updateError);
+      return res.status(500).json(error('問題文の更新に失敗しました'));
+    }
+
+    if (!updatedQuestion) {
+      return res.status(404).json(error('問題が見つかりません'));
+    }
+
+    logger.info(`問題 ${id} の問題文を更新しました`);
+    res.json(success({
+      message: '問題文を更新しました',
+      data: updatedQuestion
+    }));
+  } catch (err) {
+    logger.error('問題文更新エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
+// 解説更新エンドポイント
+router.patch('/:id/explanation', async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { id } = req.params;
+    const { explanation } = req.body;
+
+    if (typeof explanation !== 'string') {
+      return res.status(400).json(error('解説が必要です'));
+    }
+
+    // 解説を更新（空文字列も許可）
+    const { data: updatedQuestion, error: updateError } = await supabase
+      .from('questions')
+      .update({ explanation: explanation })
+      .eq('id', id)
+      .select('id, explanation')
+      .single();
+
+    if (updateError) {
+      logger.error('解説更新エラー:', updateError);
+      return res.status(500).json(error('解説の更新に失敗しました'));
+    }
+
+    if (!updatedQuestion) {
+      return res.status(404).json(error('問題が見つかりません'));
+    }
+
+    logger.info(`問題 ${id} の解説を更新しました`);
+    res.json(success({
+      message: '解説を更新しました',
+      data: updatedQuestion
+    }));
+  } catch (err) {
+    logger.error('解説更新エラー:', err);
     res.status(500).json(error(err.message));
   }
 });

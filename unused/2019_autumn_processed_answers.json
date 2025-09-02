@@ -1,0 +1,3118 @@
+[
+  {
+    "questionId": "84f05ded-ab48-409a-a439-3bff95d4cca9",
+    "questionNumber": 1,
+    "correctChoiceId": "2056a432-e353-49cd-87d6-bc0fc144d458",
+    "correctChoiceLabel": "エ",
+    "explanation": "10進数を2進数に変換するアルゴリズムでは、元の数を2で割った余りを下位桁から順に格納し、商を2で割り続けます。流れ図において、aは配列に余りを格納する処理（NISHIN(k) ← j mod 2）、bは商を更新する処理（j ← j div 2）となります。",
+    "choices": [
+      {
+        "id": "59d16247-8ac5-43f6-8cb5-aaccf851297b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "b=$j \\leftarrow j$ div 2",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "c8e7599b-5c3e-4329-af47-c20a37a8060c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "b=$j \\leftarrow j$ mod 2",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "f2851819-406e-4695-a3e5-0d3be18ba3e5",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "b=NISHIN($k$) $\\leftarrow j$ div 2",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "2056a432-e353-49cd-87d6-bc0fc144d458",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "b=NISHIN($k$) $\\leftarrow j$ mod 2",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "3fe83da1-b390-4530-b141-b7d0881cd86d",
+    "questionNumber": 2,
+    "correctChoiceId": "199561dd-d3df-4cf3-863b-32c77150449f",
+    "correctChoiceLabel": "ウ",
+    "explanation": "全ビットを反転するには、FFH（11111111B）との排他的論理和（XOR）を取ります。XOR演算では、0との演算で元の値、1との演算で反転した値が得られるため、すべてのビットが1のFFHとXORすることで全ビット反転が実現されます。",
+    "choices": [
+      {
+        "id": "3f9a20ac-a420-4b60-b854-6ae8d211e0ee",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "16進表記00のビット列と排他的論理和をとる。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "7ff0f36c-a76a-419b-b314-9fb675ba0644",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "16進表記00のビット列と論理和をとる。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "199561dd-d3df-4cf3-863b-32c77150449f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "16進表記FFのビット列と排他的論理和をとる。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "7641fff0-065e-4ae0-a646-efb0aac87f8f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "16進表記FFのビット列と論理和をとる。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "b008bf82-7aab-4d8c-ae0b-1414796bbf00",
+    "questionNumber": 4,
+    "correctChoiceId": "d3104ac9-eb0a-45d9-92e6-1d11eb35a0cd",
+    "correctChoiceLabel": "ア",
+    "explanation": "g(t)/f(t) = (b/(t²-t)) / (a/(t+1)) = b(t+1)/(a(t²-t)) = b(t+1)/(at(t-1))。t→∞のとき、分子はt、分母はt²のオーダーなので、極限値は0になります。",
+    "choices": [
+      {
+        "id": "d3104ac9-eb0a-45d9-92e6-1d11eb35a0cd",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "0",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "f97a07d4-bf3b-4deb-b43c-a0c67beaa64d",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "1",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "18c01f57-1e60-4181-bb78-0a89e01b8122",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$\\frac{b}{a}$",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "b9cb6432-c0ab-4f26-9dd1-52b001cc6a3b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$\\infty$",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "ba0e7e06-ed86-412c-8e95-6b9e5f5ada68",
+    "questionNumber": 6,
+    "correctChoiceId": "2a4332ff-9b55-407a-a99d-89c9b4365a79",
+    "correctChoiceLabel": "ウ",
+    "explanation": "AとBはそれぞれ0〜9の値を取り、C = A - Bが0になるのはA = Bの場合です。A = B = 0, 1, 2, ..., 9の10通りがあり、全体の場合数は10×10 = 100通りなので、確率は10/100 = 1/10です。",
+    "choices": [
+      {
+        "id": "8e8122f3-94cd-43c4-a6ac-2081dd124943",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$\\frac{1}{100}$",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "4631da3a-3b1f-4f32-be1e-c0a94db4ab45",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$\\frac{1}{20}$",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "2a4332ff-9b55-407a-a99d-89c9b4365a79",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$\\frac{1}{10}$",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "db6513b6-fe94-471b-ad6b-e1839e9d1772",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$\\frac{1}{5}$",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "c8565e0b-16da-4c6c-850c-b487a3ed9afd",
+    "questionNumber": 7,
+    "correctChoiceId": "0c290d0c-c8e1-455c-8bee-01773b82e915",
+    "correctChoiceLabel": "エ",
+    "explanation": "＜変数名＞は＜英字＞で始まり、その後に＜英数字＞（英字、数字、_）を続けることができます。F5_1は、F（英字）で始まり、5（数字）、_（アンダースコア）、1（数字）と続くので、この文法に適合します。",
+    "choices": [
+      {
+        "id": "f0f496b4-7422-47a2-bac7-4d5ec611f216",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "B39",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "46074dd0-435c-47e8-9520-d84a18c013d6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "246",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "f2f8f8fa-a532-46e9-95df-3c2eaf4fd97f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "3E5",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "0c290d0c-c8e1-455c-8bee-01773b82e915",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "F5_1",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "b0ba5f05-cd14-42e7-9034-49c58ae3078e",
+    "questionNumber": 8,
+    "correctChoiceId": "8d09ff13-577c-4d8e-8161-2eaa9586b146",
+    "correctChoiceLabel": "イ",
+    "explanation": "入力順A,C,K,S,T、出力順S,T,A,C,Kを実現するため、スタック操作をシミュレートすると、最低2個のスタックが必要です。1個目でS,Tを処理し、2個目でA,C,Kを処理することで要求された順序を実現できます。",
+    "choices": [
+      {
+        "id": "3e7c86ae-ffff-4f67-9bff-fbe138fa499f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "1",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "8d09ff13-577c-4d8e-8161-2eaa9586b146",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "2",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "c04c005c-2601-4fe3-a2d0-ff179ea4206f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "3",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "99f152a0-6bc6-40ac-9030-5859b1bdc988",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "4",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "d8c709e9-3fd0-41de-80f9-25573af0a868",
+    "questionNumber": 9,
+    "correctChoiceId": "f0a1bf0b-3b91-49a4-8143-f41157995dd8",
+    "correctChoiceLabel": "エ",
+    "explanation": "配列Aを時計回りに90度回転させて配列Bに格納する処理です。回転後の位置関係は B(j, 7-i) ← A(i, j) となります。これにより行列の転置と行の反転が同時に行われ、90度回転が実現されます。",
+    "choices": [
+      {
+        "id": "a317a746-f0bd-4ad1-8b59-bfc8e1a994ac",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$B(7-i, 7-j) \\leftarrow A(i, j)$",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "28952e27-c096-4ce8-b22b-4f385b843460",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$B(7-j, i) \\leftarrow A(i, j)$",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "abaec967-e6a6-45df-b7a8-313a27e3915a",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$B(i, 7-j) \\leftarrow A(i, j)$",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "f0a1bf0b-3b91-49a4-8143-f41157995dd8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$B(j, 7-i) \\leftarrow A(i, j)$",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "2064f638-9029-467b-b3e7-3e0112644d01",
+    "questionNumber": 10,
+    "correctChoiceId": "9cc48800-10ca-436e-89fe-e7b5357ab1ef",
+    "correctChoiceLabel": "イ",
+    "explanation": "54321の各桁の和：5+4+3+2+1 = 15。ハッシュ値 = 15 mod 13 = 2。よって配列の位置2に格納されます。",
+    "choices": [
+      {
+        "id": "ffa853e9-6f5f-4d95-861b-dcba363d6138",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "1",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "9cc48800-10ca-436e-89fe-e7b5357ab1ef",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "2",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "0a3eccfd-fd3b-489e-8c94-e49a454a618d",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "7",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "69913b77-9125-45ec-9b9a-903da8edd3a0",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "11",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "184118bc-c6c6-40bc-9dc8-17b410175fc1",
+    "questionNumber": 11,
+    "correctChoiceId": "95b7d708-a929-45c0-abfe-d2d1c2664ec0",
+    "correctChoiceLabel": "イ",
+    "explanation": "フラッシュメモリは電気的に書換え可能な不揮発性メモリです。電源を切ってもデータが保持され、電気的な操作でデータの書き込み・消去が可能です。",
+    "choices": [
+      {
+        "id": "03c512d7-64fb-4f9a-a2c6-e7d86229beab",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "紫外線で全内容の消去が行えるメモリである。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "95b7d708-a929-45c0-abfe-d2d1c2664ec0",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "電気的に書換え可能な，不揮発性のメモリである。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "c353f07e-a7d2-411f-a690-de90f2e5bd11",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "電源が遮断された状態でも，記憶した情報を保持することができる揮発性のメモリである。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "10f72a17-7820-46ca-8efd-7b13e2ad7446",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "電荷を保持する必要があるので，一定時間ごとにリフレッシュが必要なメモリである。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "6ae2766f-8bf4-4665-b165-d46c6c192699",
+    "questionNumber": 12,
+    "correctChoiceId": "0680b36a-9cc1-4424-8594-e41def9860f0",
+    "correctChoiceLabel": "イ",
+    "explanation": "内部割込みは、CPU内部で発生する割込みです。ゼロで除算を実行した場合は、CPU内部の演算処理で発生する例外的な状況であり、内部割込みに分類されます。",
+    "choices": [
+      {
+        "id": "32081d42-2d5f-4c29-9734-f723acaa0679",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "商用電源の瞬時停電などの電源異常による割込み",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "0680b36a-9cc1-4424-8594-e41def9860f0",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ゼロで除算を実行したことによる割込み",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "3f38a953-f2d9-4ef6-bfcf-9730d6e8e7b5",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "入出力装置からデータ転送を要求する割込み",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "dfdeb0c3-9e24-46ac-b825-1edf564d170e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "メモリパリティエラーによる割込み",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "27597b8b-bb1b-4f72-98bc-612869df6ff1",
+    "questionNumber": 13,
+    "correctChoiceId": "64972e51-c33f-4372-a33c-7d545fc71bba",
+    "correctChoiceLabel": "イ",
+    "explanation": "ディスパッチは、実行可能状態のタスクに対してプロセッサの使用権を実際に割り当てる処理です。スケジューリングで決定された次に実行するタスクを、実際にCPUで実行させる操作がディスパッチです。",
+    "choices": [
+      {
+        "id": "48185169-0161-4166-b3a0-a3c71055e6ea",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "各タスクの実行順序を決定すること",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "64972e51-c33f-4372-a33c-7d545fc71bba",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "実行可能なタスクに対してプロセッサの使用権を割り当てること",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "4c8a6173-f993-4a71-ad67-0e1580f3793b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "タスクの実行に必要な情報であるコンテキストのこと",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "13ec9944-e3ec-4087-80ba-4583152bb138",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "一つのプロセッサで複数のタスクを同時に実行しているかのように見せかけた状態のこと",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "481fedc6-cc8c-443f-b05a-91d002c6f7e1",
+    "questionNumber": 14,
+    "correctChoiceId": "82245858-3e44-4103-8749-984ed9d1bfc7",
+    "correctChoiceLabel": "ア",
+    "explanation": "ノンプリエンプティブスケジューリングは、実行中のタスクが自発的にCPUを解放するまで、他のタスクがCPUを奪取できない方式です。タスクの実行が完了するか、自らブロック状態になるまで実行が継続されます。",
+    "choices": [
+      {
+        "id": "82245858-3e44-4103-8749-984ed9d1bfc7",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "実行状態としているタスクがCPUを自発的に解放するまで，他のタスクが実行状態になれない方式",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "70f46865-c59e-4ee0-8499-3bfe90cc97b5",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "タスクの実行時間帯を広い時間帯と狭い時間帯に分ける方式",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "20574d0e-a261-4e1f-b147-c355015e607c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "タスクの優先度に従ってCPUを割り当てる方式",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "52be3dae-9015-45a1-a162-8abeac442d94",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "一つのタスクに割り当てる量子時間（タイムクウォンタム）を定めたラウンドロビンスケジューリングの方式",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "9576532f-27e0-40e3-9db2-8e5aa3c38a91",
+    "questionNumber": 15,
+    "correctChoiceId": "5a7ffa5d-a76a-49f6-8876-a54a84f9ffe6",
+    "correctChoiceLabel": "ウ",
+    "explanation": "ブロック化係数が大きいほど、1回のシークでより多くのレコードを読み込めるため、処理するレコード件数に対するシーク回数の比は小さくなります。つまり、ブロック化係数に反比例します。",
+    "choices": [
+      {
+        "id": "e52add89-93be-42e8-84fd-ba01d3b348a4",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "シーク動作に要する時間は，ヘッドの移動距離に比例する。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "cf98b758-243d-4b55-9548-ea84b427f1c8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "シークと回転待ちによるアクセス時間の合計の期待値は，ディスク回転速度だけに依存する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "5a7ffa5d-a76a-49f6-8876-a54a84f9ffe6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "処理するレコード件数に対するシーク回数の比は，ブロック化係数に反比例する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "554054ba-3365-4dac-ac54-ca876666ca51",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "使用するファイルに対してブロック内でのレコードの順序を決めるとき，ブロック間ギャップの長さは考慮しない。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "766deae8-86ec-4d71-8523-846e345ff7b4",
+    "questionNumber": 16,
+    "correctChoiceId": "107c3a50-95d2-434e-969f-645e367c2dbb",
+    "correctChoiceLabel": "イ",
+    "explanation": "平均アクセス時間 = 通常アクセス時間 × (1 - ページフォルト率) + (通常アクセス時間 + ページフォルト時間) × ページフォルト率 = 200 × (1 - 10⁻⁶) + (200 + 200×10⁶) × 10⁻⁶ = 200 + 200 = 400ナノ秒",
+    "choices": [
+      {
+        "id": "b7d952a2-1e5e-43e7-b2be-967e4b99fd90",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "200ナノ秒",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "107c3a50-95d2-434e-969f-645e367c2dbb",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "400ナノ秒",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "2e20c152-5e68-4c4c-91a8-499fc7b6b515",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "200マイクロ秒",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "788014ee-f495-4ed2-a06d-1dfa41a59a88",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "400マイクロ秒",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "ab2a1434-8673-41a7-9035-aaf3bcb605c7",
+    "questionNumber": 17,
+    "correctChoiceId": "118fadfb-6c35-449d-bd83-f4529eff4cfe",
+    "correctChoiceLabel": "ア",
+    "explanation": "Eclipseはオープンソースの統合開発環境（IDE）です。Linux（OS）、MySQL（データベース）、Thunderbird（メールクライアント）はIDEではありません。",
+    "choices": [
+      {
+        "id": "118fadfb-6c35-449d-bd83-f4529eff4cfe",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Eclipse",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "7efb4241-48af-479b-9274-856c124b0640",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Linux",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "2038d8fb-efbc-4bd1-bf06-76a96e3b7cad",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "MySQL",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "7c429595-4269-4e1d-8a3a-9a6e850eb88f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Thunderbird",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "160c9843-7e59-49b7-b395-c91ea117cf3d",
+    "questionNumber": 18,
+    "correctChoiceId": "ef128a0b-27cd-467a-8cc2-c8ee6f20da6d",
+    "correctChoiceLabel": "ウ",
+    "explanation": "タスクBが共用領域を使用中の場合、セマフォ変数Sは0になっています。この状態でタスクAがP操作を実行すると、Sが0なのでタスクAは待ち行列に登録され、待ち状態となります。",
+    "choices": [
+      {
+        "id": "98c8bca6-b674-4482-a067-d8d7aa71a4e8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "タスクAが共用領域を使用中にタスクBがP操作を実行したとき",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "c684fd41-1887-4df8-8903-d170e800c6e2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "タスクAが共用領域を使用中にタスクBがV操作を実行したとき",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "ef128a0b-27cd-467a-8cc2-c8ee6f20da6d",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "タスクBが共用領域を使用中にタスクAがP操作を実行したとき",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "b920a39a-91c9-4d83-a545-ccf3bf252bed",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "タスクBが共用領域を使用中にタスクAがV操作を実行したとき",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "54aa6cec-e3c5-4fd6-88c4-45017cb9aff5",
+    "questionNumber": 19,
+    "correctChoiceId": "5be9c510-3adf-41fb-8da8-bebdf5422452",
+    "correctChoiceLabel": "エ",
+    "explanation": "データ7394、重み1234との積和：7×1+3×2+9×3+4×4 = 7+6+27+16 = 56。56を11で割った余りは1。チェックデジット = 11-1 = 10、しかし10は1桁でないため、通常は0と表現され、73940となります。",
+    "choices": [
+      {
+        "id": "d512172b-b43e-45d9-a4b9-20c07dcf9fa2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "73940",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "6b326753-e8cb-46ec-864e-e218bff58a05",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "73941",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "9b26b4fa-c71e-4d14-872a-0f5584c16ef4",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "73944",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "5be9c510-3adf-41fb-8da8-bebdf5422452",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "73947",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "3ba4e83e-42bb-4472-b053-805c8d6d4a2a",
+    "questionNumber": 21,
+    "correctChoiceId": "a4d2c25f-c54c-42de-b626-1326c8129ccc",
+    "correctChoiceLabel": "ウ",
+    "explanation": "プロトタイピングモデルは、ユーザの要求を明確化するために試作版（プロトタイプ）を作成し、ユーザからのフィードバックを得て要件を確定する開発手法です。これにより完成版がユーザのニーズに合いやすくなります。",
+    "choices": [
+      {
+        "id": "2345dd76-f489-4823-b094-25e74464535e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "各フェーズの終了を一定期間で区切って開発を進めるので，開発期間を短縮できる。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "88df4706-59c6-4849-b93b-64f7969c0785",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "段階的に機能を追加しながら開発を進めるので，仕様変更や機能追加を取り込みやすい。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "a4d2c25f-c54c-42de-b626-1326c8129ccc",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ユーザの要求を明確化するために試作版を作るので，完成版がユーザのニーズに合いやすい。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "0ab0e6f5-53c0-43a6-bc6f-230ae43b580f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ユーザビリティを重視して，ユーザインタフェースの設計から開発を始めるので，操作性が向上する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "ecc11fc2-8ea8-4a54-aca9-c417dd4addc2",
+    "questionNumber": 22,
+    "correctChoiceId": "edb26db7-154d-4a6c-927c-82803d753495",
+    "correctChoiceLabel": "ア",
+    "explanation": "リバースエンジニアリングは、既存のソフトウェアやシステムを分析して、その設計情報や仕様を抽出・理解する技法です。ソースコードから設計図を逆算したり、システムの動作原理を解明したりします。",
+    "choices": [
+      {
+        "id": "edb26db7-154d-4a6c-927c-82803d753495",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "既存のソフトウェアやシステムから設計情報を抽出する技法",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "ef9083b0-c49e-4b88-8aef-1663b06f076c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "既存のソフトウェアやシステムの機能を再構築する技法",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "09e0ec83-49c6-436b-8c15-de89295f777d",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "既存のソフトウェアやシステムを自動的に修正する技法",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "3f1430b1-2a9c-49cb-bf85-a1a4a7f312d6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "既存のソフトウェアやシステムを手動で検査する技法",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "3604aae2-47f6-44e4-a096-71e7e671cd2b",
+    "questionNumber": 23,
+    "correctChoiceId": "7f9bd2c2-dc69-44b4-997b-e1a30552bccf",
+    "correctChoiceLabel": "ア",
+    "explanation": "インスペクションは、作成者以外の参加者がモデレータとして主導し、事前に定められた手順に従って短時間で効率よく成果物の欠陥を検出するレビュー技法です。",
+    "choices": [
+      {
+        "id": "7f9bd2c2-dc69-44b4-997b-e1a30552bccf",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "インスペクション",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "4f935ad9-a4f5-45ef-a23e-dada24622d8a",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ウォークスルー",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "bdd3cd6e-5c50-4ab8-b94f-cc53f7de7c22",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ペアプログラミング",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "5e44f2b4-48a9-4884-bb10-af29e2b1004f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ラウンドロビンレビュー",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "f649b617-8e3c-47a1-b48f-ae1885879996",
+    "questionNumber": 24,
+    "correctChoiceId": "f53c4274-4b9e-4f0c-8806-93ba2e6346ce",
+    "correctChoiceLabel": "イ",
+    "explanation": "ファンクションポイント法では、各機能要素に複雑度に応じた重み付けを行い、その合計を計算します。表の値から計算すると、総ファンクションポイント数は310となります。",
+    "choices": [
+      {
+        "id": "a6cc4df7-c2da-4c2f-a41a-623ce3432261",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "290",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "f53c4274-4b9e-4f0c-8806-93ba2e6346ce",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "310",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "8b52017f-473f-4758-ab58-d52d1e18c7bb",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "390",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "00074e42-feca-4654-b503-ba282ef66529",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "415",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "ad3df2b6-19f2-4517-b89d-4ec92e025264",
+    "questionNumber": 25,
+    "correctChoiceId": "ff0ae845-3170-44ad-a927-aad6ce97d53c",
+    "correctChoiceLabel": "イ",
+    "explanation": "DFD（Data Flow Diagram）は、システムにおけるデータの受け渡しに着目した図です。データの流れと処理の関係を視覚的に表現し、システムの機能を理解しやすくします。",
+    "choices": [
+      {
+        "id": "4df5954e-1ce6-4b1d-828b-a3ea2cba8ef2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "管理図面の手順を時系列に表現する図である。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "ff0ae845-3170-44ad-a927-aad6ce97d53c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "システムにおけるデータの受け渡しに着目した図である。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "ac27d425-5ba6-407b-83ec-6ceb1310ea09",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "単位入出力処理における内部手続を表現する図である。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "5a4560e9-c2b8-46c3-8252-9aacdddaf81a",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ファイルとレコードとの関係を表現する図である。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "09814914-8b90-4baf-abe2-6bab1dbec70f",
+    "questionNumber": 26,
+    "correctChoiceId": "9e99b9b8-5e65-48d5-81c7-47d22ab0f148",
+    "correctChoiceLabel": "イ",
+    "explanation": "図の業務フローにおいて、「在庫を調べる」処理の後に「商品を出荷する」処理が続いているため、これらは順次処理の関係にあります。",
+    "choices": [
+      {
+        "id": "8cefaf56-e969-47bb-b390-51d0d4e1ef9f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "排他的OR",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "9e99b9b8-5e65-48d5-81c7-47d22ab0f148",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "順次処理",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "56ba4edb-6e5c-4501-9823-1a6bff2a5f39",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "並行処理",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "d0148294-078b-4b7d-8304-45f4bb2260cb",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "包含的OR",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "191c01a0-6caf-4326-979b-c1388e83d472",
+    "questionNumber": 27,
+    "correctChoiceId": "17a7e412-d23f-4dac-86cd-6910d4351c42",
+    "correctChoiceLabel": "ウ",
+    "explanation": "エンタープライズアーキテクチャにおいて、To-Beは情報システムの理想的な将来像を表すモデルです。現状（As-Is）から理想（To-Be）への移行を計画します。",
+    "choices": [
+      {
+        "id": "ae7de855-58f4-4fb7-9890-90cff461d3d1",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "As-Is",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "e1e6dfb2-476e-4725-be14-182c9e31caa1",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "EA",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "17a7e412-d23f-4dac-86cd-6910d4351c42",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "To-Be",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "023ad283-067b-4be6-81b2-ab54fb49ec85",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Transition",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "e7d3001e-6361-4ba3-9100-41f37117ea03",
+    "questionNumber": 28,
+    "correctChoiceId": "71fb9768-eeb6-42f8-b2ea-0a0007ee54d2",
+    "correctChoiceLabel": "エ",
+    "explanation": "E-R図において、リレーションシップ集合はひし形で表現されます。エンティティ集合は四角形、属性は楕円で表現されます。",
+    "choices": [
+      {
+        "id": "000d68a0-b5a4-49d5-af35-f410fbfac06e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "エンティティ集合は楕円で表現される。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "7e544c89-d4b4-4216-836e-4941c1c65f74",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "エンティティ集合とリレーションシップ集合の対応数は，必ず1対1でなければならない。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "86be00fb-2288-4ecd-b292-a7cd9d9229c0",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "関連エンティティは四角形で表現される。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "71fb9768-eeb6-42f8-b2ea-0a0007ee54d2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "リレーションシップ集合はひし形で表現される。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "55e04502-924a-4ba5-939c-bea26559caa7",
+    "questionNumber": 29,
+    "correctChoiceId": "b7926a47-1eb5-4a96-bffe-56704e0df6dc",
+    "correctChoiceLabel": "ア",
+    "explanation": "総工数 = 1000FP ÷ 20FP/人月 = 50人月。プログラム開発・単体テスト工程は60%なので、50 × 0.6 = 30人月となります。",
+    "choices": [
+      {
+        "id": "b7926a47-1eb5-4a96-bffe-56704e0df6dc",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "30",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "3612fc5c-b3ec-4ba9-a0c2-614610a6b0a2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "50",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "ef307896-556a-4537-9a21-b52ff2b31bf3",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "200",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "d8d376bc-738b-4940-8d5b-c5916ec6e0c3",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "300",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "ba51209b-e469-4971-b7b5-f0ecfadb5c8d",
+    "questionNumber": 30,
+    "correctChoiceId": "423302b5-f911-46c4-b217-db723b00a8c6",
+    "correctChoiceLabel": "イ",
+    "explanation": "バックアップの3-2-1ルールでは、3つのコピーを作成し、2つの異なるメディアに保存し、1つをオフサイトに保管することが推奨されます。",
+    "choices": [
+      {
+        "id": "33244d60-6bfb-459f-8642-070af125b90b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ストアドプロシージャ",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "423302b5-f911-46c4-b217-db723b00a8c6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ファイアウォール",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "425847ab-2124-4b48-95f1-473d39d814e3",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "プリペアドステートメント",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "4226f7ad-33b1-48e8-a4c4-4e54479e0fae",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ロードバランサ",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "2a0233f2-a713-4ceb-9efb-386640d35e6c",
+    "questionNumber": 31,
+    "correctChoiceId": "3313dc61-ab40-4dca-bec5-64a1b75d3490",
+    "correctChoiceLabel": "ウ",
+    "explanation": "RAID5は、複数のディスクにデータとパリティ情報を分散配置し、1台のディスク障害に対する耐障害性を提供するRAIDレベルです。",
+    "choices": [
+      {
+        "id": "f1296089-8e75-4f07-8e03-bae74d55e452",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ALTER TABLE 表名 ALTER COLUMN 列名 データ型;",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "0c126a7d-8abd-4e56-b4f3-ba266aea4951",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ALTER TABLE 表名 CHANGE 列名 データ型;",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "3313dc61-ab40-4dca-bec5-64a1b75d3490",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "CHANGE TABLE 表名 ALTER 列名 データ型;",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "1d821435-14f4-4079-961b-244b3fad7d2e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "UPDATE TABLE 表名 SET 列名 データ型;",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "f91f06b2-ec82-416a-a3e1-7d51a90dd63c",
+    "questionNumber": 33,
+    "correctChoiceId": "ea9518ad-605b-4e37-bbf9-0580c56aee37",
+    "correctChoiceLabel": "エ",
+    "explanation": "OSI参照モデルにおいて、物理層（第1層）はビットストリームの伝送を担当し、電気的・機械的・機能的特性を規定します。",
+    "choices": [
+      {
+        "id": "7c7e9c8d-bcb7-4adc-89dc-ad07f1339371",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースの更新処理をいったん遅延キューに格納し，一定時間経過後にまとめて処理する。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "c0855bd9-c5fd-4749-acf3-f4e21f155898",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースの更新処理をログとして記録してから，データベースの更新を行う。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "4dc3404d-cf61-499f-a29c-a6a6f68fe3a3",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースの更新内容をファイルに複製を作成し，障害時には複製ファイルを使って回復する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "ea9518ad-605b-4e37-bbf9-0580c56aee37",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースの更新頻度の高いページを主記憶上に常駐させ，更新処理を高速化する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "95895a3f-e6b1-4fb3-a7ff-1ff3eb44090e",
+    "questionNumber": 34,
+    "correctChoiceId": "e2020582-3b4f-43fe-a636-9f7fb235348f",
+    "correctChoiceLabel": "ア",
+    "explanation": "TCP/IPプロトコルスイートにおいて、TCPは信頼性のあるコネクション型通信を提供し、データの順序保証と誤り訂正機能を持ちます。",
+    "choices": [
+      {
+        "id": "e2020582-3b4f-43fe-a636-9f7fb235348f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "2相コミット",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "dca157af-a444-4fa3-af74-4283f8b1852d",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "シャドウページング",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "54a5bcd7-30a5-4243-9181-2d29207273e6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "チェックポイント",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "19cfb432-2671-4f49-bf26-b39b66d3d18e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ロールバック",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "b5c68c22-d285-48d9-b469-63c540ae5ac2",
+    "questionNumber": 35,
+    "correctChoiceId": "7580ba9e-7e8d-4544-ba70-d0b0125ee2e6",
+    "correctChoiceLabel": "イ",
+    "explanation": "DNSは階層構造を持つ分散型データベースシステムで、ドメイン名とIPアドレスの対応関係を管理します。",
+    "choices": [
+      {
+        "id": "f1b3c9e7-244d-46f3-9fe2-d22894bbcd4b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "アクセス記録をファイアウォールで監視する。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "7580ba9e-7e8d-4544-ba70-d0b0125ee2e6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースサーバにパッチを適用する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "714cc812-ac48-4a68-adbd-02db34680d72",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースの利用者の認証を強化する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "07495d5b-6a8e-4e8b-8746-89173a098397",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースをネットワークから分離する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "662ed94d-fe25-4674-8a14-2aa35501063f",
+    "questionNumber": 36,
+    "correctChoiceId": "4fc9c7b1-bab0-4f17-81cd-8e1bc0a3251a",
+    "correctChoiceLabel": "ウ",
+    "explanation": "HTTPSはHTTPにSSL/TLSによる暗号化を加えたプロトコルで、Webブラウザとサーバ間の安全な通信を実現します。",
+    "choices": [
+      {
+        "id": "fef2d0d2-87e4-4b91-965c-c6b89e9df044",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "送信データにタイムスタンプを付与し，受信側でタイムスタンプを確認することによって送信順序を保証する。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "caa6f36c-ce03-4129-8a3e-26205051d4bb",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "送信権を表すトークンを順次受け渡すことによって，同時送信を回避する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "4fc9c7b1-bab0-4f17-81cd-8e1bc0a3251a",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データ送信前に回線の使用状況を調べ，空いていればデータを送信する。同時送信を検知した場合は送信を中止する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "435c3021-5f94-49fb-bd67-75222b900412",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データ送信権を一定時間ごとに各ノードに公平に割り当てることによって，同時送信を回避する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "650f80fd-d8b3-4585-96c8-87ab7b3e97c7",
+    "questionNumber": 37,
+    "correctChoiceId": "94284f59-3340-43bc-be71-76bdc2f7db36",
+    "correctChoiceLabel": "エ",
+    "explanation": "IPv6は128ビットのアドレス空間を持ち、IPv4の32ビットと比較して大幅にアドレス空間が拡張されています。",
+    "choices": [
+      {
+        "id": "e5c9ad4a-6f16-4122-b952-2adaf2eca027",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "192.168.1.0",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "6aee97f8-5501-4960-b699-e0e769e98947",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "192.168.1.8",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "b588f712-d223-4ae1-9c70-a22bfbf514f7",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "192.168.1.10",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "94284f59-3340-43bc-be71-76bdc2f7db36",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "192.168.1.12",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "a6a13a22-7e73-42e6-9c7b-7c4f11aa066f",
+    "questionNumber": 38,
+    "correctChoiceId": "273a910a-0415-4d19-997e-9d2df3d74a10",
+    "correctChoiceLabel": "ア",
+    "explanation": "ルータは異なるネットワーク間でパケットを転送する装置で、IPアドレスを基にルーティングテーブルを参照して最適な経路を決定します。",
+    "choices": [
+      {
+        "id": "273a910a-0415-4d19-997e-9d2df3d74a10",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "IPアドレスを用途によってクラス分けすること",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "74a26984-4a43-4d42-b53c-04158730b9be",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "IPパケットを経路上の最大転送単位（MTU）に合わせて分割すること",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "930b88b8-bb3b-4d5f-98ba-f0f7cc1485aa",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "IPパケットを複数のネットワークに同時送信すること",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "cce3acd8-6759-4dd1-8c14-c3ea570984b1",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "IPパケットをプライベートアドレスとグローバルアドレスに変換すること",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "3e4d814b-4f0b-40d8-902e-0eb254355e7a",
+    "questionNumber": 39,
+    "correctChoiceId": "fda8b57e-d419-45c6-9e01-eb78bb0bc032",
+    "correctChoiceLabel": "イ",
+    "explanation": "ファイアウォールはネットワークセキュリティを向上させるため、事前に設定されたルールに基づいてパケットの通過を制御します。",
+    "choices": [
+      {
+        "id": "7474bbd1-8350-4c8b-8256-61184c08375b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "スイッチ機能をもつハブは，すべてのポートに接続された機器に対してデータを送信する。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "fda8b57e-d419-45c6-9e01-eb78bb0bc032",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "スイッチングハブは，MACアドレスを管理することによって，宛先への最短経路を決定する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "014b6c2e-cda1-4a6c-9556-06518510a350",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ブリッジは，異なるネットワーク間でIPアドレスを変換する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "bce9e1bb-b601-412c-a68e-babbe27b673f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ルータは，IPアドレスを参照してパケットの転送先を決定する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "9d8eb425-d613-4941-aeea-40a88bb3eb1b",
+    "questionNumber": 40,
+    "correctChoiceId": "3eda1d7f-a6db-4b20-9665-aa1202aa6820",
+    "correctChoiceLabel": "ウ",
+    "explanation": "VLANは物理的なネットワーク構成に関係なく、論理的にネットワークを分割する技術です。",
+    "choices": [
+      {
+        "id": "a8cdf229-14ce-40dd-a721-c356d0f6b274",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "インターネット上でドメイン名とIPアドレスを対応付けるサービス",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "33c8f75c-52fd-4fab-a5eb-e9cefd756bb2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "インターネット上でファイルを転送するためのプロトコル",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "3eda1d7f-a6db-4b20-9665-aa1202aa6820",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "インターネット上で電子メールを転送するためのプロトコル",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "131d7782-4cbd-42e8-9da1-603e0736d056",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "インターネット上でWebページを閲覧するためのプロトコル",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "565ef870-5ce9-4401-bed0-c446c907a145",
+    "questionNumber": 41,
+    "correctChoiceId": "7e76ba2d-e764-45e7-9245-5177fba2ea6e",
+    "correctChoiceLabel": "エ",
+    "explanation": "デジタル署名は送信者の認証と データの完全性を保証する技術で、秘密鍵で署名し、公開鍵で検証します。",
+    "choices": [
+      {
+        "id": "4f0665a2-a84a-43c3-9578-9ab0e609795d",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "暗号化鍵と復号鍵が異なる。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "a4822b17-f5e2-4d32-94fe-96ad0548e21f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "暗号化鍵と復号鍵が同じである。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "74536460-3706-4b72-94a8-7ea3f2c35550",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "暗号化に用いる鍵は秘密にする必要がある。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "7e76ba2d-e764-45e7-9245-5177fba2ea6e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "通信相手が増加すると，鍵の数が指数関数的に増加する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "ff62fcfc-65b0-4b1b-a91a-2aa7c8b6bdee",
+    "questionNumber": 42,
+    "correctChoiceId": "1bfc1ef6-9d5c-4aa8-9814-c8ec449d1d48",
+    "correctChoiceLabel": "ア",
+    "explanation": "共通鍵暗号方式では、暗号化と復号化に同じ鍵を使用します。高速な処理が可能ですが、鍵の配布が課題となります。",
+    "choices": [
+      {
+        "id": "1bfc1ef6-9d5c-4aa8-9814-c8ec449d1d48",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "受信者は送信者の公開鍵を使って署名を検証する。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "5d64b4d8-cc1b-49f5-be02-effa326372fd",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "受信者は送信者の秘密鍵を使って署名を検証する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "809bc9fd-c2f2-4612-988c-2c4cdc64cfd6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "送信者は受信者の公開鍵を使って署名を作成する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "71908db1-533b-4319-98bf-c3ac954ec2de",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "送信者は受信者の秘密鍵を使って署名を作成する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "6afd4e75-a5af-4f65-bb6b-3c35d0252339",
+    "questionNumber": 43,
+    "correctChoiceId": "a7a78ec1-f9d8-4aa6-9232-580a59556bea",
+    "correctChoiceLabel": "イ",
+    "explanation": "公開鍵暗号方式では、公開鍵と秘密鍵のペアを使用し、一方で暗号化したデータをもう一方で復号化します。",
+    "choices": [
+      {
+        "id": "56afe55c-51c6-437a-8101-95141e7a5fc3",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "DES",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "a7a78ec1-f9d8-4aa6-9232-580a59556bea",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "公開鍵暗号方式",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "8051b088-bf55-40f2-ba80-ed1e116bbbcf",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ハッシュ関数",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "5d181c42-ac93-43f5-bb80-92d0252cccf8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ディジタル署名",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "ba51c67e-0d0d-4d3a-a881-2c796e1654d6",
+    "questionNumber": 44,
+    "correctChoiceId": "fe6d8ee2-5279-481f-b540-243725f9e150",
+    "correctChoiceLabel": "ウ",
+    "explanation": "ハッシュ関数は任意の長さのデータを固定長の値（ハッシュ値）に変換する関数で、データの完全性確認に使用されます。",
+    "choices": [
+      {
+        "id": "65a30d3d-a21b-4355-bcf0-85d922f6a6d2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "HTTP → HTTPS",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "bdd398c1-13d8-4efc-bfe7-e6328a839885",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "FTP → FTPS",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "fe6d8ee2-5279-481f-b540-243725f9e150",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "SMTP → SMTPS",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "41000bfc-5c39-4ae1-9224-d224805b7d2e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "すべて",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "4be085a0-c135-45a1-9e37-88bc7a9077ef",
+    "questionNumber": 45,
+    "correctChoiceId": "91ef418f-dc26-42fb-a37e-27ef1471b2dd",
+    "correctChoiceLabel": "エ",
+    "explanation": "PKI（Public Key Infrastructure）は公開鍵暗号を基盤とした認証システムで、デジタル証明書の発行・管理を行います。",
+    "choices": [
+      {
+        "id": "bbef7607-dd58-4245-aebe-76a8f4204671",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "外部からの不正侵入は防げるが，内部からの不正なアクセスは検知できない。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "eec9c0b1-f736-4c2d-aa5f-0b2002df21e0",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "通過するすべてのパケットのウイルスチェックを行うことができる。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "5f1d21d0-9d0b-4a10-b0b5-0bb5a90a6c50",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ネットワーク間の通信を制御し，不正な通信を遮断する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "91ef418f-dc26-42fb-a37e-27ef1471b2dd",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ネットワークのトラフィック分析を行い，ネットワークの性能を向上させる。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "edab8721-8333-4b74-bd3e-c3eb874a9754",
+    "questionNumber": 46,
+    "correctChoiceId": "187bb565-3e5b-46f9-ac02-ef96caa133c8",
+    "correctChoiceLabel": "ア",
+    "explanation": "SQL Injectionは、Webアプリケーションの入力フィールドに悪意のあるSQL文を挿入し、データベースを不正操作する攻撃手法です。",
+    "choices": [
+      {
+        "id": "187bb565-3e5b-46f9-ac02-ef96caa133c8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "過去のインシデント情報を分析して，将来のリスクを数値で評価する。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "15fa0a5b-bd08-4a55-bdc7-2e69fcdb101a",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "専門家の経験と知識に基づいて，リスクをHigh，Medium，Lowなどで評価する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "c4745dfb-314e-4fed-ba94-52cfc74cb487",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "統計的手法や確率的手法を用いて，リスクの大きさを金額などの数値で評価する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "81aaa49c-8ca3-4399-ad1d-3a225b3106d7",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "リスクの発生頻度をアンケート調査によって主観的に評価する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "cb283898-d882-4d08-9576-17664f6a5e66",
+    "questionNumber": 47,
+    "correctChoiceId": "e2953c85-1644-4e91-84bd-f6ee135b384c",
+    "correctChoiceLabel": "イ",
+    "explanation": "クロスサイトスクリプティング（XSS）は、Webサイトに悪意のあるスクリプトを埋め込み、ユーザのブラウザで実行させる攻撃です。",
+    "choices": [
+      {
+        "id": "711133af-22ab-4b28-ae58-93f9b17bbf83",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "基本方針では，情報セキュリティに関する経営陣の意思を示す。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "e2953c85-1644-4e91-84bd-f6ee135b384c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "基本方針では，情報セキュリティ実施のための具体的な手順を示す。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "e6480b97-ad12-45d2-8ce1-8d6af1e846fd",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "基本方針では，情報セキュリティ運用の日常業務手順を示す。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "44ca5e2c-0a0c-4505-b33a-7151b9a4f72f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "基本方針では，情報セキュリティ教育の内容を詳細に記述する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "158d0c8e-f001-48cd-a183-95e3eb7d339a",
+    "questionNumber": 48,
+    "correctChoiceId": "fbd6deb0-d87a-4348-a02f-3c86c08c1670",
+    "correctChoiceLabel": "ウ",
+    "explanation": "DoS攻撃は、サーバやネットワークに大量のリクエストを送信してサービスを利用不可能にする攻撃手法です。",
+    "choices": [
+      {
+        "id": "1f3e68e5-9fb6-4f6b-bd1b-df5e16d407f6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Webアプリケーションへの入力値のサニタイジング（無害化）を行う。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "fc860883-3aa2-40f3-838b-14442b3781d7",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Webサーバに不要なサービスをインストールしない。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "fbd6deb0-d87a-4348-a02f-3c86c08c1670",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Webサーバのソフトウェアを最新版に更新する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "cb000a2b-75b0-4fda-b89a-047b7556a51f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Webサーバへのアクセスをファイアウォールで制限する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "457c0b18-6f4f-45bf-a943-a0c84dbdbc86",
+    "questionNumber": 49,
+    "correctChoiceId": "a8297a21-1853-4ca6-9534-3104f99b31e8",
+    "correctChoiceLabel": "エ",
+    "explanation": "フィッシング攻撃は、正規のWebサイトを模倣した偽サイトに誘導し、個人情報を詐取する攻撃手法です。",
+    "choices": [
+      {
+        "id": "6286bcb8-6623-4754-8e21-6a93f06c5e82",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "AES",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "453136d0-c4cd-4cbc-afca-92e59928c3f4",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "DES",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "fa4f44fa-3c5b-41d9-b66d-db88ce7d1784",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "RC4",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "a8297a21-1853-4ca6-9534-3104f99b31e8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "RSA",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "a055c4a4-120c-4243-a029-58a8b736417f",
+    "questionNumber": 50,
+    "correctChoiceId": "59de2b09-083a-4904-816a-287482c1ee07",
+    "correctChoiceLabel": "ア",
+    "explanation": "マルウェアは悪意のあるソフトウェアの総称で、ウイルス、ワーム、トロイの木馬などが含まれます。",
+    "choices": [
+      {
+        "id": "59de2b09-083a-4904-816a-287482c1ee07",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ウイルス定義ファイルを最新にしていれば，未知のウイルスも検出できる。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "fc7a5f80-74e7-484c-a622-de51e5d9d5fc",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ウイルスの感染を防ぐには，アンチウイルスソフトのインストールだけで十分である。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "d9470d58-cbca-4bbb-b473-702953e6bdfd",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ウイルススキャンでは，実行形式ファイル以外は検査対象にならない。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "2f1e0a3e-76bc-44c4-8c6e-fb1469e2f331",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "新種のウイルスが出現した場合，ウイルス定義ファイルの更新が必要になることがある。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "ab3e3bba-d275-4f78-8f76-6823a43ea2c5",
+    "questionNumber": 51,
+    "correctChoiceId": "d6bc4878-e562-4b56-a81e-06878b32ba82",
+    "correctChoiceLabel": "イ",
+    "explanation": "情報セキュリティの3要素は機密性（Confidentiality）、完全性（Integrity）、可用性（Availability）です。",
+    "choices": [
+      {
+        "id": "8f7f0b2d-a3a9-4085-9dfc-2d0f7f56cabe",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ISOは，国際標準化機構の略称である。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "d6bc4878-e562-4b56-a81e-06878b32ba82",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "JISは，世界標準規格を表している。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "5a829521-ead9-4ef0-8f4a-caad343e0b31",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "デジュール標準は，市場での競争を通じて事実上の標準として確立される。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "ed9e36ff-66f4-4e1d-a284-f0951ffcfc2b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "デファクト標準は，標準化機関によって制定される標準である。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "2bad023d-e11c-4c95-9f4e-35a9c214e4c5",
+    "questionNumber": 52,
+    "correctChoiceId": "d5db690a-1117-4f27-b152-6586d5fa9797",
+    "correctChoiceLabel": "ウ",
+    "explanation": "アクセス制御は、システムリソースに対するユーザのアクセス権を管理・制御するセキュリティ機能です。",
+    "choices": [
+      {
+        "id": "889e49e1-089d-4ab4-b860-dbfeb2585e98",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "異常な操作に対してはエラーメッセージを表示し，操作者に再操作を促す。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "fccac21e-03d6-4190-b0cd-c3452e09fde9",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "繰り返し操作となる機能については，操作の簡略化を図る。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "d5db690a-1117-4f27-b152-6586d5fa9797",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "誤操作を防ぐために，確認メッセージを可能な限り数多く表示する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "52473a56-e81a-4fda-aecd-ded97a0502fe",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "初心者でも理解しやすい表示項目名や表現を採用する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "2045f35a-4e2f-4589-b3db-946309882f9d",
+    "questionNumber": 53,
+    "correctChoiceId": "63711519-8071-4445-817b-e03d79bb4304",
+    "correctChoiceLabel": "エ",
+    "explanation": "リスクアセスメントは、情報資産に対する脅威と脆弱性を特定し、リスクの大きさを評価するプロセスです。",
+    "choices": [
+      {
+        "id": "8ca49ad7-4646-4798-ad29-35fde7cc8851",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "IaaS",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "26b08c13-6d4d-47e9-a586-412cada78fc0",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "PaaS",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "d4aa5f04-6b08-4308-b49e-ff5fbde40782",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "SaaS",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "63711519-8071-4445-817b-e03d79bb4304",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "いずれも同じ",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "a696bd70-ec40-483c-905d-2d2787a3a5f8",
+    "questionNumber": 54,
+    "correctChoiceId": "396c0c9a-2d3c-4e47-a3ec-5180196dcf84",
+    "correctChoiceLabel": "ア",
+    "explanation": "関係データベースにおいて、主キーは各レコードを一意に識別するための属性（または属性の組み合わせ）です。",
+    "choices": [
+      {
+        "id": "396c0c9a-2d3c-4e47-a3ec-5180196dcf84",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "監査意見を形成し，監査報告書を作成する。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "9a56d678-2822-456c-bc36-85884787d881",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "監査計画で決定した監査手続を実施する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "10ac0cc5-b3e1-4d5f-a938-617f9c177882",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "監査業務のリスクを識別し，監査計画を策定する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "76de840a-3c44-4284-b1b9-0f6cd96135b8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "情報システムの統制の不備を詳細に調査する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "b39f2923-f94e-49dc-81aa-e812019e0e72",
+    "questionNumber": 55,
+    "correctChoiceId": "70941471-9bb0-4216-b49b-5d7a5098cb04",
+    "correctChoiceLabel": "イ",
+    "explanation": "外部キーは他のテーブルの主キーを参照する属性で、テーブル間の関連を表現します。参照整合性を保証する役割があります。",
+    "choices": [
+      {
+        "id": "145c34ae-18a6-47ec-b501-4651ef7d4333",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "意匠権",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "70941471-9bb0-4216-b49b-5d7a5098cb04",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "実用新案権",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "aba7ffc6-ff39-40cb-b328-7e3a87249928",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "特許権",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "d3f5da15-abaa-4099-9dd1-cac9b295b731",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "すべて",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "e142a468-4977-4843-8082-8d700a5f7f54",
+    "questionNumber": 56,
+    "correctChoiceId": "ee035134-c48f-41aa-aa9a-64e5486d1ee2",
+    "correctChoiceLabel": "ウ",
+    "explanation": "正規化は、データの冗長性を排除し、更新異常を防ぐためにテーブルを適切に分割するプロセスです。",
+    "choices": [
+      {
+        "id": "b77958c5-5000-4ab0-a3d7-11d592bf12d4",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ITサービスの利用者の要求事項を明確にする。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "02ff212d-9103-4681-9d03-55411bbc56d8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ITサービスの品質を継続的に改善する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "ee035134-c48f-41aa-aa9a-64e5486d1ee2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "災害などが発生してもITサービスを継続又は早期復旧できるようにする。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "dcb6e82a-66fa-4a88-a230-51c3c3a4d3f6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "不具合が発生した場合に迅速に問題を解決する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "af21c33f-1953-4cab-a50c-aedc747c442f",
+    "questionNumber": 57,
+    "correctChoiceId": "c7676ade-ce4a-4093-9a67-0f874eccb2af",
+    "correctChoiceLabel": "エ",
+    "explanation": "SELECT文は、データベースからデータを検索・取得するためのSQL文です。WHERE句で条件を指定できます。",
+    "choices": [
+      {
+        "id": "7838a88b-863d-4576-9f69-adee5a6aea20",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ITガバナンスとは，ITを導入することによって業務の効率性を向上させることである。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "5d55f761-b405-4264-b6f2-3b684bb930ed",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ITガバナンスとは，企業がITを活用して競争力を獲得するためのIT戦略を策定することである。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "d059fce8-45bb-4236-a617-62ddbf9f8a09",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ITガバナンスとは，企業のIT利用における意思決定の責任の明確化や統制メカニズムの確立などを通じて，企業価値の向上を図ることである。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "c7676ade-ce4a-4093-9a67-0f874eccb2af",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "ITガバナンスとは，企業のもつ情報資産を有効活用するためのITインフラを整備することである。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "22bfc8c3-6ed1-4d49-b6b7-a3a37294e45e",
+    "questionNumber": 58,
+    "correctChoiceId": "80914197-dcb2-4b3d-a7c2-24b5a5d78a4c",
+    "correctChoiceLabel": "ア",
+    "explanation": "トランザクションは、データベースに対する一連の操作をまとめた処理単位で、ACID特性を満たす必要があります。",
+    "choices": [
+      {
+        "id": "80914197-dcb2-4b3d-a7c2-24b5a5d78a4c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "14",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "f116908f-9849-47f9-99a9-0d36d0ca4c80",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "15",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "8b34c85b-1a87-42a2-b2f7-c34aa2e08b8f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "16",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "f3de7b07-b6f4-4d9e-8984-fe529c962e2e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "17",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "32f21e2b-4ddf-42e4-a145-2f59ca40bfb1",
+    "questionNumber": 59,
+    "correctChoiceId": "882edf46-472e-466e-9379-908822ae4ff0",
+    "correctChoiceLabel": "イ",
+    "explanation": "排他制御は、複数のトランザクションが同じデータに同時アクセスする際の競合を防ぐ仕組みです。",
+    "choices": [
+      {
+        "id": "6136ecb7-31b4-4aa2-9074-a0825c11894d",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "システム化計画の策定",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "882edf46-472e-466e-9379-908822ae4ff0",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "システムの外部設計",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "5c4598b8-a405-4a76-a91d-ee5df579ab8d",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "システムの結合テスト",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "47b8776f-aef8-4b87-a0a7-bef2e10f9b2b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "システムの詳細設計",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "002a05e6-29ba-4c14-8f72-62cd862a554e",
+    "questionNumber": 60,
+    "correctChoiceId": "bb38e772-3193-47e6-b14d-1807144611d8",
+    "correctChoiceLabel": "ウ",
+    "explanation": "データベースのバックアップは、システム障害やデータ破損に備えて定期的にデータの複製を作成することです。",
+    "choices": [
+      {
+        "id": "d7a031de-8316-4dc2-8f65-6b18b9fad73e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "運用・保守費用は開発費用の1.5～2倍程度といわれている。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "ebd3c98b-3291-4436-85fa-03d26b784764",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "運用・保守費用は，システムの稼働開始とともに発生が終了する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "bb38e772-3193-47e6-b14d-1807144611d8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "システムライフサイクル全体におけるコストの大半は開発コストが占める。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "2b795c68-8802-4dbd-ae2f-4d8d7cd54601",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "保守には，障害対応だけでなく機能改善も含まれる。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "87e9f074-0dc7-4323-82d4-58f3e8172e9f",
+    "questionNumber": 61,
+    "correctChoiceId": "20550f22-6efe-4cbd-9c87-e5deeff3f497",
+    "correctChoiceLabel": "エ",
+    "explanation": "インデックスは、データベースの検索性能を向上させるためにテーブルの特定の列に作成するデータ構造です。",
+    "choices": [
+      {
+        "id": "ad3437e0-f8a6-4a11-93dd-324d2824d52c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "アウトソーシング",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "4e742241-38f1-4df4-a1f3-8ac0732c902c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "事業の多角化",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "d0580d38-1fbc-415e-a5ba-e019c85bfb5e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "垂直統合",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "20550f22-6efe-4cbd-9c87-e5deeff3f497",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "水平統合",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "8017c321-5b13-43dc-b808-cbe84fb1a232",
+    "questionNumber": 62,
+    "correctChoiceId": "fd29b9a1-82aa-4128-a9cd-d5eda0209a94",
+    "correctChoiceLabel": "ア",
+    "explanation": "UMLは統一モデリング言語の略で、ソフトウェア開発においてシステムの設計を図式化するための標準記法です。",
+    "choices": [
+      {
+        "id": "fd29b9a1-82aa-4128-a9cd-d5eda0209a94",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "機能別組織",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "774c846e-4d72-43cc-83ee-1d0ec1b26072",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "事業部制組織",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "2d6fab5f-f301-4d60-a6fd-cbf09837dca1",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "プロジェクト組織",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "c83d6507-b1de-42cd-99b8-bf4e99183949",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "マトリックス組織",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "78c10d58-fb2a-4c86-b296-3476c4c2d16a",
+    "questionNumber": 63,
+    "correctChoiceId": "2a787e54-04b5-47e0-976f-77da30021c0f",
+    "correctChoiceLabel": "イ",
+    "explanation": "クラス図は、システムを構成するクラスとその関係を表現するUML図の一種です。",
+    "choices": [
+      {
+        "id": "a2693c01-5963-4e73-814b-6283df8d58da",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "機会（Opportunity）と脅威（Threat）",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "2a787e54-04b5-47e0-976f-77da30021c0f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "機会（Opportunity）と弱み（Weakness）",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "4ed6333b-9744-40f6-8892-9e8dfc95f6c8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "強み（Strength）と機会（Opportunity）",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "d366bfb7-a3a0-4cc0-b2c9-2f23248b06a4",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "強み（Strength）と弱み（Weakness）",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "216adf50-7af6-4eb3-be8b-dda90f6ee2b3",
+    "questionNumber": 64,
+    "correctChoiceId": "aca42a08-5abc-4a5f-b3a8-ecc36df6fe5f",
+    "correctChoiceLabel": "ウ",
+    "explanation": "シーケンス図は、オブジェクト間のメッセージのやり取りを時系列で表現するUML図です。",
+    "choices": [
+      {
+        "id": "7d672de6-0913-4ad6-9af0-f38095c68714",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "貸借対照表",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "a7a07bc0-774a-48b3-99e1-664493aa403c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "キャッシュフロー計算書",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "aca42a08-5abc-4a5f-b3a8-ecc36df6fe5f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "損益計算書",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "1376e6d8-08b9-4cde-8ef3-868dbd8bf6d2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "株主資本等変動計算書",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "7f7099a9-78ba-4303-a986-d49cce93be85",
+    "questionNumber": 65,
+    "correctChoiceId": "351d140c-e92a-440c-97fe-27292fc616c6",
+    "correctChoiceLabel": "エ",
+    "explanation": "ユースケース図は、システムの機能をユーザの視点から表現するUML図で、アクターとユースケースの関係を示します。",
+    "choices": [
+      {
+        "id": "430455c6-7d75-4eaf-846b-f12d38b764d5",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Place（流通）",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "cb7789d5-147e-4d52-873e-dd6605425ef3",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Price（価格）",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "dc3c4440-3237-4335-9d0d-12bc78411734",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Process（プロセス）",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "351d140c-e92a-440c-97fe-27292fc616c6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "Product（製品）",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "08224da7-e04d-49b9-a396-eb50d2a7d56b",
+    "questionNumber": 66,
+    "correctChoiceId": "28c32a2f-34ac-46a2-a50b-6b720a56af79",
+    "correctChoiceLabel": "ア",
+    "explanation": "ウォーターフォールモデルは、システム開発を順次的に進める開発手法で、前工程の完了後に次工程に進みます。",
+    "choices": [
+      {
+        "id": "28c32a2f-34ac-46a2-a50b-6b720a56af79",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "作業A",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "ed624b6e-69a0-4a47-b168-36f8b4f778bb",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "作業B",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "c821d3ad-b93f-47c5-a8df-71f2ef94b043",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "作業C",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "a979794d-6bcb-49f8-8990-e7acd52d05a2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "作業D",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "caa8c429-cf3b-4ad3-9ee9-e585c193967e",
+    "questionNumber": 67,
+    "correctChoiceId": "5edaeb30-bb40-4b78-80e6-127670dd48e1",
+    "correctChoiceLabel": "イ",
+    "explanation": "アジャイル開発は、短期間の反復開発を繰り返し、顧客との協調を重視する開発手法です。",
+    "choices": [
+      {
+        "id": "934ec1d7-658a-4d70-b73b-8503e55c0f9f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "過去の実績データから季節変動を除去して将来の需要を予測する。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "5edaeb30-bb40-4b78-80e6-127670dd48e1",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "過去のデータの中で直近の一定期間の平均値を求めて将来の需要を予測する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "66fd8300-a977-4f08-985b-c1ccc126bb9d",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "過去のデータに重み付けを行い，直近のデータほど大きな重みを付けて将来の需要を予測する。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "24bd447b-8b57-49bd-9d6d-db41dda2eb8b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "複数の変数間の相関関係を利用して将来の需要を予測する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "1c84787a-e0da-4e8f-80c5-46e43c21dfaa",
+    "questionNumber": 68,
+    "correctChoiceId": "873d242a-0a93-4e44-af93-92e6faf9324a",
+    "correctChoiceLabel": "ウ",
+    "explanation": "スパイラルモデルは、リスクを考慮しながら反復的に開発を進める手法で、プロトタイピングと段階的開発を組み合わせます。",
+    "choices": [
+      {
+        "id": "120ac849-095c-493d-a07b-7da9e7b2e5a3",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "著作権の保護期間は，著作者の死後20年である。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "84c855cb-8ef3-4a50-b653-c2473e819df6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "著作権は，著作物を創作した時点で自動的に発生する。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "873d242a-0a93-4e44-af93-92e6faf9324a",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "著作権を取得するためには，文化庁への登録が必要である。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "a0dfadc6-2458-421d-a7d7-c4aa2ba289de",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "プログラムの著作権保護期間は，公表後15年である。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "30d187b1-5102-495e-8076-d23a597ab019",
+    "questionNumber": 69,
+    "correctChoiceId": "325fb63e-df39-49b3-9c59-9261eae87ccb",
+    "correctChoiceLabel": "エ",
+    "explanation": "テストケースは、ソフトウェアテストにおいて実行する具体的なテスト条件と期待結果を定義したものです。",
+    "choices": [
+      {
+        "id": "560c050f-4c7a-4547-a454-e4da21867265",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "個人情報の取扱いに関する第三者認証制度である。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "aa1f3a2f-ef1e-4387-a9c2-ff73f5e9ad4b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "国際標準化機構（ISO）が運営している制度である。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "d39ac1fe-4d70-46bf-b092-e664ca9149a2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "すべての事業者が取得を義務付けられている。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "325fb63e-df39-49b3-9c59-9261eae87ccb",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "認定の有効期間は5年間である。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "d5e11e2d-50da-4a73-bc70-493226734233",
+    "questionNumber": 70,
+    "correctChoiceId": "34ca82bc-f579-4949-8774-1c4effce492c",
+    "correctChoiceLabel": "ア",
+    "explanation": "単体テストは、プログラムの最小単位（モジュール）を対象とするテストで、各モジュールが仕様通り動作するかを確認します。",
+    "choices": [
+      {
+        "id": "34ca82bc-f579-4949-8774-1c4effce492c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "クレジットカードの磁気ストライプ",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "73b46981-1e58-490a-af52-cf5cf8d9e613",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "在庫管理システム",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "02dc79be-e9e6-4f94-a7bf-7b784b7d0ce9",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "インターネットショッピングサイト",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "1c4c8a44-f48e-48ad-8c42-1c65c0da0c22",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "電子メールシステム",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "211d3c71-04d3-4dba-a6ae-374c185c1ef3",
+    "questionNumber": 71,
+    "correctChoiceId": "ff063222-b543-4b2f-a60d-7d9269ede482",
+    "correctChoiceLabel": "イ",
+    "explanation": "結合テストは、複数のモジュールを組み合わせて、モジュール間のインタフェースが正しく動作するかを確認するテストです。",
+    "choices": [
+      {
+        "id": "fb9cd239-f118-43d8-951a-621a4b809263",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "暗号化",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "ff063222-b543-4b2f-a60d-7d9269ede482",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "冗長化",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "496f527d-3b52-4976-94b5-8c8159775ec8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "正規化",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "1425dc9b-af83-4600-a2b4-0a29ce6056be",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "仮想化",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "83ca3459-bbc8-464d-a00e-ce928f6f8f33",
+    "questionNumber": 72,
+    "correctChoiceId": "26d3d076-279d-4157-9322-423c29039fc5",
+    "correctChoiceLabel": "ウ",
+    "explanation": "システムテストは、システム全体が要求仕様を満たしているかを確認するテストで、実際の運用環境に近い条件で実施されます。",
+    "choices": [
+      {
+        "id": "548d3572-dc46-46a4-94ef-4cfdc7ebab0b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "企業の業務プロセスを根本的に見直し，再設計すること",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "dc3bae5f-19f3-4ca6-908b-deeaa07a610a",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "企業の情報システムを統合すること",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "26d3d076-279d-4157-9322-423c29039fc5",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "企業の組織構造を階層化すること",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "1554ecda-4d2b-4947-82ee-eebaa58a5e62",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "企業の財務諸表を分析すること",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "1726f668-d9ce-4723-9188-25ebc1de85f1",
+    "questionNumber": 73,
+    "correctChoiceId": "84f542af-0a25-44ac-83a6-a7b8e2db9e53",
+    "correctChoiceLabel": "エ",
+    "explanation": "運用テストは、実際の運用環境でシステムが期待通り動作するかを確認するテストです。",
+    "choices": [
+      {
+        "id": "23f9e85a-ce21-486a-bfa4-221fb389242e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "原材料の調達から製品の販売まで一連の流れを最適化し，全体のコストを削減すること",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "4715e3d0-a8ad-404c-a8c2-cccf20ca1ef5",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "企業の財務状況を改善すること",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "d3574df6-9886-4f66-b772-bfe44fed34be",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "顧客満足度を向上させること",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "84f542af-0a25-44ac-83a6-a7b8e2db9e53",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "従業員のモチベーションを向上させること",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "3b68b615-6e6e-4397-aa73-1026770b74cf",
+    "questionNumber": 74,
+    "correctChoiceId": "20aef46b-6381-4801-8bb1-633a52e6f623",
+    "correctChoiceLabel": "ア",
+    "explanation": "プロジェクト管理においてスコープとは、プロジェクトで達成すべき成果物と作業の範囲を定義したものです。",
+    "choices": [
+      {
+        "id": "20aef46b-6381-4801-8bb1-633a52e6f623",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "大量のデータから有用な情報やパターンを発見する技術",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "1813ff76-d780-4dc7-9c42-bde08f034e78",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースからデータを削除する技術",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "e39c1f88-ce5a-40ff-92c7-128c436fd564",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースにデータを格納する技術",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "7605817e-84c5-46cd-b373-cfd9b6206938",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データベースの性能を向上させる技術",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "4a0063c6-8947-448c-84b7-2407fc3ae43f",
+    "questionNumber": 75,
+    "correctChoiceId": "bbb4551c-f9ef-4ca2-a184-4f19f1db8ff6",
+    "correctChoiceLabel": "イ",
+    "explanation": "WBS（Work Breakdown Structure）は、プロジェクトの作業を階層的に分解した構造で、作業の全体像を把握するために使用されます。",
+    "choices": [
+      {
+        "id": "44ccd7d8-d0f8-4075-9272-4ebcd0358996",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "12.2",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "bbb4551c-f9ef-4ca2-a184-4f19f1db8ff6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "15.8",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "0190f28e-cfde-4f78-8b42-b7a9b8701519",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "19.4",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "b3c1aabd-f46f-4328-9b7c-1a99e35bbca2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "22.6",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "5b583f31-8fcd-42b8-890f-3e15b31683fe",
+    "questionNumber": 76,
+    "correctChoiceId": "c1a5cb8d-5d0e-46e4-aa3e-450118dc1c14",
+    "correctChoiceLabel": "ウ",
+    "explanation": "クリティカルパスは、プロジェクトにおいて最も時間がかかる作業経路で、プロジェクト全体の所要時間を決定します。",
+    "choices": [
+      {
+        "id": "e83516ad-6d2b-4924-b4f0-630c4e379e7f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "10%",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "faa8e0d0-f439-4a7d-977b-c2cd8743aecd",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "20%",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "c1a5cb8d-5d0e-46e4-aa3e-450118dc1c14",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "25%",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "db736c44-1310-4503-8d87-dd2dfeb7f088",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "50%",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "67cb15a4-f3ca-4071-a265-76c644097c99",
+    "questionNumber": 77,
+    "correctChoiceId": "739d0070-515d-4d5a-bf59-5d2685220a73",
+    "correctChoiceLabel": "エ",
+    "explanation": "コスト管理は、プロジェクトの予算を計画し、実際のコストを監視・制御するプロジェクト管理プロセスです。",
+    "choices": [
+      {
+        "id": "8741faa8-d802-4ff4-a2bf-4806179687e5",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "過去の入力データと出力データのペアを用いて，新しい入力に対する出力を予測するモデルを構築する学習手法",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "8515ecc8-5bba-47f4-8524-f46ff94722ea",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "入力データのみを用いて，データの構造やパターンを発見する学習手法",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "29292276-0dde-4d3c-ab93-be1fe73f51da",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "環境との相互作用を通じて，報酬を最大化する行動を学習する手法",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "739d0070-515d-4d5a-bf59-5d2685220a73",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "複数の学習手法を組み合わせて，予測精度を向上させる手法",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "fae318f3-fc97-4059-bf4b-be1c4ac6bf83",
+    "questionNumber": 78,
+    "correctChoiceId": "4e529f0f-1a42-4b86-be90-867d2caf3f8b",
+    "correctChoiceLabel": "ア",
+    "explanation": "品質管理は、プロジェクトの成果物が要求された品質基準を満たすことを確保するプロセスです。",
+    "choices": [
+      {
+        "id": "4e529f0f-1a42-4b86-be90-867d2caf3f8b",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "インターネット上でファイルを共有するサービス",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "1216f311-8c2b-41db-b037-6356929f961e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "コンピュータやスマートフォン以外の様々な「モノ」をインターネットに接続する技術",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "48d0737e-cae0-4319-807c-de7f96b2c486",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "インターネット上で動画を配信するサービス",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "f6760995-4336-420e-95d3-faedcf193bae",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "インターネットを利用した電子商取引",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "741460cd-dd34-469f-baa9-b8a8b3f6440c",
+    "questionNumber": 79,
+    "correctChoiceId": "6e2023a1-0453-4d7a-b931-16d8ea910949",
+    "correctChoiceLabel": "イ",
+    "explanation": "リスク管理は、プロジェクトに影響を与える可能性のある不確実な事象を特定し、対策を講じるプロセスです。",
+    "choices": [
+      {
+        "id": "c6c89dca-60b6-4edd-a319-a0c229719c88",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データの多様性",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "6e2023a1-0453-4d7a-b931-16d8ea910949",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データの価値",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "0a9bc7c2-5edc-4f0c-a78a-784ef1e94038",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データの処理速度",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "18bae5f4-ef54-40f6-983f-a4cee39a3f9f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データの量",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  },
+  {
+    "questionId": "04d2abed-aa5d-4a28-a612-08f73743c447",
+    "questionNumber": 80,
+    "correctChoiceId": "75262778-c789-460b-8ea9-bf3f9823998a",
+    "correctChoiceLabel": "ウ",
+    "explanation": "ステークホルダー管理は、プロジェクトに影響を与える、または影響を受ける関係者との適切な関係を維持するプロセスです。",
+    "choices": [
+      {
+        "id": "a37b8de6-3219-48e5-b851-9b4c04f2518e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "利用者は必要な時に必要な分だけリソースを利用できる。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "20d29286-cb9e-4adb-9296-2bff90fc482e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "利用者はサーバやストレージなどのハードウェアを保有する必要がない。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "75262778-c789-460b-8ea9-bf3f9823998a",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "利用者は専用線を介してのみサービスを利用できる。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "bda298f2-795a-4b95-8df3-85055552073c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "複数の利用者がリソースを共有して利用する。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ]
+  }
+]

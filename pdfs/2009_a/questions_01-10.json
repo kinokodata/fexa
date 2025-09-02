@@ -1,0 +1,522 @@
+[
+  {
+    "id": "225dba6b-0e9e-4f15-b40b-4272d639454a",
+    "question_number": 1,
+    "question_type": "午前",
+    "question_text": "16進数2Aを10進数に変換した値はどれか。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:17:20.454928+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "16進数から10進数への変換は、各桁に16のべき乗を掛けて合計します。\n\n- 2A₁₆ = 2 × 16¹ + A × 16⁰\n- A₁₆ = 10₁₀なので\n- 2A₁₆ = 2 × 16 + 10 × 1 = 32 + 10 = 42",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "860b2928-e5ee-444e-b13e-7939a8db58d8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "28",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "65c68281-2750-4801-8a78-9cdbc8222bfa",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "42",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "4017e40b-d5db-4ebb-8c57-eb2a58dd6a20",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "52",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "e3954701-0d11-4a88-9e61-5f8ac25409b2",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "58",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  },
+  {
+    "id": "ed71ce45-96f4-4a05-abf5-05fb30543294",
+    "question_number": 2,
+    "question_type": "午前",
+    "question_text": "負の整数を2の補数で表現するとき、8ビットで表現できる数値の範囲はどれか。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:17:20.706535+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "8ビットの2の補数表現では：\n- 最上位ビットが符号ビット（0:正、1:負）\n- 表現範囲は -2⁷ から 2⁷-1\n- つまり -128 から 127",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "dee4d16c-2920-4778-80b9-6e2928ad9d55",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "-127～+127",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "14f27002-d3c4-4ab6-8df6-a02df020a79a",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "-127～+128",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "f864c81a-bbc8-4e9f-aabe-46531083c498",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "-128～+127",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "1baa2750-d2fb-4d9e-b642-8cb61f9eb4c6",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "-128～+128",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  },
+  {
+    "id": "babd3c35-896a-4397-802a-275e1e57db21",
+    "question_number": 3,
+    "question_type": "午前",
+    "question_text": "論理演算において、AとBの排他的論理和 A⊕B が1になるのはどの場合か。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:17:20.901814+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "排他的論理和（XOR）は、入力が異なる場合に1を出力します。\n\n| A | B | A⊕B |\n|---|---|-----|\n| 0 | 0 | 0 |\n| 0 | 1 | 1 |\n| 1 | 0 | 1 |\n| 1 | 1 | 0 |",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "7e06a2e6-34d5-4718-b705-f5ae976db4c4",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "A=0, B=0",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "e04b82a2-1e5b-4c0a-8e3c-a7a32c131360",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "A=0, B=1",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "ca7d74dd-73a2-4528-8592-de13e5e48a78",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "A=1, B=0",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "7ad71315-68ba-4e8a-b7d7-832da7d93f30",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "イとウ",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  },
+  {
+    "id": "e7d070bf-b39a-4049-a8d4-b0509fd42961",
+    "question_number": 4,
+    "question_type": "午前",
+    "question_text": "数値を2進数で格納するとき、小数点以下を表現するのに適した表現方法はどれか。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:17:21.145429+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "小数を含む数値の表現方法：\n- **浮動小数点表現**: 広い範囲の小数を効率的に表現可能\n- 固定小数点表現: 精度は一定だが範囲が限定的\n- 整数表現: 小数は表現不可\n- BCD: 10進数の各桁を4ビットで表現、効率が悪い",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "ceefa943-ef6e-4797-9b71-25f163987699",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "固定小数点",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "8556185b-3312-42aa-a290-4545230e997f",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "浮動小数点",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "c2ac2b5e-9193-49b0-b9aa-26dbc4ea3c81",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "符号なし整数",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "9c83be3c-0fd3-41c0-9bd4-b34c59903935",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "符号付き整数",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  },
+  {
+    "id": "1eb2e853-6ebc-4e7c-a050-df34dc5e128e",
+    "question_number": 5,
+    "question_type": "午前",
+    "question_text": "スタック（Stack）に関する記述として、適切なものはどれか。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:14:26.947765+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "スタックは後入れ先出し（LIFO: Last In First Out）のデータ構造です。\n\n主な特徴：\n- 最後に追加したデータを最初に取り出す\n- プッシュ（追加）とポップ（取り出し）操作\n- 関数呼び出しの管理、式の評価などに使用",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "1a74afd7-17b4-460c-a0d3-4f4bd2ed8224",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "データの追加と削除が、同じ端（先頭）で行われるデータ構造である。",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "740551ac-b2b9-4a44-bdde-c1fcae51e103",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データの追加は一方の端で、削除は他方の端で行われるデータ構造である。",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "bba4d9f1-1d9c-448d-ac48-a7538f9d0393",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データの検索時間が、データの個数に関係なく一定であるデータ構造である。",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "20fde661-7c71-445a-b815-4b34cd773bf1",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データをキー値によって整列して格納するデータ構造である。",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  },
+  {
+    "id": "e251489b-4958-47b8-af82-3988435b40cf",
+    "question_number": 6,
+    "question_type": "午前",
+    "question_text": "キュー（Queue）の特徴として、適切なものはどれか。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:14:49.542836+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "キューは先入れ先出し（FIFO: First In First Out）のデータ構造です。\n\n主な特徴：\n- 最初に追加したデータを最初に取り出す\n- エンキュー（追加）とデキュー（取り出し）操作\n- プロセス管理、印刷ジョブ管理などに使用",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "8e1a5031-a5cb-4247-8e11-d5b5264f5634",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "FIFO（First In, First Out）",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "8db41d9a-3fd3-4e06-9f86-e80b3df22db5",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "LIFO（Last In, First Out）",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "0725b4d3-54a6-4ab0-be37-2b5d48e27f08",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データの挿入位置が任意",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "aa14a706-b33e-435c-aba7-680bdd114081",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "データの削除位置が任意",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  },
+  {
+    "id": "add32ec6-21b9-4cc8-adfb-68dfea6902de",
+    "question_number": 7,
+    "question_type": "午前",
+    "question_text": "2分探索法（二分探索法）で、配列の要素数が $n$ のとき、最大比較回数は何回か。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:17:21.791261+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "2分探索法は、ソート済み配列で中央値と比較して探索範囲を半分に絞る方法です。\n\n- 1回の比較で探索範囲が半分になる\n- 最大比較回数 = ⌈log₂n⌉\n- n個の要素から1個になるまでの分割回数",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "ba06a4c5-41aa-4809-9714-dcb940e47a32",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "n",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "c07046b2-3bf4-49dd-bd07-379f36ef40e8",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "n/2",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "b84ef17b-1bab-4881-8a7f-19eb56528aea",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "$\\log_2 n$",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "a6aef098-191b-404d-aa95-7d4f3ac13e05",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$n \\log_2 n$",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  },
+  {
+    "id": "240993b2-e6f5-42e3-8a58-39a2c1006435",
+    "question_number": 8,
+    "question_type": "午前",
+    "question_text": "バブルソートの時間計算量はどれか。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:17:21.974618+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "バブルソートは隣接要素を比較・交換する単純なソートアルゴリズムです。\n\n- 最悪の場合: O(n²) - すべての要素が逆順\n- 平均的な場合: O(n²)\n- 最良の場合: O(n) - すでにソート済み（改良版）",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "3fa4e642-68d8-47ba-b44a-0d7d77fdc50e",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$O(n)$",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "b561a642-bcc3-44e1-b596-4e05fb6d012c",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$O(n \\log n)$",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "e8cd9523-ab72-4fc9-a52d-152f182b5613",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "$O(n^2)$",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "b88d02bd-5829-42e2-a9bb-107fe85578d3",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "$O(2^n)$",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  },
+  {
+    "id": "fc10993d-04e0-49c2-a996-a97249960844",
+    "question_number": 9,
+    "question_type": "午前",
+    "question_text": "木構造において、子を持たないノードを何と呼ぶか。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:17:22.166616+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "木構造の用語：\n- **リーフ（葉）**: 子を持たないノード\n- ルート（根）: 親を持たないノード\n- ノード（節点）: 木の構成要素\n- エッジ（辺）: ノード間の接続",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "e18ec2b2-cec9-41fe-96d2-22d509592225",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "枝",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "a0f0c138-3a43-4170-a3b6-11f1b11c86f2",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "葉（リーフ）",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "91b69326-7cfb-4a63-b918-03b97fb2ce07",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "根（ルート）",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "2f7b26f7-6f08-436b-a10f-aedc13f4f129",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "節（ノード）",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  },
+  {
+    "id": "21c7b971-0227-43b8-8690-a84af3b9ac10",
+    "question_number": 10,
+    "question_type": "午前",
+    "question_text": "関係データベースにおいて、主キー（Primary Key）の特徴として適切でないものはどれか。",
+    "has_image": false,
+    "has_choice_table": false,
+    "choice_table_type": null,
+    "choice_table_markdown": null,
+    "created_at": "2025-09-01T09:17:22.34776+00:00",
+    "is_checked": false,
+    "checked_at": null,
+    "checked_by": null,
+    "explanation": "主キーの特徴：\n- **一意性**: テーブル内で重複しない\n- **非NULL**: NULL値を持てない\n- **不変性**: 一度設定したら変更しない（推奨）\n- 複数の列で構成可能（複合主キー）\n\n適切でないもの：\n- 「NULL値を許可する」は誤り",
+    "exam_id": "05512209-37f5-4b14-9b36-4605f5cf0038",
+    "choices": [
+      {
+        "id": "f3e89b2c-3e1f-4f4b-8c44-3f74c1a73147",
+        "has_image": false,
+        "is_correct": true,
+        "choice_text": "NULL値を含むことができる",
+        "choice_label": "ア",
+        "choice_images": []
+      },
+      {
+        "id": "f5ba7ac2-44ea-40ea-9f7c-3ec4c1841e09",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "テーブル内で一意性を持つ",
+        "choice_label": "イ",
+        "choice_images": []
+      },
+      {
+        "id": "beed1dff-e3cf-4698-bd68-4606d06f8a12",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "テーブル内の各行を一意に識別する",
+        "choice_label": "ウ",
+        "choice_images": []
+      },
+      {
+        "id": "c9458ab3-bb02-4ad5-affc-d2d602c1be7f",
+        "has_image": false,
+        "is_correct": false,
+        "choice_text": "複数の列の組み合わせでも構成できる",
+        "choice_label": "エ",
+        "choice_images": []
+      }
+    ],
+    "categories": null,
+    "question_images": []
+  }
+]

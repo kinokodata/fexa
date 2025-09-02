@@ -1,0 +1,272 @@
+{
+  "225dba6b-0e9e-4f15-b40b-4272d639454a": {
+    "question_number": 1,
+    "correct_choice": "イ",
+    "explanation": "16進数2Aを10進数に変換するには、各桁に16の累乗を掛けて合計します。2A₁₆ = 2×16¹ + A×16⁰ = 2×16 + 10×1 = 32 + 10 = 42となります。16進数のA～Fは10進数の10～15に対応するため、Aは10です。他の選択肢：28は16進数1Cの値、52は16進数34の値、58は16進数3Aの値に相当します。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "28",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "42",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "52",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "58",
+        "is_correct": false
+      }
+    ]
+  },
+  "ed71ce45-96f4-4a05-abf5-05fb30543294": {
+    "question_number": 2,
+    "correct_choice": "ウ",
+    "explanation": "8ビット2の補数表現では、最上位ビットが符号ビット（0:正、1:負）となります。表現範囲は-2⁷から2⁷-1、つまり-128から+127となります。これは負数の方が1つ多く表現できる特徴があります。選択肢アとイは負数の範囲が1つ少なく、エは正数の範囲が1つ多すぎます。2の補数では0が正数側にあるため、このような非対称性が生じます。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "-127～+127",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "-127～+128",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "-128～+127",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "-128～+128",
+        "is_correct": false
+      }
+    ]
+  },
+  "babd3c35-896a-4397-802a-275e1e57db21": {
+    "question_number": 3,
+    "correct_choice": "エ",
+    "explanation": "排他的論理和（XOR、⊕）は、入力が異なる場合に1を出力する論理演算です。真理値表では、A=0かつB=1の時（選択肢イ）と、A=1かつB=0の時（選択肢ウ）に出力が1になります。よって「イとウ」が正解です。選択肢アのA=0,B=0は両方とも0で同じ値なので出力は0になります。XORは「異なる」時に1、「同じ」時に0と覚えましょう。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "A=0, B=0",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "A=0, B=1",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "A=1, B=0",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "イとウ",
+        "is_correct": true
+      }
+    ]
+  },
+  "e7d070bf-b39a-4049-a8d4-b0509fd42961": {
+    "question_number": 4,
+    "correct_choice": "イ",
+    "explanation": "小数点以下を表現するには浮動小数点表現が適しています。浮動小数点は仮数部と指数部に分けて表現し、非常に大きな数から小さな数まで幅広い範囲の小数を効率的に表現できます。選択肢アの固定小数点は小数点位置が固定されるため表現範囲が限定され、ウ・エの整数表現では小数部分を表現できません。IEEE 754などの浮動小数点規格が広く使用されています。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "固定小数点",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "浮動小数点",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "符号なし整数",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "符号付き整数",
+        "is_correct": false
+      }
+    ]
+  },
+  "1eb2e853-6ebc-4e7c-a050-df34dc5e128e": {
+    "question_number": 5,
+    "correct_choice": "ア",
+    "explanation": "スタックは後入れ先出し（LIFO: Last In First Out）のデータ構造で、データの追加（Push）と削除（Pop）が同じ端（先頭）で行われます。選択肢イはキューの特徴（片方の端で追加、もう片方の端で削除）、選択肢ウはハッシュテーブルの特徴、選択肢エは平衡木などの特徴を表しています。スタックは関数呼び出し、戻りアドレスの管理、式の評価などで使用されます。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "データの追加と削除が、同じ端（先頭）で行われるデータ構造である。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "データの追加は一方の端で、削除は他方の端で行われるデータ構造である。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "データの検索時間が、データの個数に関係なく一定であるデータ構造である。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "データをキー値によって整列して格納するデータ構造である。",
+        "is_correct": false
+      }
+    ]
+  },
+  "e251489b-4958-47b8-af82-3988435b40cf": {
+    "question_number": 6,
+    "correct_choice": "ア",
+    "explanation": "キューは先入れ先出し（FIFO: First In First Out）のデータ構造です。最初に入れたデータが最初に取り出されます。選択肢イのLIFO（Last In First Out）はスタックの特徴です。選択肢ウ・エの「任意の位置での挿入・削除」は配列やリストの特徴です。キューはプロセスの待ち行列、印刷ジョブの管理、幅優先探索など、順序を保って処理したい場面で使用されます。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "FIFO（First In, First Out）",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "LIFO（Last In, First Out）",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "データの挿入位置が任意",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "データの削除位置が任意",
+        "is_correct": false
+      }
+    ]
+  },
+  "add32ec6-21b9-4cc8-adfb-68dfea6902de": {
+    "question_number": 7,
+    "correct_choice": "ウ",
+    "explanation": "2分探索法は、ソート済み配列の中央値と目標値を比較し、探索範囲を半分に絞り込む方法です。1回の比較で探索範囲が半分になるため、n個の要素から1個になるまでの分割回数は最大⌈log₂n⌉回となります。選択肢アのnは線形探索、イのn/2は最良の場合の線形探索、エのn log nはクイックソートなどのソートアルゴリズムの計算量です。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "n",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "n/2",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "$\\log_2 n$",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "$n \\log_2 n$",
+        "is_correct": false
+      }
+    ]
+  },
+  "240993b2-e6f5-42e3-8a58-39a2c1006435": {
+    "question_number": 8,
+    "correct_choice": "ウ",
+    "explanation": "バブルソートは隣接する要素を比較し、順序が逆なら交換する操作を繰り返すソートアルゴリズムです。最悪の場合（逆順の配列）では、n個の要素に対してn(n-1)/2回の比較が必要となり、時間計算量はO(n²)となります。選択肢アのO(n)は最良の場合の改良版バブルソート、イのO(n log n)はマージソートやクイックソートの平均計算量、エのO(2^n)は指数時間アルゴリズムです。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "$O(n)$",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "$O(n \\log n)$",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "$O(n^2)$",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "$O(2^n)$",
+        "is_correct": false
+      }
+    ]
+  },
+  "fc10993d-04e0-49c2-a996-a97249960844": {
+    "question_number": 9,
+    "correct_choice": "イ",
+    "explanation": "木構造において、子ノードを持たない末端のノードを「葉（リーフ）」と呼びます。選択肢アの「枝」はノード間の接続（エッジ）、ウの「根（ルート）」は親を持たない最上位のノード、エの「節（ノード）」は木の各要素を指します。木構造はファイルシステム、組織図、決定木、データベースのB木インデックスなど多くの場面で使用される重要なデータ構造です。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "枝",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "葉（リーフ）",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "根（ルート）",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "節（ノード）",
+        "is_correct": false
+      }
+    ]
+  },
+  "21c7b971-0227-43b8-8690-a84af3b9ac10": {
+    "question_number": 10,
+    "correct_choice": "ア",
+    "explanation": "主キーは関係データベースにおいて各レコードを一意に識別するための重要な制約です。主キーの特徴は、一意性（重複不可）、非NULL（NULL値不可）、不変性（変更非推奨）です。選択肢アの「NULL値を含むことができる」は主キーの制約に反するため適切ではありません。選択肢イ・ウは主キーの基本的な性質、エは複合主キー（複数列による主キー）の説明で、いずれも正しい特徴です。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "NULL値を含むことができる",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "テーブル内で一意性を持つ",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "テーブル内の各行を一意に識別する",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "複数の列の組み合わせでも構成できる",
+        "is_correct": false
+      }
+    ]
+  }
+}

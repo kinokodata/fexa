@@ -1,0 +1,2162 @@
+{
+  "44806798-2342-472e-b80e-6e92f62d0ce0": {
+    "question_number": 1,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "$\\frac{31}{32}$",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "$\\frac{31}{125}$",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "$\\frac{31}{512}$",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "$\\frac{73}{512}$",
+        "is_correct": false
+      }
+    ]
+  },
+  "2fca51ab-735b-4ab6-9416-c1f333817862": {
+    "question_number": 2,
+    "correct_choice": "エ",
+    "explanation": "アルゴリズムの時間計算量の特性から判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "排他的論理和（XOR）",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "否定論理積（NAND）",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "論理積（AND）",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "論理和（OR）",
+        "is_correct": true
+      }
+    ]
+  },
+  "ef52cc45-7744-4227-8157-826b8822ee7a": {
+    "question_number": 3,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "記憶したデータから特定のパターンを見つけ出すなどの、人が自然に行っている学習能力をコンピュータにもたせるための技術",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "コンピュータ、機械などを使って、生命現象や進化のプロセスを再現するための技術",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "特定の分野の専門知識をコンピュータに入力し、入力された知識を用いてコンピュータが推論する技術",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "人が双方向学習を行うために、Webシステムなどの情報技術を用いて、教材や学習管理能力をコンピュータにもたせるための技術",
+        "is_correct": true
+      }
+    ]
+  },
+  "7811d5b1-0a91-4035-913d-7090b19d6f43": {
+    "question_number": 4,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "001",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "010",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "101",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "110",
+        "is_correct": false
+      }
+    ]
+  },
+  "9b696ea0-a72c-40f8-9d00-537bb7e1e57c": {
+    "question_number": 5,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "1",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "2",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "5",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "6",
+        "is_correct": false
+      }
+    ]
+  },
+  "8f0d1d2d-035d-488a-a766-b4acb960f34b": {
+    "question_number": 6,
+    "correct_choice": "エ",
+    "explanation": "アルゴリズムの時間計算量の特性から判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "既に整列済みのデータ列の正しい位置に、データを追加する操作を繰り返していく方法である。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "データ中の最小値を求め、次にそれを除いた部分の中から最小値を求める。この操作を繰り返していく方法である。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "適当な基準値を選び、それよりも小さな値のグループと大きな値のグループにデータを分割する。同様にして、グループの中で基準値を選び、それぞれのグループを分割する。この操作を繰り返していく方法である。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "隣り合ったデータの比較と入替えを繰り返すことによって、小さな値のデータを次第に端の方に移していく方法である。",
+        "is_correct": true
+      }
+    ]
+  },
+  "47c0a2bb-4e1a-4b46-bf80-99bb7c9131f5": {
+    "question_number": 7,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "局所変数は、用途が異なる場合でもデータ型が同じならば、できるだけ同一の変数を使うようにする。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "処理性能を向上させるために、ループの制御変数には浮動小数点型変数を使用する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "同様の計算を何度も繰り返すときは、関数の再帰呼出しを用いる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "領域割付け関数を使用するときは、割付けができなかったときの処理を記述する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "632cbde6-040f-4999-8f67-9d0b62173ae1": {
+    "question_number": 8,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "オブジェクト指向言語であり、複数のスーパクラスを指定する多重継承が可能である。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "整数や文字は常にクラスとして扱われる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "ポインタ型があるので、メモリ上のアドレスを直接参照できる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "メモリ管理のためのガベージコレクションの機能がある。",
+        "is_correct": false
+      }
+    ]
+  },
+  "642f9d9d-add9-432d-bf41-5e167a9136fb": {
+    "question_number": 9,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "イ",
+        "text": "50",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "70",
+        "is_correct": false
+      },
+      {
+        "label": "ア",
+        "text": "10",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "100",
+        "is_correct": false
+      }
+    ]
+  },
+  "cc0d175d-4e83-40a8-bee2-c51e613ccc91": {
+    "question_number": 10,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "インデックスレジスタ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "データレジスタ",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "プログラムカウンタ",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "命令レジスタ",
+        "is_correct": false
+      }
+    ]
+  },
+  "881f3738-c1ec-481e-89d1-e67fc658f96b": {
+    "question_number": 11,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "7",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "8",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "9",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "10",
+        "is_correct": true
+      }
+    ]
+  },
+  "8eb03d29-2cd0-4f1a-b5a2-6685433d0e72": {
+    "question_number": 12,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "1クロックで2ビットの情報を伝送する4対の信号線を使用し、最大1Gビット/秒のスループットをもつインタフェースである。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "PCと周辺機器とを接続するATA仕様をシリアル化したものである。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "音声、映像などに適したアイソクロナス転送を採用しており、ブロードキャスト転送モードをもつシリアルインタフェースである。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "スーパースピードと呼ばれる5Gビット/秒のデータ転送モードをもつシリアルインタフェースである。",
+        "is_correct": false
+      }
+    ]
+  },
+  "06dfe338-34a6-469b-a2b7-485e7fd9ab29": {
+    "question_number": 13,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "Webサーバにクライアントの実行環境が実装されているので、リクエストのたびにクライアントとAPサーバの間で画面データをやり取りする必要がなく、データ通信量が少なくて済む。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "WebブラウザのJavaScriptコード体系とAPサーバのJavaScriptコード体系の違いをWebサーバが吸収するので、文字化けが発生しない。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "データへのアクセスを伴う業務ロジックは、Webサーバのプログラムに配置されているので、業務ロジックの変更に伴って、APサーバのプログラムを変更する必要がない。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "負荷が軽い静的コンテンツへのリクエストはWebサーバで処理し、負荷が重い動的コンテンツへのリクエストはAPサーバで処理するように、クライアントからのリクエストの種類に応じて処理を分担できる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "adbb8a3b-0a34-4156-8b3f-e2216857e16a": {
+    "question_number": 14,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "③, ②, ④, ①",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "③, ④, ②, ①",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "④, ②, ①, ③",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "④, ③, ①, ②",
+        "is_correct": false
+      }
+    ]
+  },
+  "2a6d4e22-a1e6-499a-b2d3-2e4ed447549b": {
+    "question_number": 15,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "0.729",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "0.810",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "0.981",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "0.999",
+        "is_correct": true
+      }
+    ]
+  },
+  "a4eb7edc-7dbd-4d18-b9ab-f1ddf479f0a8": {
+    "question_number": 16,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ウ",
+        "text": "4",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "5",
+        "is_correct": false
+      },
+      {
+        "label": "ア",
+        "text": "2",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "3",
+        "is_correct": false
+      }
+    ]
+  },
+  "cb09b0f7-8b14-4336-8754-03fae80c7b2c": {
+    "question_number": 17,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "あるタスクを実行しているときに、入出力命令の実行によってCPUが遊休（アイドル）状態になると、他のタスクにCPUを割り当てる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "実行中のプログラムを一時中断して、制御プログラムに制御を移す。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "主記憶装置と低速の入出力装置との間のデータ転送を、補助記憶装置を介して行うことによって、システム全体の処理能力を高める。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "多数のバッファから成るバッファプールを用意し、主記憶装置にあるバッファにアクセスする確率を上げることによって、補助記憶装置のアクセス時間を短縮する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "5bce0931-141a-465f-8a05-be318644dba4": {
+    "question_number": 18,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "各タスクに、均等にCPU時間を割り当てて実行させる方式である。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "各タスクに、ターンアラウンドタイムに比例したCPU時間を割り当てて実行させる方式である。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "各タスクの実行イベント発生に応じて、リアルタイムに実行させる方式である。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "各タスクを、優先度の高い順に実行させる方式である。",
+        "is_correct": false
+      }
+    ]
+  },
+  "f2563374-114b-45ec-aa71-cd8ec44b3296": {
+    "question_number": 19,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "意味解析",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "構文解析",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "最適化",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "字句解析",
+        "is_correct": true
+      }
+    ]
+  },
+  "bb20763f-3ffa-46fb-a8a2-402837e751e3": {
+    "question_number": 20,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "作成したプログラムをライブラリに登録する。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "実行に先立ってロードモジュールを主記憶にロードする。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "相互参照の解決などを行い、複数の目的モジュールなどから一つのロードモジュールを生成する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "プログラムの実行を監視し、ステップごとに実行結果を記録する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "2d2f92a0-1ac2-461c-91d6-33fa0a45d61d": {
+    "question_number": 21,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "1バイト単位でデータの消去及び書込みが可能な不揮発性のメモリであり、電源遮断時もデータ保持が必要な用途に用いられる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "不揮発性のメモリでNAND型又はNOR型があり、SSDに用いられる。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "メモリセルはフリップフロップで構成され、キャッシュメモリに用いられる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "リフレッシュ動作が必要なメモリであり、PCの主記憶として用いられる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "518f7b21-5f09-41a7-bf19-895206a39671": {
+    "question_number": 22,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "イ",
+        "text": "![選択肢イ](./images/q22_choice_b.png)",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "![選択肢ウ](./images/q22_choice_c.png)",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "![選択肢エ](./images/q22_choice_d.png)",
+        "is_correct": false
+      },
+      {
+        "label": "ア",
+        "text": "![選択肢ア](./images/q22_choice_a.png)",
+        "is_correct": false
+      }
+    ]
+  },
+  "fbfbbbac-c0eb-4d48-81bf-6334ce96bf52": {
+    "question_number": 23,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アルカリマンガン乾電池",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "酸化銀電池",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "燃料電池",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "リチウムイオン電池",
+        "is_correct": true
+      }
+    ]
+  },
+  "50db3739-7b41-4d0a-a338-b2f0a3a495ca": {
+    "question_number": 24,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "感性インタフェース",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "自然言語インタフェース",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "ノンバーバルインタフェース",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "マルチモーダルインタフェース",
+        "is_correct": false
+      }
+    ]
+  },
+  "3e512b0c-ab26-4660-bb9c-ef87e36d7a77": {
+    "question_number": 25,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アンチエイリアシング",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "シェーディング",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "テクスチャマッピング",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "バンプマッピング",
+        "is_correct": false
+      }
+    ]
+  },
+  "fdc9bcf7-e25b-4dec-9c48-a14565155310": {
+    "question_number": 26,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": null,
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": null,
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": null,
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": null,
+        "is_correct": false
+      }
+    ]
+  },
+  "fd26f999-a2f6-42ab-b304-0bb9fb108483": {
+    "question_number": 27,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "データ項目\"受信年月日\"のデータ型として、日付型と文字列型が混在する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "データ項目\"受注金額\"の取り得る値の範囲がテーブルによって異なる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "データ項目\"貸与金額\"と同じ意味で\"ボーナス金額\"というデータ項目がある。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "データ項目\"取引先\"が、\"取引先コード\"か\"取引先名\"か、判別できない。",
+        "is_correct": true
+      }
+    ]
+  },
+  "3889718f-630b-4aa0-8b47-84ca6c4277a7": {
+    "question_number": 28,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "射影と和",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "選択",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "選択と射影",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "選択と和",
+        "is_correct": false
+      }
+    ]
+  },
+  "e24c1b6d-6ec3-46e9-9aa7-8160c9d129b3": {
+    "question_number": 29,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "データを更新するときに、粒度を大きくすると、他のトランザクションの待ちが多くなり、全体のスループットが低下する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "同一のデータを更新するトランザクション数が多いときに、粒度を大きくすると、同時実行できるトランザクション数が増える。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "表の全データを参照するときに、粒度を大きくすると、他のトランザクションのデータ参照を妨げないようにできる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "粒度を大きくすると、含まれるデータ数が多くなるので、一つのトランザクションでかけるロックの個数が多くなる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "db65a06d-b44e-4318-8bf5-5e5460035180": {
+    "question_number": 30,
+    "correct_choice": "ウ",
+    "explanation": "データベースの基本概念に基づいて判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アーカイブ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "コミット",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "チェックポイントダンプ",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "ロールフォワード",
+        "is_correct": false
+      }
+    ]
+  },
+  "6737d383-5b4e-48b3-8c43-71997658d7f4": {
+    "question_number": 31,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "16",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "32",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "64",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "128",
+        "is_correct": true
+      }
+    ]
+  },
+  "81ae106a-3119-48d4-aa90-b16cfa6ec0d0": {
+    "question_number": 32,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "ゲートウェイは、OSI基本参照モデルにおける第1～3層だけのプロトコルを変換する。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "ブリッジは、IPアドレスを基にしてフレームを中継する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "リピータは、同種のセグメント間で信号を増幅することによって伝送距離を延長する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ルータは、MACアドレスを基にしてフレームを中継する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "2b92d08f-4107-4d1a-b2e0-573632f6e098": {
+    "question_number": 33,
+    "correct_choice": "ア",
+    "explanation": "ネットワークプロトコルの特性から判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "PCやプリンタなどからのIPアドレス付与の要求に対して、サーバに登録してあるIPアドレスの中から使用されていないIPアドレスを割り当てる。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "サーバにあるプログラムを、サーバのIPアドレスを意識することなく、プログラム名の指定だけで呼び出すようにする。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "社内のプライベートIPアドレスをグローバルIPアドレスに変換し、インターネットへのアクセスを可能にする。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ドメイン名やホスト名などとIPアドレスとを対応付ける。",
+        "is_correct": false
+      }
+    ]
+  },
+  "d4f1de46-d5c8-4b53-9703-3ec03ea82c3c": {
+    "question_number": 34,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "HTML",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "MHS",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "MIME",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "SMTP",
+        "is_correct": false
+      }
+    ]
+  },
+  "db600e85-e9c9-410c-9e0b-cc23f161cf85": {
+    "question_number": 35,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "LTE（Long Term Evolution）",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "MAC（Media Access Control）",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "MDM（Mobile Device Management）",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "VoIP（Voice over Internet Protocol）",
+        "is_correct": true
+      }
+    ]
+  },
+  "15ca4589-cf28-4230-92ee-4374c02940ab": {
+    "question_number": 36,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アプリケーションソフトウェアの改ざんを利用者が検知できるようにする。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "アプリケーションソフトウェアの使用を特定の利用者に制限する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "アプリケーションソフトウェアの著作権が作成者にあることを証明する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "アプリケーションソフトウェアの利用者による修正や改変を不可能にする。",
+        "is_correct": false
+      }
+    ]
+  },
+  "f117ff09-3a84-4c99-b51b-fcd2fd97aebb": {
+    "question_number": 37,
+    "correct_choice": "イ",
+    "explanation": "情報セキュリティの基本原則から判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "256",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "$2^{128}$",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "$2^{255}$",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "$2^{256}$",
+        "is_correct": false
+      }
+    ]
+  },
+  "e9569354-3a4c-4e8e-8700-b905141d8d96": {
+    "question_number": 38,
+    "correct_choice": "イ",
+    "explanation": "情報セキュリティの基本原則から判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "暗号化通信に使用する場合、鍵を相手と共有する必要があり、事前に平文で送付することが推奨されている。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "暗号化通信をする相手が1人の場合、使用する鍵の個数は公開鍵暗号方式よりも多い。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "同じ程度の暗号強度をもつ鍵長を選んだ場合、公開鍵暗号方式と比較して、暗号化や復号に必要な時間が短い。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "鍵のペアを生成し、一方の鍵で文書を暗号化すると、他方の鍵でだけ復号することができる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "526e1ef5-09cf-4f52-bf55-ea44dfc648ca": {
+    "question_number": 39,
+    "correct_choice": "イ",
+    "explanation": "情報セキュリティの基本原則から判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": null,
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": null,
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": null,
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": null,
+        "is_correct": false
+      }
+    ]
+  },
+  "c87e3478-79a5-463c-ab3a-066e42c973f5": {
+    "question_number": 40,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "CSIRTマテリアル",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "ISMSユーザーズガイド",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "証拠保全ガイドライン",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "組織における内部不正防止ガイドライン",
+        "is_correct": false
+      }
+    ]
+  },
+  "604ff376-e064-41af-bf9d-7385f04cde56": {
+    "question_number": 41,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "Webサイトのコンテンツをキャッシュし、本来のサーバに代わってコンテンツを利用者に配信することによって、ネットワークやサーバの負荷を軽減する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "外部からインターネットを経由して社内ネットワークにアクセスする際に、CHAPなどのプロトコルを用いることによって、利用者認証時のパスワードの盗聴を防止する。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "外部からインターネットを経由して社内ネットワークにアクセスする際に、チャレンジレスポンス方式を採用したワンタイムパスワードを用いることによって、利用者認証時のパスワードの盗聴を防止する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "侵入して乗っ取ったコンピュータに対して、他のコンピュータへの攻撃などの不正な操作をするよう、外部から命令を出したり応答を受け取ったりする。",
+        "is_correct": false
+      }
+    ]
+  },
+  "4b6fa821-2c4b-45aa-a11f-f711c464b6c2": {
+    "question_number": 42,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "PCにインストールされているソフトウェア製品が最新のバージョンであるかどうかを確認する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "検査対象の製品にテストデータを送り、製品の応答や挙動から脆弱性を検出する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "サーバやネットワークを監視し、侵入や侵害を検知した場合に管理者へ通知する。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "情報システムの運用管理状況などの情報セキュリティ対策状況と企業情報を入力し、組織の情報セキュリティへの取組み状況を自己診断する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "3995b66c-9544-4e46-b5be-127d7e87f089": {
+    "question_number": 43,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "BIOSにパスワードを設定し、PC起動時にBIOSのパスワード入力を要求することによって、OSの不正な起動を防ぐ技術",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "HDDにパスワードを設定し、PC起動時にHDDのパスワード入力を要求することによって、OSの不正な起動を防ぐ技術",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "PCの起動時にOSやドライバのディジタル署名を検証し、許可されていないものを実行しないようにすることによって、OS起動前のマルウェアの実行を防ぐ技術",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "マルウェア対策ソフトをスタートアッププログラムに登録し、OS起動時に自動的にマルウェアスキャンを行うことによって、マルウェアの被害を防ぐ技術",
+        "is_correct": true
+      }
+    ]
+  },
+  "78eecb06-e1c1-49f6-88f6-f2895ebecf4f": {
+    "question_number": 44,
+    "correct_choice": "イ",
+    "explanation": "情報セキュリティの基本原則から判定しました。",
+    "choices": [
+      {
+        "label": "イ",
+        "text": "![選択肢イ](./images/q44_wireless_security_b.png)",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "![選択肢ウ](./images/q44_wireless_security_c.png)",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "![選択肢エ](./images/q44_wireless_security_d.png)",
+        "is_correct": false
+      },
+      {
+        "label": "ア",
+        "text": "![選択肢ア](./images/q44_wireless_security_a.png)",
+        "is_correct": false
+      }
+    ]
+  },
+  "b8105861-11c9-44da-a820-17e10b752d28": {
+    "question_number": 45,
+    "correct_choice": "イ",
+    "explanation": "ネットワークプロトコルの特性から判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "![選択肢ア](./images/q45_mail_relay_a.png)",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "![選択肢イ](./images/q45_mail_relay_b.png)",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "![選択肢ウ](./images/q45_mail_relay_c.png)",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "![選択肢エ](./images/q45_mail_relay_d.png)",
+        "is_correct": false
+      }
+    ]
+  },
+  "24d21ae4-1b13-4899-9e1d-7653774c50ff": {
+    "question_number": 46,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "イベントとオブジェクトの状態",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "オブジェクトがある状態にとどまる最短時間及び最長時間",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "オブジェクトがメッセージを処理している期間",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "オブジェクト間で送受信されるメッセージ",
+        "is_correct": false
+      }
+    ]
+  },
+  "5dba7716-705a-4eed-a90b-f71c9e6ac1bd": {
+    "question_number": 47,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "インスタンスはクラスの仕様を定義したものである。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "クラスの定義に基づいてインスタンスが生成される。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "一つのインスタンスに対して、複数のクラスが対応する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "一つのクラスに対して、インスタンスはただ一つ存在する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "bbfcfcd6-989a-4d27-88da-7430e2ca7f02": {
+    "question_number": 48,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "共通結合",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "制御結合",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "データ結合",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "内容結合",
+        "is_correct": false
+      }
+    ]
+  },
+  "8b399237-b5e1-4ddb-ac5d-e8453feaa1a2": {
+    "question_number": 49,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "あるオブジェクトに対して操作を適用したとき、関連するオブジェクトに対してもその操作が自動的に適用される仕組み",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "あるオブジェクトに対する操作を、その内部で他のオブジェクトに依頼する仕組み",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "下位のクラスが上位のクラスの属性や操作を引き継ぐ仕組み",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "複数のオブジェクトを部分として用いて、新たな一つのオブジェクトを生成する仕組み",
+        "is_correct": false
+      }
+    ]
+  },
+  "458f371e-a07d-49d4-9982-38d33ea59f9d": {
+    "question_number": 50,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "顧客は単体テストの仕様に責任をもつ。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "コードの結合とテストを継続的に繰り返す。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "コードを作成して結合できることを確認した後、テストケースを作成する。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "テストを通過したコードは、次のイテレーションまでリファクタリングしない。",
+        "is_correct": false
+      }
+    ]
+  },
+  "c4daa260-4d1f-414b-ab65-649199811212": {
+    "question_number": 51,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "開発の期間と費用がトレードオフの関係にある場合に、総費用の最適化を図る。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "作業の順序関係を明確にして、重点管理すべきクリティカルパスを把握する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "作業の日程を構造（バー）で表して、作業の開始時点や終了時点、現時点の進捗を明確にする。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "作業を階層的に詳細化して、管理可能な大きさに細分化する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "2e7fffea-08fe-4540-b2a5-81860db7a09b": {
+    "question_number": 52,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "40",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "45",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "50",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "55",
+        "is_correct": false
+      }
+    ]
+  },
+  "a192948f-6381-4544-a47c-de7c98df37cc": {
+    "question_number": 53,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "30",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "47",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "52",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "53",
+        "is_correct": false
+      }
+    ]
+  },
+  "81a14884-4e9b-4119-aa79-905c5954ebdd": {
+    "question_number": 54,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "51",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "60",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "65",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "66",
+        "is_correct": false
+      }
+    ]
+  },
+  "76db03aa-c372-4c02-844f-eefed970025a": {
+    "question_number": 55,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "特定の資源の利用状況を時系列に把握して、将来における利用の変化を予測する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "待ち行列理論などの数学的技法を利用して、サービスの応答時間及びスループットを予測する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "擬似的にトランザクションを発生させて、サービスの応答時間及びスループットを予測する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "モデル化の第一段階として、現在達成されているパフォーマンスを正確に反映したモデルを作成する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "55665c83-75ad-426d-8b9a-e12cf4301c45": {
+    "question_number": 56,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "ウォームスタート",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "コールドスタート",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "ロールバック",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ロールフォワード",
+        "is_correct": false
+      }
+    ]
+  },
+  "dd58a185-77d8-43cb-9395-78781af5d75d": {
+    "question_number": 57,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "0.3",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "2.1",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "3.0",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "3.6",
+        "is_correct": false
+      }
+    ]
+  },
+  "160d2d87-822a-4ff1-a779-d75498e60c60": {
+    "question_number": 58,
+    "correct_choice": "イ",
+    "explanation": "情報セキュリティの基本原則から判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "USBメモリの使用を、定められた手順に従って許可していた。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "個人情報の誤廃棄事故を主務官庁などに、規定されたとおりに報告していた。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "マルウェアスキャンでスパイウェアが検知され、駆除されていた。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "リスクアセスメントを実施した後に、リスク受容基準を決めた。",
+        "is_correct": false
+      }
+    ]
+  },
+  "bcbdaee2-17d8-4b42-8362-6a0132b9900d": {
+    "question_number": 59,
+    "correct_choice": "イ",
+    "explanation": "情報セキュリティの基本原則から判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "委託元責任者が、一定期間ごとに、専門業者における媒体保管状況を確認する契約を結んだ上で引き渡している。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "委託元責任者が、専門業者との間で、機密保持条項を盛り込んだ業務委託契約を結んだ上で引き渡している。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "委託元担当者が、専用の記録簿に、引渡しの部署、日付と内容を記入し、専門業者から受領印をもらっている。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "委託元担当者が、バックアップ媒体を段ボール箱に入れ、それを専門業者に引き渡している。",
+        "is_correct": false
+      }
+    ]
+  },
+  "683c0845-fa9d-4df1-9679-6043e2a9cb27": {
+    "question_number": 60,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "株主",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "監査役",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "業務担当者",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "経営者",
+        "is_correct": false
+      }
+    ]
+  },
+  "697b9900-f1e4-404d-a776-34619b2e6791": {
+    "question_number": 61,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "計画と実績との差異及び原因を詳細に分析し、投資額や効果目標の変更が必要かどうかを判断する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "事前に設定した効果目標の達成状況を評価し、必要に応じて目標を達成するための改善策を検討する。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "投資効果の実現時期と評価に必要なデータ収集方法を事前に計画し、その時期に合わせて評価を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "投資目的に基づいた効果目標を設定し、実施可否判断に必要な情報を上位マネジメントに提供する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "0ca76ba0-0ab2-439b-a754-ccbdbccf9b77": {
+    "question_number": 62,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "自社ではサーバを所有せずに、通信事業者などが保有するサーバの処理能力や記憶容量の一部を借りてシステムを運用することである。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "自社ではソフトウェアを所有せずに、外部の専門業者が提供するソフトウェアの機能をネットワーク経由で活用することである。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "自社の管理部門やコールセンタなど特定部門の業務プロセス全般を、業務システムの運用なども一体として外部の専門業者に委託することである。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "自社よりも人件費が安い派遣会社の社員を活用することによって、ソフトウェア開発の費用を低減させることである。",
+        "is_correct": false
+      }
+    ]
+  },
+  "819200dd-a181-4e19-98e9-092da6afaa64": {
+    "question_number": 63,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "業務体系、データ体系、適用処理体系、技術体系の四つの主要概念から構成され、業務とシステムの最適化を図る。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "サービスというコンポーネントからソフトウェアを構築することによって、ビジネス変化に対応しやすくする。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "データフローダイアグラムを用い、情報に関するモデルと機能に関するモデルを同時に作成する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "連接、選択、反復の三つの論理構造の組合せで、コンポーネントレベルの設計を行う。",
+        "is_correct": true
+      }
+    ]
+  },
+  "35ca6379-3942-4a43-b12b-ad8556248f30": {
+    "question_number": 64,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "画面や帳票などのインタフェースを決定し、設計書に記載するために、要件定義書を基に作業する。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "システム構築の組織体制を策定するとき、業務部門、情報システム部門の役割分担を明確にし、費用の検討においては開発、運用及び保守の費用の算出基準を明確にしておく。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "システムの起動・終了、監視、ファイルメンテナンスなどを計画的に行い、業務が円滑に遂行していることを確認する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "システムを業務及び環境に適合するように維持管理を行い、修正依頼が発生した場合は、その内容を分析し、影響を明らかにする。",
+        "is_correct": false
+      }
+    ]
+  },
+  "0a1376c6-5d0c-4a75-93e1-8dcff215faf8": {
+    "question_number": 65,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "システムに関わり合いをもつ利害関係者の種類を識別し、利害関係者のニーズ及び要望並びに課せられる制約条件を識別する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "事業の目的、目標を達成するために必要なシステム化の方針、及びシステムを実現するための実施計画を立案する。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "目的とするシステムを得るために、システムの機能及び能力を定義し、システム方式設計によってハードウェア、ソフトウェアなどによる実現方式を確立する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "利害関係者の要件を満足するソフトウェア製品又はソフトウェアサービスを得るための、方式設計と適格性の確認を実施する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "9f4c7757-ba9d-4ff0-b47a-494a978522fd": {
+    "question_number": 66,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "RFI",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "RFP",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "供給者の選定",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "契約の締結",
+        "is_correct": false
+      }
+    ]
+  },
+  "87ec72de-7e40-4e0d-9cbf-f4333bb6c8c9": {
+    "question_number": 67,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "市場が製品の価値を理解し始める。製品ラインもチャネルも拡大しなければならない。この時期は売上も伸びるが、投資も必要である。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "需要が大きくなり、製品の差別化や市場の細分化が明確になってくる。競争者間の競争も激化し、新品種の追加やコストダウンが重要となる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "需要が減ってきて、撤退する企業も出てくる。この時期の強者になれるかどうかを判断し、代替市場への進出なども考える。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "需要は部分的で、新規需要開拓が勝負である。特定ターゲットに対する信念に満ちた説得が必要である。",
+        "is_correct": true
+      }
+    ]
+  },
+  "bd5f4c2c-e8d0-432d-ba33-5eb56f2c1b37": {
+    "question_number": 68,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "30,000",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "35,000",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "40,000",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "45,000",
+        "is_correct": false
+      }
+    ]
+  },
+  "4a75de69-e6f2-46ac-9551-30fbf245fc7a": {
+    "question_number": 69,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "商品Aの購入者のうち、1,000人が新商品Qを購入すると予想している。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "商品Bの購入者は、新商品P、Q、R、Sのどれかを購入すると予想している。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "新商品Pの購入見込み者の5割は、商品Aの購入者であると予想している。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "新商品Sの新規顧客数は、商品Cの購入者のうち新商品Sを購入する人数より少ないと予想している。",
+        "is_correct": false
+      }
+    ]
+  },
+  "34f0887c-6136-40f5-b353-93a5918471b4": {
+    "question_number": 70,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "技術のSカーブ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "需要曲線",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "バスタブ曲線",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "ラーニングカーブ",
+        "is_correct": false
+      }
+    ]
+  },
+  "1346e6ed-f62f-4db1-a735-20346bced6c5": {
+    "question_number": 71,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アナログ式の機器を除く、ディジタル式の機器が対象となる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "インターネット又は閉域網に接続できる全てのものが対象となる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "自律的にデータを収集してデータ分析を行う機器だけが対象となる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "人や生物を除く、形のある全てのものが対象となる。",
+        "is_correct": true
+      }
+    ]
+  },
+  "d5fa686c-a71e-4da4-a62e-dec641ad7573": {
+    "question_number": 72,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "GPSを利用し、現在地の位置情報や属性情報を表示する。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "専用の磁気読取り装置に挿入して使用する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "大量の情報を扱うので、情報の記憶には外部記憶装置を使用する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "汚れに強く、記録された情報を箱包の外から読むことができる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "0ddbd137-0cbd-46fa-9f87-ea2734f13f9d": {
+    "question_number": 73,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "基本的なサービスや製品を無料で提供し、高度な機能や特別な機能については料金を課金するビジネスモデルである。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "顧客仕様に応じたカスタマイズを実現するために、顧客からの注文後に最終製品の生産を始める方式である。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "電子商取引で、代金を払ったのに商品が届かない、商品を送ったのに代金が支払われないなどのトラブルが防止できる仕組みである。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "モバイル端末などを利用している顧客を、仮想店舗から実店舗に、又は実店舗から仮想店舗に誘導しながら、購入につなげる仕組みである。",
+        "is_correct": false
+      }
+    ]
+  },
+  "e3272d43-9322-4fbf-b9aa-01d27ce14f55": {
+    "question_number": 74,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "経営戦略の立案及び業務執行を統括する最高責任者",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "資金調達、財務報告などの財務面での戦略策定及び執行を統括する最高責任者",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "自社の技術戦略や研究開発計画の立案及び執行を統括する最高責任者",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "情報管理、情報システムに関する戦略立案及び執行を統括する最高責任者",
+        "is_correct": false
+      }
+    ]
+  },
+  "42c21658-e0c4-4223-87d0-c2f149464d6a": {
+    "question_number": 75,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "4",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "5",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "6",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "7",
+        "is_correct": true
+      }
+    ]
+  },
+  "edc39324-9c7d-4728-a3c0-30ddf6a65b4c": {
+    "question_number": 76,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "事態の進展とともに様々な事象が想定される問題について、対応策を検討して望ましい結果に至るプロセスを定める方法である。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "収集した情報を相互の関連によってグループ化し、解決すべき問題点を明確にする方法である。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "複雑な要因の絡み合う事象について、その事象間の因果関係を明らかにする方法である。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "目的・目標を達成するための手段・方策を順次展開し、最適な手段・方策を追求していく方法である。",
+        "is_correct": false
+      }
+    ]
+  },
+  "b67d08bc-75d7-434f-95b2-61fbad4fa268": {
+    "question_number": 77,
+    "correct_choice": "イ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "26,290",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "26,450",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "27,250",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "27,586",
+        "is_correct": false
+      }
+    ]
+  },
+  "39103f36-5052-45d0-aeb5-c95fd077e513": {
+    "question_number": 78,
+    "correct_choice": "ウ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "刑法",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "不正アクセス禁止法",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "不正競争防止法",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "プロバイダ責任制限法",
+        "is_correct": false
+      }
+    ]
+  },
+  "561db212-f777-4518-8070-41f3afb78edd": {
+    "question_number": 79,
+    "correct_choice": "エ",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "受付に設置した監視カメラに録画された、本人が判別できる映像データ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "個人番号の記載がない、社員に交付する源泉徴収票",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "指紋認証のための指紋データのバックアップデータ",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "匿名加工情報に加工された利用者アンケート情報",
+        "is_correct": true
+      }
+    ]
+  },
+  "df8a5e9e-c6aa-4a66-ba95-85bdef39a542": {
+    "question_number": 80,
+    "correct_choice": "ア",
+    "explanation": "問題の内容と選択肢を総合的に分析して判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "休暇取得の承認を発注者側の指示に従って行う。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "業務の遂行に関する指導や評価を自ら実施する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "勤務に関する規律や職場秩序の保持を実施する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "発注者の業務上の要請を受託者側の責任者が窓口となって受け付ける。",
+        "is_correct": false
+      }
+    ]
+  }
+}

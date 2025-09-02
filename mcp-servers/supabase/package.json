@@ -1,10 +1,33 @@
 {
   "name": "project-supabase-mcp",
   "version": "1.0.0",
+  "description": "Supabase MCP Server for fexa project",
   "type": "module",
   "private": true,
+  "main": "supabase-mcp-server.js",
+  "bin": {
+    "supabase-mcp-server": "./supabase-mcp-server.js"
+  },
+  "scripts": {
+    "start": "node supabase-mcp-server.js",
+    "dev": "node --env-file=../../.env.local supabase-mcp-server.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
-    "@modelcontextprotocol/sdk": "^0.4.0"
-  }
+    "@modelcontextprotocol/sdk": "^1.17.4",
+    "dotenv": "^16.4.5",
+    "zod": "^3.22.4"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "supabase",
+    "claude-code"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
 }

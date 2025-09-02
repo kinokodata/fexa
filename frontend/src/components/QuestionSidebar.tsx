@@ -312,10 +312,14 @@ export default function QuestionSidebar({
                           }} 
                         />
                       )}
-                      <ListItemText
-                        primary={`問${q.question_number}`}
-                        secondary={<QuestionFeatures question={q} variant="detailed" />}
-                      />
+                      <Box sx={{ flex: 1 }}>
+                        <Typography variant="body2" color="text.primary">
+                          問{q.question_number}
+                        </Typography>
+                        <Box sx={{ mt: 0.5 }}>
+                          <QuestionFeatures question={q} variant="detailed" />
+                        </Box>
+                      </Box>
                     </Box>
                   </ListItemButton>
                 </ListItem>

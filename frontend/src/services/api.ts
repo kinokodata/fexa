@@ -122,6 +122,30 @@ class ApiClient {
       body: JSON.stringify({ checked_by: checkedBy }),
     });
   }
+
+  // 正答を更新
+  async updateCorrectAnswer(questionId: string, correctChoiceId: string): Promise<ApiResponse<{ message: string; data: any }>> {
+    return this.request<{ message: string; data: any }>(`/api/questions/${questionId}/correct-answer`, {
+      method: 'PATCH',
+      body: JSON.stringify({ correctChoiceId }),
+    });
+  }
+
+  // 問題文を更新
+  async updateQuestionText(questionId: string, questionText: string): Promise<ApiResponse<{ message: string; data: any }>> {
+    return this.request<{ message: string; data: any }>(`/api/questions/${questionId}/question-text`, {
+      method: 'PATCH',
+      body: JSON.stringify({ questionText }),
+    });
+  }
+
+  // 解説を更新
+  async updateExplanation(questionId: string, explanation: string): Promise<ApiResponse<{ message: string; data: any }>> {
+    return this.request<{ message: string; data: any }>(`/api/questions/${questionId}/explanation`, {
+      method: 'PATCH',
+      body: JSON.stringify({ explanation }),
+    });
+  }
 }
 
 const apiClient = new ApiClient();

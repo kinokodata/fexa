@@ -1,0 +1,27 @@
+{
+  "name": "export-answer-tool",
+  "version": "1.0.0",
+  "description": "Tool to analyze exam questions and generate answer data",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "analyze": "node analyze.js",
+    "export": "node export.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.0",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "exam",
+    "analysis",
+    "export",
+    "fexa"
+  ],
+  "author": "fexa",
+  "license": "MIT"
+}

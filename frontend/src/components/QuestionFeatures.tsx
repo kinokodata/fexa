@@ -50,6 +50,7 @@ export default function QuestionFeatures({ question, variant = 'list', showWarni
     
     return false;
   };
+  
   const getChoiceFeatures = (choices: Choice[]) => {
     if (!choices || choices.length === 0) {
       return [];
@@ -166,8 +167,8 @@ export default function QuestionFeatures({ question, variant = 'list', showWarni
       result.push(warningIcon);
     }
     
-    return <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center' }}>{result}</Box>;
+    return <div style={{ display: 'inline-flex', alignItems: 'center' }}>{result}</div>;
   }
   
-  return <Box component="span" sx={{ display: 'inline-flex', alignItems: 'center' }}>{allFeatures}</Box>;
+  return <div style={{ display: 'inline-flex', alignItems: 'center' }}>{allFeatures}</div>;
 }

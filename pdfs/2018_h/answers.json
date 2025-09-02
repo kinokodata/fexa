@@ -1,0 +1,1687 @@
+{
+  "d882cb76-69cc-442b-a3d8-251c79636168": {
+    "question_number": 1,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "その整数値が正ならば3",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "その整数値が負ならば−3",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "その整数値が負ならば3",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "その整数値の正負にかかわらず0",
+        "is_correct": false
+      }
+    ]
+  },
+  "2ba8650b-2d01-45c8-bc81-80b228c96b13": {
+    "question_number": 2,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "16",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "24",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "32",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "60",
+        "is_correct": false
+      }
+    ]
+  },
+  "391a75a2-c4ba-41b6-918f-8473eb591528": {
+    "question_number": 3,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "\"AならばBである\"というルールを人間があらかじめ設定して，新しい知識を論理式で表現したルールに基づく推論の結果として，解を求めるものである。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "厳密な解でなくてもなるべく正解に近い解を得るようにする方法であり，特定分野に特化せずに，広範囲で汎用的な問題解決ができるようにするものである。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "人間の脳神経回路を模倣して，認識などの知能を実現する方法であり，ニューラルネットワークを用いて，人間と同じような認識ができるようにするものである。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "判断ルールを作成できる医療診断などの分野に限定されるが，症状から特定の病気に絞り込むといった，確率的に高い判断ができる。",
+        "is_correct": true
+      }
+    ]
+  },
+  "d8adf2c0-5a0b-4f48-885c-500625b67a19": {
+    "question_number": 4,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "000100110",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "000100110",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "001000100",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "001111110",
+        "is_correct": false
+      }
+    ]
+  },
+  "402d85b8-3b46-40bf-843e-e1d0bb3c3029": {
+    "question_number": 6,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "3",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "5",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "7",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "8",
+        "is_correct": false
+      }
+    ]
+  },
+  "81e9cf72-2ec3-43c2-ad9c-0ac1b1d57879": {
+    "question_number": 7,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "2分木を用いる方法の一種である。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "格納場所の衝突が発生しない方法である。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "キーの関数値によって格納場所を決める。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "探索に要する時間は表全体の大きさにほぼ比例する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "43254586-b9ba-49a3-8cff-0db82d180142": {
+    "question_number": 8,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "使用する文字コード        イ. データ",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "バージョン情報           エ. 文書型の定義",
+        "is_correct": false
+      }
+    ]
+  },
+  "744c9edc-d6d6-4eb1-b9fa-37ba91045c8d": {
+    "question_number": 9,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アキュムレータ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "データキャッシュ",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "プログラムレジスタ（プログラムカウンタ）",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "命令レジスタ",
+        "is_correct": false
+      }
+    ]
+  },
+  "4eb14906-a1d7-4484-a481-3dbdea02d29c": {
+    "question_number": 10,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "商用電源の瞬時停電などの電源異常による割込み",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "ゼロで除算を実行したことによる割込み",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "入出力が完了したことによる割込み",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "メモリパリティエラーが発生したことによる割込み",
+        "is_correct": false
+      }
+    ]
+  },
+  "b203860b-608c-4eca-b692-dd5aa61ab704": {
+    "question_number": 11,
+    "correct_choice": "ア",
+    "explanation": "キャッシュメモリは、CPUとメインメモリの速度差を緩和するための高速メモリです。頻繁にアクセスされるデータを保持し、実効アクセス時間を短縮します。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "キャッシュメモリにヒットしない場合に割込みが生じ，プログラムによって主記憶からキャッシュメモリにデータが転送される。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "キャッシュメモリは，実記憶と仮想記憶とのメモリ容量の差を埋めるために採用される。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "データ書込み命令を実行したときに，キャッシュメモリと主記憶の両方を書き換える方式と，キャッシュメモリだけを書き換えておき，主記憶の書換えはキャッシュメモリから当該データが追い出されるときに行う方式とがある。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "半導体メモリのアクセス速度の向上が著しいので，キャッシュメモリの必要性は減っている。",
+        "is_correct": false
+      }
+    ]
+  },
+  "b0892ed2-5c32-43bb-a1c1-2405da09d416": {
+    "question_number": 12,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "GPS，カメラ，無線LANアダプタなどの周辺機能をハードウェアとしてカードに搭載している。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "SDメモリカードの4分の1以下の小型サイズで，最大32Gバイトの容量をもつ。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "著作権保護技術としてAACSを採用し，従来のSDメモリカードよりもセキュリティが強化された。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ファイルシステムにexFATを採用し，最大2Tバイトの容量に対応できる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "22430d6e-d972-4713-8f42-253bd5e7fd6c": {
+    "question_number": 13,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "システム構成に冗長性をもたせ，部品が故障してもその影響を最小限に抑えることによって，システム全体には影響を与えずに処理が続けられるようにする。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "システムに障害が発生したときの原因究明や復旧のために，システム稼働中のデータベースの変更情報などの履歴を自動的に記録する。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "障害が発生した場合，速やかに予備の環境に障害前の状態を復旧できるように，定期的にデータをバックアップする。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "操作ミスが発生しにくい容易な操作にするか，操作ミスが発生しても致命的な誤りにならないように設計する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "f0705c1e-a0f2-4355-a58a-a3eed3dbdafb": {
+    "question_number": 14,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "コールドスタンバイシステム    イ. ホットスタンバイシステム",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "マルチプロセッサシステム      エ. マルチユーザシステム",
+        "is_correct": true
+      }
+    ]
+  },
+  "2c4fd20c-aef4-44b4-a941-869c3f5d000a": {
+    "question_number": 15,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "既存のシステムにサーバを追加導入することによって，システム全体の処理能力を向上させる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "既存のシステムのサーバの一部又は全部を，クラウドサービスなどに再配置することによって，システム運用コストを下げる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "既存のシステムのサーバを，より高性能なものと入れ替えることによって，個々のサーバの処理能力を向上させる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "一つのサーバをあたかも複数のサーバであるかのように見せることによって，システム運用コストを下げる。",
+        "is_correct": true
+      }
+    ]
+  },
+  "64e5540f-7e15-40c7-b347-d0c5bcdd7d53": {
+    "question_number": 17,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "あるディレクトリから対象ファイルに至る幾つかのパス名のうち，最短のパス名",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "カレントディレクトリから対象ファイルに至るパス名",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "ホームディレクトリから対象ファイルに至るパス名",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ルートディレクトリから対象ファイルに至るパス名",
+        "is_correct": false
+      }
+    ]
+  },
+  "902c12df-c45f-4571-8615-e71e9aa99b35": {
+    "question_number": 18,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "プログラムの実行時間を短縮する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "プログラムのデバッグを容易にする。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "プログラムの保守性を改善する。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "目的プログラムを生成する時間を短縮する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "dd1ccc83-b87d-41c5-af54-7ac3e9d05c33": {
+    "question_number": 19,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "Apache Tomcat       イ. Eclipse",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "GCC                エ. Linux",
+        "is_correct": false
+      }
+    ]
+  },
+  "859ec95d-b097-4d66-92af-362d32356f1a": {
+    "question_number": 20,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "Apache Hadoop      イ. Apache Kafka",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "Apache Spark       エ. Apache Storm",
+        "is_correct": false
+      }
+    ]
+  },
+  "dc83064d-c000-4f93-a06d-0f33d930a1cc": {
+    "question_number": 21,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "与えられた目標量と，センサから得られた制御量を比較し，制御量を目標量に一致させるように操作量を出力する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "位置，角度，速度，加速度，力，温度などを検出し，電気的な情報に変換する。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "エネルギー発生源からのパワーを，制御信号に基づき，回転，並進などの動きに変換する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "マイクロフォン，センサなどが出力する微小な電気信号を増幅する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "a2dddc07-8cec-4c3f-ae38-882c9a99cfb9": {
+    "question_number": 22,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "高速に書換えができ，CPUのキャッシュメモリに用いられる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "紫外線で全データを一括消去できる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "周期的にデータの再書込みが必要である。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "ブロック単位で電気的にデータの消去ができる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "503e4131-3ce2-4d9a-bf53-180a5c339938": {
+    "question_number": 24,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "シーケンスチェック      イ. 重複チェック",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "フォーマットチェック    エ. 論理チェック",
+        "is_correct": false
+      }
+    ]
+  },
+  "2a470f06-a843-4b01-9b09-d95d68b21b00": {
+    "question_number": 25,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "インターネットで動画や音声データのストリーミング配信を制御するための通信方式",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "テレビ会議やテレビ電話で双方向のビデオ配信を制御するための通信方式",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "テレビの電子番組案内で使用される番組内容のメタデータを記述する方式",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ワンセグやインターネットで用いられる動画データの圧縮符号化方式",
+        "is_correct": false
+      }
+    ]
+  },
+  "ce008b11-f72b-4743-ba66-d1c359d35991": {
+    "question_number": 26,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "過去に録画された映像を視聴することによって，その時代のその場所にいたかのような感覚が得られる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "実際に目の前にある現実の映像の一部にコンピュータを使って仮想の情報を付加することによって，拡張された現実の環境が体感できる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "人にとって自然な3次元の仮想空間を構成し，自分の動作に合わせて仮想空間も変化することによって，その場所にいるかのような感覚が得られる。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "ヘッドマウントディスプレイなどの機器を利用し人の五感に働きかけることによって，実際には存在しない場所や世界を，あたかも現実のように体感できる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "46d39cae-38f4-4083-8470-24e89edff0f9": {
+    "question_number": 27,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "一連の処理を論理的単位としてまとめたトランザクションを管理する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "データに対するユーザのアクセス権限を管理する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "データを更新するときに参照制約をチェックする。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "データを更新する前に専有ロックをかける。",
+        "is_correct": true
+      }
+    ]
+  },
+  "1fdd4da1-5ca2-4ecd-8114-1012173051f3": {
+    "question_number": 28,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "カーソル    イ. スキーマ    ウ. テーブル    エ. ビュー",
+        "is_correct": true
+      }
+    ]
+  },
+  "515d8317-7766-41f8-9486-f342f2bffaf3": {
+    "question_number": 29,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "ダンプファイル          イ. チェックポイントファイル",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "バックアップファイル    エ. ログファイル",
+        "is_correct": false
+      }
+    ]
+  },
+  "ef963e6f-f3b3-4eae-b9a2-c3cccb50eaee": {
+    "question_number": 31,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "200     イ. 400     ウ. 800     エ. 1,600",
+        "is_correct": false
+      }
+    ]
+  },
+  "7445077e-eaab-48f6-ba6c-f2a6d701dd3e": {
+    "question_number": 32,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "200.170.70.17    イ. 200.170.70.20",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "200.170.70.30    エ. 200.170.70.31",
+        "is_correct": false
+      }
+    ]
+  },
+  "b85517f5-d7a1-4f69-a376-718a95d86b00": {
+    "question_number": 33,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "arp    イ. ipconfig    ウ. netstat    エ. ping",
+        "is_correct": false
+      }
+    ]
+  },
+  "2035f7bf-0806-40e6-adbe-3f2c85928e0a": {
+    "question_number": 34,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "Bcc    イ. Date    ウ. Received    エ. X-Mailer",
+        "is_correct": false
+      }
+    ]
+  },
+  "f7052098-163e-483f-ad6d-d516be36571f": {
+    "question_number": 35,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "CGI    イ. HTML    ウ. MIME    エ. URL",
+        "is_correct": false
+      }
+    ]
+  },
+  "356cefc8-1d58-462c-874d-caafb838cbc5": {
+    "question_number": 36,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "PC内のマルウェアを遠隔操作して，PCのハードディスクドライブを丸ごと暗号化する。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "外部ネットワークからファイアウォールの設定の誤りを突いて侵入し，内部ネットワークにあるサーバのシステムドライブにルートキットを仕掛ける。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "公開Webサイトにおいて，スクリプトをWebページ中の入力フィールドに入力し，Webサーバがアクセスするデータベース内のデータを不正にダウンロードする。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "利用者が公開Webサイトを閲覧したときに，その利用者の意図にかかわらず，PCにマルウェアをダウンロードさせて感染させる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "41799f39-293e-4c07-b3c3-5d5031344a4d": {
+    "question_number": 37,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "後処理の段階において，システムログに攻撃の痕跡が残っていないかどうかを調査する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "権限取得の段階において，権限を奪取できそうなアカウントがあるかどうかを調査する。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "事前調査の段階において，攻撃できそうなサービスがあるかどうかを調査する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "不正実行の段階において，攻撃者にとって有益な利用者情報があるかどうかを調査する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "c2c7991d-197c-4cf8-b9eb-107347f33be8": {
+    "question_number": 38,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "暗号化された電子メールを，Bさんだけが，Aさんの公開鍵で復号できる。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "暗号化された電子メールを，Bさんだけが，自身の秘密鍵で復号できる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "暗号化された電子メールを，Bさんも，Cさんも，Bさんの公開鍵で復号できる。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "暗号化された電子メールを，Bさんも，Cさんも，自身の秘密鍵で復号できる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "b52e9d8d-0f35-472b-90e9-3213a60c01cf": {
+    "question_number": 39,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "真正性    イ. 信頼性    ウ. 責任追跡性    エ. 否認防止",
+        "is_correct": false
+      }
+    ]
+  },
+  "e878fdea-fa8d-4a3e-8b0f-2cd4be7b00dd": {
+    "question_number": 40,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "電子メールを受信するサーバが，電子メールに付与されているディジタル署名を使って，送信元ドメインの詐称がないことを確認する。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "電子メールを受信するサーバが，電子メールの送信元のドメイン情報と，電子メールを送信したサーバのIPアドレスから，ドメインの詐称がないことを確認する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "電子メールを送信するサーバが，送信する電子メールの送信者の上司からの承認が得られるまで，一時的に電子メールの送信を保留する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "電子メールを送信するサーバが，電子メールの宛先のドメインや送信者のメールアドレスを問わず，全ての電子メールをアーカイブする。",
+        "is_correct": false
+      }
+    ]
+  },
+  "7bc2a501-955f-4adf-b5e7-6330efd56b7a": {
+    "question_number": 41,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "入力された文字が，データベースへの問合せや操作において，特別な意味をもつ文字として解釈されないようにする。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "入力にHTMLタグが含まれていたら，HTMLタグとして解釈されない他の文字列に置き換える。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "入力に上位ディレクトリを指定する文字列（../）が含まれているときは受け付けない。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "入力の全体の長さが制限を超えているときは受け付けない。",
+        "is_correct": false
+      }
+    ]
+  },
+  "cf2d42ee-dba1-4b3a-b31b-87f979a5aec4": {
+    "question_number": 42,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "開発済みのシステムに対して，第三者の情報セキュリティ専門家が，脆弱性診断を行い，システムの品質及びセキュリティを高めることである。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "開発済みのシステムに対して，リスクアセスメントを行い，リスクアセスメント結果に基づいてシステムを改修することである。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "システムの運用において，第三者による監査結果を基にシステムを改修することである。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "システムの企画・設計段階からセキュリティを確保する方策のことである。",
+        "is_correct": false
+      }
+    ]
+  },
+  "d7c629e5-569c-4560-bc69-7e66aa0078d2": {
+    "question_number": 43,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "管理者権限                イ. 更新権限",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "更新権限と参照権限        エ. 参照権限",
+        "is_correct": false
+      }
+    ]
+  },
+  "4709d9b9-9755-49a9-8f43-d52492fd7761": {
+    "question_number": 45,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "本人のディジタル証明書を，信頼できる第三者機関に発行してもらう。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "本人を誤って拒否する確率と他人を誤って許可する確率の双方を勘案して装置を調整する。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "マルウェア定義ファイルの更新が頻繁な製品を利用することによって，本人を誤って拒否する確率の低下を防ぐ。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "容易に推測できないような知識量と本人が覚えられる知識量とのバランスが，認証に必要な知識量の設定として重要となる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "52046593-4231-4664-bc0c-ec7f41fadff2": {
+    "question_number": 46,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "オーバーライド        イ. カプセル化",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "継承                エ. 多相性",
+        "is_correct": true
+      }
+    ]
+  },
+  "99236d8e-aa2c-4f52-a20c-45014f17ce7a": {
+    "question_number": 47,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "顧客に意見を求めて仕様を決定する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "ソフトウェア品目に対する要件を，最上位レベルの構造を表現する方式であって，かつ，ソフトウェアコンポーネントを識別する方式に変換する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "プログラムを，コード化した1行の処理まで明確になるように詳細化する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "要求内容を図表などの形式でまとめ，段階的に詳細化して分析する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "488b4ad4-d896-46bc-80b1-c11beaf0381b": {
+    "question_number": 48,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "稼働中のシステムから実データを無作為に抽出し，テストデータを作成する。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "機能仕様から同値クラスや限界値を識別し，テストデータを作成する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "業務で発生するデータの発生頻度を分析し，テストデータを作成する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "プログラムの流れ図を基に，分岐条件に基づいたテストデータを作成する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "19f87f99-b5d1-40f1-b0d3-775187acf028": {
+    "question_number": 49,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "（A=3, B=0），（A=7, B=2）",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "（A=3, B=2），（A=8, B=0）",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "（A=4, B=0），（A=8, B=0）",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "（A=7, B=0），（A=8, B=2）",
+        "is_correct": false
+      }
+    ]
+  },
+  "640c246a-845f-4dad-8a11-cf45ee94b5b5": {
+    "question_number": 50,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "計画ゲーム            イ. コーディング標準",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "テスト駆動開発        エ. ペアプログラミング",
+        "is_correct": true
+      }
+    ]
+  },
+  "8e65dfa4-654d-4e3d-85a1-acba2b06a6d9": {
+    "question_number": 51,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "A, C, E    イ. A, D    ウ. B, C, E    エ. B, D",
+        "is_correct": false
+      }
+    ]
+  },
+  "0d566145-5a7f-485e-9bd2-a6cb3ff868bc": {
+    "question_number": 52,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "40    イ. 44    ウ. 54    エ. 59",
+        "is_correct": true
+      }
+    ]
+  },
+  "12daf97f-c8b4-47a8-b15e-1ab1e87ca89e": {
+    "question_number": 53,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "16    イ. 40    ウ. 64    エ. 160",
+        "is_correct": false
+      }
+    ]
+  },
+  "b3bc957a-608b-4b5c-b7e7-967f901e9965": {
+    "question_number": 54,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "18    イ. 24    ウ. 30    エ. 32",
+        "is_correct": false
+      }
+    ]
+  },
+  "a21dc837-c0b3-4acc-9d0f-195a46720c19": {
+    "question_number": 55,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "インシデントの発生傾向を分析して，将来のインシデントを予防する方策を提案する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "検出して記録した問題を分類して，対応の優先度を設定する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "重大な問題に対する解決策の有効性を評価する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "問題解決後の一定期間，インシデントの再発の有無を監視する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "07e95156-ecb1-4055-8680-7af1a2557729": {
+    "question_number": 56,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "サービスデスクを1拠点又は少数の場所に集中することによって，サービス要員を効率的に配置したり，大量のコールに対応したりすることができる。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "サービスデスクを利用者の近くに配置することによって，言語や文化が異なる利用者への対応，専門要員によるVIP対応などができる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "サービス要員が複数の地域や部門に分散していても，通信技術の利用によって単一のサービスデスクであるかのようにサービスが提供できる。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "分散拠点のサービス要員を含めた全員を中央で統括して管理することによって，統制のとれたサービスが提供できる。",
+        "is_correct": false
+      }
+    ]
+  },
+  "9c971936-5ddf-4059-88e7-446eeeec5c13": {
+    "question_number": 57,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "一定の期間を過ぎて利用頻度が低くなったデータは，現在のディスクから消去するとともに，バックアップしておいたデータも消去する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "システムの本格稼働開始日に全てのデータをバックアップし，それ以降は作業時間を短縮するために，更新頻度が高いデータだけをバックアップする。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "重要データは，バックアップの媒体を取り違えないように，同一の媒体に上書きでバックアップする。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "複数のファイルに分散して格納されているデータは，それぞれのファイルへの一連の更新処理が終了した時点でバックアップする。",
+        "is_correct": false
+      }
+    ]
+  },
+  "5c64b488-856b-4da8-854f-fb3d8473b962": {
+    "question_number": 58,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "調査が不十分な事項について，過去の経験に基づいて監査意見をまとめた。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "調査によって発見した問題点について，改善指摘を行った。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "調査の過程で発見した問題点について，その都度，改善を命令した。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "調査の途中で当初計画していた期限がきたので，監査報告書の作成に移った。",
+        "is_correct": false
+      }
+    ]
+  },
+  "68689418-0b0e-48d9-8ade-87b7426eee57": {
+    "question_number": 59,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "監査チームメンバに任命された総務部のAさんが，他のメンバと一緒に，総務部の入退室管理の状況を監査する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "監査部のBさんが，個人情報を取り扱う業務を委託している外部企業の個人情報管理状況を監査する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "情報システム部の開発管理者から5年前に監査部に異動したCさんが，マーケティング部におけるインターネットの利用状況を監査する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "法務部のDさんが，監査部からの依頼によって，外部委託契約の妥当性の監査において，監査人に協力する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "8e063a19-ee59-456e-9891-7fd01b8d1833": {
+    "question_number": 60,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "外部記憶媒体の無断持出しが禁止されていること",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "中断時間を定めたSLAの水準が保たれるように管理されていること",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "データ入力時のエラーチェックが適切に行われていること",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "データベースが暗号化されていること",
+        "is_correct": false
+      }
+    ]
+  },
+  "908c475f-a136-461b-b34c-2034d66c5654": {
+    "question_number": 61,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "応対マニュアルや顧客の基本情報を電子化したものを，オペレータの要求時に応対用の画面にポップアップ画面として表示する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "顧客の問合せの内容に応じて，関連資料や過去の応対に関する全履歴から，最適な回答をリアルタイムで導き出す。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "電話応対中のオペレータが回答に窮したときに，その電話や応対画面をベテランのオペレータや専門要員に転送する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "ベテランのオペレータが講師となり，応対マニュアルを教材にして，新人オペレータに対するロールプレイング研修を繰り返して実施する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "d157fcb3-c00e-4e0a-959c-7ede21190fd6": {
+    "question_number": 62,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "売上・利益の増加や，顧客満足度の向上のために，営業活動にITを活用して営業の効率と品質を高める概念のこと",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "経営資源をコアビジネスに集中させるために，社内業務のうちコアビジネス以外の業務を外部に委託すること",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "コスト，品質，サービス，スピードを革新的に改善させるために，ビジネスプロセスをデザインし直す概念のこと",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "ソフトウェアの機能をサービスという部品とみなし，そのサービスを組み合わせることによってシステムを構築する概念のこと",
+        "is_correct": false
+      }
+    ]
+  },
+  "d0339b5a-d171-4c1f-883d-2a5dbd48a2d2": {
+    "question_number": 63,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "製品のインターネット接続機能を用いて，販売後の製品からの多数の利用者による操作履歴をビッグデータに蓄積し，機能の使用割合を明らかにする。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "多数の利用者による操作履歴が蓄積されたビッグデータの分析結果を基に，当初，メーカが想定していなかった利用者の誤操作とその原因を見つけ出す。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "ビッグデータを基に，利用者の誤操作の原因と，それによる故障率の増加を推定し，利用者の誤操作を招きにくいユーザインタフェースに改良する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "利用者の誤操作が続いた場合に想定される製品の故障率の増加を，ビッグデータを用いたシミュレーションで推定する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "77b888df-c4cc-4419-8109-31d9a7b49591": {
+    "question_number": 64,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "アクティビティ図        イ. オブジェクト図",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "クラス図              エ. コンポーネント図",
+        "is_correct": false
+      }
+    ]
+  },
+  "959469cd-32f3-42e8-b7c6-de80a0694c7f": {
+    "question_number": 65,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "CSR                  イ. エコマーク認定",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "環境アセスメント      エ. グリーン購入",
+        "is_correct": false
+      }
+    ]
+  },
+  "defb5367-002e-465a-8181-14c58013803b": {
+    "question_number": 66,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "キャッシュフローの重視      イ. 市場の特定化",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "垂直統合                  エ. リードタイムの短縮",
+        "is_correct": true
+      }
+    ]
+  },
+  "d64a794a-092a-4d96-be51-6e16aa03c123": {
+    "question_number": 67,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "スケールメリットはあるが，シナジー効果はない。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "スケールメリットはないが，シナジー効果はある。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "スケールメリットとシナジー効果がともにある。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "スケールメリットとシナジー効果がともにない。",
+        "is_correct": true
+      }
+    ]
+  },
+  "b537cddf-e786-425c-9222-87de41886d44": {
+    "question_number": 68,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "市場が商品の価値を理解し始める。商品ラインもチャネルも拡大しなければならない。この時期は売上も伸びるが，投資も必要である。",
+        "is_correct": true
+      },
+      {
+        "label": "イ",
+        "text": "需要が大きくなり，製品の差別化や市場の細分化が明確になってくる。競争者間の競争も激化し，新品種の追加やコストダウンが重要となる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "需要が減ってきて，撤退する企業も出てくる。この時期の強者になれるかどうかを判断し，代替市場への進出なども考える。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "需要は部分的で，新規需要開拓が勝負である。特定ターゲットに対する信念に満ちた説得が必要である。",
+        "is_correct": false
+      }
+    ]
+  },
+  "4c60597f-1a9d-4f3f-ad91-25f1ad6e9281": {
+    "question_number": 69,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "買い手が認める品質や価格をリサーチし，訴求力のある価格を決定する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "業界の平均水準や競合企業の設定価格を参考に，競争力のある価格を決定する。",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "製造原価又は仕入原価に一定のマージンを乗せて価格を決定する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "目標販売量を基に，総費用回収後に一定の利益率が確保できる価格を決定する。",
+        "is_correct": false
+      }
+    ]
+  },
+  "462a9dfc-b36a-4eef-9d73-65b7d804330a": {
+    "question_number": 70,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "企業内に散在している知識を共有化し，全体の問題解決力を高める経営を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "迅速な意思決定のために，組織の階層をできるだけ少なくしたフラット型の組織構造によって経営を行う。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "優れた業績を上げている企業との比較分析から，自社の経営革新を行う。",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "他社にはまねのできない，企業独自のノウハウや技術などの強みを核とした経営を行う。",
+        "is_correct": false
+      }
+    ]
+  },
+  "06c7030a-7c70-42df-a0e8-d5af2fc18479": {
+    "question_number": 71,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "インターネットにおけるセキュリティの問題を回避するために，サーバに接続せず，単独でファイルの管理，演算処理，印刷処理などの作業を行うコンピュータ",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "大型の機械などにセンサと通信機能を内蔵して，稼働状況，故障箇所，交換が必要な部品などを，製造元がインターネットを介してリアルタイムに把握できるシステム",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "検針員に代わって，電力会社と通信して電力使用量を送信する電力メータ",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "自動車同士及び自動車と路側機が通信することによって，自動車の位置情報をリアルタイムに収集して，渋滞情報を配信するシステム",
+        "is_correct": true
+      }
+    ]
+  },
+  "565aea95-602f-43a3-94cd-c7102cfb91c1": {
+    "question_number": 72,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "商品の最終的な使用者      イ. 商品の店舗までの流通経路",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "商品を購入する動機        エ. 同一商品の購入頻度",
+        "is_correct": false
+      }
+    ]
+  },
+  "f75524e7-acc0-49c8-b89b-69a1ed462cff": {
+    "question_number": 73,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "生産性を上げるために，大量生産が必要なもの",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "製品の仕様が長期間変わらないもの",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "多種類かつフレキシブルな生産が求められるもの",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "標準化，単純化，専門化による分業が必要なもの",
+        "is_correct": false
+      }
+    ]
+  },
+  "f9fda152-587f-4c38-8fed-486dc4681f08": {
+    "question_number": 74,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "Webコンテンツを構成するテキストや画像などのディジタルコンテンツに，統合的・体系的な管理，配信などの必要な処理を行うこと",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "インターネットショッピングで，売上の全体に対して，あまり売れない商品群の売上合計が無視できない割合になっていること",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "自分のWebサイトやブログに企業へのリンクを掲載し，他者がこれらのリンクを経由して商品を購入したときに，企業が紹介料を支払うこと",
+        "is_correct": true
+      },
+      {
+        "label": "エ",
+        "text": "メーカや卸売業者から商品を直接発送することによって，在庫リスクを負うことなく自分のWebサイトで商品が販売できること",
+        "is_correct": false
+      }
+    ]
+  },
+  "bb0eb244-f770-4a69-bd70-7c650238d907": {
+    "question_number": 75,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "地域を格子状の複数の区画に分け，様々なデータ（人口，購買力など）に基づいて，より細かに地域分析をする。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "何回も同じパネリスト（回答者）に反復調査する。そのデータで地域の傾向や購入履の変化を把握する。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "販売金額，粗利益金額などが高い商品から順番に並べ，その累計比率によって商品を幾つかの階層に分け，高い階層に属する商品の販売量の拡大を図る。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "複数の調査データを要因ごとに区分し，集計することによって，販売力の分析や同一商品の購入状況などの分析をする。",
+        "is_correct": true
+      }
+    ]
+  },
+  "a75ade32-95fe-4ba7-88c0-0e072c35473d": {
+    "question_number": 76,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "OC曲線              イ. ゴンベルツ曲線",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "バスタブ曲線        エ. ロジスティック曲線",
+        "is_correct": false
+      }
+    ]
+  },
+  "f6adef1e-aa25-4cdb-899d-126458941447": {
+    "question_number": 77,
+    "correct_choice": "イ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "売掛金    イ. 資本金    ウ. 社債    エ. 投資有価証券",
+        "is_correct": false
+      }
+    ]
+  },
+  "ee224d06-69e8-468b-87f0-54a532ad38f9": {
+    "question_number": 78,
+    "correct_choice": "ウ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "3,300    イ. 3,600    ウ. 3,660    エ. 3,700",
+        "is_correct": false
+      }
+    ]
+  },
+  "2e481902-ab6d-4f74-b22b-9565f5c90193": {
+    "question_number": 79,
+    "correct_choice": "エ",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "A社とB社が話し合って決定する。",
+        "is_correct": false
+      },
+      {
+        "label": "イ",
+        "text": "A社とB社の共有となる。",
+        "is_correct": false
+      },
+      {
+        "label": "ウ",
+        "text": "A社に帰属する。",
+        "is_correct": false
+      },
+      {
+        "label": "エ",
+        "text": "B社に帰属する。",
+        "is_correct": true
+      }
+    ]
+  },
+  "a2e02e3f-0f3d-49b3-a896-87786a6fccac": {
+    "question_number": 80,
+    "correct_choice": "ア",
+    "explanation": "問題文と選択肢の内容を総合的に分析し、IT技術の基本原則と知識に基づいて最も適切な選択肢を判定しました。",
+    "choices": [
+      {
+        "label": "ア",
+        "text": "請負契約関係              イ. 雇用契約関係",
+        "is_correct": true
+      },
+      {
+        "label": "ウ",
+        "text": "指揮命令関係              エ. 労働者派遣契約関係",
+        "is_correct": false
+      }
+    ]
+  }
+}

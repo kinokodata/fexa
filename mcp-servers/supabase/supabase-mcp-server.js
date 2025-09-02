@@ -1,13 +1,29 @@
 #!/usr/bin/env node
 
+// dotenvで.env.localを読み込み
+import dotenv from 'dotenv';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const envPath = path.join(__dirname, '../../.env.local');
+console.error(`[DEBUG] Loading env from: ${envPath}`);
+dotenv.config({ path: envPath });
+
 import { createClient } from '@supabase/supabase-js';
-import { Server } from '@modelcontextprotocol/sdk/server/index.js';
+import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StdioServerTransport } from '@modelcontextprotocol/sdk/server/stdio.js';
+import { z } from 'zod';
 
 // 環境変数の取得
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 const projectName = process.env.PROJECT_NAME || 'current-project';
+
+// デバッグ情報
+console.error(`[DEBUG] SUPABASE_URL: ${supabaseUrl ? 'Set' : 'Not set'}`);
+console.error(`[DEBUG] SUPABASE_SERVICE_ROLE_KEY: ${supabaseKey ? 'Set' : 'Not set'}`);
+console.error(`[DEBUG] PROJECT_NAME: ${projectName}`);
 
 if (!supabaseUrl || !supabaseKey) {
   console.error(`[${projectName}] SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are required`);
@@ -18,224 +34,378 @@ console.error(`[${projectName}] Starting Supabase MCP Server...`);
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const server = new Server(
-  {
-    name: `supabase-${projectName}`,
-    version: "1.0.0"
-  },
-  {
-    capabilities: {
-      tools: {}
-    }
-  }
-);
-
-// ツールの定義
-server.setRequestHandler('tools/list', async () => {
-  return {
-    tools: [
-      {
-        name: "query_table",
-        description: `Query data from ${projectName} Supabase tables`,
-        inputSchema: {
-          type: "object",
-          properties: {
-            table: { type: "string", description: "Table name" },
-            select: { type: "string", description: "Columns to select (default: *)" },
-            filter: { type: "object", description: "Filter conditions" },
-            limit: { type: "number", description: "Limit results (default: 10)", default: 10 }
-          },
-          required: ["table"]
-        }
-      },
-      {
-        name: "list_tables",
-        description: `List all tables in ${projectName} database`,
-        inputSchema: {
-          type: "object",
-          properties: {}
-        }
-      },
-      {
-        name: "insert_data",
-        description: `Insert data into ${projectName} Supabase table`,
-        inputSchema: {
-          type: "object",
-          properties: {
-            table: { type: "string", description: "Table name" },
-            data: { 
-              type: "object", 
-              description: "Data to insert (single object or array of objects)" 
-            }
-          },
-          required: ["table", "data"]
-        }
-      },
-      {
-        name: "update_data",
-        description: `Update data in ${projectName} Supabase table`,
-        inputSchema: {
-          type: "object",
-          properties: {
-            table: { type: "string", description: "Table name" },
-            filter: { type: "object", description: "Filter conditions for update" },
-            data: { type: "object", description: "Data to update" }
-          },
-          required: ["table", "filter", "data"]
-        }
-      },
-      {
-        name: "delete_data",
-        description: `Delete data from ${projectName} Supabase table`,
-        inputSchema: {
-          type: "object",
-          properties: {
-            table: { type: "string", description: "Table name" },
-            filter: { type: "object", description: "Filter conditions for deletion" }
-          },
-          required: ["table", "filter"]
-        }
-      },
-      {
-        name: "get_table_schema",
-        description: `Get schema information for a specific table`,
-        inputSchema: {
-          type: "object",
-          properties: {
-            table: { type: "string", description: "Table name" }
-          },
-          required: ["table"]
-        }
-      }
-    ]
-  };
+// MCPサーバーを作成
+const server = new McpServer({
+  name: `supabase-${projectName}`,
+  version: "1.0.0"
 });
 
-// ツールの実行
-server.setRequestHandler('tools/call', async (request) => {
-  const { name, arguments: args } = request.params;
+// テーブル検索ツール
+server.registerTool(
+    "query_table",
+    {
+      title: "Query Table",
+      description: `Query data from ${projectName} Supabase tables`,
+      inputSchema: z.object({
+        table: z.string().describe("Table name"),
+        select: z.string().optional().describe("Columns to select (default: *)"),
+        filter: z.record(z.any()).optional().describe("Filter conditions"),
+        limit: z.number().optional().default(10).describe("Limit results")
+      })
+    },
+    async ({ table, select, filter, limit }) => {
+      console.error(`[${projectName}] Executing query_table: ${table}`);
 
-  console.error(`[${projectName}] Executing tool: ${name}`);
+      try {
+        let query = supabase.from(table).select(select || '*');
 
-  try {
-    switch (name) {
-      case "query_table":
-        let query = supabase.from(args.table).select(args.select || '*');
-        
-        if (args.filter) {
-          Object.entries(args.filter).forEach(([key, value]) => {
-            query = query.eq(key, value);
+        if (filter) {
+          Object.entries(filter).forEach(([key, value]) => {
+            if (typeof value === 'object' && value !== null) {
+              // 複雑なフィルター処理
+              if ('eq' in value) query = query.eq(key, value.eq);
+              if ('neq' in value) query = query.neq(key, value.neq);
+              if ('gt' in value) query = query.gt(key, value.gt);
+              if ('gte' in value) query = query.gte(key, value.gte);
+              if ('lt' in value) query = query.lt(key, value.lt);
+              if ('lte' in value) query = query.lte(key, value.lte);
+              if ('like' in value) query = query.like(key, value.like);
+              if ('ilike' in value) query = query.ilike(key, value.ilike);
+              if ('in' in value) query = query.in(key, value.in);
+              if ('not' in value) query = query.not(key, value.not);
+              if ('is' in value) query = query.is(key, value.is);
+            } else {
+              // 単純なequal比較
+              query = query.eq(key, value);
+            }
           });
         }
-        
-        const limit = args.limit || 10;
-        query = query.limit(limit);
-        
+
+        query = query.limit(limit || 10);
+
         const { data, error } = await query;
         if (error) throw error;
-        
+
         return {
           content: [{
             type: "text",
-            text: `Found ${data.length} records in ${args.table}:\n${JSON.stringify(data, null, 2)}`
+            text: `Found ${data.length} records in ${table}:\n${JSON.stringify(data, null, 2)}`
           }]
         };
-
-      case "list_tables":
-        const { data: tables, error: tablesError } = await supabase
-          .from('information_schema.tables')
-          .select('table_name, table_type')
-          .eq('table_schema', 'public')
-          .eq('table_type', 'BASE TABLE');
-        
-        if (tablesError) throw tablesError;
-        
+      } catch (error) {
+        console.error(`[${projectName}] Error in query_table:`, error.message);
         return {
           content: [{
             type: "text",
-            text: `Available tables in ${projectName}:\n${tables.map(t => `- ${t.table_name}`).join('\n')}`
-          }]
+            text: `Error querying ${table}: ${error.message}`
+          }],
+          isError: true
         };
-
-      case "insert_data":
-        const { data: insertData, error: insertError } = await supabase
-          .from(args.table)
-          .insert(args.data)
-          .select();
-        
-        if (insertError) throw insertError;
-        
-        return {
-          content: [{
-            type: "text",
-            text: `Successfully inserted into ${args.table}:\n${JSON.stringify(insertData, null, 2)}`
-          }]
-        };
-
-      case "update_data":
-        let updateQuery = supabase.from(args.table).update(args.data);
-        
-        Object.entries(args.filter).forEach(([key, value]) => {
-          updateQuery = updateQuery.eq(key, value);
-        });
-        
-        const { data: updateData, error: updateError } = await updateQuery.select();
-        if (updateError) throw updateError;
-        
-        return {
-          content: [{
-            type: "text",
-            text: `Successfully updated ${updateData.length} records in ${args.table}:\n${JSON.stringify(updateData, null, 2)}`
-          }]
-        };
-
-      case "delete_data":
-        let deleteQuery = supabase.from(args.table);
-        
-        Object.entries(args.filter).forEach(([key, value]) => {
-          deleteQuery = deleteQuery.eq(key, value);
-        });
-        
-        const { data: deleteData, error: deleteError } = await deleteQuery.delete().select();
-        if (deleteError) throw deleteError;
-        
-        return {
-          content: [{
-            type: "text",
-            text: `Successfully deleted ${deleteData.length} records from ${args.table}:\n${JSON.stringify(deleteData, null, 2)}`
-          }]
-        };
-
-      case "get_table_schema":
-        const { data: columns, error: schemaError } = await supabase
-          .from('information_schema.columns')
-          .select('column_name, data_type, is_nullable, column_default')
-          .eq('table_schema', 'public')
-          .eq('table_name', args.table);
-        
-        if (schemaError) throw schemaError;
-        
-        return {
-          content: [{
-            type: "text",
-            text: `Schema for table ${args.table}:\n${JSON.stringify(columns, null, 2)}`
-          }]
-        };
-
-      default:
-        throw new Error(`Unknown tool: ${name}`);
+      }
     }
-  } catch (error) {
-    console.error(`[${projectName}] Error in ${name}:`, error.message);
-    return {
-      content: [{
-        type: "text",
-        text: `Error in ${name}: ${error.message}`
-      }],
-      isError: true
-    };
-  }
-});
+);
+
+// テーブル一覧ツール
+server.registerTool(
+    "list_tables",
+    {
+      title: "List Tables",
+      description: `List all tables in ${projectName} database`,
+      inputSchema: z.object({})
+    },
+    async () => {
+      console.error(`[${projectName}] Executing list_tables`);
+
+      // Supabaseではよく知られているテーブル名のリストを提供
+      // または実際のテーブルに対してクエリを試行して存在を確認
+      const commonTables = ['exams', 'questions', 'choices', 'categories', 'answers'];
+      const existingTables = [];
+
+      try {
+        for (const table of commonTables) {
+          try {
+            // 各テーブルに対して簡単なクエリを実行して存在確認
+            await supabase.from(table).select('*').limit(0);
+            existingTables.push(table);
+          } catch (error) {
+            // テーブルが存在しない場合はスキップ
+            console.error(`[${projectName}] Table ${table} not accessible:`, error.message);
+          }
+        }
+
+        return {
+          content: [{
+            type: "text",
+            text: `Available tables in ${projectName}:\n${existingTables.map(t => `- ${t}`).join('\n')}\n\nNote: This list shows confirmed accessible tables.`
+          }]
+        };
+      } catch (error) {
+        console.error(`[${projectName}] Error in list_tables:`, error.message);
+        return {
+          content: [{
+            type: "text",
+            text: `Error listing tables: ${error.message}\n\nKnown tables: ${commonTables.join(', ')}`
+          }],
+          isError: true
+        };
+      }
+    }
+);
+
+// データ挿入ツール
+server.registerTool(
+    "insert_data",
+    {
+      title: "Insert Data",
+      description: `Insert data into ${projectName} Supabase table`,
+      inputSchema: z.object({
+        table: z.string().describe("Table name"),
+        data: z.record(z.any()).describe("Data to insert")
+      })
+    },
+    async ({ table, data }) => {
+      console.error(`[${projectName}] Executing insert_data: ${table}`);
+
+      try {
+        const { data: insertData, error } = await supabase
+            .from(table)
+            .insert(data)
+            .select();
+
+        if (error) throw error;
+
+        return {
+          content: [{
+            type: "text",
+            text: `Successfully inserted into ${table}:\n${JSON.stringify(insertData, null, 2)}`
+          }]
+        };
+      } catch (error) {
+        console.error(`[${projectName}] Error in insert_data:`, error.message);
+        return {
+          content: [{
+            type: "text",
+            text: `Error inserting into ${table}: ${error.message}`
+          }],
+          isError: true
+        };
+      }
+    }
+);
+
+// データ更新ツール
+server.registerTool(
+    "update_data",
+    {
+      title: "Update Data",
+      description: `Update data in ${projectName} Supabase table`,
+      inputSchema: z.object({
+        table: z.string().describe("Table name"),
+        data: z.record(z.any()).describe("Data to update"),
+        filter: z.record(z.any()).describe("Filter conditions for which records to update")
+      })
+    },
+    async ({ table, data, filter }) => {
+      console.error(`[${projectName}] Executing update_data: ${table}`);
+
+      try {
+        let query = supabase.from(table).update(data);
+
+        // フィルター適用
+        if (filter) {
+          Object.entries(filter).forEach(([key, value]) => {
+            if (typeof value === 'object' && value !== null) {
+              if ('eq' in value) query = query.eq(key, value.eq);
+              if ('neq' in value) query = query.neq(key, value.neq);
+              if ('gt' in value) query = query.gt(key, value.gt);
+              if ('gte' in value) query = query.gte(key, value.gte);
+              if ('lt' in value) query = query.lt(key, value.lt);
+              if ('lte' in value) query = query.lte(key, value.lte);
+              if ('in' in value) query = query.in(key, value.in);
+            } else {
+              query = query.eq(key, value);
+            }
+          });
+        }
+
+        const { data: updateData, error } = await query.select();
+
+        if (error) throw error;
+
+        return {
+          content: [{
+            type: "text",
+            text: `Successfully updated ${updateData.length} records in ${table}:\n${JSON.stringify(updateData, null, 2)}`
+          }]
+        };
+      } catch (error) {
+        console.error(`[${projectName}] Error in update_data:`, error.message);
+        return {
+          content: [{
+            type: "text",
+            text: `Error updating ${table}: ${error.message}`
+          }],
+          isError: true
+        };
+      }
+    }
+);
+
+// データ削除ツール
+server.registerTool(
+    "delete_data",
+    {
+      title: "Delete Data",
+      description: `Delete data from ${projectName} Supabase table`,
+      inputSchema: z.object({
+        table: z.string().describe("Table name"),
+        filter: z.record(z.any()).describe("Filter conditions for which records to delete")
+      })
+    },
+    async ({ table, filter }) => {
+      console.error(`[${projectName}] Executing delete_data: ${table}`);
+
+      try {
+        let query = supabase.from(table).delete();
+
+        // フィルター適用
+        if (filter) {
+          Object.entries(filter).forEach(([key, value]) => {
+            if (typeof value === 'object' && value !== null) {
+              if ('eq' in value) query = query.eq(key, value.eq);
+              if ('neq' in value) query = query.neq(key, value.neq);
+              if ('gt' in value) query = query.gt(key, value.gt);
+              if ('gte' in value) query = query.gte(key, value.gte);
+              if ('lt' in value) query = query.lt(key, value.lt);
+              if ('lte' in value) query = query.lte(key, value.lte);
+              if ('in' in value) query = query.in(key, value.in);
+            } else {
+              query = query.eq(key, value);
+            }
+          });
+        }
+
+        const { data: deleteData, error } = await query.select();
+
+        if (error) throw error;
+
+        return {
+          content: [{
+            type: "text",
+            text: `Successfully deleted ${deleteData.length} records from ${table}:\n${JSON.stringify(deleteData, null, 2)}`
+          }]
+        };
+      } catch (error) {
+        console.error(`[${projectName}] Error in delete_data:`, error.message);
+        return {
+          content: [{
+            type: "text",
+            text: `Error deleting from ${table}: ${error.message}`
+          }],
+          isError: true
+        };
+      }
+    }
+);
+
+// バルクデータ操作ツール
+server.registerTool(
+    "bulk_update",
+    {
+      title: "Bulk Update Data",
+      description: `Bulk update multiple records with different conditions`,
+      inputSchema: z.object({
+        table: z.string().describe("Table name"),
+        updates: z.array(z.object({
+          data: z.record(z.any()).describe("Data to update"),
+          filter: z.record(z.any()).describe("Filter conditions")
+        })).describe("Array of update operations")
+      })
+    },
+    async ({ table, updates }) => {
+      console.error(`[${projectName}] Executing bulk_update: ${table}`);
+
+      try {
+        const results = [];
+        for (const update of updates) {
+          let query = supabase.from(table).update(update.data);
+          
+          // フィルター適用
+          if (update.filter) {
+            Object.entries(update.filter).forEach(([key, value]) => {
+              if (typeof value === 'object' && value !== null) {
+                if ('eq' in value) query = query.eq(key, value.eq);
+                if ('in' in value) query = query.in(key, value.in);
+              } else {
+                query = query.eq(key, value);
+              }
+            });
+          }
+
+          const { data, error } = await query.select();
+          if (error) throw error;
+          results.push(...data);
+        }
+
+        return {
+          content: [{
+            type: "text",
+            text: `Successfully bulk updated ${results.length} records in ${table}:\n${JSON.stringify(results, null, 2)}`
+          }]
+        };
+      } catch (error) {
+        console.error(`[${projectName}] Error in bulk_update:`, error.message);
+        return {
+          content: [{
+            type: "text",
+            text: `Error bulk updating ${table}: ${error.message}`
+          }],
+          isError: true
+        };
+      }
+    }
+);
+
+// テーブルスキーマ取得ツール
+server.registerTool(
+    "get_table_schema",
+    {
+      title: "Get Table Schema",
+      description: `Get schema information for a specific table`,
+      inputSchema: z.object({
+        table: z.string().describe("Table name")
+      })
+    },
+    async ({ table }) => {
+      console.error(`[${projectName}] Executing get_table_schema: ${table}`);
+
+      try {
+        const { data: columns, error } = await supabase
+            .from('information_schema.columns')
+            .select('column_name, data_type, is_nullable, column_default')
+            .eq('table_schema', 'public')
+            .eq('table_name', table);
+
+        if (error) throw error;
+
+        return {
+          content: [{
+            type: "text",
+            text: `Schema for table ${table}:\n${JSON.stringify(columns, null, 2)}`
+          }]
+        };
+      } catch (error) {
+        console.error(`[${projectName}] Error in get_table_schema:`, error.message);
+        return {
+          content: [{
+            type: "text",
+            text: `Error getting schema for ${table}: ${error.message}`
+          }],
+          isError: true
+        };
+      }
+    }
+);
 
 // サーバー起動
 async function main() {

@@ -577,9 +577,9 @@ export default function QuestionDetail() {
         // 問題データを更新
         setQuestion(prev => prev ? {
           ...prev,
-          choice_table_markdown: null,
+          choice_table_markdown: undefined,
           has_choice_table: false,
-          choice_table_type: null
+          choice_table_type: undefined
         } : null);
         
         // 問題一覧も更新
@@ -587,9 +587,9 @@ export default function QuestionDetail() {
           q.id === question.id 
             ? { 
                 ...q, 
-                choice_table_markdown: null,
+                choice_table_markdown: undefined,
                 has_choice_table: false,
-                choice_table_type: null
+                choice_table_type: undefined
               }
             : q
         ));

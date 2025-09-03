@@ -448,6 +448,44 @@ router.patch('/:id/choice-table', authenticateToken, async (req, res) => {
   }
 });
 
+// 表形式選択肢削除エンドポイント
+router.delete('/:id/choice-table', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { id } = req.params;
+
+    // 表形式選択肢を削除（nullに設定）し、has_choice_tableをfalseに
+    const { data: updatedQuestion, error: updateError } = await supabase
+      .from('questions')
+      .update({ 
+        choice_table_markdown: null,
+        has_choice_table: false,
+        choice_table_type: null
+      })
+      .eq('id', id)
+      .select('id, choice_table_markdown, has_choice_table, choice_table_type')
+      .single();
+
+    if (updateError) {
+      logger.error('表形式選択肢削除エラー:', updateError);
+      return res.status(500).json(error('表形式選択肢の削除に失敗しました'));
+    }
+
+    if (!updatedQuestion) {
+      return res.status(404).json(error('問題が見つかりません'));
+    }
+
+    logger.info(`問題 ${id} の表形式選択肢を削除しました`);
+    res.json(success({
+      message: '表形式選択肢を削除しました',
+      data: updatedQuestion
+    }));
+  } catch (err) {
+    logger.error('表形式選択肢削除エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
 // 選択肢テキスト更新エンドポイント
 router.patch('/:id/choices/:choiceId', authenticateToken, async (req, res) => {
   try {

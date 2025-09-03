@@ -163,6 +163,13 @@ class ApiClient {
     });
   }
 
+  // 表形式選択肢を削除
+  async deleteChoiceTable(questionId: string): Promise<ApiResponse<{ message: string; data: any }>> {
+    return this.request<{ message: string; data: any }>(`/api/questions/${questionId}/choice-table`, {
+      method: 'DELETE',
+    });
+  }
+
   // カテゴリ関連のメソッド
 
   // 全カテゴリを階層構造で取得

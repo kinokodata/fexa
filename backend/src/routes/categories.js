@@ -555,6 +555,83 @@ router.delete('/question/:questionId/:relationId', authenticateToken, async (req
   }
 });
 
+// カテゴリ作成
+router.post('/', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { name, level, parent_id, display_order, exam_code, category_type } = req.body;
+
+    if (!name || !level || !exam_code) {
+      return res.status(400).json(error('name, level, exam_code は必須です'));
+    }
+
+    // levelに基づいてcategory_typeを決定
+    let categoryType = category_type;
+    if (!categoryType) {
+      switch (level) {
+        case 1: categoryType = 'field'; break;
+        case 2: categoryType = 'major'; break;
+        case 3: categoryType = 'medium'; break;
+        case 4: categoryType = 'minor'; break;
+        case 5: categoryType = 'knowledge'; break;
+        default: categoryType = 'unknown';
+      }
+    }
+
+    const { data: category, error: insertError } = await supabase
+      .from('categories')
+      .insert({
+        name,
+        level,
+        parent_id: parent_id || null,
+        display_order: display_order || 1,
+        exam_code,
+        category_type: categoryType
+      })
+      .select()
+      .single();
+
+    if (insertError) {
+      logger.error('カテゴリ作成エラー:', insertError);
+      return res.status(500).json(error('カテゴリの作成に失敗しました'));
+    }
+
+    logger.info(`カテゴリを作成しました: ${category.name}`);
+    res.json(success(category));
+  } catch (err) {
+    logger.error('カテゴリ作成エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
+// カテゴリ一括削除（試験コード指定）
+router.delete('/bulk', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { exam_code } = req.body;
+
+    if (!exam_code) {
+      return res.status(400).json(error('exam_code は必須です'));
+    }
+
+    const { error: deleteError } = await supabase
+      .from('categories')
+      .delete()
+      .eq('exam_code', exam_code);
+
+    if (deleteError) {
+      logger.error('カテゴリ一括削除エラー:', deleteError);
+      return res.status(500).json(error('カテゴリの一括削除に失敗しました'));
+    }
+
+    logger.info(`試験コード ${exam_code} のカテゴリを一括削除しました`);
+    res.json(success({ message: '一括削除が完了しました' }));
+  } catch (err) {
+    logger.error('カテゴリ一括削除エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
 // カテゴリによる問題検索
 router.get('/questions/:categoryId', async (req, res) => {
   try {

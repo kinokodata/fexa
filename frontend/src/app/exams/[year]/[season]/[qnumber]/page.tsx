@@ -153,6 +153,9 @@ export default function QuestionDetail() {
   const [updatingChoiceText, setUpdatingChoiceText] = useState(false);
   const [choiceTableModal, setChoiceTableModal] = useState<{open: boolean, text: string}>({open: false, text: ''});
   const [updatingChoiceTable, setUpdatingChoiceTable] = useState(false);
+  const [deletingChoiceTable, setDeletingChoiceTable] = useState(false);
+  const [convertingToTable, setConvertingToTable] = useState(false);
+  const [convertToTableModal, setConvertToTableModal] = useState<{open: boolean, text: string}>({open: false, text: ''});
   
   // カテゴリ関連の状態
   const [categoryModal, setCategoryModal] = useState(false);
@@ -460,6 +463,18 @@ export default function QuestionDetail() {
     setChoiceTableModal({open: false, text: ''});
   };
 
+  // 選択肢を表形式にするモーダルのハンドラー
+  const handleOpenConvertToTableModal = () => {
+    setConvertToTableModal({
+      open: true,
+      text: ''
+    });
+  };
+
+  const handleCloseConvertToTableModal = () => {
+    setConvertToTableModal({open: false, text: ''});
+  };
+
   const handleUpdateChoiceText = async () => {
     if (!question?.id || !choiceEditModal.choiceId || updatingChoiceText) return;
     
@@ -542,6 +557,97 @@ export default function QuestionDetail() {
       setError('表形式選択肢の更新中にエラーが発生しました');
     } finally {
       setUpdatingChoiceTable(false);
+    }
+  };
+
+  const handleDeleteChoiceTable = async () => {
+    if (!question?.id || deletingChoiceTable) return;
+    
+    // 確認ダイアログ
+    if (!window.confirm('表形式選択肢を削除してもよろしいですか？\n削除すると元に戻すことはできません。')) {
+      return;
+    }
+    
+    try {
+      setDeletingChoiceTable(true);
+      const { default: apiClient } = await import('../../../../../services/api');
+      const result = await apiClient.deleteChoiceTable(question.id);
+      
+      if (result.success) {
+        // 問題データを更新
+        setQuestion(prev => prev ? {
+          ...prev,
+          choice_table_markdown: null,
+          has_choice_table: false,
+          choice_table_type: null
+        } : null);
+        
+        // 問題一覧も更新
+        setQuestions(prev => prev.map(q => 
+          q.id === question.id 
+            ? { 
+                ...q, 
+                choice_table_markdown: null,
+                has_choice_table: false,
+                choice_table_type: null
+              }
+            : q
+        ));
+        
+        setError(null);
+        // 成功メッセージは表示せず、削除されたことが視覚的に分かるようにする
+      } else {
+        setError('表形式選択肢の削除に失敗しました');
+      }
+    } catch (error) {
+      console.error('表形式選択肢削除エラー:', error);
+      setError('表形式選択肢の削除中にエラーが発生しました');
+    } finally {
+      setDeletingChoiceTable(false);
+    }
+  };
+
+  const handleConvertToTable = async () => {
+    if (!question?.id || convertingToTable) return;
+    
+    try {
+      setConvertingToTable(true);
+      const { default: apiClient } = await import('../../../../../services/api');
+      
+      // 表形式選択肢として保存
+      const result = await apiClient.updateChoiceTable(question.id, convertToTableModal.text);
+      
+      if (result.success) {
+        // 問題データを更新（表形式フラグも設定）
+        setQuestion(prev => prev ? {
+          ...prev,
+          choice_table_markdown: convertToTableModal.text,
+          has_choice_table: true,
+          choice_table_type: 'markdown'
+        } : null);
+        
+        // 問題一覧も更新
+        setQuestions(prev => prev.map(q => 
+          q.id === question.id 
+            ? { 
+                ...q, 
+                choice_table_markdown: convertToTableModal.text,
+                has_choice_table: true,
+                choice_table_type: 'markdown'
+              }
+            : q
+        ));
+        
+        handleCloseConvertToTableModal();
+        setError(null);
+      } else {
+        setError('表形式への変換に失敗しました');
+      }
+    } catch (error) {
+      console.error('表形式変換エラー:', error);
+      setError('表形式への変換中にエラーが発生しました');
+    } finally {
+      setConvertingToTable(false);
     }
   };
 
@@ -1293,7 +1399,7 @@ export default function QuestionDetail() {
           {question.has_choice_table && (
             <Box sx={{ mb: 3 }}>
               {question.choice_table_type === 'markdown' && editingCorrectAnswer && (
-                <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 1, mb: 2 }}>
                   <Button
                     startIcon={<EditIcon />}
                     onClick={handleOpenChoiceTableModal}
@@ -1301,6 +1407,16 @@ export default function QuestionDetail() {
                     size="small"
                   >
                     表を編集
+                  </Button>
+                  <Button
+                    startIcon={<DeleteIcon />}
+                    onClick={handleDeleteChoiceTable}
+                    variant="outlined"
+                    size="small"
+                    color="error"
+                    disabled={deletingChoiceTable}
+                  >
+                    {deletingChoiceTable ? '削除中...' : '表を削除'}
                   </Button>
                 </Box>
               )}
@@ -1363,6 +1479,21 @@ export default function QuestionDetail() {
             </Box>
           )}
           
+          {/* 表形式変換ボタン（通常選択肢かつ編集モードの時のみ表示） */}
+          {!question.has_choice_table && editingCorrectAnswer && question.choices && question.choices.length > 0 && (
+            <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 2 }}>
+              <Button
+                startIcon={<TableChartIcon />}
+                onClick={handleOpenConvertToTableModal}
+                variant="outlined"
+                size="small"
+                color="primary"
+              >
+                選択肢を表形式にする
+              </Button>
+            </Box>
+          )}
+
           <Box sx={{ width: '100%' }}>
             {question.choices.map((choice) => (
               <Box 
@@ -2115,6 +2246,82 @@ export default function QuestionDetail() {
                 }
               >
                 {updatingChoiceTable ? '更新中...' : '更新'}
+              </Button>
+            </Box>
+          </Box>
+        </Modal>
+
+        {/* 選択肢を表形式に変換するモーダル */}
+        <Modal
+          open={convertToTableModal.open}
+          onClose={handleCloseConvertToTableModal}
+          aria-labelledby="convert-to-table-modal-title"
+        >
+          <Box
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: { xs: '90%', sm: '80%', md: '70%' },
+              bgcolor: 'background.paper',
+              boxShadow: 24,
+              borderRadius: 2,
+              p: 4,
+              maxHeight: '80vh',
+              overflow: 'auto'
+            }}
+          >
+            <Typography id="convert-to-table-modal-title" variant="h6" component="h2" sx={{ mb: 3 }}>
+              選択肢を表形式にする
+            </Typography>
+            
+            <Alert severity="info" sx={{ mb: 3 }}>
+              選択肢を表形式で表示します。表として表示され、個別の選択肢編集はできなくなります。
+            </Alert>
+            
+            <TextField
+              multiline
+              rows={10}
+              fullWidth
+              variant="outlined"
+              label="選択肢表（Markdownテーブル形式）"
+              value={convertToTableModal.text}
+              onChange={(e) => setConvertToTableModal(prev => ({...prev, text: e.target.value}))}
+              sx={{ mb: 3 }}
+              helperText="例: | 選択肢 | 内容 |"
+              placeholder="Markdownテーブル形式で入力してください...&#10;例:&#10;| 選択肢 | 内容 |&#10;| --- | --- |&#10;| ア | 内容1 |&#10;| イ | 内容2 |"
+            />
+            
+            {/* プレビュー表示 */}
+            {convertToTableModal.text && (
+              <Box sx={{ mb: 3, p: 2, border: '1px solid #e0e0e0', borderRadius: 1, backgroundColor: 'grey.50' }}>
+                <Typography variant="subtitle2" sx={{ mb: 1, fontWeight: 'bold' }}>
+                  プレビュー:
+                </Typography>
+                <MarkdownRenderer 
+                  hasImages={false}
+                  shouldShowImages={false}
+                >
+                  {convertToTableModal.text}
+                </MarkdownRenderer>
+              </Box>
+            )}
+            
+            <Box sx={{ display: 'flex', gap: 2, justifyContent: 'flex-end' }}>
+              <Button
+                onClick={handleCloseConvertToTableModal}
+                variant="outlined"
+                disabled={convertingToTable}
+              >
+                キャンセル
+              </Button>
+              <Button
+                onClick={handleConvertToTable}
+                variant="contained"
+                disabled={convertingToTable || !convertToTableModal.text.trim()}
+              >
+                {convertingToTable ? '更新中...' : '更新'}
               </Button>
             </Box>
           </Box>

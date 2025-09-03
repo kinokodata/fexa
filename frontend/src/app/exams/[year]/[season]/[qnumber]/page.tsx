@@ -116,6 +116,7 @@ interface Category {
   path?: string;
   children?: Category[];
   question_count?: number;
+  relation_id?: string;  // 問題とカテゴリの関連ID
 }
 
 interface CategorySet {
@@ -730,84 +731,47 @@ export default function QuestionDetail() {
     
     switch (type) {
       case 'field':
-        // Level 1: 分野 - Get all unique field names
-        const uniqueFields = new Map<string, Category>();
-        categories
-          .filter(cat => cat.level === 1 && cat.field_name)
-          .forEach(cat => {
-            if (!uniqueFields.has(cat.field_name)) {
-              uniqueFields.set(cat.field_name, {
-                ...cat,
-                name: cat.field_name
-              });
-            }
-          });
-        filtered = Array.from(uniqueFields.values());
+        // Level 1: 分野 - Get all field level categories
+        filtered = categories.filter(cat => cat.level === 1);
         break;
         
       case 'major':
         // Level 2: カテゴリ大 - Filter by parent field
         if (parentName) {
-          const uniqueMajors = new Map<string, Category>();
-          categories
-            .filter(cat => cat.level === 2 && cat.field_name === parentName && cat.major_category)
-            .forEach(cat => {
-              if (!uniqueMajors.has(cat.major_category)) {
-                uniqueMajors.set(cat.major_category, {
-                  ...cat,
-                  name: cat.major_category
-                });
-              }
-            });
-          filtered = Array.from(uniqueMajors.values());
+          const parentField = categories.find(cat => cat.level === 1 && cat.name === parentName);
+          if (parentField) {
+            filtered = categories.filter(cat => cat.level === 2 && cat.parent_id === parentField.id);
+          }
         }
         break;
         
       case 'medium':
         // Level 3: カテゴリ中 - Filter by parent major
         if (parentName) {
-          const uniqueMediums = new Map<string, Category>();
-          categories
-            .filter(cat => cat.level === 3 && cat.major_category === parentName && cat.medium_category)
-            .forEach(cat => {
-              if (!uniqueMediums.has(cat.medium_category)) {
-                uniqueMediums.set(cat.medium_category, {
-                  ...cat,
-                  name: cat.medium_category
-                });
-              }
-            });
-          filtered = Array.from(uniqueMediums.values());
+          const parentMajor = categories.find(cat => cat.level === 2 && cat.name === parentName);
+          if (parentMajor) {
+            filtered = categories.filter(cat => cat.level === 3 && cat.parent_id === parentMajor.id);
+          }
         }
         break;
         
       case 'minor':
         // Level 4: カテゴリ小 - Filter by parent medium
         if (parentName) {
-          const uniqueMinors = new Map<string, Category>();
-          categories
-            .filter(cat => cat.level === 4 && cat.medium_category === parentName && cat.minor_category)
-            .forEach(cat => {
-              if (!uniqueMinors.has(cat.minor_category)) {
-                uniqueMinors.set(cat.minor_category, {
-                  ...cat,
-                  name: cat.minor_category
-                });
-              }
-            });
-          filtered = Array.from(uniqueMinors.values());
+          const parentMedium = categories.find(cat => cat.level === 3 && cat.name === parentName);
+          if (parentMedium) {
+            filtered = categories.filter(cat => cat.level === 4 && cat.parent_id === parentMedium.id);
+          }
         }
         break;
         
       case 'knowledge':
         // Level 5: ナレッジ - Filter by parent minor
         if (parentName) {
-          filtered = categories.filter(cat => 
-            cat.level === 5 && 
-            cat.minor_category === parentName && 
-            cat.knowledge_item &&
-            cat.name
-          );
+          const parentMinor = categories.find(cat => cat.level === 4 && cat.name === parentName);
+          if (parentMinor) {
+            filtered = categories.filter(cat => cat.level === 5 && cat.parent_id === parentMinor.id);
+          }
         }
         break;
         
@@ -858,7 +822,7 @@ export default function QuestionDetail() {
     if (!question?.id || !relationId) return;
 
     // 削除対象のカテゴリ情報を取得（確認用）
-    const categoryToDelete = questionCategories.find(cat => cat.relation_id === relationId || cat.id === relationId);
+    const categoryToDelete = questionCategories.find(cat => (cat as any).relation_id === relationId || cat.id === relationId);
     const categoryName = categoryToDelete?.path || categoryToDelete?.name || 'カテゴリ';
 
     // 確認ダイアログ
@@ -876,8 +840,8 @@ export default function QuestionDetail() {
         setError(null);
         
         // 削除完了メッセージ
-        if (result.data?.categories_deleted) {
-          console.log(`階層カテゴリを削除しました: ${result.data.path} (${result.data.categories_deleted}件)`);
+        if ((result.data as any)?.categories_deleted) {
+          console.log(`階層カテゴリを削除しました: ${(result.data as any).path} (${(result.data as any).categories_deleted}件)`);
         }
       } else {
         console.error('カテゴリ削除失敗:', result.error);
@@ -2416,7 +2380,7 @@ export default function QuestionDetail() {
                           label={displayLabel}
                           size="medium"
                           variant="filled"
-                          onDelete={() => handleDeleteQuestionCategory(category.relation_id || category.id)}
+                          onDelete={() => handleDeleteQuestionCategory((category as any).relation_id || category.id)}
                           deleteIcon={<DeleteIcon />}
                           title={category.path ? `パス: ${category.path}` : category.name}
                           sx={{
@@ -2570,14 +2534,17 @@ export default function QuestionDetail() {
                       />
                     )}
                     renderTags={(value, getTagProps) =>
-                      value.map((option, index) => (
-                        <Chip
-                          key={option.id}
-                          variant="outlined"
-                          label={option.name}
-                          {...getTagProps({ index })}
-                        />
-                      ))
+                      value.map((option, index) => {
+                        const { key, ...tagProps } = getTagProps({ index });
+                        return (
+                          <Chip
+                            key={option.id}
+                            variant="outlined"
+                            label={option.name}
+                            {...tagProps}
+                          />
+                        );
+                      })
                     }
                   />
                 </Box>

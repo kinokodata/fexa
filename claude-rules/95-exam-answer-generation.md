@@ -48,19 +48,52 @@ pdfs/
 - プレフィックス: `tmp_`
 - 形式: `tmp_questions.json`
 
-### 3. Claude Code による解析・生成
+### 3. Claude Code による解析・生成（text-data.md直接編集方式）
+
+**重要**: 解答生成では自動化ツールやスクリプトを一切使用せず、Claude CodeのAI分析のみで実行すること。
+
+**新方式: text-data.mdへの直接追記**:
+- text-data.mdファイルに問題文と選択肢が記載されている
+- 各問題の選択肢の後に、正解と解説を直接追記する
+- 画像が必要な場合は同階層のPDFファイルも参照する
 
 **解析対象**:
-- tmp_questions.jsonファイルを読み込み
-- 各問題の内容、選択肢を分析
+- text-data.mdの問題文と選択肢をClaude Codeが直接読み取り
+- 各問題の内容を技術的に分析
 - IT知識に基づいて正解を決定
-- 日本語で解説を生成
+- 日本語で詳細な解説を生成
+
+**生成方法（AI手動解析のみ）**:
+- **禁止**: Python、shell、その他自動化ツールの使用
+- **必須**: Claude CodeのLLM機能を使った問題読み取りと技術分析
+- **手順**: 
+  1. text-data.mdの問題文をClaude Codeが直接読み取り
+  2. 基本情報技術者試験の知識で技術的に分析
+  3. 正解を論理的に判定
+  4. 各問題の選択肢の後にMultiEdit/Editツールで正解と解説を追記
+
+**text-data.md記載形式**:
+```markdown
+## 問XX
+
+問題文...
+
+- ア. 選択肢1
+- イ. 選択肢2
+- ウ. 選択肢3
+- エ. 選択肢4
+
+**正解: X**
+
+解説文...
+```
 
 **生成ルール**:
 1. **正解決定基準**:
    - 基本情報技術者試験レベルのIT知識を適用
    - アルゴリズム、データ構造、ネットワーク、セキュリティ、データベース等の分野
    - 論理的推論と技術的正確性を重視
+   - Claude CodeのAI判断のみで決定（ツール使用禁止）
 
 2. **解説生成基準**:
    - 日本語で記述
@@ -68,6 +101,12 @@ pdfs/
    - 技術的根拠を明確に説明
    - 他の選択肢が不適切である理由も説明
    - 簡潔で教育的な内容
+   - Claude CodeのAI知識で詳細に記述（効率より品質重視）
+
+**品質vs効率の優先順位**:
+- 効率性 < 技術的正確性
+- 自動化 < AI手動解析
+- 速度 < 解説品質
 
 ### 4. 出力形式
 
@@ -102,10 +141,10 @@ pdfs/
    # pdfs/2019_h/tmp_questions.json に保存
    ```
 
-2. Claude Code分析:
-   - `tmp_questions.json`を読み込み
-   - 80問を解析
-   - `answers.json`を生成
+2. Claude Code手動AI分析:
+   - `tmp_questions.json`または`text-data.md`を読み込み
+   - Claude CodeのAI機能で80問を1問ずつ技術的に解析
+   - 自動化ツール使用禁止、手動でMultiEdit/Editツールで`answers.json`を生成
 
 3. 結果確認:
    ```
@@ -130,9 +169,11 @@ pdfs/
 - 解説は学習者にとって理解しやすい内容
 - 全問題を網羅的に処理
 
-## 関連ツール
-- `tools/export-answer/`: Docker化された自動解答生成ツール
-- `scripts/export-answers.sh`: 解答生成簡略化スクリプト
+## 関連ツール（answers.json生成では使用禁止）
+- `tools/export-answer/`: Docker化された自動解答生成ツール（answers.json生成では使用禁止）
+- `scripts/export-answers.sh`: 解答生成簡略化スクリプト（answers.json生成では使用禁止）
+
+**重要**: answers.json生成時はこれらのツールを使用せず、Claude CodeのAI解析のみで実行すること。
 
 ## データ形式互換性
 - 生成されたanswers.jsonは既存のexport-answerツールと同じ形式

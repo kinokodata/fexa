@@ -10,6 +10,7 @@ class MarkdownParser {
     this.choicePattern = /^-\s*([アイウエ])\s*\.?\s*(.+)/gm;
     this.imagePattern = /!\[([^\]]*)\]\(\.\/images\/([^)]+)\)/g;
     this.tablePattern = /^\|\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|$/gm;
+    this.correctAnswerPattern = /^\*\*正解:\s*([アイウエ])\*\*/gm;
   }
 
   async parseFile(mdPath) {
@@ -103,10 +104,31 @@ class MarkdownParser {
   parseQuestionContent(questionNumber, content) {
     const choiceMatches = [...content.matchAll(this.choicePattern)];
     
+    // 正解と解説を抽出
+    const correctAnswerMatches = [...content.matchAll(this.correctAnswerPattern)];
+    const correctAnswer = correctAnswerMatches.length > 0 ? correctAnswerMatches[0][1] : null;
+    
+    let explanation = null;
+    if (correctAnswerMatches.length > 0) {
+      // **正解: X**の後の内容を解説として取得
+      const correctAnswerIndex = content.search(this.correctAnswerPattern);
+      const afterCorrectAnswer = content.substring(correctAnswerIndex);
+      const nextQuestionIndex = afterCorrectAnswer.search(/^##\s*問\s*\d+/gm);
+      
+      if (nextQuestionIndex > 0) {
+        explanation = afterCorrectAnswer.substring(0, nextQuestionIndex).trim();
+      } else {
+        explanation = afterCorrectAnswer.trim();
+      }
+      
+      // **正解: X**の行を除去し、残りを解説として取得
+      explanation = explanation.replace(this.correctAnswerPattern, '').trim();
+    }
+    
     // 通常の箇条書き選択肢がある場合
     if (choiceMatches.length > 0) {
       const firstChoiceIndex = content.search(this.choicePattern);
-      const questionText = content.substring(0, firstChoiceIndex).trim();
+      let questionText = content.substring(0, firstChoiceIndex).trim();
       
       if (!questionText) {
         logger.warn(`問題${questionNumber}: 問題文が空です`);
@@ -117,7 +139,8 @@ class MarkdownParser {
         option: match[1],
         text: match[2].trim(),
         images: this.extractImages(match[2]),
-        isTableFormat: false
+        isTableFormat: false,
+        isCorrect: match[1] === correctAnswer
       }));
       
       const questionImages = this.extractImages(questionText);
@@ -127,12 +150,14 @@ class MarkdownParser {
         text: questionText,
         choices,
         images: questionImages,
-        hasImages: questionImages.length > 0 || choices.some(c => c.images.length > 0)
+        hasImages: questionImages.length > 0 || choices.some(c => c.images.length > 0),
+        correctAnswer,
+        explanation
       };
     }
     
     // 表形式選択肢を検出
-    const tableChoices = this.parseTableChoices(content);
+    const tableChoices = this.parseTableChoices(content, correctAnswer);
     if (tableChoices.length > 0) {
       const tableStartIndex = content.search(/^\|\s*\|/gm);
       const questionText = content.substring(0, tableStartIndex).trim();
@@ -149,7 +174,9 @@ class MarkdownParser {
         text: questionText,
         choices: tableChoices,
         images: questionImages,
-        hasImages: questionImages.length > 0
+        hasImages: questionImages.length > 0,
+        correctAnswer,
+        explanation
       };
     }
     
@@ -157,7 +184,7 @@ class MarkdownParser {
     return null;
   }
 
-  parseTableChoices(content) {
+  parseTableChoices(content, correctAnswer = null) {
     // Markdown表の行を抽出
     const tableLines = content.split('\n').filter(line => line.trim().startsWith('|'));
     
@@ -195,7 +222,8 @@ class MarkdownParser {
           images: this.extractImages(text),
           isTableFormat: true,
           tableHeaders: headers,
-          tableData: [option, ...rowData]
+          tableData: [option, ...rowData],
+          isCorrect: option === correctAnswer
         });
       }
     }

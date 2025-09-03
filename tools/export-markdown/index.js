@@ -158,12 +158,12 @@ class MarkdownExporter {
               logger.warn(`問題${question.number}: 選択肢が不完全なため削除して再登録`);
               // 不完全な問題を削除してから再登録
               await this.supabase.deleteQuestion(existing.id);
+              await this.saveQuestion(question, examId);
               this.stats.reregisteredQuestions++;
             }
           }
-        }
-
-        if (!existing || !overwrite) {
+        } else {
+          // 新規問題の場合
           await this.saveQuestion(question, examId);
           this.stats.successfulQuestions++;
         }
@@ -200,7 +200,8 @@ class MarkdownExporter {
       question_text: question.text,
       has_choice_table: hasChoiceTable,
       choice_table_type: hasChoiceTable ? 'markdown' : null,
-      choice_table_markdown: choiceTableMarkdown
+      choice_table_markdown: choiceTableMarkdown,
+      explanation: question.explanation || null
     };
 
     const savedQuestion = await this.supabase.insertQuestion(questionData);
@@ -212,7 +213,8 @@ class MarkdownExporter {
         question_id: savedQuestion.id,
         choice_label: choice.option,
         choice_text: choice.text,
-        has_image: choice.images.length > 0
+        has_image: choice.images.length > 0,
+        is_correct: choice.isCorrect || false
       }));
 
       savedChoices = await this.supabase.insertChoices(choicesData);
@@ -222,7 +224,8 @@ class MarkdownExporter {
         question_id: savedQuestion.id,
         choice_label: choice.option,
         choice_text: choice.text || '',  // 表形式の場合の簡略テキスト
-        has_image: false
+        has_image: false,
+        is_correct: choice.isCorrect || false
       }));
 
       savedChoices = await this.supabase.insertChoices(choicesData);
@@ -250,7 +253,8 @@ class MarkdownExporter {
       question_text: question.text,
       has_choice_table: hasChoiceTable,
       choice_table_type: hasChoiceTable ? 'markdown' : null,
-      choice_table_markdown: choiceTableMarkdown
+      choice_table_markdown: choiceTableMarkdown,
+      explanation: question.explanation || null
     };
 
     await this.supabase.updateQuestion(questionId, questionData);
@@ -263,7 +267,8 @@ class MarkdownExporter {
     if (question.choices.length > 0) {
       const choicesData = question.choices.map(choice => ({
         choice_text: choice.text,
-        has_image: choice.images.length > 0
+        has_image: choice.images.length > 0,
+        is_correct: choice.isCorrect || false
       }));
 
       savedChoices = await this.supabase.updateChoices(questionId, choicesData);

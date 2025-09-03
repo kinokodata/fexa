@@ -12,33 +12,46 @@ router.get('/', authenticateToken, async (req, res) => {
     const supabase = getSupabase();
     const { year, page = 1, limit = 20 } = req.query;
     
-    // URLパラメータの英語を日本語に変換
+    // URLパラメータを日本語に変換
     let season = req.query.season;
-    if (season === 'spring') season = '春期';
-    if (season === 'autumn') season = '秋期';
+    if (season === 'spring' || season === 'a') season = '春期';
+    if (season === 'autumn' || season === 'h') season = '秋期';
 
+    // まずはカテゴリなしでクエリを試行（デバッグ用）
     let query = supabase
       .from('questions')
       .select(`
         id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at, is_checked, checked_at, checked_by, explanation,
         exam_id,
         choices(id, choice_label, choice_text, has_image, is_correct, choice_images(id, image_type)),
-        categories(id, name),
         question_images(id, image_type)
       `);
 
     // year, seasonで絞り込む場合は、まずexamのIDを取得
     if (year && season) {
+      logger.info(`試験検索: year=${year}, season=${season} (original: ${req.query.season})`);
+      
       const { data: examData, error: examError } = await supabase
         .from('exams')
-        .select('id')
+        .select('id, year, season')
         .eq('year', year)
-        .eq('season', season)
-        .single();
+        .eq('season', season);
+      
+      logger.info('試験検索結果:', { examData, examError });
       
       if (examError) throw new Error(`試験が見つかりません: ${examError.message}`);
+      if (!examData || examData.length === 0) {
+        // 利用可能な試験を取得してログに出力
+        const { data: availableExams } = await supabase
+          .from('exams')
+          .select('id, year, season')
+          .order('year', { ascending: false });
+        logger.info('利用可能な試験一覧:', availableExams);
+        throw new Error(`指定された試験が見つかりません: ${year}年${season}`);
+      }
       
-      query = query.eq('exam_id', examData.id);
+      const exam = examData[0]; // 最初の結果を使用
+      query = query.eq('exam_id', exam.id);
     }
 
     const offset = (parseInt(page) - 1) * parseInt(limit);
@@ -58,6 +71,25 @@ router.get('/', authenticateToken, async (req, res) => {
         .in('id', examIds);
       
       const examsMap = new Map(examsData?.map(e => [e.id, e]) || []);
+
+      // 各問題のカテゴリ情報を取得（question_categoriesテーブルが存在する場合）
+      const questionIds = data.map(q => q.id);
+      const { data: categoryData } = await supabase
+        .from('question_categories')
+        .select('question_id, categories(id, name)')
+        .in('question_id', questionIds);
+      
+      const categoriesMap = new Map();
+      if (categoryData) {
+        categoryData.forEach(item => {
+          if (!categoriesMap.has(item.question_id)) {
+            categoriesMap.set(item.question_id, []);
+          }
+          if (item.categories) {
+            categoriesMap.get(item.question_id).push(item.categories);
+          }
+        });
+      }
       
       for (const question of data) {
         const exam = examsMap.get(question.exam_id);
@@ -66,6 +98,9 @@ router.get('/', authenticateToken, async (req, res) => {
         const seasonCode = exam.season === '春期' ? 'h' : 'a';
         const timeCode = question.question_type === '午前' ? 'am' : 'pm';
         const basePath = `${exam.year}${seasonCode}/${timeCode}_q${question.question_number}`;
+        
+        // カテゴリ情報を追加
+        question.categories = categoriesMap.get(question.id) || [];
         
         // 問題画像のサインドURL生成
         if (question.question_images && question.question_images.length > 0) {

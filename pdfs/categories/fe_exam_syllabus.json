@@ -1,0 +1,251 @@
+{
+  "exam_name": "基本情報技術者試験",
+  "exam_code": "FE",
+  "description": "基本情報技術者試験シラバス",
+  "categories": [
+    {
+      "major_category": "テクノロジ系",
+      "subcategories": [
+        {
+          "medium_category": "基礎理論",
+          "subcategories": [
+            {
+              "minor_category": "基礎理論",
+              "knowledge_items": [
+                "離散数学",
+                "応用数学",
+                "情報理論",
+                "通信理論",
+                "制御理論"
+              ]
+            },
+            {
+              "minor_category": "アルゴリズムとプログラミング",
+              "knowledge_items": [
+                "データ構造",
+                "アルゴリズム",
+                "プログラミング",
+                "プログラム言語",
+                "その他の言語"
+              ]
+            }
+          ]
+        },
+        {
+          "medium_category": "コンピュータシステム",
+          "subcategories": [
+            {
+              "minor_category": "コンピュータ構成要素",
+              "knowledge_items": [
+                "プロセッサ",
+                "メモリ",
+                "バス",
+                "入出力デバイス",
+                "入出力インタフェース"
+              ]
+            },
+            {
+              "minor_category": "システム構成要素",
+              "knowledge_items": [
+                "システムの構成",
+                "システムの評価指標"
+              ]
+            },
+            {
+              "minor_category": "ソフトウェア",
+              "knowledge_items": [
+                "オペレーティングシステム",
+                "ミドルウェア",
+                "ファイルシステム",
+                "開発ツール",
+                "オープンソースソフトウェア"
+              ]
+            },
+            {
+              "minor_category": "ハードウェア",
+              "knowledge_items": [
+                "ハードウェア"
+              ]
+            }
+          ]
+        },
+        {
+          "medium_category": "技術要素",
+          "subcategories": [
+            {
+              "minor_category": "ヒューマンインタフェース",
+              "knowledge_items": [
+                "ヒューマンインタフェース技術",
+                "インタフェース設計"
+              ]
+            },
+            {
+              "minor_category": "マルチメディア",
+              "knowledge_items": [
+                "マルチメディア技術",
+                "マルチメディア応用"
+              ]
+            },
+            {
+              "minor_category": "データベース",
+              "knowledge_items": [
+                "データベース方式",
+                "データベース設計",
+                "データ操作",
+                "トランザクション処理"
+              ]
+            },
+            {
+              "minor_category": "ネットワーク",
+              "knowledge_items": [
+                "ネットワーク方式",
+                "データ通信と制御",
+                "通信プロトコル",
+                "ネットワーク管理",
+                "ネットワーク応用"
+              ]
+            },
+            {
+              "minor_category": "セキュリティ",
+              "knowledge_items": [
+                "情報セキュリティ",
+                "情報セキュリティ管理",
+                "セキュリティ技術評価",
+                "情報セキュリティ対策",
+                "セキュリティ実装技術"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "major_category": "マネジメント系",
+      "subcategories": [
+        {
+          "medium_category": "プロジェクトマネジメント",
+          "subcategories": [
+            {
+              "minor_category": "プロジェクトマネジメント",
+              "knowledge_items": [
+                "プロジェクトマネジメント",
+                "プロジェクトの統合",
+                "プロジェクトのスコープ",
+                "プロジェクトの時間",
+                "プロジェクトのコスト",
+                "プロジェクトの品質",
+                "プロジェクトの人的資源",
+                "プロジェクトのコミュニケーション",
+                "プロジェクトのリスク",
+                "プロジェクトの調達"
+              ]
+            }
+          ]
+        },
+        {
+          "medium_category": "サービスマネジメント",
+          "subcategories": [
+            {
+              "minor_category": "サービスマネジメント",
+              "knowledge_items": [
+                "サービスマネジメント",
+                "サービスの設計・移行",
+                "サービスマネジメントプロセス",
+                "サービスの運用",
+                "ファシリティマネジメント"
+              ]
+            },
+            {
+              "minor_category": "システム監査",
+              "knowledge_items": [
+                "システム監査",
+                "内部統制"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "major_category": "ストラテジ系",
+      "subcategories": [
+        {
+          "medium_category": "システム戦略",
+          "subcategories": [
+            {
+              "minor_category": "システム戦略",
+              "knowledge_items": [
+                "情報システム戦略",
+                "業務プロセス",
+                "ソリューションビジネス",
+                "システム活用促進・評価"
+              ]
+            },
+            {
+              "minor_category": "システム企画",
+              "knowledge_items": [
+                "システム化計画",
+                "要件定義",
+                "調達計画・実施"
+              ]
+            }
+          ]
+        },
+        {
+          "medium_category": "経営戦略",
+          "subcategories": [
+            {
+              "minor_category": "経営戦略マネジメント",
+              "knowledge_items": [
+                "経営戦略手法",
+                "マーケティング",
+                "ビジネス戦略と目標・評価",
+                "経営管理システム"
+              ]
+            },
+            {
+              "minor_category": "技術戦略マネジメント",
+              "knowledge_items": [
+                "技術開発戦略の立案",
+                "技術開発計画"
+              ]
+            },
+            {
+              "minor_category": "ビジネスインダストリ",
+              "knowledge_items": [
+                "ビジネスシステム",
+                "エンジニアリングシステム",
+                "e-ビジネス",
+                "民生機器",
+                "産業機器"
+              ]
+            }
+          ]
+        },
+        {
+          "medium_category": "企業と法務",
+          "subcategories": [
+            {
+              "minor_category": "企業活動",
+              "knowledge_items": [
+                "経営・組織論",
+                "OR・IE",
+                "会計・財務"
+              ]
+            },
+            {
+              "minor_category": "法務",
+              "knowledge_items": [
+                "知的財産権",
+                "セキュリティ関連法規",
+                "労働関連・取引関連法規",
+                "その他の法律・ガイドライン",
+                "標準化関連"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

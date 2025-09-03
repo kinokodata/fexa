@@ -1,0 +1,15 @@
+{
+  "name": "category-classification",
+  "version": "1.0.0",
+  "description": "LLM-based automatic category classification for exam questions",
+  "main": "classify-all.js",
+  "scripts": {
+    "classify": "node classify-all.js",
+    "classify-batch": "node classify-batch.js",
+    "test": "node test-classify.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.0.0"
+  },
+  "type": "module"
+}

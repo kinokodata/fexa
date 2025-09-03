@@ -7,7 +7,7 @@ const logger = new Logger();
 class MarkdownParser {
   constructor() {
     this.questionPattern = /^##\s*問\s*(\d+)/gm;
-    this.choicePattern = /^-\s*([アイウエ])\s*\.?\s*(.+)/gm;
+    this.choicePattern = /^-\s*([アイウエ])\s*(.*?)$/gm;
     this.imagePattern = /!\[([^\]]*)\]\(\.\/images\/([^)]+)\)/g;
     this.tablePattern = /^\|\s*\|\s*(.+?)\s*\|\s*(.+?)\s*\|$/gm;
     this.correctAnswerPattern = /^\*\*正解:\s*([アイウエ])\*\*/gm;
@@ -102,8 +102,6 @@ class MarkdownParser {
   }
 
   parseQuestionContent(questionNumber, content) {
-    const choiceMatches = [...content.matchAll(this.choicePattern)];
-    
     // 正解と解説を抽出
     const correctAnswerMatches = [...content.matchAll(this.correctAnswerPattern)];
     const correctAnswer = correctAnswerMatches.length > 0 ? correctAnswerMatches[0][1] : null;
@@ -125,23 +123,18 @@ class MarkdownParser {
       explanation = explanation.replace(this.correctAnswerPattern, '').trim();
     }
     
+    // 選択肢を段落ベースで分割して抽出
+    const choices = this.parseChoicesFromContent(content, correctAnswer);
+    
     // 通常の箇条書き選択肢がある場合
-    if (choiceMatches.length > 0) {
-      const firstChoiceIndex = content.search(this.choicePattern);
+    if (choices.length > 0) {
+      const firstChoiceIndex = content.search(/^-\s*[アイウエ]/gm);
       let questionText = content.substring(0, firstChoiceIndex).trim();
       
       if (!questionText) {
         logger.warn(`問題${questionNumber}: 問題文が空です`);
         return null;
       }
-      
-      const choices = choiceMatches.map(match => ({
-        option: match[1],
-        text: match[2].trim(),
-        images: this.extractImages(match[2]),
-        isTableFormat: false,
-        isCorrect: match[1] === correctAnswer
-      }));
       
       const questionImages = this.extractImages(questionText);
       
@@ -182,6 +175,54 @@ class MarkdownParser {
     
     logger.warn(`問題${questionNumber}: 選択肢が見つかりません`);
     return null;
+  }
+
+  parseChoicesFromContent(content, correctAnswer) {
+    const lines = content.split('\n');
+    const choices = [];
+    let currentChoice = null;
+    
+    for (const line of lines) {
+      const choiceMatch = line.match(/^-\s*([アイウエ])\s*(.*)$/);
+      
+      if (choiceMatch) {
+        // 前の選択肢を保存
+        if (currentChoice) {
+          choices.push({
+            option: currentChoice.option,
+            text: currentChoice.text.join('\n').trim(),
+            images: this.extractImages(currentChoice.text.join('\n')),
+            isTableFormat: false,
+            isCorrect: currentChoice.option === correctAnswer
+          });
+        }
+        
+        // 新しい選択肢を開始
+        currentChoice = {
+          option: choiceMatch[1],
+          text: [choiceMatch[2]]
+        };
+      } else if (currentChoice && line.trim() && !line.startsWith('**正解:')) {
+        // 現在の選択肢の続きとして追加
+        currentChoice.text.push(line);
+      } else if (currentChoice && (line.startsWith('**正解:') || line.trim() === '')) {
+        // 選択肢の終了
+        break;
+      }
+    }
+    
+    // 最後の選択肢を保存
+    if (currentChoice) {
+      choices.push({
+        option: currentChoice.option,
+        text: currentChoice.text.join('\n').trim(),
+        images: this.extractImages(currentChoice.text.join('\n')),
+        isTableFormat: false,
+        isCorrect: currentChoice.option === correctAnswer
+      });
+    }
+    
+    return choices;
   }
 
   parseTableChoices(content, correctAnswer = null) {

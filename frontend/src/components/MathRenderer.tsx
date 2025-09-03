@@ -19,7 +19,7 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
 
   // Markdownテーブルをパースして表示する
   const parseMarkdownTable = (tableText: string) => {
-    const lines = tableText.trim().split('\n');
+    const lines = tableText.trim().split('\n').filter(line => line.trim());
     if (lines.length < 2) return null;
 
     // ヘッダー行とデータ行を分ける
@@ -27,15 +27,31 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
     const separatorLine = lines[1];
     const dataLines = lines.slice(2);
 
-    // ヘッダーをパース
-    const headers = headerLine.split('|').map(cell => cell.trim()).filter(cell => cell !== '');
+    // セパレータ行がテーブル形式かチェック
+    if (!separatorLine.includes('|') || !separatorLine.match(/[-|:\s]+/)) {
+      return null;
+    }
+
+    // ヘッダーをパース（先頭と末尾の空文字列も除去）
+    const headers = headerLine.split('|')
+      .map(cell => cell.trim())
+      .filter((cell, index, array) => {
+        // 先頭と末尾の空セルを除去（Markdownテーブルの | で始まり | で終わる形式対応）
+        return !(cell === '' && (index === 0 || index === array.length - 1));
+      });
     
     // データ行をパース
-    const rows = dataLines.map(line => 
-      line.split('|').map(cell => cell.trim()).filter(cell => cell !== '')
-    ).filter(row => row.length > 0);
+    const rows = dataLines.map(line => {
+      const cells = line.split('|')
+        .map(cell => cell.trim())
+        .filter((cell, index, array) => {
+          // 先頭と末尾の空セルを除去
+          return !(cell === '' && (index === 0 || index === array.length - 1));
+        });
+      return cells;
+    }).filter(row => row.length > 0);
 
-    if (headers.length === 0 || rows.length === 0) return null;
+    if (headers.length === 0) return null;
 
     return { headers, rows };
   };
@@ -147,7 +163,8 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
     }
     
     // 処理されたテキストから他の要素を検出
-    const tableMatches = Array.from(processedText.matchAll(/(\|[^\n]+\|\n\|[-:| ]+\|\n(?:\|[^\n]+\|\n?)+)/gm));
+    // より柔軟なMarkdownテーブルの検出：| で区切られた行が連続するもの
+    const tableMatches = Array.from(processedText.matchAll(/(?:^\s*\|.*?\|\s*\n){2,}/gm));
     const inlineMatches = Array.from(processedText.matchAll(/\$([^$]+)\$/g));
     const blockMatches = Array.from(processedText.matchAll(/\$\$([^$]+)\$\$/g));
 
@@ -164,7 +181,7 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
         match,
         index: match.index!,
         isBlock: match[0].startsWith('$$'),
-        isTable: match[0].includes('|') && match[0].includes('\n'),
+        isTable: match[0].includes('|') && match[0].split('\n').filter(line => line.includes('|')).length >= 2,
         isList: match[0].match(/^[\s]*[-*]\s+/),
         isBold: match[0].startsWith('**') && match[0].endsWith('**'),
         isItalic: match[0].startsWith('*') && match[0].endsWith('*') && !match[0].startsWith('**'),

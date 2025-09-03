@@ -409,4 +409,91 @@ router.patch('/:id/explanation', async (req, res) => {
   }
 });
 
+// 表形式選択肢更新エンドポイント
+router.patch('/:id/choice-table', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { id } = req.params;
+    const { choiceTableMarkdown } = req.body;
+
+    if (typeof choiceTableMarkdown !== 'string') {
+      return res.status(400).json(error('選択肢表のマークダウンは文字列である必要があります'));
+    }
+
+    // 表形式選択肢のマークダウンを更新
+    const { data: updatedQuestion, error: updateError } = await supabase
+      .from('questions')
+      .update({ choice_table_markdown: choiceTableMarkdown })
+      .eq('id', id)
+      .select('id, choice_table_markdown, has_choice_table')
+      .single();
+
+    if (updateError) {
+      logger.error('表形式選択肢更新エラー:', updateError);
+      return res.status(500).json(error('表形式選択肢の更新に失敗しました'));
+    }
+
+    if (!updatedQuestion) {
+      return res.status(404).json(error('問題が見つかりません'));
+    }
+
+    logger.info(`問題 ${id} の表形式選択肢を更新しました`);
+    res.json(success({
+      message: '表形式選択肢を更新しました',
+      data: updatedQuestion
+    }));
+  } catch (err) {
+    logger.error('表形式選択肢更新エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
+// 選択肢テキスト更新エンドポイント
+router.patch('/:id/choices/:choiceId', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { id, choiceId } = req.params;
+    const { choiceText } = req.body;
+
+    if (typeof choiceText !== 'string') {
+      return res.status(400).json(error('選択肢テキストは文字列である必要があります'));
+    }
+
+    // まず選択肢が指定された問題に属しているか確認
+    const { data: choice, error: checkError } = await supabase
+      .from('choices')
+      .select('id, question_id')
+      .eq('id', choiceId)
+      .eq('question_id', id)
+      .single();
+
+    if (checkError || !choice) {
+      logger.error('選択肢確認エラー:', checkError);
+      return res.status(404).json(error('選択肢が見つかりません'));
+    }
+
+    // 選択肢テキストを更新
+    const { data: updatedChoice, error: updateError } = await supabase
+      .from('choices')
+      .update({ choice_text: choiceText })
+      .eq('id', choiceId)
+      .select('id, choice_text, choice_label')
+      .single();
+
+    if (updateError) {
+      logger.error('選択肢更新エラー:', updateError);
+      return res.status(500).json(error('選択肢の更新に失敗しました'));
+    }
+
+    logger.info(`問題 ${id} の選択肢 ${choiceId} を更新しました`);
+    res.json(success({
+      message: '選択肢を更新しました',
+      data: updatedChoice
+    }));
+  } catch (err) {
+    logger.error('選択肢更新エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
 export default router;

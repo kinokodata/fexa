@@ -146,6 +146,111 @@ class ApiClient {
       body: JSON.stringify({ explanation }),
     });
   }
+
+  // 選択肢テキストを更新
+  async updateChoiceText(questionId: string, choiceId: string, choiceText: string): Promise<ApiResponse<{ message: string; data: any }>> {
+    return this.request<{ message: string; data: any }>(`/api/questions/${questionId}/choices/${choiceId}`, {
+      method: 'PATCH',
+      body: JSON.stringify({ choiceText }),
+    });
+  }
+
+  // 表形式選択肢を更新
+  async updateChoiceTable(questionId: string, choiceTableMarkdown: string): Promise<ApiResponse<{ message: string; data: any }>> {
+    return this.request<{ message: string; data: any }>(`/api/questions/${questionId}/choice-table`, {
+      method: 'PATCH',
+      body: JSON.stringify({ choiceTableMarkdown }),
+    });
+  }
+
+  // カテゴリ関連のメソッド
+
+  // 全カテゴリを階層構造で取得
+  async getCategories(examCode = 'FE'): Promise<ApiResponse<any[]>> {
+    return this.request<any[]>(`/api/categories?exam_code=${examCode}`);
+  }
+
+  // 全カテゴリをフラット構造で取得（問題数付き）
+  async getCategoriesFlat(examCode = 'FE'): Promise<ApiResponse<any[]>> {
+    return this.request<any[]>(`/api/categories/flat?exam_code=${examCode}`);
+  }
+
+  // 階層カテゴリを取得（ドロップダウン用）
+  async getCategoriesHierarchy(params?: {
+    examCode?: string;
+    level?: number;
+    parentField?: string;
+    parentMajor?: string;
+    parentMedium?: string;
+    parentMinor?: string;
+  }): Promise<ApiResponse<any[]>> {
+    const searchParams = new URLSearchParams();
+    
+    if (params) {
+      if (params.examCode) searchParams.append('exam_code', params.examCode);
+      if (params.level !== undefined) searchParams.append('level', params.level.toString());
+      if (params.parentField) searchParams.append('parent_field', params.parentField);
+      if (params.parentMajor) searchParams.append('parent_major', params.parentMajor);
+      if (params.parentMedium) searchParams.append('parent_medium', params.parentMedium);
+      if (params.parentMinor) searchParams.append('parent_minor', params.parentMinor);
+    } else {
+      searchParams.append('exam_code', 'FE');
+    }
+
+    const query = searchParams.toString();
+    const endpoint = `/api/categories/hierarchy${query ? `?${query}` : ''}`;
+    return this.request<any[]>(endpoint);
+  }
+
+  // 特定問題のカテゴリを取得
+  async getQuestionCategories(questionId: string): Promise<ApiResponse<any[]>> {
+    return this.request<any[]>(`/api/categories/question/${questionId}`);
+  }
+
+  // 問題にカテゴリを関連付け
+  async assignCategoryToQuestion(
+    questionId: string,
+    categoryId: string,
+    options?: {
+      relevance_score?: number;
+      is_primary?: boolean;
+      notes?: string;
+    }
+  ): Promise<ApiResponse<{ message: string; data: any }>> {
+    return this.request<{ message: string; data: any }>(`/api/categories/question/${questionId}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        categoryId,
+        ...options
+      }),
+    });
+  }
+
+  // 問題とカテゴリの関連付けを更新
+  async updateQuestionCategoryRelation(
+    questionId: string,
+    relationId: string,
+    options: {
+      relevance_score?: number;
+      is_primary?: boolean;
+      notes?: string;
+    }
+  ): Promise<ApiResponse<{ message: string; data: any }>> {
+    return this.request<{ message: string; data: any }>(`/api/categories/question/${questionId}/${relationId}`, {
+      method: 'PATCH',
+      body: JSON.stringify(options),
+    });
+  }
+
+  // 問題とカテゴリの関連付けを削除
+  async removeQuestionCategoryRelation(
+    questionId: string,
+    relationId: string
+  ): Promise<ApiResponse<{ message: string }>> {
+    return this.request<{ message: string }>(`/api/categories/question/${questionId}/${relationId}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 const apiClient = new ApiClient();

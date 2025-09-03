@@ -10,6 +10,7 @@ import authRouter from './routes/auth.js';
 import examsRouter from './routes/exams.js';
 import questionsRouter from './routes/questions.js';
 import imagesRouter from './routes/images.js';
+import categoriesRouter from './routes/categories.js';
 
 // 環境変数の読み込み
 dotenv.config();
@@ -34,6 +35,7 @@ app.use('/api/auth', authRouter);
 app.use('/api/exams', examsRouter);
 app.use('/api/questions', questionsRouter);
 app.use('/api/images', imagesRouter);
+app.use('/api/categories', categoriesRouter);
 
 // 404エラーハンドリング
 app.use((req, res) => {

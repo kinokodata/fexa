@@ -73,6 +73,47 @@ export interface Answer {
   reference_url?: string;
 }
 
+// カテゴリ情報
+export interface Category {
+  id: string;
+  parent_id?: string;
+  exam_code: string;
+  level: number;
+  category_type: 'field' | 'major' | 'medium' | 'minor' | 'knowledge';
+  name: string;
+  display_order?: number;
+  path?: string;
+  created_at: string;
+  updated_at: string;
+  children?: Category[];
+  question_count?: number;
+  // 階層情報
+  field_name?: string;
+  major_category?: string;
+  medium_category?: string;
+  minor_category?: string;
+  knowledge_item?: string;
+  // 関連付け情報
+  relevance_score?: number;
+  is_primary?: boolean;
+  notes?: string;
+  relation_id?: string;
+}
+
+// 問題カテゴリ関連情報
+export interface QuestionCategory {
+  id: string;
+  question_id: string;
+  category_id: string;
+  relevance_score: number;
+  is_primary: boolean;
+  notes?: string;
+  created_at: string;
+  created_by?: string;
+  updated_at: string;
+  categories?: Category;
+}
+
 // ヘルスチェック
 export interface HealthStatus {
   status: string;

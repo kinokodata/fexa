@@ -111,9 +111,20 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
     let key = 0;
     let processedText = inputText;
 
+    // コードブロックを先に処理（```で囲まれた部分）
+    const codeBlockMatches = Array.from(inputText.matchAll(/```([\s\S]*?)```/g));
+    const codeBlocks: { [key: string]: string } = {};
+    
+    // コードブロックを一時的にプレースホルダーで置き換える
+    codeBlockMatches.forEach((match, i) => {
+      const placeholder = `__CODE_BLOCK_${i}__`;
+      codeBlocks[placeholder] = match[1].trim();
+      processedText = processedText.replace(match[0], placeholder);
+    });
+
     // 画像Markdown記法の検出（標準形式と [画像:] 形式の両方）
-    const standardImageMatches = Array.from(inputText.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g));
-    const customImageMatches = Array.from(inputText.matchAll(/\[画像:\s*([^\]]*)\]\(([^)]+)\)/g));
+    const standardImageMatches = Array.from(processedText.matchAll(/!\[([^\]]*)\]\(([^)]+)\)/g));
+    const customImageMatches = Array.from(processedText.matchAll(/\[画像:\s*([^\]]*)\]\(([^)]+)\)/g));
     const imageMatches = [...standardImageMatches, ...customImageMatches];
     // 画像マークダウンを処理（警告ボックス表示または除去）
     let imageWarnings: JSX.Element[] = [];
@@ -174,9 +185,12 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
     // 強調表現の検出
     const boldMatches = Array.from(processedText.matchAll(/\*\*([^*]+)\*\*/g));
     const italicMatches = Array.from(processedText.matchAll(/(?<!\*)\*([^*]+)\*(?!\*)/g));
+    
+    // コードブロックプレースホルダーの検出
+    const codeBlockPlaceholderMatches = Array.from(processedText.matchAll(/__CODE_BLOCK_\d+__/g));
 
-    // 数式、テーブル、リスト、強調表現マッチをインデックス順にソート
-    const allMatches = [...tableMatches, ...inlineMatches, ...blockMatches, ...listMatches, ...boldMatches, ...italicMatches]
+    // 数式、テーブル、リスト、強調表現、コードブロックマッチをインデックス順にソート
+    const allMatches = [...tableMatches, ...inlineMatches, ...blockMatches, ...listMatches, ...boldMatches, ...italicMatches, ...codeBlockPlaceholderMatches]
       .map(match => ({
         match,
         index: match.index!,
@@ -185,11 +199,12 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
         isList: match[0].match(/^[\s]*[-*]\s+/),
         isBold: match[0].startsWith('**') && match[0].endsWith('**'),
         isItalic: match[0].startsWith('*') && match[0].endsWith('*') && !match[0].startsWith('**'),
+        isCodeBlock: match[0].match(/__CODE_BLOCK_\d+__/),
         isImage: false  // 画像は既に処理済み
       }))
       .sort((a, b) => a.index - b.index);
 
-    for (const { match, index, isBlock, isTable, isList, isBold, isItalic } of allMatches) {
+    for (const { match, index, isBlock, isTable, isList, isBold, isItalic, isCodeBlock } of allMatches) {
       // マッチ前のテキストを追加
       if (index > lastIndex) {
         const beforeText = processedText.slice(lastIndex, index);
@@ -208,7 +223,28 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
         }
       }
 
-      if (isTable) {
+      if (isCodeBlock) {
+        // コードブロックをレンダリング
+        const codeContent = codeBlocks[match[0]] || '';
+        parts.push(
+          <Box
+            key={key++}
+            component="pre"
+            sx={{
+              backgroundColor: '#f5f5f5',
+              border: '1px solid #ddd',
+              borderRadius: 1,
+              padding: 2,
+              marginY: 2,
+              overflowX: 'auto',
+              fontFamily: 'monospace',
+              fontSize: '0.9em'
+            }}
+          >
+            <code>{codeContent}</code>
+          </Box>
+        );
+      } else if (isTable) {
         // Markdownテーブルをレンダリング
         const tableData = parseMarkdownTable(match[0]);
         if (tableData) {

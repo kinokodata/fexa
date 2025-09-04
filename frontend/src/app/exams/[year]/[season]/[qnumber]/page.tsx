@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -61,8 +61,6 @@ import MarkdownRenderer from '../../../../../components/MarkdownRenderer';
 import MathRenderer from '../../../../../components/MathRenderer';
 import ImageUpload from '../../../../../components/ImageUpload';
 import QuestionFeatures from '../../../../../components/QuestionFeatures';
-import QuestionSidebar from '../../../../../components/QuestionSidebar';
-import { useFilter } from '../../../../../contexts/FilterContext';
 
 interface Choice {
   id: string;
@@ -82,6 +80,15 @@ interface Choice {
   }[];
 }
 
+interface Tag {
+  id: string;
+  name: string;
+  display_name: string;
+  description?: string;
+  relevance_score: number;
+  is_primary: boolean;
+}
+
 interface Question {
   id: string;
   question_number: number;
@@ -99,6 +106,7 @@ interface Question {
   category?: {
     name: string;
   };
+  tags?: Tag[];  // タグ配列を追加
   explanation?: string;
   is_checked?: boolean;
   checked_at?: string;
@@ -131,16 +139,18 @@ interface CategorySet {
 export default function QuestionDetail() {
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
   const { year, season, qnumber } = params;
+  
+  // URL からquestion ID を取得
+  const questionId = searchParams.get('id');
   
   // qnumberから数値部分を抽出
   const number = qnumber ? qnumber.toString().replace('q', '') : '';
   
   const [question, setQuestion] = useState<Question | null>(null);
-  const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [uploadModal, setUploadModal] = useState<{open: boolean, questionId: string, choiceId: string, choiceLabel: string}>({open: false, questionId: '', choiceId: '', choiceLabel: ''});
   const [checkingQuestion, setCheckingQuestion] = useState(false);
   const [editingCorrectAnswer, setEditingCorrectAnswer] = useState(false);
@@ -166,9 +176,6 @@ export default function QuestionDetail() {
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [savingCategories, setSavingCategories] = useState(false);
   
-  // フィルター状態をコンテキストから取得
-  const { filters, toggleFilter } = useFilter();
-  
   // チェックエリア関連の状態
   const [checkAreaOpen, setCheckAreaOpen] = useState(true);  // デフォルトで表示
   const [checkAreaExpanded, setCheckAreaExpanded] = useState(false);
@@ -186,13 +193,13 @@ export default function QuestionDetail() {
 
   const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : '';
   const questionNumber = parseInt(number as string);
-  const drawerWidth = 450;  // チェックリストの幅をさらに拡張
 
   useEffect(() => {
     if (year && season && number) {
+      console.log('詳細ページ - パラメータ:', { year, season, number, questionId });
       fetchQuestions();
     }
-  }, [year, season, number]);
+  }, [year, season, number, questionId]);
 
   // 問題が設定されたときにカテゴリ情報を取得
   useEffect(() => {
@@ -223,28 +230,42 @@ export default function QuestionDetail() {
       setLoading(true);
       const { default: apiClient } = await import('../../../../../services/api');
       
-      // パラメータの型を安全に処理
-      const yearStr = Array.isArray(year) ? year[0] : year;
-      const seasonStr = Array.isArray(season) ? season[0] : season;
-      
-      const data = await apiClient.getQuestions({
-        year: parseInt(yearStr),
-        season: seasonStr,
-        limit: 100
-      });
-      
-      if (data.success) {
-        const allQuestions = data.data || [];
-        setQuestions(allQuestions);
+      // questionIdが利用可能な場合は個別取得、そうでなければ全件取得からフィルタ
+      if (questionId) {
+        // 個別問題取得
+        const questionData = await apiClient.getQuestion(questionId);
         
-        const currentQuestion = allQuestions.find(q => q.question_number === questionNumber);
-        if (currentQuestion) {
-          setQuestion(currentQuestion);
+        if (questionData.success && questionData.data) {
+          setQuestion(questionData.data);
+          // 軽量なナビゲーション用リストも取得（後で実装）
+          // TODO: 軽量なナビゲーション用のリストを取得
         } else {
-          setError('問題が見つかりませんでした');
+          setError('問題の取得に失敗しました');
         }
       } else {
-        setError('問題の取得に失敗しました');
+        // 従来の全件取得方式（フォールバック）
+        // パラメータの型を安全に処理
+        const yearStr = Array.isArray(year) ? year[0] : year;
+        const seasonStr = Array.isArray(season) ? season[0] : season;
+        
+        const data = await apiClient.getQuestions({
+          year: parseInt(yearStr),
+          season: seasonStr,
+          limit: 100
+        });
+        
+        if (data.success) {
+          const allQuestions = data.data || [];
+          
+          const currentQuestion = allQuestions.find(q => q.question_number === questionNumber);
+          if (currentQuestion) {
+            setQuestion(currentQuestion);
+          } else {
+            setError('問題が見つかりませんでした');
+          }
+        } else {
+          setError('問題の取得に失敗しました');
+        }
       }
     } catch (err) {
       console.error('Fetch error:', err);
@@ -261,17 +282,10 @@ export default function QuestionDetail() {
 
   const handleNavigation = (direction: 'prev' | 'next') => {
     const newNumber = direction === 'prev' ? questionNumber - 1 : questionNumber + 1;
+    // TODO: 軽量リストから対応するquestionIdを取得してナビゲーション
     router.push(`/exams/${year}/${season}/q${newNumber}`);
   };
 
-  const handleQuestionClick = (questionId: string, questionNumber: number) => {
-    router.push(`/exams/${year}/${season}/q${questionNumber}`);
-    setMobileOpen(false);
-  };
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
   const openUploadModal = (questionId: string, choiceId: string, choiceLabel: string) => {
     setUploadModal({open: true, questionId, choiceId, choiceLabel});
@@ -301,20 +315,6 @@ export default function QuestionDetail() {
             }))
           };
         });
-        
-        // 問題一覧も更新
-        setQuestions(prev => prev.map(q => {
-          if (q.id === question.id) {
-            return {
-              ...q,
-              choices: q.choices.map(c => ({
-                ...c,
-                is_correct: c.id === selectedCorrectAnswerId
-              }))
-            };
-          }
-          return q;
-        }));
         
         setEditingCorrectAnswer(false);
         setSelectedCorrectAnswerId(null);
@@ -372,13 +372,6 @@ export default function QuestionDetail() {
           question_text: questionTextModal.text.trim()
         } : null);
         
-        // 問題一覧も更新
-        setQuestions(prev => prev.map(q => 
-          q.id === question.id 
-            ? { ...q, question_text: questionTextModal.text.trim() }
-            : q
-        ));
-        
         handleCloseQuestionTextModal();
         setError(null);
       } else {
@@ -417,13 +410,6 @@ export default function QuestionDetail() {
           ...prev,
           explanation: explanationModal.text
         } : null);
-        
-        // 問題一覧も更新
-        setQuestions(prev => prev.map(q => 
-          q.id === question.id 
-            ? { ...q, explanation: explanationModal.text }
-            : q
-        ));
         
         handleCloseExplanationModal();
         setError(null);
@@ -498,21 +484,6 @@ export default function QuestionDetail() {
           };
         });
         
-        // 問題一覧も更新
-        setQuestions(prev => prev.map(q => {
-          if (q.id === question.id) {
-            return {
-              ...q,
-              choices: q.choices.map(c => 
-                c.id === choiceEditModal.choiceId 
-                  ? { ...c, choice_text: choiceEditModal.text || '' }
-                  : c
-              )
-            };
-          }
-          return q;
-        }));
-        
         handleCloseChoiceEditModal();
         setError(null);
       } else {
@@ -540,13 +511,6 @@ export default function QuestionDetail() {
           ...prev,
           choice_table_markdown: choiceTableModal.text || ''
         } : null);
-        
-        // 問題一覧も更新
-        setQuestions(prev => prev.map(q => 
-          q.id === question.id 
-            ? { ...q, choice_table_markdown: choiceTableModal.text || '' }
-            : q
-        ));
         
         handleCloseChoiceTableModal();
         setError(null);
@@ -583,17 +547,6 @@ export default function QuestionDetail() {
           choice_table_type: undefined
         } : null);
         
-        // 問題一覧も更新
-        setQuestions(prev => prev.map(q => 
-          q.id === question.id 
-            ? { 
-                ...q, 
-                choice_table_markdown: undefined,
-                has_choice_table: false,
-                choice_table_type: undefined
-              }
-            : q
-        ));
         
         setError(null);
         // 成功メッセージは表示せず、削除されたことが視覚的に分かるようにする
@@ -627,17 +580,6 @@ export default function QuestionDetail() {
           choice_table_type: 'markdown'
         } : null);
         
-        // 問題一覧も更新
-        setQuestions(prev => prev.map(q => 
-          q.id === question.id 
-            ? { 
-                ...q, 
-                choice_table_markdown: convertToTableModal.text,
-                has_choice_table: true,
-                choice_table_type: 'markdown'
-              }
-            : q
-        ));
         
         handleCloseConvertToTableModal();
         setError(null);
@@ -913,12 +855,6 @@ export default function QuestionDetail() {
           checked_by: result.data?.checked_by || userEmail
         } : null);
         
-        // 問題一覧も更新
-        setQuestions(prev => prev.map(q => 
-          q.id === question.id 
-            ? { ...q, is_checked: true, checked_at: result.data?.checked_at, checked_by: result.data?.checked_by }
-            : q
-        ));
         
         // 成功時の処理
         setCheckAreaExpanded(false);
@@ -1098,38 +1034,8 @@ export default function QuestionDetail() {
 
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      {/* 共通サイドバーコンポーネント */}
-      <QuestionSidebar
-        questions={questions}
-        filters={filters}
-        onFilterChange={toggleFilter}
-        onQuestionClick={handleQuestionClick}
-        currentQuestionNumber={questionNumber}
-        mobileOpen={mobileOpen}
-        onMobileClose={() => setMobileOpen(false)}
-        drawerWidth={drawerWidth}
-      />
-
-      {/* Main Content */}
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { md: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        {/* Mobile Menu Button */}
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { md: 'none' }, mb: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
+    <>
+      {/* コンテンツは共通レイアウト（layout.tsx）内に表示される */}
 
         {/* パンくずリスト */}
         <Breadcrumbs 
@@ -1231,6 +1137,40 @@ export default function QuestionDetail() {
             カテゴリ登録
           </Button>
         </Box>
+
+        {/* タグ表示 */}
+        {question.tags && question.tags.length > 0 && (
+          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 3 }}>
+            <Typography variant="body2" sx={{ display: 'flex', alignItems: 'center', mr: 1, color: 'text.secondary' }}>
+              タグ:
+            </Typography>
+            {question.tags
+              .sort((a, b) => {
+                // 主要タグを先に、その後は関連度順
+                if (a.is_primary && !b.is_primary) return -1;
+                if (!a.is_primary && b.is_primary) return 1;
+                return b.relevance_score - a.relevance_score;
+              })
+              .map((tag) => (
+                <Chip 
+                  key={tag.id}
+                  label={tag.display_name}
+                  size="small"
+                  variant={tag.is_primary ? "filled" : "outlined"}
+                  title={tag.description ? `${tag.description} (関連度: ${tag.relevance_score})` : `関連度: ${tag.relevance_score}`}
+                  sx={{
+                    backgroundColor: tag.is_primary ? '#4caf50' : 'transparent',
+                    color: tag.is_primary ? 'white' : '#4caf50',
+                    borderColor: '#4caf50',
+                    fontSize: '0.75rem',
+                    '&:hover': {
+                      backgroundColor: tag.is_primary ? '#388e3c' : 'rgba(76, 175, 80, 0.1)'
+                    }
+                  }}
+                />
+              ))}
+          </Box>
+        )}
 
         {/* 問題文 */}
         <Paper elevation={1} sx={{ p: 3, mb: 4 }}>
@@ -1403,7 +1343,7 @@ export default function QuestionDetail() {
                   (choice as any).table_data
                 ) && (
                   <Box>
-                    {question.choices.map((choice) => {
+                    {question.choices.sort((a, b) => a.choice_label.localeCompare(b.choice_label)).map((choice) => {
                       const legacyChoice = choice as any;
                       if (legacyChoice.is_table_format && (legacyChoice.table_headers || legacyChoice.table_data)) {
                         let tableMarkdown = '';
@@ -1459,7 +1399,7 @@ export default function QuestionDetail() {
           )}
 
           <Box sx={{ width: '100%' }}>
-            {question.choices.map((choice) => (
+            {question.choices.sort((a, b) => a.choice_label.localeCompare(b.choice_label)).map((choice) => (
               <Box 
                 key={choice.id} 
                 sx={{ 
@@ -2585,7 +2525,6 @@ export default function QuestionDetail() {
             </Box>
           </Box>
         </Modal>
-      </Box>
-    </Box>
+    </>
   );
 }

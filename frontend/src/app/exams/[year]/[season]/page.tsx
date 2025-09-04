@@ -23,8 +23,6 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import MenuIcon from '@mui/icons-material/Menu';
 import QuestionFeatures from '../../../../components/QuestionFeatures';
-import QuestionSidebar from '../../../../components/QuestionSidebar';
-import { useFilter } from '../../../../contexts/FilterContext';
 
 interface Choice {
   id: string;
@@ -32,6 +30,15 @@ interface Choice {
   choice_text: string;
   has_image?: boolean;
   is_table_format?: boolean;
+}
+
+interface Tag {
+  id: string;
+  name: string;
+  display_name: string;
+  description?: string;
+  relevance_score: number;
+  is_primary: boolean;
 }
 
 interface Question {
@@ -49,6 +56,7 @@ interface Question {
   category?: {
     name: string;
   };
+  tags?: Tag[];  // タグ配列を追加
   is_checked?: boolean;
   checked_at?: string;
   checked_by?: string;
@@ -61,13 +69,8 @@ export default function ExamQuestions() {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  
-  // フィルター状態をコンテキストから取得
-  const { filters, toggleFilter } = useFilter();
 
   const seasonJapanese = season === 'spring' ? '春期' : season === 'autumn' ? '秋期' : season === 'special' ? '特別' : '';
-  const drawerWidth = 350;
 
   useEffect(() => {
     if (year && season) {
@@ -110,12 +113,10 @@ export default function ExamQuestions() {
   };
 
   const handleQuestionClick = (questionId: string, questionNumber: number) => {
-    router.push(`/exams/${year}/${season}/q${questionNumber}`);
+    console.log('一覧ページ - クリック:', { questionId, questionNumber, year, season });
+    router.push(`/exams/${year}/${season}/q${questionNumber}?id=${questionId}`);
   };
 
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
 
 
   if (loading) {
@@ -143,37 +144,8 @@ export default function ExamQuestions() {
 
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      {/* 共通サイドバーコンポーネント */}
-      <QuestionSidebar
-        questions={questions}
-        filters={filters}
-        onFilterChange={toggleFilter}
-        onQuestionClick={handleQuestionClick}
-        mobileOpen={mobileOpen}
-        onMobileClose={() => setMobileOpen(false)}
-        drawerWidth={drawerWidth}
-      />
-
-      {/* Main Content */}
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          width: { md: `calc(100% - ${drawerWidth}px)` },
-        }}
-      >
-        {/* Mobile Menu Button */}
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          edge="start"
-          onClick={handleDrawerToggle}
-          sx={{ mr: 2, display: { md: 'none' }, mb: 2 }}
-        >
-          <MenuIcon />
-        </IconButton>
+    <>
+      {/* コンテンツは共通レイアウト（layout.tsx）内に表示される */}
 
         {/* パンくずリスト */}
         <Breadcrumbs 
@@ -259,21 +231,48 @@ export default function ExamQuestions() {
                         </Box>
                       }
                       secondary={
-                        <Box display="flex" alignItems="center" mt={1}>
-                          {question.category && (
-                            <Chip 
-                              label={question.category.name} 
-                              size="small" 
-                              variant="outlined"
-                              sx={{ mr: 1 }}
-                            />
-                          )}
-                          {question.choices?.length === 4 && (
-                            <Typography variant="caption" color="success.main" display="flex" alignItems="center">
-                              <CheckCircleIcon sx={{ fontSize: 16, mr: 0.5 }} />
-                              選択肢完備
-                            </Typography>
-                          )}
+                        <Box display="flex" flexDirection="column" gap={1} mt={1}>
+                          <Box display="flex" alignItems="center" flexWrap="wrap" gap={0.5}>
+                            {question.category && (
+                              <Chip 
+                                label={question.category.name} 
+                                size="small" 
+                                variant="outlined"
+                                sx={{ mr: 1 }}
+                              />
+                            )}
+                            {question.tags && question.tags.length > 0 && (
+                              question.tags
+                                .sort((a, b) => {
+                                  // 主要タグを先に、その後は関連度順
+                                  if (a.is_primary && !b.is_primary) return -1;
+                                  if (!a.is_primary && b.is_primary) return 1;
+                                  return b.relevance_score - a.relevance_score;
+                                })
+                                .slice(0, 3) // 一覧では最大3つまで表示
+                                .map((tag) => (
+                                  <Chip 
+                                    key={tag.id}
+                                    label={tag.display_name}
+                                    size="small"
+                                    variant={tag.is_primary ? "filled" : "outlined"}
+                                    sx={{
+                                      backgroundColor: tag.is_primary ? '#4caf50' : 'transparent',
+                                      color: tag.is_primary ? 'white' : '#4caf50',
+                                      borderColor: '#4caf50',
+                                      fontSize: '0.7rem',
+                                      height: '20px'
+                                    }}
+                                  />
+                                ))
+                            )}
+                            {question.choices?.length === 4 && (
+                              <Typography variant="caption" color="success.main" display="flex" alignItems="center" sx={{ ml: 'auto' }}>
+                                <CheckCircleIcon sx={{ fontSize: 16, mr: 0.5 }} />
+                                選択肢完備
+                              </Typography>
+                            )}
+                          </Box>
                         </Box>
                       }
                     />
@@ -292,7 +291,6 @@ export default function ExamQuestions() {
             </Typography>
           </Box>
         )}
-      </Box>
-    </Box>
+    </>
   );
 }

@@ -142,6 +142,13 @@ class MarkdownExporter {
         const existing = await this.supabase.findExistingQuestion(examId, question.number, '午前');
         
         if (existing) {
+          // チェック完了済みの問題は絶対に上書きしない
+          if (existing.is_checked) {
+            logger.info(`問題${question.number}: チェック完了済みのため保護（上書きしません）`);
+            this.stats.skippedQuestions++;
+            continue;
+          }
+          
           if (overwrite) {
             logger.warn(`問題${question.number}: 上書きモードのため更新`);
             await this.updateExistingQuestion(question, existing.id);

@@ -1,0 +1,14 @@
+{
+  "name": "extract-tags",
+  "version": "1.0.0",
+  "description": "Extract and register tags from question text",
+  "main": "extract-tags.js",
+  "type": "module",
+  "scripts": {
+    "start": "node extract-tags.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.7",
+    "dotenv": "^16.4.1"
+  }
+}

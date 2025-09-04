@@ -72,8 +72,39 @@ router.get('/', authenticateToken, async (req, res) => {
       
       const examsMap = new Map(examsData?.map(e => [e.id, e]) || []);
 
-      // 各問題のカテゴリ情報を取得（question_categoriesテーブルが存在する場合）
+      // 各問題のタグ情報を取得
       const questionIds = data.map(q => q.id);
+      const { data: tagData } = await supabase
+        .from('question_tags')
+        .select(`
+          question_id, 
+          relevance_score, 
+          is_primary,
+          tags(id, name, display_name, description)
+        `)
+        .in('question_id', questionIds)
+        .order('relevance_score', { ascending: false });
+      
+      const tagsMap = new Map();
+      if (tagData) {
+        tagData.forEach(item => {
+          if (!tagsMap.has(item.question_id)) {
+            tagsMap.set(item.question_id, []);
+          }
+          if (item.tags) {
+            tagsMap.get(item.question_id).push({
+              id: item.tags.id,
+              name: item.tags.name,
+              display_name: item.tags.display_name,
+              description: item.tags.description,
+              relevance_score: item.relevance_score,
+              is_primary: item.is_primary
+            });
+          }
+        });
+      }
+      
+      // 各問題のカテゴリ情報も取得（後方互換性のため）
       const { data: categoryData } = await supabase
         .from('question_categories')
         .select('question_id, categories(id, name)')
@@ -99,7 +130,10 @@ router.get('/', authenticateToken, async (req, res) => {
         const timeCode = question.question_type === '午前' ? 'am' : 'pm';
         const basePath = `${exam.year}${seasonCode}/${timeCode}_q${question.question_number}`;
         
-        // カテゴリ情報を追加
+        // タグ情報を追加
+        question.tags = tagsMap.get(question.id) || [];
+        
+        // カテゴリ情報を追加（後方互換性のため）
         question.categories = categoriesMap.get(question.id) || [];
         
         // 問題画像のサインドURL生成
@@ -162,20 +196,30 @@ router.get('/', authenticateToken, async (req, res) => {
 router.get('/:id', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
+    logger.info(`個別問題取得開始: ID=${req.params.id}`);
     const { data, error: queryError } = await supabase
       .from('questions')
       .select(`
-        id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at, updated_at, is_checked, checked_at, checked_by, exam_id, category_id, difficulty_level, pdf_page_number, explanation,
-        exam:exams(year, season, exam_date),
-        choices(id, choice_label, choice_text, is_correct, choice_images(id, image_type)),
+        id, question_number, question_type, question_text, has_image, has_choice_table, choice_table_type, choice_table_markdown, created_at, is_checked, checked_at, checked_by, explanation,
+        exam_id,
+        exam:exams(year, season),
+        choices(id, choice_label, choice_text, has_image, is_correct, choice_images(id, image_type)),
         question_images(id, image_type)
       `)
       .eq('id', req.params.id)
       .single();
 
     if (queryError) {
+      logger.error(`個別問題取得エラー: ID=${req.params.id}`, queryError);
       return res.status(404).json(error('問題が見つかりません'));
     }
+
+    if (!data) {
+      logger.warn(`個別問題が見つからない: ID=${req.params.id}`);
+      return res.status(404).json(error('問題が見つかりません'));
+    }
+
+    logger.info(`個別問題取得成功: ID=${req.params.id}, question_number=${data.question_number}`);
 
     // 画像のサインドURLを生成
     const bucketName = process.env.SUPABASE_STORAGE_BUCKET || 'fexa-images';
@@ -215,6 +259,29 @@ router.get('/:id', authenticateToken, async (req, res) => {
           choice.images = choice.choice_images;
         }
       }
+    }
+
+    // タグ情報を取得して追加
+    const { data: tagData } = await supabase
+      .from('question_tags')
+      .select(`
+        relevance_score, 
+        is_primary,
+        tags(id, name, display_name, description)
+      `)
+      .eq('question_id', req.params.id)
+      .order('relevance_score', { ascending: false });
+    
+    data.tags = [];
+    if (tagData) {
+      data.tags = tagData.map(item => ({
+        id: item.tags.id,
+        name: item.tags.name,
+        display_name: item.tags.display_name,
+        description: item.tags.description,
+        relevance_score: item.relevance_score,
+        is_primary: item.is_primary
+      }));
     }
 
     res.json(success(data));

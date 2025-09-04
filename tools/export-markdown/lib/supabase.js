@@ -71,7 +71,7 @@ class SupabaseClient {
     return this.retryOperation(async () => {
       const { data, error } = await this.client
         .from('questions')
-        .select('id')
+        .select('id, is_checked')
         .eq('exam_id', examId)
         .eq('question_number', questionNumber)
         .eq('question_type', questionType)

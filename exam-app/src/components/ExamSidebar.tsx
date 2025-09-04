@@ -5,16 +5,16 @@ import { useRouter, usePathname } from 'next/navigation'
 import { Question } from '@/types/api'
 
 interface ExamSidebarProps {
-  questions: Question[]
-  year: string
-  season: string
+  questions?: Question[]
   open: boolean
   onClose?: () => void
+  variant?: 'temporary' | 'persistent'
+  currentQuestionId?: string
 }
 
 const DRAWER_WIDTH = 280
 
-export function ExamSidebar({ questions, year, season, open, onClose }: ExamSidebarProps) {
+export function ExamSidebar({ questions = [], open, onClose, variant = 'persistent', currentQuestionId }: ExamSidebarProps) {
   const router = useRouter()
   const pathname = usePathname()
   const theme = useTheme()
@@ -35,26 +35,39 @@ export function ExamSidebar({ questions, year, season, open, onClose }: ExamSide
     }
   }
 
-  const handleQuestionClick = (questionNumber: number) => {
-    router.push(`/exams/${year}/${season}/${questionNumber}`)
+  const handleQuestionClick = (questionId: string) => {
+    router.push(`/questions/${questionId}`)
   }
 
-  const getCurrentQuestionNumber = () => {
-    const match = pathname.match(/\/exams\/[^\/]+\/[^\/]+\/(\d+)$/)
-    return match ? parseInt(match[1]) : null
+  // 現在の問題IDを取得（URLパスまたはpropsから）
+  const getCurrentQuestionId = () => {
+    if (currentQuestionId) return currentQuestionId
+    const match = pathname.match(/\/questions\/([^\/]+)$/)
+    return match ? match[1] : null
   }
 
-  const currentQuestionNumber = getCurrentQuestionNumber()
+  const currentId = getCurrentQuestionId()
+  
+  // 試験情報を問題データから取得
+  const examInfo = questions.length > 0 ? questions[0].exam : null
 
   const drawerContent = (
     <Box sx={{ width: DRAWER_WIDTH, height: '100%', display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ p: 2, borderBottom: 1, borderColor: 'divider' }}>
-        <Typography variant="h6" component="div" gutterBottom>
-          {year}年 {getSeasonName(season)}
-        </Typography>
-        <Typography variant="body2" color="text.secondary">
-          基本情報技術者試験
-        </Typography>
+        {examInfo ? (
+          <>
+            <Typography variant="h6" component="div" gutterBottom>
+              {examInfo.year}年 {getSeasonName(examInfo.season)}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              基本情報技術者試験
+            </Typography>
+          </>
+        ) : (
+          <Typography variant="h6" component="div" gutterBottom>
+            問題演習
+          </Typography>
+        )}
         <Chip 
           label={`全${questions.length}問`}
           size="small"
@@ -71,8 +84,8 @@ export function ExamSidebar({ questions, year, season, open, onClose }: ExamSide
           {questions.map((question) => (
             <ListItem key={question.id} disablePadding>
               <ListItemButton
-                selected={currentQuestionNumber === question.question_number}
-                onClick={() => handleQuestionClick(question.question_number)}
+                selected={currentId === question.id}
+                onClick={() => handleQuestionClick(question.id)}
                 sx={{
                   '&.Mui-selected': {
                     backgroundColor: 'primary.main',
@@ -92,7 +105,7 @@ export function ExamSidebar({ questions, year, season, open, onClose }: ExamSide
                   secondary={question.question_type || '午前'}
                   primaryTypographyProps={{
                     variant: 'body2',
-                    fontWeight: currentQuestionNumber === question.question_number ? 'bold' : 'normal'
+                    fontWeight: currentId === question.id ? 'bold' : 'normal'
                   }}
                 />
               </ListItemButton>
@@ -116,15 +129,15 @@ export function ExamSidebar({ questions, year, season, open, onClose }: ExamSide
 
   return (
     <Drawer
-      variant={isMobile ? "temporary" : "persistent"}
+      variant={variant === 'temporary' || isMobile ? "temporary" : "persistent"}
       anchor="left"
       open={open}
       onClose={onClose}
-      ModalProps={isMobile ? {
+      ModalProps={(variant === 'temporary' || isMobile) ? {
         keepMounted: true, // Better open performance on mobile.
       } : undefined}
       sx={{
-        width: open && !isMobile ? DRAWER_WIDTH : 0,
+        width: open && !(variant === 'temporary' || isMobile) ? DRAWER_WIDTH : 0,
         flexShrink: 0,
         '& .MuiDrawer-paper': {
           width: DRAWER_WIDTH,

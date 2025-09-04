@@ -110,6 +110,40 @@ services:
       - backend
     restart: unless-stopped
 
+  # 選択肢修復ツール
+  fix-choices:
+    build:
+      context: ./tools/fix-missing-choices
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: development
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+    volumes:
+      - ./tools/fix-missing-choices:/app
+      - ./pdfs:/data/pdfs:ro  # PDFディレクトリを読み取り専用でマウント
+      - /app/node_modules
+    working_dir: /app
+    profiles:
+      - tools
+
+  # タグ抽出ツール
+  extract-tags:
+    build:
+      context: ./tools/extract-tags
+      dockerfile: Dockerfile
+    environment:
+      NODE_ENV: development
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
+    volumes:
+      - ./tools/extract-tags:/app
+      - /app/node_modules
+    working_dir: /app
+    profiles:
+      - tools
+
 networks:
   default:
     name: fexa_network

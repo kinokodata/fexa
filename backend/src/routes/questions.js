@@ -6,6 +6,72 @@ import logger from '../lib/logger.js';
 
 const router = Router();
 
+// 軽量問題リスト（ナビゲーション用）
+router.get('/list', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { year, season } = req.query;
+    
+    // URLパラメータを日本語に変換
+    let convertedSeason = season;
+    if (season === 'spring' || season === 'a') convertedSeason = '春期';
+    if (season === 'autumn' || season === 'h') convertedSeason = '秋期';
+
+    // 軽量クエリ - サイドバー表示に必要な最小限のフィールド
+    let query = supabase
+      .from('questions')
+      .select(`
+        id, 
+        question_number, 
+        question_text,
+        is_checked,
+        has_image,
+        has_choice_table,
+        choices(id, choice_label, choice_text, has_image, choice_images(id)),
+        question_images(id)
+      `);
+
+    // year, seasonで絞り込む場合は、まずexamのIDを取得
+    if (year && convertedSeason) {
+      logger.info(`軽量問題リスト検索: year=${year}, season=${convertedSeason}`);
+      
+      const { data: examData, error: examError } = await supabase
+        .from('exams')
+        .select('id')
+        .eq('year', year)
+        .eq('season', convertedSeason);
+      
+      if (examError) {
+        logger.error('軽量リスト - 試験検索エラー:', examError);
+        throw new Error(`試験が見つかりません: ${examError.message}`);
+      }
+      
+      if (!examData || examData.length === 0) {
+        logger.warn(`軽量リスト - 指定された試験が見つからない: ${year}年${convertedSeason}`);
+        throw new Error(`指定された試験が見つかりません: ${year}年${convertedSeason}`);
+      }
+      
+      const exam = examData[0];
+      query = query.eq('exam_id', exam.id);
+    }
+
+    // 問題番号順でソート
+    query = query.order('question_number');
+
+    const { data, error: queryError } = await query;
+    if (queryError) {
+      logger.error('軽量問題リスト取得エラー:', queryError);
+      throw new Error(`クエリエラー: ${queryError.message}`);
+    }
+
+    logger.info(`軽量問題リスト取得成功: ${data?.length || 0}件`);
+    res.json(success(data || []));
+  } catch (err) {
+    logger.error('軽量問題リスト取得エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
 // 問題一覧
 router.get('/', authenticateToken, async (req, res) => {
   try {

@@ -100,6 +100,26 @@ class ApiClient {
     return this.getQuestions({ year, season, page, limit: 20 });
   }
 
+  // 軽量な問題リスト取得（ナビゲーション用）
+  async getQuestionsList(params?: {
+    year?: number;
+    season?: string;
+  }): Promise<ApiResponse<Question[]>> {
+    const searchParams = new URLSearchParams();
+    
+    if (params) {
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined) {
+          searchParams.append(key, value.toString());
+        }
+      });
+    }
+
+    const query = searchParams.toString();
+    const endpoint = `/api/questions/list${query ? `?${query}` : ''}`;
+    return this.request<Question[]>(endpoint);
+  }
+
   // 認証API
   async login(email: string, password: string): Promise<ApiResponse<{ token: string; refreshToken: string }>> {
     return this.request<{ token: string; refreshToken: string }>('/api/auth/login', {

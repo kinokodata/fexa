@@ -245,19 +245,23 @@ export default function QuestionDetail() {
       setLoading(true);
       const { default: apiClient } = await import('../../../../../services/api');
       
-      // questionIdが利用可能な場合は個別取得、そうでなければ全件取得からフィルタ
-      if (questionId) {
-        // 個別問題取得
+      console.log('DEBUG: questionId =', questionId, 'type:', typeof questionId);
+      
+      // questionIdが利用可能な場合は個別取得を優先
+      if (questionId && questionId.trim() !== '') {
+        console.log('Using individual question fetch for ID:', questionId);
+        
         const questionData = await apiClient.getQuestion(questionId);
         
         if (questionData.success && questionData.data) {
           setQuestion(questionData.data);
-          // 軽量なナビゲーション用リストも取得（後で実装）
-          // TODO: 軽量なナビゲーション用のリストを取得
+          console.log('Successfully fetched individual question');
         } else {
+          console.error('Individual fetch failed:', questionData.error);
           setError('問題の取得に失敗しました');
         }
       } else {
+        console.log('No questionId, using fallback method');
         // 従来の全件取得方式（フォールバック）
         // パラメータの型を安全に処理
         const yearStr = Array.isArray(year) ? year[0] : year;
@@ -296,7 +300,7 @@ export default function QuestionDetail() {
 
   const handleNavigation = (direction: 'prev' | 'next') => {
     const newNumber = direction === 'prev' ? questionNumber - 1 : questionNumber + 1;
-    // TODO: 軽量リストから対応するquestionIdを取得してナビゲーション
+    // questionIdなしでナビゲーション（詳細ページで全件取得のフォールバックが動作）
     router.push(`/exams/${year}/${season}/q${newNumber}`);
   };
 

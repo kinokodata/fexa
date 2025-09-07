@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { useParams, usePathname } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import Alert from '@mui/material/Alert';
@@ -43,6 +43,7 @@ interface ExamLayoutProps {
 }
 
 export default function ExamLayout({ children }: ExamLayoutProps) {
+  const router = useRouter();
   const params = useParams();
   const pathname = usePathname();
   const { year, season } = params;
@@ -64,11 +65,11 @@ export default function ExamLayout({ children }: ExamLayoutProps) {
 
   useEffect(() => {
     if (year && season) {
-      fetchQuestions();
+      fetchQuestionsList();
     }
   }, [year, season]);
 
-  const fetchQuestions = async () => {
+  const fetchQuestionsList = async () => {
     try {
       setLoading(true);
       const { default: apiClient } = await import('../../../../services/api');
@@ -83,10 +84,9 @@ export default function ExamLayout({ children }: ExamLayoutProps) {
       else if (seasonStr === 'autumn') seasonJP = '秋期';  
       else if (seasonStr === 'special') seasonJP = '特別';
       
-      const result = await apiClient.getQuestions({
+      const result = await apiClient.getQuestionsList({
         year: parseInt(yearStr),
-        season: seasonJP,
-        limit: 100
+        season: seasonJP
       });
       
       if (result.success) {
@@ -103,10 +103,10 @@ export default function ExamLayout({ children }: ExamLayoutProps) {
   };
 
   const handleQuestionClick = (questionId: string, questionNumber: number) => {
-    // 詳細ページへ遷移（question IDをクエリパラメータで渡す）
+    // SPAナビゲーション - レイアウトは維持される
     const basePath = `/exams/${year}/${season}`;
     const newPath = `${basePath}/q${questionNumber}?id=${questionId}`;
-    window.location.href = newPath; // router.push の代わりに直接遷移
+    router.push(newPath);
   };
 
   const handleDrawerToggle = () => {
@@ -131,7 +131,7 @@ export default function ExamLayout({ children }: ExamLayoutProps) {
 
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* 共通サイドバーコンポーネント */}
+      {/* QuestionSidebarコンポーネント */}
       <QuestionSidebar
         questions={questions}
         filters={filters}

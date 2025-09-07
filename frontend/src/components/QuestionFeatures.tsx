@@ -39,11 +39,13 @@ export default function QuestionFeatures({ question, variant = 'list', showWarni
     }
     
     // 選択肢画像のチェック
-    for (const choice of question.choices) {
-      if (choice.has_image) {
-        const images = (choice as any).images || (choice as any).choice_images || [];
-        if (images.length === 0) {
-          return true;
+    if (question.choices && Array.isArray(question.choices)) {
+      for (const choice of question.choices) {
+        if (choice.has_image) {
+          const images = (choice as any).images || (choice as any).choice_images || [];
+          if (images.length === 0) {
+            return true;
+          }
         }
       }
     }
@@ -80,13 +82,16 @@ export default function QuestionFeatures({ question, variant = 'list', showWarni
     const chips = [];
     
     // Markdown表形式の文字列があるかチェック（|で始まり|で終わる行が複数行）
-    const hasMarkdownTable = /\|[^\n]+\|\n\|[-:| ]+\|\n(?:\|[^\n]+\|\n?)+/m.test(question.question_text);
+    const hasMarkdownTable = question.question_text ? 
+      /\|[^\n]+\|\n\|[-:| ]+\|\n(?:\|[^\n]+\|\n?)+/m.test(question.question_text) : false;
     
     // 問題文に画像が含まれているかチェック
     const hasQuestionImage = question.has_image || 
-                            question.question_text.includes('/images/') || 
-                            question.question_text.includes('[画像:') || 
-                            question.question_text.includes('![');
+                            (question.question_text && (
+                              question.question_text.includes('/images/') || 
+                              question.question_text.includes('[画像:') || 
+                              question.question_text.includes('![')
+                            ));
 
     // 選択肢表があるかチェック
     if (question.has_choice_table) {
@@ -134,7 +139,10 @@ export default function QuestionFeatures({ question, variant = 'list', showWarni
     return chips;
   };
 
-  const allFeatures = [...getQuestionFeatures(), ...getChoiceFeatures(question.choices)];
+  const allFeatures = [
+    ...getQuestionFeatures(), 
+    ...getChoiceFeatures(question.choices || [])
+  ];
   
   // 警告アイコンを適切な位置に挿入
   if (showWarning && hasUnregisteredImages()) {

@@ -284,6 +284,16 @@ router.get('/:id', authenticateToken, async (req, res) => {
       }));
     }
 
+    // answersテーブルが存在しないため、この処理は削除
+
+    // 選択肢をア、イ、ウ、エの順番にソート
+    if (data.choices && Array.isArray(data.choices)) {
+      data.choices.sort((a, b) => {
+        const order = { 'ア': 1, 'イ': 2, 'ウ': 3, 'エ': 4 };
+        return (order[a.choice_label] || 999) - (order[b.choice_label] || 999);
+      });
+    }
+
     res.json(success(data));
   } catch (err) {
     logger.error('問題詳細取得エラー:', err);

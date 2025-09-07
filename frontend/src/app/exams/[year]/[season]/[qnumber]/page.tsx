@@ -735,14 +735,14 @@ export default function QuestionDetail() {
       // 既存のカテゴリ関連付けを削除（実装が必要な場合）
       // まず新しいカテゴリを登録
       for (const categorySet of categorySets) {
-        // knowledge カテゴリを登録
-        for (const knowledgeCategory of categorySet.knowledge) {
+        // 小分類（minor）のカテゴリIDで登録
+        if (categorySet.minor) {
           await apiClient.assignCategoryToQuestion(
             question.id,
-            knowledgeCategory.id,
+            categorySet.minor.id,
             {
               relevance_score: 1.0,
-              is_primary: categorySet.knowledge.length === 1
+              is_primary: true // 現在は1つのカテゴリセットのminorのみ登録
             }
           );
         }
@@ -760,31 +760,28 @@ export default function QuestionDetail() {
     }
   };
 
-  const handleDeleteQuestionCategory = async (relationId: string) => {
-    if (!question?.id || !relationId) return;
+  const handleDeleteQuestionCategory = async (assignmentId: string) => {
+    if (!question?.id || !assignmentId) return;
 
     // 削除対象のカテゴリ情報を取得（確認用）
-    const categoryToDelete = questionCategories.find(cat => (cat as any).relation_id === relationId || cat.id === relationId);
-    const categoryName = categoryToDelete?.path || categoryToDelete?.name || 'カテゴリ';
+    const assignmentToDelete = questionCategories.find(assignment => assignment.id === assignmentId);
+    const categoryName = assignmentToDelete?.category?.path || assignmentToDelete?.category?.name || 'カテゴリ';
+    const isPrimary = assignmentToDelete?.is_primary;
 
     // 確認ダイアログ
-    if (!confirm(`「${categoryName}」を削除しますか？\n\n※階層パス上のすべてのカテゴリが削除されます`)) {
+    if (!confirm(`「${categoryName}」${isPrimary ? ' (主要カテゴリ)' : ''}を削除しますか？`)) {
       return;
     }
 
     try {
       const { default: apiClient } = await import('../../../../../services/api');
-      const result = await apiClient.removeQuestionCategoryRelation(question.id, relationId);
+      const result = await apiClient.removeQuestionCategoryRelation(question.id, assignmentId);
 
       if (result.success) {
         // 問題カテゴリを再取得
         await fetchQuestionCategories();
         setError(null);
-        
-        // 削除完了メッセージ
-        if ((result.data as any)?.categories_deleted) {
-          console.log(`階層カテゴリを削除しました: ${(result.data as any).path} (${(result.data as any).categories_deleted}件)`);
-        }
+        console.log(`カテゴリ関連付けを削除しました: ${categoryName}`);
       } else {
         console.error('カテゴリ削除失敗:', result.error);
         setError('カテゴリの削除に失敗しました');
@@ -1099,29 +1096,43 @@ export default function QuestionDetail() {
               sx={{ px: 2, py: 1 }}
             />
           )}
-          {questionCategories
-            .filter(category => category.level === 5) // ナレッジレベルのみ表示
-            .map((category) => {
-              // パス情報がある場合は表示、ない場合はカテゴリ名のみ
-              const displayLabel = category.path 
-                ? `${category.path.replace(/\//g, ' > ')}` 
-                : category.name;
+          {questionCategories.map((assignment) => {
+              // 新しい構造: assignment.category にカテゴリ情報が入っている
+              const category = assignment.category;
+              if (!category) return null;
+              
+              // 階層パスを構築（分野 > 大分類 > 中分類 > 小分類）
+              const displayLabel = category.path || category.name;
+              const isPrimary = assignment.is_primary;
+              const relevanceScore = assignment.relevance_score;
+              
+              // 知識項目を含む完全パスを表示
+              const fullLabel = category.knowledges 
+                ? `${displayLabel} (${category.knowledges.split(',')[0]}...)` 
+                : displayLabel;
               
               return (
                 <Chip 
-                  key={category.id}
-                  label={displayLabel}
+                  key={assignment.id}
+                  label={fullLabel}
                   size="medium"
-                  variant="filled"
-                  title={category.path ? `パス: ${category.path}` : category.name}
+                  variant={isPrimary ? "filled" : "outlined"}
+                  title={`${category.path || category.name}${category.knowledges ? `\n知識項目: ${category.knowledges}` : ''}\n関連度: ${relevanceScore}${isPrimary ? ' (主要)' : ''}`}
                   sx={{
-                    backgroundColor: '#1976d2',
-                    color: 'white',
+                    backgroundColor: isPrimary ? '#1976d2' : 'transparent',
+                    color: isPrimary ? 'white' : '#1976d2',
+                    borderColor: '#1976d2',
                     px: 2,
                     py: 1,
                     fontSize: '0.875rem',
+                    maxWidth: '400px',
+                    '& .MuiChip-label': {
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis'
+                    },
                     '&:hover': {
-                      backgroundColor: '#1565c0'
+                      backgroundColor: isPrimary ? '#1565c0' : '#e3f2fd'
                     }
                   }}
                 />
@@ -2302,27 +2313,33 @@ export default function QuestionDetail() {
             )}
 
             {/* 現在のカテゴリ表示 */}
-            {questionCategories.filter(category => category.level === 5).length > 0 && (
+            {questionCategories.length > 0 && (
               <Box sx={{ mb: 4 }}>
                 <Typography variant="subtitle2" sx={{ mb: 2 }}>現在登録されているカテゴリ:</Typography>
                 <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
-                  {questionCategories
-                    .filter(category => category.level === 5) // ナレッジレベルのみ表示
-                    .map((category) => {
-                      // パス情報がある場合はフルパス表示
-                      const displayLabel = category.path 
-                        ? category.path.replace(/\//g, ' > ')
-                        : category.name;
+                  {questionCategories.map((assignment) => {
+                      const category = assignment.category;
+                      if (!category) return null;
+                      
+                      // 階層パスを構築（分野 > 大分類 > 中分類 > 小分類）
+                      const displayLabel = category.path || category.name;
+                      const isPrimary = assignment.is_primary;
+                      const relevanceScore = assignment.relevance_score;
+                      
+                      // 知識項目を含む完全パスを表示
+                      const fullLabel = category.knowledges 
+                        ? `${displayLabel} (${category.knowledges.split(',')[0]}...)` 
+                        : displayLabel;
                       
                       return (
                         <Chip 
-                          key={category.id}
-                          label={displayLabel}
+                          key={assignment.id}
+                          label={fullLabel}
                           size="medium"
-                          variant="filled"
-                          onDelete={() => handleDeleteQuestionCategory((category as any).relation_id || category.id)}
+                          variant={isPrimary ? "filled" : "outlined"}
+                          onDelete={() => handleDeleteQuestionCategory(assignment.id)}
                           deleteIcon={<DeleteIcon />}
-                          title={category.path ? `パス: ${category.path}` : category.name}
+                          title={`${category.path || category.name}${category.knowledges ? `\n知識項目: ${category.knowledges}` : ''}\n関連度: ${relevanceScore}${isPrimary ? ' (主要)' : ''}`}
                           sx={{
                             backgroundColor: '#1976d2',
                             color: 'white',
@@ -2455,39 +2472,21 @@ export default function QuestionDetail() {
                   </FormControl>
                 </Box>
 
-                {/* ナレッジ選択（複数選択可） */}
-                <Box sx={{ mt: 3 }}>
-                  <Autocomplete
-                    multiple
-                    value={categorySet.knowledge}
-                    onChange={(_, newValue) => {
-                      updateCategorySet(categorySet.id, { knowledge: newValue });
-                    }}
-                    options={getCategoriesByType('knowledge', categorySet.minor?.name)}
-                    getOptionLabel={(option) => option.name}
-                    disabled={!categorySet.minor}
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="ナレッジ（複数選択可）"
-                        placeholder="ナレッジを選択してください"
-                      />
-                    )}
-                    renderTags={(value, getTagProps) =>
-                      value.map((option, index) => {
-                        const { key, ...tagProps } = getTagProps({ index });
-                        return (
-                          <Chip
-                            key={option.id}
-                            variant="outlined"
-                            label={option.name}
-                            {...tagProps}
-                          />
-                        );
-                      })
-                    }
-                  />
-                </Box>
+                {/* 知識項目表示（参考情報のみ） */}
+                {categorySet.minor && (
+                  <Box sx={{ mt: 3 }}>
+                    <Typography variant="subtitle2" color="text.secondary" sx={{ mb: 2 }}>
+                      選択された小分類に含まれる知識項目（参考）:
+                    </Typography>
+                    <Paper variant="outlined" sx={{ p: 2, backgroundColor: '#f9f9f9' }}>
+                      <Typography variant="body2" color="text.secondary">
+                        {getCategoriesByType('knowledge', categorySet.minor?.name)
+                          .map(k => k.name)
+                          .join(', ') || '知識項目なし'}
+                      </Typography>
+                    </Paper>
+                  </Box>
+                )}
               </Paper>
             ))}
 
@@ -2517,7 +2516,7 @@ export default function QuestionDetail() {
                 variant="contained"
                 disabled={
                   savingCategories ||
-                  categorySets.every(set => set.knowledge.length === 0)
+                  categorySets.every(set => !set.minor)
                 }
               >
                 {savingCategories ? '保存中...' : 'カテゴリを保存'}

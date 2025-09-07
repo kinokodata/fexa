@@ -6,634 +6,457 @@ import logger from '../lib/logger.js';
 
 const router = express.Router();
 
-// カテゴリ一覧取得（階層構造）
+// カテゴリ階層を取得（フロントエンド用）
+router.get('/hierarchy', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { exam_code } = req.query;
+    
+    logger.info(`🔍 カテゴリ階層取得開始: exam_code=${exam_code}`);
+
+    // カテゴリ階層を取得（レベル順）
+    const { data: categories, error: fetchError } = await supabase
+      .from('categories')
+      .select('*')
+      .order('level', { ascending: true })
+      .order('name', { ascending: true });
+
+    if (fetchError) {
+      logger.error('カテゴリ階層取得エラー:', fetchError);
+      return res.status(500).json(error('カテゴリ階層の取得に失敗しました'));
+    }
+
+    logger.info(`✅ カテゴリ階層取得成功: ${categories?.length || 0}件`);
+    res.json(success(categories || []));
+  } catch (err) {
+    logger.error('カテゴリ階層取得エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
+// カテゴリ名で検索
+router.get('/search', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { name, exact = false } = req.query;
+    
+    if (!name) {
+      return res.status(400).json(error('検索するカテゴリ名が必要です'));
+    }
+
+    logger.info(`🔍 カテゴリ名検索開始: name="${name}", exact=${exact}`);
+
+    let query = supabase
+      .from('categories')
+      .select('*');
+
+    if (exact === 'true') {
+      // 完全一致検索
+      query = query.eq('name', name);
+    } else {
+      // 部分一致検索
+      query = query.ilike('name', `%${name}%`);
+    }
+
+    query = query.order('level', { ascending: true })
+                 .order('name', { ascending: true });
+
+    const { data: categories, error: fetchError } = await query;
+
+    if (fetchError) {
+      logger.error('カテゴリ名検索エラー:', fetchError);
+      return res.status(500).json(error('カテゴリの検索に失敗しました'));
+    }
+
+    logger.info(`✅ カテゴリ名検索結果: ${categories?.length || 0}件`);
+    
+    // 結果をログに詳細表示
+    if (categories && categories.length > 0) {
+      categories.forEach(cat => {
+        logger.info(`  - ${cat.name} (ID: ${cat.id}, Level: ${cat.level}, Path: ${cat.path || 'N/A'})`);
+      });
+    }
+
+    res.json(success(categories || []));
+  } catch (err) {
+    logger.error('カテゴリ名検索エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
+// レベル別カテゴリ取得
+router.get('/level/:level', async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { level } = req.params;
+    const { parent_id } = req.query;
+
+    let query = supabase
+      .from('categories')
+      .select('*')
+      .eq('level', parseInt(level))
+      .order('display_order', { ascending: true });
+
+    // 親IDでフィルタ（大分類以降で使用）
+    if (parent_id) {
+      query = query.eq('parent_id', parent_id);
+    } else if (parseInt(level) === 1) {
+      // 分野の場合はparent_idがnullのもの
+      query = query.is('parent_id', null);
+    }
+
+    const { data: categories, error: fetchError } = await query;
+
+    if (fetchError) {
+      logger.error('レベル別カテゴリ取得エラー:', fetchError);
+      return res.status(500).json(error('カテゴリの取得に失敗しました'));
+    }
+
+    res.json(success(categories));
+  } catch (err) {
+    logger.error('レベル別カテゴリ取得エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
+// 特定カテゴリの詳細取得（知識項目含む）
+router.get('/:categoryId', async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { categoryId } = req.params;
+
+    const { data: category, error: fetchError } = await supabase
+      .from('categories')
+      .select('*')
+      .eq('id', categoryId)
+      .single();
+
+    if (fetchError) {
+      logger.error('カテゴリ詳細取得エラー:', fetchError);
+      return res.status(404).json(error('カテゴリが見つかりません'));
+    }
+
+    res.json(success(category));
+  } catch (err) {
+    logger.error('カテゴリ詳細取得エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
+// 階層構造全体を取得
 router.get('/', async (req, res) => {
   try {
     const supabase = getSupabase();
-    const { exam_code = 'FE' } = req.query;
-
-    // すべてのカテゴリを取得
-    const { data: categories, error: fetchError } = await supabase
-      .from('categories')
-      .select('*')
-      .eq('exam_code', exam_code)
-      .order('level', { ascending: true })
-      .order('display_order', { ascending: true });
-
-    if (fetchError) {
-      logger.error('カテゴリ取得エラー:', fetchError);
-      return res.status(500).json(error('カテゴリの取得に失敗しました'));
-    }
-
-    // 階層構造を構築
-    const buildHierarchy = (parentId = null) => {
-      return categories
-        .filter(cat => cat.parent_id === parentId)
-        .map(cat => ({
-          ...cat,
-          children: buildHierarchy(cat.id)
-        }));
-    };
-
-    const hierarchicalCategories = buildHierarchy();
-
-    res.json(success(hierarchicalCategories));
-  } catch (err) {
-    logger.error('カテゴリ一覧取得エラー:', err);
-    res.status(500).json(error(err.message));
-  }
-});
-
-// カテゴリ一覧取得（フラット構造・問題数付き）
-router.get('/flat', async (req, res) => {
-  try {
-    const supabase = getSupabase();
-    const { exam_code = 'FE' } = req.query;
-
-    // カテゴリと問題数を取得
-    const { data: categories, error: fetchError } = await supabase
-      .from('categories')
-      .select(`
-        *,
-        question_categories(count)
-      `)
-      .eq('exam_code', exam_code)
-      .order('level', { ascending: true })
-      .order('display_order', { ascending: true });
-
-    if (fetchError) {
-      logger.error('カテゴリ取得エラー:', fetchError);
-      return res.status(500).json(error('カテゴリの取得に失敗しました'));
-    }
-
-    // 問題数を集計
-    const categoriesWithCount = categories.map(cat => ({
-      ...cat,
-      question_count: cat.question_categories?.length || 0
-    }));
-
-    res.json(success(categoriesWithCount));
-  } catch (err) {
-    logger.error('カテゴリ一覧取得エラー:', err);
-    res.status(500).json(error(err.message));
-  }
-});
-
-// 階層カテゴリ取得（階層ドロップダウン用）
-router.get('/hierarchy', async (req, res) => {
-  try {
-    const supabase = getSupabase();
-    const { exam_code = 'FE', level, parent_field, parent_major, parent_medium, parent_minor } = req.query;
+    const { level, parent_id } = req.query;
 
     let query = supabase
-      .from('fe_categories_hierarchy_view')
-      .select('*')
-      .eq('exam_code', exam_code);
+      .from('categories')
+      .select('*');
 
     // レベルでフィルタ
     if (level) {
       query = query.eq('level', parseInt(level));
     }
 
-    // 親カテゴリでフィルタ（依存ドロップダウン用）
-    if (parent_field) {
-      query = query.eq('field_name', parent_field);
-    }
-    if (parent_major) {
-      query = query.eq('major_category', parent_major);
-    }
-    if (parent_medium) {
-      query = query.eq('medium_category', parent_medium);
-    }
-    if (parent_minor) {
-      query = query.eq('minor_category', parent_minor);
+    // 親IDでフィルタ
+    if (parent_id) {
+      query = query.eq('parent_id', parent_id);
+    } else if (level && parseInt(level) === 1) {
+      query = query.is('parent_id', null);
     }
 
     const { data: categories, error: fetchError } = await query
-      .order('path')
+      .order('level', { ascending: true })
       .order('display_order', { ascending: true });
 
     if (fetchError) {
-      logger.error('階層カテゴリ取得エラー:', fetchError);
-      return res.status(500).json(error('階層カテゴリの取得に失敗しました'));
+      logger.error('カテゴリ一覧取得エラー:', fetchError);
+      return res.status(500).json(error('カテゴリの取得に失敗しました'));
     }
 
-    logger.info(`階層カテゴリ取得: ${categories?.length || 0}件, クエリパラメータ:`, { exam_code, level, parent_field, parent_major, parent_medium, parent_minor });
-    res.json(success(categories));
+    // 階層クエリの場合は階層構造を構築
+    if (!level && !parent_id) {
+      const buildHierarchy = (parentId = null) => {
+        return categories
+          .filter(cat => cat.parent_id === parentId)
+          .map(cat => ({
+            ...cat,
+            children: buildHierarchy(cat.id)
+          }));
+      };
+
+      const hierarchicalCategories = buildHierarchy();
+      res.json(success(hierarchicalCategories));
+    } else {
+      res.json(success(categories));
+    }
   } catch (err) {
-    logger.error('階層カテゴリ取得エラー:', err);
+    logger.error('カテゴリ階層取得エラー:', err);
     res.status(500).json(error(err.message));
   }
 });
 
-// 特定問題のカテゴリ取得（パス情報付き）
-router.get('/question/:questionId', async (req, res) => {
+// タグ経由でのカテゴリ検索による問題取得
+router.get('/search/questions', async (req, res) => {
   try {
     const supabase = getSupabase();
-    const { questionId } = req.params;
+    const { 
+      field_name, 
+      major_name, 
+      medium_name, 
+      minor_name, 
+      knowledges,
+      page = 1, 
+      limit = 20 
+    } = req.query;
 
-    // question_categoriesから関連付け情報を取得
-    const { data: questionCategories, error: fetchError } = await supabase
-      .from('question_categories')
+    const offset = (parseInt(page) - 1) * parseInt(limit);
+
+    // カテゴリ条件からタグ経由で問題を検索
+    let categoryQuery = supabase
+      .from('categories')
+      .select('id');
+
+    // 階層条件を適用
+    if (minor_name) {
+      // 小分類が指定された場合
+      categoryQuery = categoryQuery
+        .eq('level', 4)
+        .eq('name', minor_name);
+      
+      // 知識項目が指定された場合はさらにフィルタ
+      if (knowledges) {
+        const knowledgeList = knowledges.split(',').map(k => k.trim());
+        // knowledgesカラムに含まれるかチェック（部分一致）
+        const knowledgeConditions = knowledgeList.map(k => 
+          `knowledges.ilike.%${k}%`
+        ).join(',');
+        categoryQuery = categoryQuery.or(knowledgeConditions);
+      }
+    } else if (medium_name) {
+      // 中分類が指定された場合
+      categoryQuery = categoryQuery
+        .eq('level', 3)
+        .eq('name', medium_name);
+    } else if (major_name) {
+      // 大分類が指定された場合
+      categoryQuery = categoryQuery
+        .eq('level', 2)
+        .eq('name', major_name);
+    } else if (field_name) {
+      // 分野が指定された場合
+      categoryQuery = categoryQuery
+        .eq('level', 1)
+        .eq('name', field_name);
+    } else {
+      return res.status(400).json(error('検索条件を指定してください'));
+    }
+
+    const { data: targetCategories, error: categoryError } = await categoryQuery;
+
+    if (categoryError) {
+      logger.error('カテゴリ検索エラー:', categoryError);
+      return res.status(500).json(error('カテゴリの検索に失敗しました'));
+    }
+
+    if (!targetCategories || targetCategories.length === 0) {
+      return res.json(success([], {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: 0
+      }));
+    }
+
+    const categoryIds = targetCategories.map(cat => cat.id);
+
+    // カテゴリに紐づくタグを取得
+    const { data: tags, error: tagError } = await supabase
+      .from('tags')
+      .select('id')
+      .in('category_id', categoryIds);
+
+    if (tagError) {
+      logger.error('タグ取得エラー:', tagError);
+      return res.status(500).json(error('タグの取得に失敗しました'));
+    }
+
+    if (!tags || tags.length === 0) {
+      return res.json(success([], {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: 0
+      }));
+    }
+
+    const tagIds = tags.map(tag => tag.id);
+
+    // タグに紐づく問題を取得
+    const { data: questionTags, error: questionTagError } = await supabase
+      .from('question_tags')
+      .select('question_id')
+      .in('tag_id', tagIds);
+
+    if (questionTagError) {
+      logger.error('問題タグ取得エラー:', questionTagError);
+      return res.status(500).json(error('問題タグの取得に失敗しました'));
+    }
+
+    if (!questionTags || questionTags.length === 0) {
+      return res.json(success([], {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: 0
+      }));
+    }
+
+    // 重複を除去
+    const uniqueQuestionIds = [...new Set(questionTags.map(qt => qt.question_id))];
+
+    // 問題詳細を取得
+    const { data: questions, error: questionError } = await supabase
+      .from('questions')
       .select(`
         *,
-        categories(*)
+        choices(*),
+        question_images(*),
+        exam:exams(*)
       `)
-      .eq('question_id', questionId)
-      .order('relevance_score', { ascending: false });
+      .in('id', uniqueQuestionIds)
+      .order('created_at', { ascending: false })
+      .range(offset, offset + parseInt(limit) - 1);
 
-    if (fetchError) {
-      logger.error('問題カテゴリ取得エラー:', fetchError);
-      return res.status(500).json(error('問題カテゴリの取得に失敗しました'));
+    if (questionError) {
+      logger.error('問題取得エラー:', questionError);
+      return res.status(500).json(error('問題の取得に失敗しました'));
     }
 
-    // 各カテゴリに対して階層情報を取得
-    const categoriesWithPath = await Promise.all(
-      questionCategories.map(async (qc) => {
-        // 階層ビューから詳細情報を取得
-        const { data: hierarchyData, error: hierarchyError } = await supabase
-          .from('fe_categories_hierarchy_view')
-          .select('*')
-          .eq('id', qc.category_id)
-          .single();
-
-        const baseCategory = {
-          ...qc.categories,
-          relevance_score: qc.relevance_score,
-          is_primary: qc.is_primary,
-          notes: qc.notes,
-          relation_id: qc.id
-        };
-
-        if (hierarchyError || !hierarchyData) {
-          // 階層情報が取得できない場合はベース情報のみ返す
-          return baseCategory;
-        }
-
-        // パス情報を追加
-        return {
-          ...baseCategory,
-          path: hierarchyData.path,
-          field_name: hierarchyData.field_name,
-          major_category: hierarchyData.major_category,
-          medium_category: hierarchyData.medium_category,
-          minor_category: hierarchyData.minor_category,
-          knowledge_item: hierarchyData.knowledge_item,
-          level: hierarchyData.level,
-          category_type: hierarchyData.category_type
-        };
-      })
-    );
-
-    res.json(success(categoriesWithPath));
+    res.json(success(questions, {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: uniqueQuestionIds.length
+    }));
   } catch (err) {
-    logger.error('問題カテゴリ取得エラー:', err);
+    logger.error('カテゴリ検索による問題取得エラー:', err);
     res.status(500).json(error(err.message));
   }
 });
 
-// 問題にカテゴリを登録（階層パス全体を登録）
-router.post('/question/:questionId', authenticateToken, async (req, res) => {
+// 問題にカテゴリを関連付け
+router.post('/assign', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
-    const { questionId } = req.params;
-    const { categoryId, relevance_score = 1.0, is_primary = false, notes = null } = req.body;
+    const { question_id, category_id, relevance_score = 1.0, is_primary = false } = req.body;
 
-    if (!categoryId) {
-      return res.status(400).json(error('categoryId は必須です'));
+    if (!question_id || !category_id) {
+      return res.status(400).json(error('question_id と category_id は必須です'));
     }
 
-    // 問題の存在確認
-    const { data: question, error: questionError } = await supabase
-      .from('questions')
-      .select('id')
-      .eq('id', questionId)
-      .single();
-
-    if (questionError || !question) {
-      logger.error('問題確認エラー:', questionError);
-      return res.status(404).json(error('問題が見つかりません'));
-    }
-
-    // 階層ビューから選択されたカテゴリの階層情報を取得
-    const { data: hierarchyData, error: hierarchyError } = await supabase
-      .from('fe_categories_hierarchy_view')
-      .select('*')
-      .eq('id', categoryId)
-      .single();
-
-    if (hierarchyError || !hierarchyData) {
-      logger.error('階層情報取得エラー:', hierarchyError);
-      return res.status(404).json(error('カテゴリが見つかりません'));
-    }
-
-    // 階層パス上のすべてのカテゴリIDを取得
-    const pathCategories = [];
-    
-    // 分野（field）
-    if (hierarchyData.field_name) {
-      const { data: fieldCategory } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('exam_code', hierarchyData.exam_code)
-        .eq('level', 1)
-        .eq('name', hierarchyData.field_name)
-        .single();
-      if (fieldCategory) {
-        pathCategories.push({
-          category_id: fieldCategory.id,
-          level: 1,
-          relevance_score: 0.2,
-          is_primary: false
-        });
-      }
-    }
-
-    // 大カテゴリ（major）
-    if (hierarchyData.major_category) {
-      const { data: majorCategory } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('exam_code', hierarchyData.exam_code)
-        .eq('level', 2)
-        .eq('name', hierarchyData.major_category)
-        .single();
-      if (majorCategory) {
-        pathCategories.push({
-          category_id: majorCategory.id,
-          level: 2,
-          relevance_score: 0.4,
-          is_primary: false
-        });
-      }
-    }
-
-    // 中カテゴリ（medium）
-    if (hierarchyData.medium_category) {
-      const { data: mediumCategory } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('exam_code', hierarchyData.exam_code)
-        .eq('level', 3)
-        .eq('name', hierarchyData.medium_category)
-        .single();
-      if (mediumCategory) {
-        pathCategories.push({
-          category_id: mediumCategory.id,
-          level: 3,
-          relevance_score: 0.6,
-          is_primary: false
-        });
-      }
-    }
-
-    // 小カテゴリ（minor）
-    if (hierarchyData.minor_category) {
-      const { data: minorCategory } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('exam_code', hierarchyData.exam_code)
-        .eq('level', 4)
-        .eq('name', hierarchyData.minor_category)
-        .single();
-      if (minorCategory) {
-        pathCategories.push({
-          category_id: minorCategory.id,
-          level: 4,
-          relevance_score: 0.8,
-          is_primary: false
-        });
-      }
-    }
-
-    // ナレッジ（選択されたカテゴリ）
-    pathCategories.push({
-      category_id: categoryId,
-      level: hierarchyData.level,
-      relevance_score: relevance_score,
-      is_primary: is_primary
-    });
-
-    // 既存の関連付けをチェック（すでに同じナレッジが登録されている場合）
+    // 重複チェック
     const { data: existing, error: checkError } = await supabase
       .from('question_categories')
       .select('id')
-      .eq('question_id', questionId)
-      .eq('category_id', categoryId)
-      .maybeSingle();
-
-    if (checkError && checkError.code !== 'PGRST116') {
-      logger.error('既存関連確認エラー:', checkError);
-      return res.status(500).json(error('既存関連の確認に失敗しました'));
-    }
+      .eq('question_id', question_id)
+      .eq('category_id', category_id)
+      .single();
 
     if (existing) {
-      return res.status(409).json(error('この問題とカテゴリは既に関連付けられています'));
+      return res.status(409).json(error('この問題には既に同じカテゴリが関連付けられています'));
     }
 
-    // 階層パス上のすべてのカテゴリを登録
-    const insertPromises = pathCategories.map(async (pathCategory) => {
-      // 既存チェック
-      const { data: existingPath } = await supabase
-        .from('question_categories')
-        .select('id')
-        .eq('question_id', questionId)
-        .eq('category_id', pathCategory.category_id)
-        .maybeSingle();
+    // 関連付けを作成
+    const { data: assignment, error: insertError } = await supabase
+      .from('question_categories')
+      .insert({
+        question_id,
+        category_id,
+        relevance_score,
+        is_primary
+      })
+      .select()
+      .single();
 
-      if (!existingPath) {
-        return supabase
-          .from('question_categories')
-          .insert({
-            question_id: questionId,
-            category_id: pathCategory.category_id,
-            relevance_score: pathCategory.relevance_score,
-            is_primary: pathCategory.is_primary,
-            notes: pathCategory.level === hierarchyData.level ? notes : null,
-            created_by: req.user?.id || null
-          });
-      }
-      return { data: null, error: null };
-    });
-
-    const results = await Promise.all(insertPromises);
-    const errors = results.filter(result => result.error);
-
-    if (errors.length > 0) {
-      logger.error('カテゴリ関連付けエラー:', errors);
+    if (insertError) {
+      logger.error('カテゴリ関連付けエラー:', insertError);
       return res.status(500).json(error('カテゴリの関連付けに失敗しました'));
     }
 
-    logger.info(`問題 ${questionId} に階層カテゴリを関連付けました: ${hierarchyData.path}`);
-    res.json(success({
-      message: '階層カテゴリを関連付けました',
-      data: { path: hierarchyData.path, categories_added: pathCategories.length }
-    }));
+    res.status(201).json(success(assignment));
   } catch (err) {
     logger.error('カテゴリ関連付けエラー:', err);
     res.status(500).json(error(err.message));
   }
 });
 
-// 問題とカテゴリの関連付けを更新
-router.patch('/question/:questionId/:relationId', authenticateToken, async (req, res) => {
+// 問題のカテゴリ関連付けを削除
+router.delete('/assign/:assignmentId', authenticateToken, async (req, res) => {
   try {
     const supabase = getSupabase();
-    const { questionId, relationId } = req.params;
-    const { relevance_score, is_primary, notes } = req.body;
+    const { assignmentId } = req.params;
 
-    // 更新対象の関連付けを確認
-    const { data: relation, error: checkError } = await supabase
+    const { error: deleteError } = await supabase
       .from('question_categories')
-      .select('*')
-      .eq('id', relationId)
-      .eq('question_id', questionId)
-      .single();
+      .delete()
+      .eq('id', assignmentId);
 
-    if (checkError || !relation) {
-      logger.error('関連付け確認エラー:', checkError);
-      return res.status(404).json(error('関連付けが見つかりません'));
+    if (deleteError) {
+      logger.error('カテゴリ関連付け削除エラー:', deleteError);
+      return res.status(500).json(error('カテゴリ関連付けの削除に失敗しました'));
     }
 
-    // 更新データを準備
-    const updateData = {};
-    if (relevance_score !== undefined) updateData.relevance_score = relevance_score;
-    if (is_primary !== undefined) updateData.is_primary = is_primary;
-    if (notes !== undefined) updateData.notes = notes;
-    updateData.updated_at = new Date().toISOString();
+    res.json(success({ message: 'カテゴリ関連付けを削除しました' }));
+  } catch (err) {
+    logger.error('カテゴリ関連付け削除エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
 
-    if (Object.keys(updateData).length === 1) { // updated_atのみの場合
-      return res.status(400).json(error('更新するデータがありません'));
-    }
+// 問題に関連付けられたカテゴリを取得
+router.get('/by-question/:questionId', authenticateToken, async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { questionId } = req.params;
 
-    // 関連付けを更新
-    const { data: updatedRelation, error: updateError } = await supabase
+    logger.info(`🔍 問題カテゴリ取得開始: questionId=${questionId}`);
+
+    const { data: assignments, error: fetchError } = await supabase
       .from('question_categories')
-      .update(updateData)
-      .eq('id', relationId)
       .select(`
-        *,
-        categories(*)
+        id,
+        relevance_score,
+        is_primary,
+        created_at,
+        category:categories(*)
       `)
-      .single();
-
-    if (updateError) {
-      logger.error('関連付け更新エラー:', updateError);
-      return res.status(500).json(error('関連付けの更新に失敗しました'));
-    }
-
-    logger.info(`関連付け ${relationId} を更新しました`);
-    res.json(success({
-      message: '関連付けを更新しました',
-      data: updatedRelation
-    }));
-  } catch (err) {
-    logger.error('関連付け更新エラー:', err);
-    res.status(500).json(error(err.message));
-  }
-});
-
-// 問題とカテゴリの関連付けを削除（階層全体を削除）
-router.delete('/question/:questionId/:relationId', authenticateToken, async (req, res) => {
-  try {
-    const supabase = getSupabase();
-    const { questionId, relationId } = req.params;
-
-    // 削除対象の関連付けを確認
-    const { data: relation, error: checkError } = await supabase
-      .from('question_categories')
-      .select('*')
-      .eq('id', relationId)
       .eq('question_id', questionId)
-      .single();
+      .order('relevance_score', { ascending: false });
 
-    if (checkError || !relation) {
-      logger.error('関連付け確認エラー:', checkError);
-      return res.status(404).json(error('関連付けが見つかりません'));
+    logger.info(`🔍 問題カテゴリ取得結果:`, {
+      questionId,
+      assignmentsCount: assignments?.length || 0,
+      fetchError,
+      assignments: assignments?.map(a => ({
+        id: a.id,
+        categoryId: a.category?.id,
+        categoryName: a.category?.name,
+        relevanceScore: a.relevance_score,
+        isPrimary: a.is_primary
+      })) || []
+    });
+
+    if (fetchError) {
+      logger.error('問題カテゴリ取得エラー:', fetchError);
+      return res.status(500).json(error('問題に関連付けられたカテゴリの取得に失敗しました'));
     }
 
-    // 削除対象のカテゴリの階層情報を取得
-    const { data: hierarchyData, error: hierarchyError } = await supabase
-      .from('fe_categories_hierarchy_view')
-      .select('*')
-      .eq('id', relation.category_id)
-      .single();
-
-    if (hierarchyError || !hierarchyData) {
-      logger.error('階層情報取得エラー:', hierarchyError);
-      // 階層情報が取得できない場合は単一削除
-      const { error: deleteError } = await supabase
-        .from('question_categories')
-        .delete()
-        .eq('id', relationId);
-
-      if (deleteError) {
-        logger.error('関連付け削除エラー:', deleteError);
-        return res.status(500).json(error('関連付けの削除に失敗しました'));
-      }
-
-      logger.info(`関連付け ${relationId} を削除しました`);
-      return res.json(success({
-        message: '関連付けを削除しました'
-      }));
-    }
-
-    // 同じ階層パス上のすべてのカテゴリIDを取得
-    const pathCategoryIds = [];
-
-    // 分野（field）
-    if (hierarchyData.field_name) {
-      const { data: fieldCategory } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('exam_code', hierarchyData.exam_code)
-        .eq('level', 1)
-        .eq('name', hierarchyData.field_name)
-        .single();
-      if (fieldCategory) pathCategoryIds.push(fieldCategory.id);
-    }
-
-    // 大カテゴリ（major）
-    if (hierarchyData.major_category) {
-      const { data: majorCategory } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('exam_code', hierarchyData.exam_code)
-        .eq('level', 2)
-        .eq('name', hierarchyData.major_category)
-        .single();
-      if (majorCategory) pathCategoryIds.push(majorCategory.id);
-    }
-
-    // 中カテゴリ（medium）
-    if (hierarchyData.medium_category) {
-      const { data: mediumCategory } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('exam_code', hierarchyData.exam_code)
-        .eq('level', 3)
-        .eq('name', hierarchyData.medium_category)
-        .single();
-      if (mediumCategory) pathCategoryIds.push(mediumCategory.id);
-    }
-
-    // 小カテゴリ（minor）
-    if (hierarchyData.minor_category) {
-      const { data: minorCategory } = await supabase
-        .from('categories')
-        .select('id')
-        .eq('exam_code', hierarchyData.exam_code)
-        .eq('level', 4)
-        .eq('name', hierarchyData.minor_category)
-        .single();
-      if (minorCategory) pathCategoryIds.push(minorCategory.id);
-    }
-
-    // ナレッジ（選択されたカテゴリ）
-    pathCategoryIds.push(relation.category_id);
-
-    // 階層パス上のすべての関連付けを削除
-    const { error: deleteError } = await supabase
-      .from('question_categories')
-      .delete()
-      .eq('question_id', questionId)
-      .in('category_id', pathCategoryIds);
-
-    if (deleteError) {
-      logger.error('階層カテゴリ削除エラー:', deleteError);
-      return res.status(500).json(error('階層カテゴリの削除に失敗しました'));
-    }
-
-    logger.info(`問題 ${questionId} の階層カテゴリを削除しました: ${hierarchyData.path} (${pathCategoryIds.length}件)`);
-    res.json(success({
-      message: '階層カテゴリを削除しました',
-      data: { path: hierarchyData.path, categories_deleted: pathCategoryIds.length }
-    }));
+    res.json(success(assignments || []));
   } catch (err) {
-    logger.error('関連付け削除エラー:', err);
+    logger.error('問題カテゴリ取得エラー:', err);
     res.status(500).json(error(err.message));
   }
 });
 
-// カテゴリ作成
-router.post('/', authenticateToken, async (req, res) => {
-  try {
-    const supabase = getSupabase();
-    const { name, level, parent_id, display_order, exam_code, category_type } = req.body;
-
-    if (!name || !level || !exam_code) {
-      return res.status(400).json(error('name, level, exam_code は必須です'));
-    }
-
-    // levelに基づいてcategory_typeを決定
-    let categoryType = category_type;
-    if (!categoryType) {
-      switch (level) {
-        case 1: categoryType = 'field'; break;
-        case 2: categoryType = 'major'; break;
-        case 3: categoryType = 'medium'; break;
-        case 4: categoryType = 'minor'; break;
-        case 5: categoryType = 'knowledge'; break;
-        default: categoryType = 'unknown';
-      }
-    }
-
-    const { data: category, error: insertError } = await supabase
-      .from('categories')
-      .insert({
-        name,
-        level,
-        parent_id: parent_id || null,
-        display_order: display_order || 1,
-        exam_code,
-        category_type: categoryType
-      })
-      .select()
-      .single();
-
-    if (insertError) {
-      logger.error('カテゴリ作成エラー:', insertError);
-      return res.status(500).json(error('カテゴリの作成に失敗しました'));
-    }
-
-    logger.info(`カテゴリを作成しました: ${category.name}`);
-    res.json(success(category));
-  } catch (err) {
-    logger.error('カテゴリ作成エラー:', err);
-    res.status(500).json(error(err.message));
-  }
-});
-
-// カテゴリ一括削除（試験コード指定）
-router.delete('/bulk', authenticateToken, async (req, res) => {
-  try {
-    const supabase = getSupabase();
-    const { exam_code } = req.body;
-
-    if (!exam_code) {
-      return res.status(400).json(error('exam_code は必須です'));
-    }
-
-    const { error: deleteError } = await supabase
-      .from('categories')
-      .delete()
-      .eq('exam_code', exam_code);
-
-    if (deleteError) {
-      logger.error('カテゴリ一括削除エラー:', deleteError);
-      return res.status(500).json(error('カテゴリの一括削除に失敗しました'));
-    }
-
-    logger.info(`試験コード ${exam_code} のカテゴリを一括削除しました`);
-    res.json(success({ message: '一括削除が完了しました' }));
-  } catch (err) {
-    logger.error('カテゴリ一括削除エラー:', err);
-    res.status(500).json(error(err.message));
-  }
-});
-
-// カテゴリによる問題検索
-router.get('/questions/:categoryId', async (req, res) => {
+// カテゴリに関連付けられた問題を取得
+router.get('/:categoryId/questions', async (req, res) => {
   try {
     const supabase = getSupabase();
     const { categoryId } = req.params;
@@ -641,44 +464,48 @@ router.get('/questions/:categoryId', async (req, res) => {
 
     const offset = (parseInt(page) - 1) * parseInt(limit);
 
-    // カテゴリに関連付けられた問題を取得
-    const { data: questions, error: fetchError } = await supabase
+    const { data: assignments, error: fetchError } = await supabase
       .from('question_categories')
       .select(`
-        questions!inner(
+        id,
+        relevance_score,
+        is_primary,
+        created_at,
+        question:questions(
           *,
           choices(*),
-          question_images(*)
+          question_images(*),
+          exam:exams(*)
         )
       `)
       .eq('category_id', categoryId)
+      .order('relevance_score', { ascending: false })
       .order('created_at', { ascending: false })
       .range(offset, offset + parseInt(limit) - 1);
 
     if (fetchError) {
-      logger.error('カテゴリ別問題取得エラー:', fetchError);
-      return res.status(500).json(error('問題の取得に失敗しました'));
+      logger.error('カテゴリ問題取得エラー:', fetchError);
+      return res.status(500).json(error('カテゴリに関連付けられた問題の取得に失敗しました'));
     }
 
-    // 総件数を取得
+    // 総数を取得
     const { count, error: countError } = await supabase
       .from('question_categories')
-      .select('question_id', { count: 'exact', head: true })
+      .select('id', { count: 'exact' })
       .eq('category_id', categoryId);
 
     if (countError) {
-      logger.error('問題数取得エラー:', countError);
+      logger.error('カテゴリ問題数取得エラー:', countError);
+      return res.status(500).json(error('問題数の取得に失敗しました'));
     }
 
-    const questionList = questions.map(qc => qc.questions);
-
-    res.json(success(questionList, {
+    res.json(success(assignments || [], {
       page: parseInt(page),
       limit: parseInt(limit),
       total: count || 0
     }));
   } catch (err) {
-    logger.error('カテゴリ別問題取得エラー:', err);
+    logger.error('カテゴリ問題取得エラー:', err);
     res.status(500).json(error(err.message));
   }
 });

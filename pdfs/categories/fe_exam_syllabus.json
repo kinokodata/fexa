@@ -58,7 +58,7 @@
                   ]
                 },
                 {
-                  "minor_category": "計測・制御に関する理論", 
+                  "minor_category": "計測・制御に関する理論",
                   "knowledge_items": [
                     "信号処理",
                     "フィードバック制御",
@@ -70,12 +70,7 @@
                   ]
                 }
               ]
-            }
-          ]
-        },
-        {
-          "major_category": "アルゴリズムとプログラミング",
-          "medium_categories": [
+            },
             {
               "medium_category": "アルゴリズムとプログラミング",
               "minor_categories": [
@@ -109,7 +104,7 @@
                   ]
                 },
                 {
-                  "minor_category": "プログラム言語", 
+                  "minor_category": "プログラム言語",
                   "knowledge_items": [
                     "プログラム言語（アセンブラ言語，C，C++，COBOL，Java，ECMAScript，Ruby，Perl，PHP，Pythonほか）の種類と特徴",
                     "共通言語基盤（CLI）"
@@ -354,7 +349,7 @@
               ]
             },
             {
-              "medium_category": "マルチメディア",
+              "medium_category": "情報メディア",
               "minor_categories": [
                 {
                   "minor_category": "マルチメディア技術",
@@ -592,12 +587,7 @@
               ]
             }
           ]
-        }
-      ]
-    },
-    {
-      "field_name": "マネジメント系",
-      "major_categories": [
+        },
         {
           "major_category": "開発技術",
           "medium_categories": [
@@ -736,7 +726,12 @@
               ]
             }
           ]
-        },
+        }
+      ]
+    },
+    {
+      "field_name": "マネジメント系",
+      "major_categories": [
         {
           "major_category": "プロジェクトマネジメント",
           "medium_categories": [

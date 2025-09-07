@@ -12,13 +12,12 @@ import { Exam } from '@/types/api'
 export default function HomePage() {
   const { user, loading } = useAuth()
   const [exams, setExams] = useState<Exam[]>([])
-  const [loadingExams, setLoadingExams] = useState(true)
+  const [loadingExams, setLoadingExams] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
     const fetchExams = async () => {
-      if (!user) return
-      
+      setLoadingExams(true)
       try {
         const result = await apiClient.getExams()
         if (result.success) {
@@ -31,15 +30,35 @@ export default function HomePage() {
       }
     }
 
-    fetchExams()
+    if (user) {
+      fetchExams()
+    }
   }, [user])
 
   if (loading) {
-    return <div>Loading...</div>
+    return (
+      <>
+        <Header />
+        <Box sx={{ pt: 8 }}>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Typography>Loading...</Typography>
+          </Container>
+        </Box>
+      </>
+    )
   }
 
   if (!user) {
-    return <Login />
+    return (
+      <>
+        <Header />
+        <Box sx={{ pt: 8 }}>
+          <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            <Login />
+          </Container>
+        </Box>
+      </>
+    )
   }
 
   const handleExamStart = (exam: Exam) => {
@@ -50,7 +69,8 @@ export default function HomePage() {
   return (
     <>
       <Header />
-      <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+      <Box sx={{ pt: 8 }}> {/* Toolbarの高さ分のpadding */}
+        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom>
           基本情報技術者試験 問題演習
         </Typography>
@@ -113,6 +133,7 @@ export default function HomePage() {
           </Card>
         </Box>
       </Container>
+      </Box>
     </>
   )
 }

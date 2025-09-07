@@ -407,6 +407,212 @@ server.registerTool(
     }
 );
 
+// タグとカテゴリを紐付けるツール
+server.registerTool(
+    "link_tags_to_category",
+    {
+      title: "Link Tags to Category",
+      description: `Link multiple tags to a specific category`,
+      inputSchema: z.object({
+        category_id: z.string().describe("Category ID to link tags to"),
+        tag_names: z.array(z.string()).describe("Array of tag names to link")
+      })
+    },
+    async ({ category_id, tag_names }) => {
+      console.error(`[${projectName}] Executing link_tags_to_category`);
+
+      try {
+        // タグ名からタグIDを取得
+        const { data: tags, error: tagError } = await supabase
+            .from('tags')
+            .select('id, name')
+            .in('name', tag_names);
+
+        if (tagError) throw tagError;
+
+        // category_idを更新
+        const { data: updatedTags, error: updateError } = await supabase
+            .from('tags')
+            .update({ category_id })
+            .in('id', tags.map(t => t.id))
+            .select();
+
+        if (updateError) throw updateError;
+
+        return {
+          content: [{
+            type: "text",
+            text: `Successfully linked ${updatedTags.length} tags to category ${category_id}:\n${updatedTags.map(t => t.name).join(', ')}`
+          }]
+        };
+      } catch (error) {
+        console.error(`[${projectName}] Error in link_tags_to_category:`, error.message);
+        return {
+          content: [{
+            type: "text",
+            text: `Error linking tags to category: ${error.message}`
+          }],
+          isError: true
+        };
+      }
+    }
+);
+
+// カテゴリに基づくタグの自動紐付けツール
+server.registerTool(
+    "auto_link_tags_by_keywords",
+    {
+      title: "Auto Link Tags by Keywords",
+      description: `Automatically link tags to categories based on keyword matching`,
+      inputSchema: z.object({
+        category_name: z.string().describe("Category name to match tags"),
+        category_id: z.string().describe("Category ID to link matching tags"),
+        keywords: z.array(z.string()).optional().describe("Additional keywords for matching")
+      })
+    },
+    async ({ category_name, category_id, keywords = [] }) => {
+      console.error(`[${projectName}] Executing auto_link_tags_by_keywords`);
+
+      try {
+        // カテゴリ名と追加キーワードを組み合わせて検索
+        const searchTerms = [category_name, ...keywords];
+        
+        // タグを検索
+        let matchedTags = [];
+        for (const term of searchTerms) {
+          const { data: tags, error } = await supabase
+              .from('tags')
+              .select('id, name, display_name')
+              .or(`name.ilike.%${term}%,display_name.ilike.%${term}%`)
+              .is('category_id', null); // まだカテゴリが設定されていないタグのみ
+          
+          if (error) throw error;
+          if (tags) matchedTags.push(...tags);
+        }
+
+        // 重複を除去
+        const uniqueTags = Array.from(new Map(matchedTags.map(t => [t.id, t])).values());
+
+        if (uniqueTags.length === 0) {
+          return {
+            content: [{
+              type: "text",
+              text: `No unlinked tags found matching "${category_name}" or keywords: ${keywords.join(', ')}`
+            }]
+          };
+        }
+
+        // タグを更新
+        const { data: updatedTags, error: updateError } = await supabase
+            .from('tags')
+            .update({ category_id })
+            .in('id', uniqueTags.map(t => t.id))
+            .select();
+
+        if (updateError) throw updateError;
+
+        return {
+          content: [{
+            type: "text",
+            text: `Successfully linked ${updatedTags.length} tags to category "${category_name}":\n${updatedTags.map(t => t.name).join(', ')}`
+          }]
+        };
+      } catch (error) {
+        console.error(`[${projectName}] Error in auto_link_tags_by_keywords:`, error.message);
+        return {
+          content: [{
+            type: "text",
+            text: `Error auto-linking tags: ${error.message}`
+          }],
+          isError: true
+        };
+      }
+    }
+);
+
+// カテゴリ統計情報取得ツール
+server.registerTool(
+    "get_category_stats",
+    {
+      title: "Get Category Statistics",
+      description: `Get statistics about categories, tags, and questions`,
+      inputSchema: z.object({})
+    },
+    async () => {
+      console.error(`[${projectName}] Executing get_category_stats`);
+
+      try {
+        // カテゴリごとのタグ数
+        const { data: tagStats, error: tagError } = await supabase
+            .from('tags')
+            .select('category_id')
+            .not('category_id', 'is', null);
+
+        if (tagError) throw tagError;
+
+        // category_idごとにグループ化
+        const tagCounts = {};
+        tagStats.forEach(t => {
+          tagCounts[t.category_id] = (tagCounts[t.category_id] || 0) + 1;
+        });
+
+        // カテゴリごとの問題数（タグ経由）
+        const { data: questionStats, error: qError } = await supabase
+            .from('question_tags')
+            .select('tag_id, tags!inner(category_id)');
+
+        if (qError) throw qError;
+
+        // category_idごとに問題数をカウント
+        const questionCounts = {};
+        const uniqueQuestions = new Set();
+        questionStats.forEach(qt => {
+          if (qt.tags?.category_id) {
+            if (!questionCounts[qt.tags.category_id]) {
+              questionCounts[qt.tags.category_id] = new Set();
+            }
+            questionCounts[qt.tags.category_id].add(qt.question_id);
+          }
+        });
+
+        // SetをカウントにArray
+        Object.keys(questionCounts).forEach(categoryId => {
+          questionCounts[categoryId] = questionCounts[categoryId].size;
+        });
+
+        // カテゴリ情報と統計を結合
+        const { data: categories, error: catError } = await supabase
+            .from('categories')
+            .select('id, name, level');
+
+        if (catError) throw catError;
+
+        const stats = categories.map(cat => ({
+          category: cat.name,
+          level: cat.level,
+          tag_count: tagCounts[cat.id] || 0,
+          question_count: questionCounts[cat.id] || 0
+        }));
+
+        return {
+          content: [{
+            type: "text",
+            text: `Category Statistics:\n${JSON.stringify(stats, null, 2)}\n\nTotal tags with categories: ${Object.values(tagCounts).reduce((a, b) => a + b, 0)}`
+          }]
+        };
+      } catch (error) {
+        console.error(`[${projectName}] Error in get_category_stats:`, error.message);
+        return {
+          content: [{
+            type: "text",
+            text: `Error getting category stats: ${error.message}`
+          }],
+          isError: true
+        };
+      }
+    }
+);
+
 // サーバー起動
 async function main() {
   const transport = new StdioServerTransport();

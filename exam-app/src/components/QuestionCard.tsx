@@ -1,5 +1,6 @@
 import { Question } from '../types/api';
 import Link from 'next/link';
+import MathRenderer from './MathRenderer';
 
 interface QuestionCardProps {
   question: Question;
@@ -59,15 +60,19 @@ export default function QuestionCard({ question }: QuestionCardProps) {
       </div>
 
       <div style={{ marginBottom: '1rem' }}>
-        <p style={{ 
+        <div style={{ 
           margin: 0, 
           lineHeight: '1.5',
           color: '#333'
         }}>
-          {question.question_text.length > 200 
-            ? `${question.question_text.substring(0, 200)}...` 
-            : question.question_text}
-        </p>
+          <MathRenderer 
+            text={question.question_text.length > 200 
+              ? `${question.question_text.substring(0, 200)}...` 
+              : question.question_text}
+            hasImages={question.has_image}
+            shouldShowImages={false} // カード表示では画像警告を非表示
+          />
+        </div>
       </div>
 
       {question.choices && question.choices.length > 0 && (

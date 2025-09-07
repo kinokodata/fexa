@@ -14,6 +14,8 @@ import InputLabel from '@mui/material/InputLabel';
 import SchoolIcon from '@mui/icons-material/School';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+import IconButton from '@mui/material/IconButton';
+import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth } from './AuthProvider';
 import { useRouter } from 'next/navigation';
 
@@ -23,7 +25,11 @@ interface Exam {
   season: string;
 }
 
-export function Header() {
+interface HeaderProps {
+  onMenuClick?: () => void;
+}
+
+export function Header({ onMenuClick }: HeaderProps = {}) {
   const { isLoggedIn, handleLogout } = useAuth();
   const router = useRouter();
   const [exams, setExams] = useState<Exam[]>([]);
@@ -79,6 +85,17 @@ export function Header() {
   return (
     <AppBar position="fixed" color="primary" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Toolbar>
+        {onMenuClick && (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={onMenuClick}
+            sx={{ mr: 2 }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <SchoolIcon sx={{ mr: 2 }} />
         <Box sx={{ flexGrow: 1 }}>
           <Typography 

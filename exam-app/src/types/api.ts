@@ -31,6 +31,10 @@ export interface Question {
   question_text: string;
   pdf_page_number?: number;
   has_image: boolean;
+  has_choice_table?: boolean;
+  choice_table_markdown?: string;
+  choice_table_type?: string;
+  explanation?: string; // questionsテーブルの解説フィールド
   created_at: string;
   exam: {
     year: number;
@@ -42,8 +46,9 @@ export interface Question {
     description?: string;
   };
   choices: Choice[];
-  images?: QuestionImage[];
-  answer?: Answer;
+  question_images?: QuestionImage[];
+  choice_images?: any[];
+  answer?: Answer; // answersテーブルのデータ（オプション）
 }
 
 // 選択肢
@@ -54,8 +59,8 @@ export interface Choice {
   is_correct?: boolean;
   has_image?: boolean;
   is_table_format?: boolean;
-  images?: any[];
-  choice_images?: any[];
+  images?: QuestionImage[];
+  choice_images?: QuestionImage[];
 }
 
 // 画像

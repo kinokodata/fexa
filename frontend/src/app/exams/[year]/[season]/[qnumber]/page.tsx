@@ -125,6 +125,20 @@ interface Category {
   children?: Category[];
   question_count?: number;
   relation_id?: string;  // 問題とカテゴリの関連ID
+  knowledges?: string;  // 知識項目のカンマ区切り文字列
+}
+
+interface QuestionCategory {
+  id: string;
+  question_id: string;
+  category_id: string;
+  relevance_score: number;
+  is_primary: boolean;
+  notes?: string;
+  created_at: string;
+  created_by?: string;
+  updated_at: string;
+  category?: Category;
 }
 
 interface CategorySet {
@@ -171,7 +185,7 @@ export default function QuestionDetail() {
   // カテゴリ関連の状態
   const [categoryModal, setCategoryModal] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
-  const [questionCategories, setQuestionCategories] = useState<Category[]>([]);
+  const [questionCategories, setQuestionCategories] = useState<QuestionCategory[]>([]);
   const [categorySets, setCategorySets] = useState<CategorySet[]>([{ id: 1, field: undefined, major: undefined, medium: undefined, minor: undefined, knowledge: [] }]);
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [savingCategories, setSavingCategories] = useState(false);
@@ -188,6 +202,7 @@ export default function QuestionDetail() {
     choiceE: false,
     correctAnswer: false,
     appropriateExplanation: false,
+    categoryRegistration: false,
     other: false
   });
 
@@ -196,7 +211,6 @@ export default function QuestionDetail() {
 
   useEffect(() => {
     if (year && season && number) {
-      console.log('詳細ページ - パラメータ:', { year, season, number, questionId });
       fetchQuestions();
     }
   }, [year, season, number, questionId]);
@@ -219,6 +233,7 @@ export default function QuestionDetail() {
       choiceE: false,
       correctAnswer: false,
       appropriateExplanation: false,
+      categoryRegistration: false,
       other: false
     });
     // 問題が変わってもチェックエリアは表示したまま
@@ -268,7 +283,6 @@ export default function QuestionDetail() {
         }
       }
     } catch (err) {
-      console.error('Fetch error:', err);
       if (err instanceof Error && err.name === 'AuthError') {
         // AuthErrorは既にAuthProviderで処理される
         return;
@@ -323,7 +337,6 @@ export default function QuestionDetail() {
         setError('正答の更新に失敗しました');
       }
     } catch (error) {
-      console.error('正答更新エラー:', error);
       setError('正答の更新中にエラーが発生しました');
     } finally {
       setUpdatingCorrectAnswer(false);
@@ -378,7 +391,6 @@ export default function QuestionDetail() {
         setError('問題文の更新に失敗しました');
       }
     } catch (error) {
-      console.error('問題文更新エラー:', error);
       setError('問題文の更新中にエラーが発生しました');
     } finally {
       setUpdatingQuestionText(false);
@@ -417,7 +429,6 @@ export default function QuestionDetail() {
         setError('解説の更新に失敗しました');
       }
     } catch (error) {
-      console.error('解説更新エラー:', error);
       setError('解説の更新中にエラーが発生しました');
     } finally {
       setUpdatingExplanation(false);
@@ -490,7 +501,6 @@ export default function QuestionDetail() {
         setError('選択肢の更新に失敗しました');
       }
     } catch (error) {
-      console.error('選択肢更新エラー:', error);
       setError('選択肢の更新中にエラーが発生しました');
     } finally {
       setUpdatingChoiceText(false);
@@ -518,7 +528,6 @@ export default function QuestionDetail() {
         setError('表形式選択肢の更新に失敗しました');
       }
     } catch (error) {
-      console.error('表形式選択肢更新エラー:', error);
       setError('表形式選択肢の更新中にエラーが発生しました');
     } finally {
       setUpdatingChoiceTable(false);
@@ -554,7 +563,6 @@ export default function QuestionDetail() {
         setError('表形式選択肢の削除に失敗しました');
       }
     } catch (error) {
-      console.error('表形式選択肢削除エラー:', error);
       setError('表形式選択肢の削除中にエラーが発生しました');
     } finally {
       setDeletingChoiceTable(false);
@@ -587,7 +595,6 @@ export default function QuestionDetail() {
         setError('表形式への変換に失敗しました');
       }
     } catch (error) {
-      console.error('表形式変換エラー:', error);
       setError('表形式への変換中にエラーが発生しました');
     } finally {
       setConvertingToTable(false);
@@ -601,24 +608,12 @@ export default function QuestionDetail() {
       const { default: apiClient } = await import('../../../../../services/api');
       const result = await apiClient.getCategoriesHierarchy({ examCode: 'FE' });
       
-      console.log('カテゴリ取得結果:', result);
-      
       if (result.success) {
-        console.log('取得したカテゴリ:', result.data);
-        console.log('レベル別カテゴリ数:', {
-          level1: result.data?.filter(c => c.level === 1).length || 0,
-          level2: result.data?.filter(c => c.level === 2).length || 0,
-          level3: result.data?.filter(c => c.level === 3).length || 0,
-          level4: result.data?.filter(c => c.level === 4).length || 0,
-          level5: result.data?.filter(c => c.level === 5).length || 0,
-        });
         setCategories(result.data || []);
       } else {
-        console.error('カテゴリ取得失敗:', result.error);
         setError('カテゴリの取得に失敗しました');
       }
     } catch (error) {
-      console.error('カテゴリ取得エラー:', error);
       setError('カテゴリの取得中にエラーが発生しました');
     } finally {
       setLoadingCategories(false);
@@ -636,7 +631,6 @@ export default function QuestionDetail() {
         setQuestionCategories(result.data || []);
       }
     } catch (error) {
-      console.error('問題カテゴリ取得エラー:', error);
     }
   };
 
@@ -721,7 +715,6 @@ export default function QuestionDetail() {
         filtered = [];
     }
     
-    console.log(`カテゴリフィルタ結果 (type: ${type}, parent: ${parentName}):`, filtered);
     return filtered;
   };
 
@@ -753,7 +746,6 @@ export default function QuestionDetail() {
       handleCloseCategoryModal();
       setError(null);
     } catch (error) {
-      console.error('カテゴリ保存エラー:', error);
       setError('カテゴリの保存中にエラーが発生しました');
     } finally {
       setSavingCategories(false);
@@ -781,13 +773,10 @@ export default function QuestionDetail() {
         // 問題カテゴリを再取得
         await fetchQuestionCategories();
         setError(null);
-        console.log(`カテゴリ関連付けを削除しました: ${categoryName}`);
       } else {
-        console.error('カテゴリ削除失敗:', result.error);
         setError('カテゴリの削除に失敗しました');
       }
     } catch (error) {
-      console.error('カテゴリ削除エラー:', error);
       setError('カテゴリの削除中にエラーが発生しました');
     }
   };
@@ -855,12 +844,10 @@ export default function QuestionDetail() {
         
         // 成功時の処理
         setCheckAreaExpanded(false);
-        console.log('チェック完了:', question.id);
       } else {
         setError('チェック完了の更新に失敗しました');
       }
     } catch (error) {
-      console.error('チェック完了の送信に失敗:', error);
       setError('チェック完了の更新中にエラーが発生しました');
     } finally {
       setCheckingQuestion(false);
@@ -879,6 +866,7 @@ export default function QuestionDetail() {
       choiceE: false,
       correctAnswer: false,
       appropriateExplanation: false,
+      categoryRegistration: false,
       other: false,
     });
     // チェック完了状態をリセット（ローカルのみ）
@@ -1763,6 +1751,15 @@ export default function QuestionDetail() {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          checked={checkList.categoryRegistration || false}
+                          onChange={() => handleCheckChange('categoryRegistration')}
+                        />
+                      }
+                      label="1つ以上のカテゴリ登録"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
                           checked={checkList.other || false}
                           onChange={() => handleCheckChange('other')}
                         />
@@ -2480,9 +2477,20 @@ export default function QuestionDetail() {
                     </Typography>
                     <Paper variant="outlined" sx={{ p: 2, backgroundColor: '#f9f9f9' }}>
                       <Typography variant="body2" color="text.secondary">
-                        {getCategoriesByType('knowledge', categorySet.minor?.name)
-                          .map(k => k.name)
-                          .join(', ') || '知識項目なし'}
+                        {(() => {
+                          // 選択された小分類（minor）のknowledgesカラムから知識項目を取得
+                          if (categorySet.minor?.knowledges) {
+                            // カンマ区切りの文字列を配列に変換して表示
+                            const knowledgeItems = categorySet.minor.knowledges
+                              .split(',')
+                              .map((item: string) => item.trim())
+                              .filter((item: string) => item.length > 0);
+                            return knowledgeItems.length > 0 
+                              ? knowledgeItems.join('、') 
+                              : '知識項目なし';
+                          }
+                          return '知識項目なし';
+                        })()}
                       </Typography>
                     </Paper>
                   </Box>

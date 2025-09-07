@@ -1,0 +1,16 @@
+{
+  "name": "@fexa/export-categories",
+  "version": "1.0.0",
+  "description": "Export categories to database from JSON files",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  },
+  "author": "",
+  "license": "MIT"
+}

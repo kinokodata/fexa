@@ -57,7 +57,8 @@ export default function ExamPage() {
         
         const result = await apiClient.getQuestions({
           year: parseInt(year),
-          season: getSeasonCode(season)
+          season: getSeasonCode(season),
+          limit: 100 // 全問題を取得
         })
         
         console.log('📊 APIレスポンス:', result)
@@ -88,7 +89,11 @@ export default function ExamPage() {
 
   const handleStartExam = () => {
     if (questions.length > 0) {
-      router.push(`/exams/${year}/${season}/1`)
+      // 問1のquestion_idを使って遷移
+      const firstQuestion = questions.find(q => q.question_number === 1) || questions[0]
+      if (firstQuestion) {
+        router.push(`/questions/${firstQuestion.id}`)
+      }
     }
   }
 

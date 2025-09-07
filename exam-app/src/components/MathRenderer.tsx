@@ -6,7 +6,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import remarkGfm from 'remark-gfm';
 import rehypeKatex from 'rehype-katex';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Alert, Box } from '@mui/material';
+import { Alert, Box } from '@mui/material';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 
 interface MathRendererProps {
@@ -52,9 +52,9 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
           }}
         >
           <Box>
-            <strong>画像をアップロードしてください</strong>
+            <strong>画像を読み込めませんでした</strong>
             <br />
-            推奨ファイル名: <code>{fileName}</code>
+            ファイル名: <code>{fileName}</code>
             {altText && (
               <>
                 <br />
@@ -123,7 +123,7 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
               {children}
             </td>
           ),
-          code: ({ inline, children, ...props }: any) => (
+          code: ({ inline, children, ...props }) => (
             inline ? (
               <code
                 style={{

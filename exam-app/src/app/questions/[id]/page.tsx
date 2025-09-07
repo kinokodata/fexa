@@ -6,6 +6,7 @@ import { Container, Typography, Box, CircularProgress, Alert, Card, CardContent,
 import MenuIcon from '@mui/icons-material/Menu'
 import { Header } from '@/components/Header'
 import { ExamSidebar } from '@/components/ExamSidebar'
+import MathRenderer from '@/components/MathRenderer'
 import apiClient from '@/services/api'
 import { Question } from '@/types/api'
 
@@ -102,7 +103,8 @@ export default function QuestionPage() {
     )
   }
 
-  const correctChoice = question.answer?.correct_choice
+  // choices配列から正解の選択肢を探す
+  const correctChoice = question.choices?.find(choice => choice.is_correct)?.choice_label
   const isCorrect = selectedAnswer && selectedAnswer === correctChoice
 
   return (
@@ -147,9 +149,35 @@ export default function QuestionPage() {
               </Box>
               
               {/* 問題文 */}
-              <Typography variant="body1" sx={{ mb: 3, whiteSpace: 'pre-wrap' }}>
-                {question.question_text}
-              </Typography>
+              <Box sx={{ mb: 3 }}>
+                <MathRenderer 
+                  text={question.question_text}
+                  hasImages={question.has_image && (question.question_images?.length || 0) > 0}
+                  shouldShowImages={question.has_image}
+                />
+                {/* 問題画像の表示 */}
+                {question.question_images && question.question_images.length > 0 && (
+                  <Box sx={{ mt: 2 }}>
+                    {question.question_images.map((image, index) => (
+                      <Box key={image.id} sx={{ mb: 2 }}>
+                        <img 
+                          src={image.image_url} 
+                          alt={image.caption || `問題画像 ${index + 1}`}
+                          style={{ 
+                            maxWidth: '100%', 
+                            height: 'auto'
+                          }}
+                        />
+                        {image.caption && (
+                          <Typography variant="caption" display="block" sx={{ mt: 1, textAlign: 'center' }}>
+                            {image.caption}
+                          </Typography>
+                        )}
+                      </Box>
+                    ))}
+                  </Box>
+                )}
+              </Box>
 
               {/* 選択肢テーブル（ある場合） */}
               {question.choice_table_markdown && (
@@ -159,9 +187,7 @@ export default function QuestionPage() {
                   </Typography>
                   <Card variant="outlined">
                     <CardContent>
-                      <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>
-                        {question.choice_table_markdown}
-                      </pre>
+                      <MathRenderer text={question.choice_table_markdown} />
                     </CardContent>
                   </Card>
                 </Box>
@@ -173,14 +199,43 @@ export default function QuestionPage() {
                   value={selectedAnswer}
                   onChange={handleAnswerChange}
                 >
-                  {question.choices?.map((choice) => (
+                  {question.choices?.sort((a, b) => {
+                    const order: { [key: string]: number } = { 'ア': 1, 'イ': 2, 'ウ': 3, 'エ': 4 };
+                    return (order[a.choice_label] || 999) - (order[b.choice_label] || 999);
+                  }).map((choice) => (
                     <FormControlLabel
                       key={choice.id}
                       value={choice.choice_label}
                       control={<Radio />}
                       label={
-                        <Box>
-                          <strong>{choice.choice_label}.</strong> {choice.choice_text}
+                        <Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+                          <Box sx={{ minWidth: '30px', flexShrink: 0 }}>
+                            <strong>{choice.choice_label}.</strong>
+                          </Box>
+                          <Box sx={{ flex: 1 }}>
+                            <MathRenderer 
+                              text={choice.choice_text}
+                              hasImages={choice.has_image && (choice.choice_images?.length || 0) > 0}
+                              shouldShowImages={choice.has_image}
+                            />
+                            {/* 選択肢画像の表示 */}
+                            {choice.choice_images && choice.choice_images.length > 0 && (
+                              <Box sx={{ mt: 1 }}>
+                                {choice.choice_images.map((image, index) => (
+                                  <Box key={image.id} sx={{ mb: 1 }}>
+                                    <img 
+                                      src={image.image_url} 
+                                      alt={`選択肢画像 ${index + 1}`}
+                                      style={{ 
+                                        maxWidth: '100%', 
+                                        height: 'auto'
+                                      }}
+                                    />
+                                  </Box>
+                                ))}
+                              </Box>
+                            )}
+                          </Box>
                         </Box>
                       }
                       sx={{ 
@@ -194,12 +249,12 @@ export default function QuestionPage() {
                           : 'divider',
                         borderRadius: 1,
                         backgroundColor: showAnswer && choice.is_correct 
-                          ? 'success.light'
+                          ? 'rgba(76, 175, 80, 0.08)'  // 薄い緑色
                           : showAnswer && selectedAnswer === choice.choice_label && !choice.is_correct
-                          ? 'error.light'
+                          ? 'rgba(244, 67, 54, 0.08)'   // 薄い赤色
                           : 'transparent',
                         '&:hover': {
-                          backgroundColor: 'action.hover'
+                          backgroundColor: !showAnswer ? 'action.hover' : undefined
                         }
                       }}
                     />
@@ -235,15 +290,15 @@ export default function QuestionPage() {
                     </Alert>
                   )}
 
-                  {question.answer?.explanation && (
+                  {(question.answer?.explanation || question.explanation) && (
                     <Card variant="outlined">
                       <CardContent>
                         <Typography variant="h6" gutterBottom>
                           解説
                         </Typography>
-                        <Typography variant="body2" sx={{ whiteSpace: 'pre-wrap' }}>
-                          {question.answer.explanation}
-                        </Typography>
+                        <Box>
+                          <MathRenderer text={question.answer?.explanation || question.explanation || ''} />
+                        </Box>
                       </CardContent>
                     </Card>
                   )}

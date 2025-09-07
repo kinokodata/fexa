@@ -211,7 +211,7 @@ class ApiClient {
 
   // 特定問題のカテゴリを取得
   async getQuestionCategories(questionId: string): Promise<ApiResponse<any[]>> {
-    return this.request<any[]>(`/api/categories/question/${questionId}`);
+    return this.request<any[]>(`/api/categories/by-question/${questionId}`);
   }
 
   // 問題にカテゴリを関連付け
@@ -221,13 +221,13 @@ class ApiClient {
     options?: {
       relevance_score?: number;
       is_primary?: boolean;
-      notes?: string;
     }
   ): Promise<ApiResponse<{ message: string; data: any }>> {
-    return this.request<{ message: string; data: any }>(`/api/categories/question/${questionId}`, {
+    return this.request<{ message: string; data: any }>(`/api/categories/assign`, {
       method: 'POST',
       body: JSON.stringify({
-        categoryId,
+        question_id: questionId,
+        category_id: categoryId,
         ...options
       }),
     });
@@ -252,9 +252,9 @@ class ApiClient {
   // 問題とカテゴリの関連付けを削除
   async removeQuestionCategoryRelation(
     questionId: string,
-    relationId: string
+    assignmentId: string
   ): Promise<ApiResponse<{ message: string }>> {
-    return this.request<{ message: string }>(`/api/categories/question/${questionId}/${relationId}`, {
+    return this.request<{ message: string }>(`/api/categories/assign/${assignmentId}`, {
       method: 'DELETE',
     });
   }

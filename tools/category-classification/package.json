@@ -1,15 +1,19 @@
 {
   "name": "category-classification",
-  "version": "1.0.0",
-  "description": "LLM-based automatic category classification for exam questions",
-  "main": "classify-all.js",
+  "version": "2.0.0",
+  "description": "Docker-compatible category classification tool for exam questions",
+  "main": "classify.js",
   "scripts": {
-    "classify": "node classify-all.js",
-    "classify-batch": "node classify-batch.js",
-    "test": "node test-classify.js"
+    "start": "node classify.js",
+    "test": "node --test test/classify.test.js",
+    "test:integration": "node --test test/integration.test.js",
+    "test:all": "node --test test/**/*.test.js",
+    "test:demo": "node test-classify.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.0.0"
+    "openai": "^4.0.0",
+    "node-fetch": "^3.3.0",
+    "dotenv": "^16.0.0"
   },
   "type": "module"
 }

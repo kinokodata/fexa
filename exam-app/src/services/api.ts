@@ -51,6 +51,13 @@ class ApiClient {
     }
   }
 
+  // 汎用GET メソッド
+  async get<T = any>(endpoint: string): Promise<ApiResponse<T>> {
+    // APIエンドポイントの正規化
+    const normalizedEndpoint = endpoint.startsWith('/api') ? endpoint : `/api${endpoint}`;
+    return this.request<T>(normalizedEndpoint);
+  }
+
   // ヘルスチェック
   async getHealth(detailed: boolean = false): Promise<ApiResponse<HealthStatus>> {
     const query = detailed ? '?detailed=true' : '';
@@ -145,6 +152,70 @@ class ApiClient {
       method: 'PATCH',
       body: JSON.stringify({ explanation }),
     });
+  }
+
+  // カテゴリ関連のメソッド
+
+  // レベル別カテゴリ取得
+  async getCategoriesByLevel(level: number, parentId?: string): Promise<ApiResponse<any[]>> {
+    const params = new URLSearchParams();
+    if (parentId) params.append('parent_id', parentId);
+    const query = params.toString();
+    return this.request<any[]>(`/api/categories/level/${level}${query ? `?${query}` : ''}`);
+  }
+
+  // 全カテゴリを階層構造で取得
+  async getCategories(): Promise<ApiResponse<any[]>> {
+    return this.request<any[]>('/api/categories');
+  }
+
+  // 特定問題のカテゴリを取得
+  async getQuestionCategories(questionId: string): Promise<ApiResponse<any[]>> {
+    return this.request<any[]>(`/api/categories/by-question/${questionId}`);
+  }
+
+  // 問題にカテゴリを関連付け
+  async assignCategoryToQuestion(
+    questionId: string,
+    categoryId: string,
+    options?: {
+      relevance_score?: number;
+      is_primary?: boolean;
+    }
+  ): Promise<ApiResponse<any>> {
+    return this.request<any>('/api/categories/assign', {
+      method: 'POST',
+      body: JSON.stringify({
+        question_id: questionId,
+        category_id: categoryId,
+        ...options
+      }),
+    });
+  }
+
+  // 問題とカテゴリの関連付けを削除
+  async removeQuestionCategoryRelation(
+    questionId: string,
+    assignmentId: string
+  ): Promise<ApiResponse<{ message: string }>> {
+    return this.request<{ message: string }>(`/api/categories/assign/${assignmentId}`, {
+      method: 'DELETE',
+    });
+  }
+
+  // カテゴリに関連付けられた問題を取得
+  async getCategoryQuestions(
+    categoryId: string,
+    params?: {
+      page?: number;
+      limit?: number;
+    }
+  ): Promise<ApiResponse<any[]>> {
+    const searchParams = new URLSearchParams();
+    if (params?.page) searchParams.append('page', params.page.toString());
+    if (params?.limit) searchParams.append('limit', params.limit.toString());
+    const query = searchParams.toString();
+    return this.request<any[]>(`/api/categories/${categoryId}/questions${query ? `?${query}` : ''}`);
   }
 }
 

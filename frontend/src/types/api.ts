@@ -87,6 +87,7 @@ export interface Category {
   updated_at: string;
   children?: Category[];
   question_count?: number;
+  knowledges?: string;
   // 階層情報
   field_name?: string;
   major_category?: string;
@@ -98,6 +99,7 @@ export interface Category {
   is_primary?: boolean;
   notes?: string;
   relation_id?: string;
+  category?: Category;
 }
 
 // 問題カテゴリ関連情報
@@ -111,7 +113,7 @@ export interface QuestionCategory {
   created_at: string;
   created_by?: string;
   updated_at: string;
-  categories?: Category;
+  category?: Category;
 }
 
 // ヘルスチェック

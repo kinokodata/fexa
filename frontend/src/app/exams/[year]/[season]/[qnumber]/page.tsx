@@ -156,7 +156,7 @@ export default function QuestionDetail() {
   const params = useParams();
   const searchParams = useSearchParams();
   const { year, season, qnumber } = params;
-  const { getAdjacentQuestions } = useQuestions();
+  const { getAdjacentQuestions, updateQuestionStatus } = useQuestions();
   
   // URL からquestion ID を取得
   const questionId = searchParams.get('id');
@@ -848,14 +848,20 @@ export default function QuestionDetail() {
       const result = await apiClient.markQuestionAsChecked(question.id, userEmail);
       
       if (result.success) {
-        // 問題データを更新
-        setQuestion(prev => prev ? {
-          ...prev,
+        const updatedData = {
           is_checked: true,
           checked_at: result.data?.checked_at || new Date().toISOString(),
           checked_by: result.data?.checked_by || userEmail
+        };
+        
+        // 問題データを更新
+        setQuestion(prev => prev ? {
+          ...prev,
+          ...updatedData
         } : null);
         
+        // サイドバーのリストも更新
+        updateQuestionStatus(question.id, updatedData);
         
         // 成功時の処理
         setCheckAreaExpanded(false);

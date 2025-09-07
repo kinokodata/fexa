@@ -1,0 +1,1049 @@
+[
+  {
+    "question_number": 1,
+    "title": "16ビット2進数の16進数桁分割とスタック格納処理",
+    "categories": [
+      {
+        "category_id": "8c184f99-2a84-4c39-a9e3-6af43ae081ff",
+        "category_name": "離散数学",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "16ビット数値の16進数分割処理でAND演算とビットシフトを使用。2進数、基数、数値表現、論理演算に関する問題"
+      },
+      {
+        "category_id": "16ca9956-45c3-4bf2-b162-383355a4343c",
+        "category_name": "データ構造",
+        "relevance_score": 0.8,
+        "is_primary": false,
+        "reason": "スタック（LIFO）を使った処理手順の理解が必要"
+      }
+    ]
+  },
+  {
+    "question_number": 2,
+    "title": "10進数-5.625の8ビット固定小数点2進数表現",
+    "categories": [
+      {
+        "category_id": "8c184f99-2a84-4c39-a9e3-6af43ae081ff",
+        "category_name": "離散数学",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "負数の2の補数表現と固定小数点形式による数値表現方法"
+      }
+    ]
+  },
+  {
+    "question_number": 3,
+    "title": "連立一次方程式の計算時間の比例関係",
+    "categories": [
+      {
+        "category_id": "55f36be2-5bb7-4221-a40a-67530b1bd0e7",
+        "category_name": "応用数学",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "未知数の3乗に比例する計算量の数値解析問題"
+      }
+    ]
+  },
+  {
+    "question_number": 4,
+    "title": "BNF記法による文法規則の式生成",
+    "categories": [
+      {
+        "category_id": "102515e6-e6b4-4110-9081-4379c3bf274a",
+        "category_name": "情報に関する理論",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "BNF記法による形式言語の文法規則定義と構文解析"
+      }
+    ]
+  },
+  {
+    "question_number": 5,
+    "title": "スタック間データ移動による出力順序制御",
+    "categories": [
+      {
+        "category_id": "16ca9956-45c3-4bf2-b162-383355a4343c",
+        "category_name": "データ構造",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "スタックのLIFO特性を使った関数実行順序による出力制御"
+      }
+    ]
+  },
+  {
+    "question_number": 6,
+    "title": "ハッシュ法における衝突処理と配列格納",
+    "categories": [
+      {
+        "category_id": "c2b60342-5e10-487b-acd5-62914b445cff",
+        "category_name": "アルゴリズム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ハッシュ表における衝突処理（線形探査法）アルゴリズム"
+      }
+    ]
+  },
+  {
+    "question_number": 7,
+    "title": "配列要素の後方シフトによる挿入処理",
+    "categories": [
+      {
+        "category_id": "c2b60342-5e10-487b-acd5-62914b445cff",
+        "category_name": "アルゴリズム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "配列の要素挿入における後方からの順次シフトアルゴリズム"
+      }
+    ]
+  },
+  {
+    "question_number": 8,
+    "title": "XMLの特徴と利用者独自タグ定義",
+    "categories": [
+      {
+        "category_id": "41cc2526-ad87-494d-8820-c3ad2c706bb8",
+        "category_name": "その他の言語",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "XMLマークアップ言語の特徴と独自タグによる文書構造定義"
+      }
+    ]
+  },
+  {
+    "question_number": 9,
+    "title": "間接アドレス指定方式の参照動作",
+    "categories": [
+      {
+        "category_id": "c0f1ad46-d31c-465b-9a7a-59b24ba096c3",
+        "category_name": "プロセッサ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "CPU命令のアドレス指定方式における間接アドレッシング"
+      }
+    ]
+  },
+  {
+    "question_number": 10,
+    "title": "プログラムカウンタの役割",
+    "categories": [
+      {
+        "category_id": "c0f1ad46-d31c-465b-9a7a-59b24ba096c3",
+        "category_name": "プロセッサ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "CPUレジスタの一種であるプログラムカウンタの機能"
+      }
+    ]
+  },
+  {
+    "question_number": 11,
+    "title": "キャッシュメモリ実効アクセス時間の比較",
+    "categories": [
+      {
+        "category_id": "9ee7b63f-30db-444c-9382-d46dbf48c6b0",
+        "category_name": "メモリ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "キャッシュメモリのヒット率と実効アクセス時間の計算"
+      }
+    ]
+  },
+  {
+    "question_number": 12,
+    "title": "マスクROMの組込みシステムでのメリット",
+    "categories": [
+      {
+        "category_id": "9ee7b63f-30db-444c-9382-d46dbf48c6b0",
+        "category_name": "メモリ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "マスクROMの読み出し専用特性による不正書換え防止効果"
+      }
+    ]
+  },
+  {
+    "question_number": 13,
+    "title": "静電容量方式タッチパネルの検出原理",
+    "categories": [
+      {
+        "category_id": "1b90d321-8c18-49bb-8ccf-73cbfcbc66db",
+        "category_name": "入出力装置",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "タッチパネルの入力装置としての静電容量検出方式"
+      }
+    ]
+  },
+  {
+    "question_number": 14,
+    "title": "磁気ディスクのSCAN方式シーク最適化",
+    "categories": [
+      {
+        "category_id": "1b90d321-8c18-49bb-8ccf-73cbfcbc66db",
+        "category_name": "入出力装置",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "磁気ディスク装置のヘッド移動最適化アルゴリズム（SCAN）"
+      }
+    ]
+  },
+  {
+    "question_number": 15,
+    "title": "システム構成と稼働率の関係",
+    "categories": [
+      {
+        "category_id": "b6eebe85-55f3-4048-9362-17be6a2a124e",
+        "category_name": "システムの評価指標",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "デュアル、コールドスタンバイ、シンプレックスシステムの信頼性比較"
+      }
+    ]
+  },
+  {
+    "question_number": 16,
+    "title": "シンクライアントシステムの特徴",
+    "categories": [
+      {
+        "category_id": "db7e605d-b9cd-44d2-b94c-26c0acf9c9e9",
+        "category_name": "システムの構成",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "クライアントサーバシステムの一形態であるシンクライアントの特徴"
+      }
+    ]
+  },
+  {
+    "question_number": 17,
+    "title": "フェールソフトによる信頼性設計",
+    "categories": [
+      {
+        "category_id": "b6eebe85-55f3-4048-9362-17be6a2a124e",
+        "category_name": "システムの評価指標",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "一部障害時の縮退運転による信頼性設計手法"
+      }
+    ]
+  },
+  {
+    "question_number": 18,
+    "title": "MTBFとMTTRの関係",
+    "categories": [
+      {
+        "category_id": "b6eebe85-55f3-4048-9362-17be6a2a124e",
+        "category_name": "システムの評価指標",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "平均故障間隔（MTBF）と平均修復時間（MTTR）の信頼性指標"
+      }
+    ]
+  },
+  {
+    "question_number": 19,
+    "title": "回線冗長化による稼働率向上",
+    "categories": [
+      {
+        "category_id": "b6eebe85-55f3-4048-9362-17be6a2a124e",
+        "category_name": "システムの評価指標",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "並列システム構成による稼働率計算"
+      }
+    ]
+  },
+  {
+    "question_number": 20,
+    "title": "マルチタスクのタスク状態遷移",
+    "categories": [
+      {
+        "category_id": "e95715cb-13e2-4e25-ad44-009a14affc06",
+        "category_name": "オペレーティングシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "OSのプロセス/タスク管理における優先度による状態遷移"
+      }
+    ]
+  },
+  {
+    "question_number": 21,
+    "title": "アプレットの特徴",
+    "categories": [
+      {
+        "category_id": "a1fc0b1e-2783-43a7-9a24-66e61a753fcb",
+        "category_name": "プログラム言語",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "クライアント側で実行される小規模アプリケーションプログラム"
+      }
+    ]
+  },
+  {
+    "question_number": 22,
+    "title": "コンパイラ最適化の機能",
+    "categories": [
+      {
+        "category_id": "d3228bcd-b77b-46be-8567-75073da4aecb",
+        "category_name": "開発ツール",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "言語処理ツール（コンパイラ）による実行効率向上処理"
+      }
+    ]
+  },
+  {
+    "question_number": 23,
+    "title": "静的テストツールの機能",
+    "categories": [
+      {
+        "category_id": "d3228bcd-b77b-46be-8567-75073da4aecb",
+        "category_name": "開発ツール",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ソースコード解析によるプログラムエラー検出ツール"
+      }
+    ]
+  },
+  {
+    "question_number": 24,
+    "title": "RFIDの活用事例",
+    "categories": [
+      {
+        "category_id": "1b90d321-8c18-49bb-8ccf-73cbfcbc66db",
+        "category_name": "入出力装置",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "無線ICタグによる非接触識別・管理システム"
+      }
+    ]
+  },
+  {
+    "question_number": 25,
+    "title": "フラッシュメモリの特徴",
+    "categories": [
+      {
+        "category_id": "9ee7b63f-30db-444c-9382-d46dbf48c6b0",
+        "category_name": "メモリ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "電気的ブロック単位消去可能な不揮発性メモリの特性"
+      }
+    ]
+  },
+  {
+    "question_number": 26,
+    "title": "論理式の簡単化と等価回路",
+    "categories": [
+      {
+        "category_id": "ed18abd1-329f-4b3e-a807-436c190ef135",
+        "category_name": "ハードウェア",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "論理回路設計による論理式の実現"
+      }
+    ]
+  },
+  {
+    "question_number": 27,
+    "title": "CSS（視覚表現仕様）",
+    "categories": [
+      {
+        "category_id": "41cc2526-ad87-494d-8820-c3ad2c706bb8",
+        "category_name": "その他の言語",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "HTML文書のスタイル定義言語（CSS）"
+      }
+    ]
+  },
+  {
+    "question_number": 28,
+    "title": "データ入力の論理チェック",
+    "categories": [
+      {
+        "category_id": "835e2020-1948-49a7-a4b8-13f749077516",
+        "category_name": "実装・構築",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "入力データの論理的妥当性検証処理"
+      }
+    ]
+  },
+  {
+    "question_number": 29,
+    "title": "音声データのサンプリングと記録容量",
+    "categories": [
+      {
+        "category_id": "22c30856-16ad-4a01-901c-fbe1552d1677",
+        "category_name": "マルチメディア技術",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "音声処理におけるデジタルサンプリングとデータ量計算"
+      }
+    ]
+  },
+  {
+    "question_number": 30,
+    "title": "アンチエイリアシング技術",
+    "categories": [
+      {
+        "category_id": "80ca0143-32e3-488d-a6d4-0ff1fc0878a3",
+        "category_name": "マルチメディア応用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "表示装置でのジャギー除去によるCG画質向上技術"
+      }
+    ]
+  },
+  {
+    "question_number": 31,
+    "title": "関係データベースの2次元表表現",
+    "categories": [
+      {
+        "category_id": "eb4865e6-f443-49e9-bf54-a66adb928030",
+        "category_name": "データベース方式",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "関係データベースの基本概念である2次元表構造"
+      }
+    ]
+  },
+  {
+    "question_number": 32,
+    "title": "関係演算の共通部分（積集合）",
+    "categories": [
+      {
+        "category_id": "5bc8e0e4-f5f3-4e17-a564-674de0d31fd5",
+        "category_name": "データ操作",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "関係代数における集合演算の等価性"
+      }
+    ]
+  },
+  {
+    "question_number": 33,
+    "title": "UMLデータモデルの多重度解釈",
+    "categories": [
+      {
+        "category_id": "56b521e1-773e-4557-963e-c5a9dcf0c0b9",
+        "category_name": "データベース設計",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "UMLクラス図による論理データモデル設計"
+      }
+    ]
+  },
+  {
+    "question_number": 34,
+    "title": "DBMSデッドロックの説明",
+    "categories": [
+      {
+        "category_id": "7df4fe2c-4cbb-43d8-94f5-f88452be47da",
+        "category_name": "トランザクション処理",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "複数トランザクション間の循環待機によるデッドロック現象"
+      }
+    ]
+  },
+  {
+    "question_number": 35,
+    "title": "関係データベース操作（結合）",
+    "categories": [
+      {
+        "category_id": "5bc8e0e4-f5f3-4e17-a564-674de0d31fd5",
+        "category_name": "データ操作",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "関係代数における結合操作（JOIN）の説明"
+      }
+    ]
+  },
+  {
+    "question_number": 36,
+    "title": "データベース回復用ログデータ",
+    "categories": [
+      {
+        "category_id": "7df4fe2c-4cbb-43d8-94f5-f88452be47da",
+        "category_name": "トランザクション処理",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "媒体障害時の回復処理における更新履歴ログの重要性"
+      }
+    ]
+  },
+  {
+    "question_number": 37,
+    "title": "OSI参照モデル層別中継装置",
+    "categories": [
+      {
+        "category_id": "56cf9b0a-f6c2-4b26-aa49-f8012ba838e4",
+        "category_name": "ネットワーク方式",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "リピータ（物理層）、ブリッジ（データリンク層）、ルータ（ネットワーク層）の分類"
+      }
+    ]
+  },
+  {
+    "question_number": 38,
+    "title": "TCP/IPモデルでのTCP層",
+    "categories": [
+      {
+        "category_id": "74e5aa54-4b94-4ec4-aeb6-c2d33c6eac0a",
+        "category_name": "通信プロトコル",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "TCP/IP階層モデルにおけるTCPのトランスポート層位置付け"
+      }
+    ]
+  },
+  {
+    "question_number": 39,
+    "title": "電子メール添付ファイル用MIME規格",
+    "categories": [
+      {
+        "category_id": "74e5aa54-4b94-4ec4-aeb6-c2d33c6eac0a",
+        "category_name": "通信プロトコル",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "MIMEプロトコルによる電子メールマルチメディア対応"
+      }
+    ]
+  },
+  {
+    "question_number": 40,
+    "title": "ping による疎通確認",
+    "categories": [
+      {
+        "category_id": "74e5aa54-4b94-4ec4-aeb6-c2d33c6eac0a",
+        "category_name": "通信プロトコル",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ICMPプロトコルを使用したネットワーク疎通確認コマンド"
+      }
+    ]
+  },
+  {
+    "question_number": 41,
+    "title": "メッセージダイジェストによる改ざん検出",
+    "categories": [
+      {
+        "category_id": "f74fdc2a-d839-4376-a88f-6f27d34c78bb",
+        "category_name": "情報セキュリティ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ハッシュ関数によるメッセージ認証とデータ完全性確保"
+      }
+    ]
+  },
+  {
+    "question_number": 42,
+    "title": "パスワードのハッシュ値保存",
+    "categories": [
+      {
+        "category_id": "f74fdc2a-d839-4376-a88f-6f27d34c78bb",
+        "category_name": "情報セキュリティ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "利用者認証におけるパスワード保護のためのハッシュ化"
+      }
+    ]
+  },
+  {
+    "question_number": 43,
+    "title": "ウイルス対策のパターンマッチング方式",
+    "categories": [
+      {
+        "category_id": "1a91b20d-d10b-4be6-98c9-ac57a082b36e",
+        "category_name": "情報セキュリティ対策",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "シグネチャによるマルウェア・不正プログラム対策技術"
+      }
+    ]
+  },
+  {
+    "question_number": 44,
+    "title": "電子メール宛先確認による誤送信対策",
+    "categories": [
+      {
+        "category_id": "1a91b20d-d10b-4be6-98c9-ac57a082b36e",
+        "category_name": "情報セキュリティ対策",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "情報漏えい対策としての電子メール誤送信防止手法"
+      }
+    ]
+  },
+  {
+    "question_number": 45,
+    "title": "モジュール強度評価（論理的強度）",
+    "categories": [
+      {
+        "category_id": "4b773f53-5271-4298-81a6-e30260c143c1",
+        "category_name": "設計",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ソフトウェア設計におけるモジュール結合度・強度の評価"
+      }
+    ]
+  },
+  {
+    "question_number": 46,
+    "title": "オブジェクト指向の基本概念",
+    "categories": [
+      {
+        "category_id": "4b773f53-5271-4298-81a6-e30260c143c1",
+        "category_name": "設計",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "オブジェクト指向設計の基本要素（抽象化、カプセル化、継承、クラス）"
+      }
+    ]
+  },
+  {
+    "question_number": 47,
+    "title": "ブラックボックステスト手法",
+    "categories": [
+      {
+        "category_id": "fcef0179-cd5f-4129-ba44-9e1394132ec2",
+        "category_name": "統合・テスト",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "内部構造を考慮しない機能テスト手法"
+      }
+    ]
+  },
+  {
+    "question_number": 48,
+    "title": "リグレッションテスト（退行テスト）",
+    "categories": [
+      {
+        "category_id": "fcef0179-cd5f-4129-ba44-9e1394132ec2",
+        "category_name": "統合・テスト",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ソフトウェア保守後の既存機能影響確認テスト"
+      }
+    ]
+  },
+  {
+    "question_number": 49,
+    "title": "WebサービスでのSOAPメッセージ送受信",
+    "categories": [
+      {
+        "category_id": "74e5aa54-4b94-4ec4-aeb6-c2d33c6eac0a",
+        "category_name": "通信プロトコル",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "WebサービスでのXML形式メッセージ通信プロトコル"
+      }
+    ]
+  },
+  {
+    "question_number": 50,
+    "title": "スパイラルモデル開発手法",
+    "categories": [
+      {
+        "category_id": "2cd339f1-f5db-4185-85d5-072bda17fbba",
+        "category_name": "開発プロセス・手法",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "反復的なソフトウェア開発モデルによる段階的システム構築"
+      }
+    ]
+  },
+  {
+    "question_number": 51,
+    "title": "アローダイアグラムの最早結合点時刻",
+    "categories": [
+      {
+        "category_id": "58047f2b-1edb-4971-80e9-efd756690ba7",
+        "category_name": "プロジェクトの時間",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "PERT/CPM手法による工程管理とクリティカルパス分析"
+      }
+    ]
+  },
+  {
+    "question_number": 52,
+    "title": "ファンクションポイント法による規模測定",
+    "categories": [
+      {
+        "category_id": "4af31adb-378c-4d1e-8d43-aeb85c47a033",
+        "category_name": "業務分析・データ利活用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ソフトウェア規模測定手法による開発工数見積り"
+      }
+    ]
+  },
+  {
+    "question_number": 53,
+    "title": "テスト進捗管理指標",
+    "categories": [
+      {
+        "category_id": "fcef0179-cd5f-4129-ba44-9e1394132ec2",
+        "category_name": "統合・テスト",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "テスト項目消化による進捗状況の定量的管理"
+      }
+    ]
+  },
+  {
+    "question_number": 54,
+    "title": "品質管理図による工程安定性判断",
+    "categories": [
+      {
+        "category_id": "4af31adb-378c-4d1e-8d43-aeb85c47a033",
+        "category_name": "業務分析・データ利活用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "統計的品質管理手法による工程管理"
+      }
+    ]
+  },
+  {
+    "question_number": 55,
+    "title": "アプリケーション保守の完了記録",
+    "categories": [
+      {
+        "category_id": "8b1368eb-daa1-4781-97e7-e84accb51952",
+        "category_name": "保守・廃棄",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "保守作業の追跡可能性確保と作業管理"
+      }
+    ]
+  },
+  {
+    "question_number": 56,
+    "title": "ローカルサービスデスクの特徴",
+    "categories": [
+      {
+        "category_id": "52fa7a5b-4996-4f1e-8087-86377f2e13ff",
+        "category_name": "サービスの運用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "利用者近接配置によるサービスデスク運用形態"
+      }
+    ]
+  },
+  {
+    "question_number": 57,
+    "title": "SLA可用性要件と停止時間制限",
+    "categories": [
+      {
+        "category_id": "15d2cda9-c89b-42f8-b59b-9585dd741641",
+        "category_name": "サービスマネジメント",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "サービスレベル合意書（SLA）による可用性指標管理"
+      }
+    ]
+  },
+  {
+    "question_number": 58,
+    "title": "システム設計でのユーザ要件監査",
+    "categories": [
+      {
+        "category_id": "c983a4f3-d9a1-4d9b-8c05-2b8e2e066b90",
+        "category_name": "システム監査",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "利用部門参画によるシステム設計レビューのコントロール監査"
+      }
+    ]
+  },
+  {
+    "question_number": 59,
+    "title": "プログラミング信頼性監査の指摘事項",
+    "categories": [
+      {
+        "category_id": "c983a4f3-d9a1-4d9b-8c05-2b8e2e066b90",
+        "category_name": "システム監査",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "単体テストの網羅的実施に関するプログラミング監査"
+      }
+    ]
+  },
+  {
+    "question_number": 60,
+    "title": "IT統制の発見統制分類",
+    "categories": [
+      {
+        "category_id": "c983a4f3-d9a1-4d9b-8c05-2b8e2e066b90",
+        "category_name": "システム監査",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "事後的なデータ照合による発見統制の実施"
+      }
+    ]
+  },
+  {
+    "question_number": 61,
+    "title": "BCP（事業継続計画）の説明",
+    "categories": [
+      {
+        "category_id": "015d1547-cdd0-457d-a608-a5a705f8ac37",
+        "category_name": "経営・組織論",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "災害等による事業中断リスクへの対応計画策定"
+      }
+    ]
+  },
+  {
+    "question_number": 62,
+    "title": "エンタープライズアーキテクチャのデータ体系",
+    "categories": [
+      {
+        "category_id": "7ad30cfc-b70b-4d71-837d-0d93be76b1b9",
+        "category_name": "システム企画",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "EA（Enterprise Architecture）におけるデータアーキテクチャ設計"
+      }
+    ]
+  },
+  {
+    "question_number": 63,
+    "title": "UMLによる業務プロセスモデリング",
+    "categories": [
+      {
+        "category_id": "69f55d03-9aca-49be-b0e0-b09ffc70ca8b",
+        "category_name": "業務プロセス",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "統一モデリング言語による業務分析・設計"
+      }
+    ]
+  },
+  {
+    "question_number": 64,
+    "title": "SaaS（Software as a Service）",
+    "categories": [
+      {
+        "category_id": "db7e605d-b9cd-44d2-b94c-26c0acf9c9e9",
+        "category_name": "システムの構成",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "クラウドコンピューティングにおけるソフトウェア提供サービス"
+      }
+    ]
+  },
+  {
+    "question_number": 65,
+    "title": "要件定義プロセスでの合意形成",
+    "categories": [
+      {
+        "category_id": "8c41c06a-0ab3-4a88-b4c0-d05f3c48d179",
+        "category_name": "システム要件定義・ソフトウェア要件定義",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "システム要件定義における利害関係者間の合意形成"
+      }
+    ]
+  },
+  {
+    "question_number": 66,
+    "title": "システム化計画の費用対効果明確化",
+    "categories": [
+      {
+        "category_id": "7ad30cfc-b70b-4d71-837d-0d93be76b1b9",
+        "category_name": "システム企画",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "システム化計画立案時の投資効果とTCO分析"
+      }
+    ]
+  },
+  {
+    "question_number": 67,
+    "title": "システム管理基準による経営戦略貢献",
+    "categories": [
+      {
+        "category_id": "7ad30cfc-b70b-4d71-837d-0d93be76b1b9",
+        "category_name": "システム企画",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "情報システム全体最適化における経営戦略との整合性"
+      }
+    ]
+  },
+  {
+    "question_number": 68,
+    "title": "ベンチマーキング手法",
+    "categories": [
+      {
+        "category_id": "cd25ca0a-8cc2-4270-9694-b085573daedf",
+        "category_name": "ビジネス戦略と目標・評価",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "競合分析による経営改善のための比較分析手法"
+      }
+    ]
+  },
+  {
+    "question_number": 69,
+    "title": "マーケティングミックス（4P戦略）",
+    "categories": [
+      {
+        "category_id": "cd25ca0a-8cc2-4270-9694-b085573daedf",
+        "category_name": "ビジネス戦略と目標・評価",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "製品・価格・流通・プロモーション戦略の統合的マーケティング手法"
+      }
+    ]
+  },
+  {
+    "question_number": 70,
+    "title": "顧客購買予測データの解釈",
+    "categories": [
+      {
+        "category_id": "4af31adb-378c-4d1e-8d43-aeb85c47a033",
+        "category_name": "業務分析・データ利活用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "販売データ分析による顧客行動予測"
+      }
+    ]
+  },
+  {
+    "question_number": 71,
+    "title": "プロダクトイノベーション",
+    "categories": [
+      {
+        "category_id": "c193a2a1-0ea4-466d-83fd-4d9cfd378fae",
+        "category_name": "技術開発戦略の立案",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "技術経営（MOT）における新商品開発による価値創造"
+      }
+    ]
+  },
+  {
+    "question_number": 72,
+    "title": "線形計画法による最適利益計算",
+    "categories": [
+      {
+        "category_id": "4af31adb-378c-4d1e-8d43-aeb85c47a033",
+        "category_name": "業務分析・データ利活用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "制約条件下での最適解求解による生産計画最適化"
+      }
+    ]
+  },
+  {
+    "question_number": 73,
+    "title": "生産計画算出式の適用",
+    "categories": [
+      {
+        "category_id": "4af31adb-378c-4d1e-8d43-aeb85c47a033",
+        "category_name": "業務分析・データ利活用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "販売計画と在庫計画による生産量決定手法"
+      }
+    ]
+  },
+  {
+    "question_number": 74,
+    "title": "MRP（資材所要量計画）システム",
+    "categories": [
+      {
+        "category_id": "9e97ee0e-b4ee-4ab1-bab2-06e0d1a0a8b1",
+        "category_name": "ビジネスシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "製造業における資材管理とサプライチェーン最適化システム"
+      }
+    ]
+  },
+  {
+    "question_number": 75,
+    "title": "CIO（最高情報責任者）の役割",
+    "categories": [
+      {
+        "category_id": "015d1547-cdd0-457d-a608-a5a705f8ac37",
+        "category_name": "経営・組織論",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "情報戦略統括を担う経営組織の役員"
+      }
+    ]
+  },
+  {
+    "question_number": 76,
+    "title": "定額法による減価償却計算",
+    "categories": [
+      {
+        "category_id": "a2053224-5e82-46f4-8962-bbaeef4d9b5a",
+        "category_name": "会計・財務",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "固定資産の定額法減価償却による帳簿価額計算"
+      }
+    ]
+  },
+  {
+    "question_number": 77,
+    "title": "損益分岐点分析による目標売上高",
+    "categories": [
+      {
+        "category_id": "a2053224-5e82-46f4-8962-bbaeef4d9b5a",
+        "category_name": "会計・財務",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "変動費・固定費分析による管理会計の収益計算"
+      }
+    ]
+  },
+  {
+    "question_number": 78,
+    "title": "貸借対照表（B/S）の機能",
+    "categories": [
+      {
+        "category_id": "a2053224-5e82-46f4-8962-bbaeef4d9b5a",
+        "category_name": "会計・財務",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "一定時点の財政状態を示す財務諸表"
+      }
+    ]
+  },
+  {
+    "question_number": 79,
+    "title": "著作権法の保護対象外",
+    "categories": [
+      {
+        "category_id": "0f293be2-0420-469d-8d29-f01805413587",
+        "category_name": "知的財産権",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "プログラム言語・規約は著作権法の保護対象外"
+      }
+    ]
+  },
+  {
+    "question_number": 80,
+    "title": "派遣契約における指揮命令権",
+    "categories": [
+      {
+        "category_id": "0f293be2-0420-469d-8d29-f01805413587",
+        "category_name": "知的財産権",
+        "relevance_score": 0.7,
+        "is_primary": true,
+        "reason": "労働関連法規での派遣先企業の権限と責任"
+      }
+    ]
+  }
+]

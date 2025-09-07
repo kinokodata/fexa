@@ -18,7 +18,7 @@ router.get('/', authenticateToken, async (req, res) => {
 
     if (examsError) throw examsError;
 
-    // 各試験の問題数とチェック済み数を集計
+    // 各試験の問題数、チェック済み数、カテゴリ登録数を集計
     const examsWithProgress = await Promise.all(exams.map(async (exam) => {
       // 問題総数とチェック済み数を取得
       const { data: questions, error: questionsError } = await supabase
@@ -31,17 +31,37 @@ router.get('/', authenticateToken, async (req, res) => {
         return {
           ...exam,
           total_questions: 0,
-          checked_questions: 0
+          checked_questions: 0,
+          categorized_questions: 0
         };
       }
 
       const totalQuestions = questions ? questions.length : 0;
       const checkedQuestions = questions ? questions.filter(q => q.is_checked).length : 0;
 
+      // カテゴリ登録件数を取得
+      let categorizedQuestions = 0;
+      if (questions && questions.length > 0) {
+        const questionIds = questions.map(q => q.id);
+        const { data: categoryData, error: categoryError } = await supabase
+          .from('question_categories')
+          .select('question_id')
+          .in('question_id', questionIds);
+        
+        if (categoryError) {
+          logger.error(`試験 ${exam.id} のカテゴリ取得エラー:`, categoryError);
+        } else {
+          // 重複を排除してユニークな問題数をカウント
+          const uniqueQuestionIds = new Set(categoryData?.map(c => c.question_id) || []);
+          categorizedQuestions = uniqueQuestionIds.size;
+        }
+      }
+
       return {
         ...exam,
         total_questions: totalQuestions,
-        checked_questions: checkedQuestions
+        checked_questions: checkedQuestions,
+        categorized_questions: categorizedQuestions
       };
     }));
 

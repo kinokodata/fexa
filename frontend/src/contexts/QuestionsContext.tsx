@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode } from 'react';
+import React, { createContext, useContext, ReactNode, useState, useEffect } from 'react';
 
 interface Question {
   id: string;
@@ -20,6 +20,7 @@ interface QuestionsContextType {
     prevId: string | null;
     nextId: string | null;
   };
+  updateQuestionStatus: (questionId: string, updates: Partial<Question>) => void;
 }
 
 const QuestionsContext = createContext<QuestionsContextType | undefined>(undefined);
@@ -29,7 +30,13 @@ interface QuestionsProviderProps {
   questions: Question[];
 }
 
-export function QuestionsProvider({ children, questions }: QuestionsProviderProps) {
+export function QuestionsProvider({ children, questions: initialQuestions }: QuestionsProviderProps) {
+  const [questions, setQuestions] = useState<Question[]>(initialQuestions);
+
+  // 外部からの questions の変更を監視して内部状態を更新
+  useEffect(() => {
+    setQuestions(initialQuestions);
+  }, [initialQuestions]);
   const getQuestionIdByNumber = (questionNumber: number): string | null => {
     const question = questions.find(q => q.question_number === questionNumber);
     return question?.id || null;
@@ -47,10 +54,21 @@ export function QuestionsProvider({ children, questions }: QuestionsProviderProp
     };
   };
 
+  const updateQuestionStatus = (questionId: string, updates: Partial<Question>) => {
+    setQuestions(prevQuestions => 
+      prevQuestions.map(q => 
+        q.id === questionId 
+          ? { ...q, ...updates }
+          : q
+      )
+    );
+  };
+
   const value: QuestionsContextType = {
     questions,
     getQuestionIdByNumber,
     getAdjacentQuestions,
+    updateQuestionStatus,
   };
 
   return (

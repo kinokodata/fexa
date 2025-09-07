@@ -14,6 +14,7 @@ import Alert from '@mui/material/Alert';
 import LinearProgress from '@mui/material/LinearProgress';
 import SchoolIcon from '@mui/icons-material/School';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CategoryIcon from '@mui/icons-material/Category';
 
 interface Exam {
   id: string;
@@ -22,6 +23,7 @@ interface Exam {
   question_count?: number;
   total_questions?: number;
   checked_questions?: number;
+  categorized_questions?: number;
 }
 
 export default function Home() {
@@ -164,6 +166,19 @@ export default function Home() {
                             sx={{ fontWeight: 'bold', fontSize: '1.1rem', py: 2, px: 3 }}
                           />
                           
+                          {/* カテゴリ登録済みバッジ */}
+                          {exam.categorized_questions !== undefined && exam.categorized_questions > 70 && (
+                            <Box sx={{ mt: 1 }}>
+                              <Chip 
+                                icon={<CategoryIcon />}
+                                label="カテゴリ登録済み"
+                                color="info"
+                                size="small"
+                                sx={{ fontWeight: 'bold' }}
+                              />
+                            </Box>
+                          )}
+
                           {/* 進捗表示 */}
                           {exam.total_questions !== undefined && exam.total_questions > 0 && (
                             <Box sx={{ width: '100%', mt: 2 }}>
@@ -191,6 +206,21 @@ export default function Home() {
                                   }
                                 }}
                               />
+                              
+                              {/* カテゴリ登録状況 */}
+                              {exam.categorized_questions !== undefined && (
+                                <Box display="flex" alignItems="center" justifyContent="space-between" mt={1} mb={0.5}>
+                                  <Box display="flex" alignItems="center" gap={0.5}>
+                                    <CategoryIcon sx={{ fontSize: 16, color: exam.categorized_questions > 70 ? 'info.main' : 'text.secondary' }} />
+                                    <Typography variant="body2" color="text.secondary">
+                                      カテゴリ: {exam.categorized_questions}/{exam.total_questions}
+                                    </Typography>
+                                  </Box>
+                                  <Typography variant="body2" color="text.secondary">
+                                    {Math.round((exam.categorized_questions / exam.total_questions) * 100)}%
+                                  </Typography>
+                                </Box>
+                              )}
                             </Box>
                           )}
                           

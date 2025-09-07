@@ -9,6 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import QuestionSidebar from '../../../../components/QuestionSidebar';
 import { useFilter } from '../../../../contexts/FilterContext';
+import { QuestionsProvider } from '../../../../contexts/QuestionsContext';
 
 interface Choice {
   id: string;
@@ -163,7 +164,9 @@ export default function ExamLayout({ children }: ExamLayoutProps) {
           <MenuIcon />
         </IconButton>
 
-        {children}
+        <QuestionsProvider questions={questions}>
+          {children}
+        </QuestionsProvider>
       </Box>
     </Box>
   );

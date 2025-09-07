@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams, useSearchParams } from 'next/navigation';
+import { useQuestions } from '../../../../../contexts/QuestionsContext';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
@@ -155,6 +156,7 @@ export default function QuestionDetail() {
   const params = useParams();
   const searchParams = useSearchParams();
   const { year, season, qnumber } = params;
+  const { getAdjacentQuestions } = useQuestions();
   
   // URL からquestion ID を取得
   const questionId = searchParams.get('id');
@@ -300,8 +302,17 @@ export default function QuestionDetail() {
 
   const handleNavigation = (direction: 'prev' | 'next') => {
     const newNumber = direction === 'prev' ? questionNumber - 1 : questionNumber + 1;
-    // questionIdなしでナビゲーション（詳細ページで全件取得のフォールバックが動作）
-    router.push(`/exams/${year}/${season}/q${newNumber}`);
+    const { prevId, nextId } = getAdjacentQuestions(questionNumber);
+    
+    const targetId = direction === 'prev' ? prevId : nextId;
+    
+    if (targetId) {
+      // IDが取得できた場合は高速な個別取得
+      router.push(`/exams/${year}/${season}/q${newNumber}?id=${targetId}`);
+    } else {
+      // IDが取得できない場合はフォールバック
+      router.push(`/exams/${year}/${season}/q${newNumber}`);
+    }
   };
 
 

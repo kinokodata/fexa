@@ -70,7 +70,7 @@ export function QuestionSetSidebar({
   useEffect(() => {
     const loadQuestionSet = async () => {
       try {
-        const result = await (await import('@/services/api')).default.getQuestionSet();
+        const result = await (await import('../services/api')).default.getQuestionSet();
         
         if (result.success && result.data) {
           setQuestionSet(result.data.questionSet);
@@ -118,7 +118,7 @@ export function QuestionSetSidebar({
   // カテゴリ情報を取得する関数
   const fetchCategoryInfo = async (categoryId: string) => {
     try {
-      const apiClient = (await import('@/services/api')).default;
+      const apiClient = (await import('../services/api')).default;
       const result = await apiClient.get(`/categories/${categoryId}`);
       if (result.success && result.data) {
         setCategoryInfo(result.data);
@@ -158,7 +158,7 @@ export function QuestionSetSidebar({
     
     try {
       // API経由で現在位置を更新
-      const apiClient = (await import('@/services/api')).default;
+      const apiClient = (await import('../services/api')).default;
       const result = await apiClient.updateQuestionSetPosition(index);
       
       if (result.success) {

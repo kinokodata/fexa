@@ -9,12 +9,9 @@ import {
   SelectChangeEvent, 
   Box,
   Typography,
-  Collapse,
-  Button,
   Card,
   CardContent
 } from '@mui/material';
-import { ExpandMore, ExpandLess } from '@mui/icons-material';
 import apiClient from '@/services/api';
 
 interface Category {
@@ -31,7 +28,11 @@ interface CategorySelectorProps {
     major?: string;
     medium?: string;
     minor?: string;
-    knowledges?: string;
+  }, categoryIds?: {
+    field?: string;
+    major?: string;
+    medium?: string;
+    minor?: string;
   }) => void;
 }
 
@@ -46,9 +47,6 @@ export default function CategorySelector({ onCategorySelect }: CategorySelectorP
   const [selectedMedium, setSelectedMedium] = useState('');
   const [selectedMinor, setSelectedMinor] = useState('');
   
-  const [knowledgesExpanded, setKnowledgesExpanded] = useState(false);
-  const [selectedKnowledges, setSelectedKnowledges] = useState<string[]>([]);
-  const [availableKnowledges, setAvailableKnowledges] = useState<string[]>([]);
   
   const [loading, setLoading] = useState(false);
 
@@ -81,8 +79,6 @@ export default function CategorySelector({ onCategorySelect }: CategorySelectorP
     setMajors([]);
     setMediums([]);
     setMinors([]);
-    setSelectedKnowledges([]);
-    setAvailableKnowledges([]);
     
     if (fieldId) {
       try {
@@ -96,7 +92,10 @@ export default function CategorySelector({ onCategorySelect }: CategorySelectorP
       
       // 選択状態を親に通知
       const selectedFieldName = fields.find(f => f.id === fieldId)?.name;
-      onCategorySelect({ field: selectedFieldName });
+      onCategorySelect(
+        { field: selectedFieldName },
+        { field: fieldId }
+      );
     }
   };
 
@@ -108,8 +107,6 @@ export default function CategorySelector({ onCategorySelect }: CategorySelectorP
     setSelectedMinor('');
     setMediums([]);
     setMinors([]);
-    setSelectedKnowledges([]);
-    setAvailableKnowledges([]);
     
     if (majorId) {
       try {
@@ -124,7 +121,10 @@ export default function CategorySelector({ onCategorySelect }: CategorySelectorP
       // 選択状態を親に通知
       const selectedFieldName = fields.find(f => f.id === selectedField)?.name;
       const selectedMajorName = majors.find(m => m.id === majorId)?.name;
-      onCategorySelect({ field: selectedFieldName, major: selectedMajorName });
+      onCategorySelect(
+        { field: selectedFieldName, major: selectedMajorName },
+        { field: selectedField, major: majorId }
+      );
     }
   };
 
@@ -134,8 +134,6 @@ export default function CategorySelector({ onCategorySelect }: CategorySelectorP
     setSelectedMedium(mediumId);
     setSelectedMinor('');
     setMinors([]);
-    setSelectedKnowledges([]);
-    setAvailableKnowledges([]);
     
     if (mediumId) {
       try {
@@ -151,66 +149,41 @@ export default function CategorySelector({ onCategorySelect }: CategorySelectorP
       const selectedFieldName = fields.find(f => f.id === selectedField)?.name;
       const selectedMajorName = majors.find(m => m.id === selectedMajor)?.name;
       const selectedMediumName = mediums.find(m => m.id === mediumId)?.name;
-      onCategorySelect({ field: selectedFieldName, major: selectedMajorName, medium: selectedMediumName });
+      onCategorySelect(
+        { field: selectedFieldName, major: selectedMajorName, medium: selectedMediumName },
+        { field: selectedField, major: selectedMajor, medium: mediumId }
+      );
     }
   };
 
-  // 小分類選択時：知識項目を取得
+  // 小分類選択時
   const handleMinorChange = async (event: SelectChangeEvent) => {
     const minorId = event.target.value;
     setSelectedMinor(minorId);
-    setSelectedKnowledges([]);
     
     if (minorId) {
-      // 選択された小分類の知識項目を取得
-      const selectedMinorCategory = minors.find(m => m.id === minorId);
-      if (selectedMinorCategory) {
-        try {
-          const result = await apiClient.get(`/categories/${minorId}`);
-          if (result.success && result.data && result.data.knowledges) {
-            const knowledgesList = result.data.knowledges.split(',').map((k: string) => k.trim());
-            setAvailableKnowledges(knowledgesList);
-          }
-        } catch (error) {
-          console.error('知識項目の取得に失敗:', error);
-        }
-      }
-      
       // 選択状態を親に通知
       const selectedFieldName = fields.find(f => f.id === selectedField)?.name;
       const selectedMajorName = majors.find(m => m.id === selectedMajor)?.name;
       const selectedMediumName = mediums.find(m => m.id === selectedMedium)?.name;
       const selectedMinorName = minors.find(m => m.id === minorId)?.name;
-      onCategorySelect({ 
-        field: selectedFieldName, 
-        major: selectedMajorName, 
-        medium: selectedMediumName, 
-        minor: selectedMinorName 
-      });
+      onCategorySelect(
+        { 
+          field: selectedFieldName, 
+          major: selectedMajorName, 
+          medium: selectedMediumName, 
+          minor: selectedMinorName 
+        },
+        { 
+          field: selectedField, 
+          major: selectedMajor, 
+          medium: selectedMedium, 
+          minor: minorId 
+        }
+      );
     }
   };
 
-  // 知識項目選択の切り替え
-  const toggleKnowledge = (knowledge: string) => {
-    const newSelected = selectedKnowledges.includes(knowledge)
-      ? selectedKnowledges.filter(k => k !== knowledge)
-      : [...selectedKnowledges, knowledge];
-    
-    setSelectedKnowledges(newSelected);
-    
-    // 選択状態を親に通知
-    const selectedFieldName = fields.find(f => f.id === selectedField)?.name;
-    const selectedMajorName = majors.find(m => m.id === selectedMajor)?.name;
-    const selectedMediumName = mediums.find(m => m.id === selectedMedium)?.name;
-    const selectedMinorName = minors.find(m => m.id === selectedMinor)?.name;
-    onCategorySelect({ 
-      field: selectedFieldName, 
-      major: selectedMajorName, 
-      medium: selectedMediumName, 
-      minor: selectedMinorName,
-      knowledges: newSelected.join(', ') 
-    });
-  };
 
   return (
     <Card>
@@ -288,56 +261,6 @@ export default function CategorySelector({ onCategorySelect }: CategorySelectorP
           </FormControl>
         </Box>
 
-        {/* 知識項目選択（複数選択可） */}
-        {availableKnowledges.length > 0 && (
-          <Box sx={{ mt: 2 }}>
-            <Button
-              onClick={() => setKnowledgesExpanded(!knowledgesExpanded)}
-              startIcon={knowledgesExpanded ? <ExpandLess /> : <ExpandMore />}
-              sx={{ mb: 1 }}
-            >
-              ナレッジ（複数選択可）
-            </Button>
-            <Collapse in={knowledgesExpanded}>
-              <Box sx={{ 
-                border: '1px solid', 
-                borderColor: 'divider', 
-                borderRadius: 1, 
-                p: 2,
-                maxHeight: 200,
-                overflowY: 'auto'
-              }}>
-                {availableKnowledges.map((knowledge, index) => (
-                  <Box
-                    key={index}
-                    sx={{
-                      p: 1,
-                      cursor: 'pointer',
-                      backgroundColor: selectedKnowledges.includes(knowledge) 
-                        ? 'primary.light' 
-                        : 'transparent',
-                      color: selectedKnowledges.includes(knowledge) 
-                        ? 'primary.contrastText' 
-                        : 'text.primary',
-                      borderRadius: 1,
-                      mb: 0.5,
-                      '&:hover': {
-                        backgroundColor: selectedKnowledges.includes(knowledge)
-                          ? 'primary.main'
-                          : 'action.hover'
-                      }
-                    }}
-                    onClick={() => toggleKnowledge(knowledge)}
-                  >
-                    <Typography variant="body2">
-                      {knowledge}
-                    </Typography>
-                  </Box>
-                ))}
-              </Box>
-            </Collapse>
-          </Box>
-        )}
       </CardContent>
     </Card>
   );

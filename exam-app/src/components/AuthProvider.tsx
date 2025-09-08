@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { isAuthenticated, logout } from '../lib/auth';
+import { isAuthenticated, logout, getUserEmail } from '../lib/auth';
 import { AuthError } from '../services/api';
 
 interface AuthContextType {
@@ -40,8 +40,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsLoggedIn(authenticated);
     
     if (authenticated) {
-      // 簡易的にダミーユーザーを設定（実際はトークンから取得）
-      setUser({ email: 'user@example.com' });
+      // JWTトークンからメールアドレスを取得
+      const email = getUserEmail();
+      setUser(email ? { email } : null);
     } else {
       setUser(null);
     }
@@ -76,7 +77,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const handleLogin = () => {
     setIsLoggedIn(true);
-    setUser({ email: 'user@example.com' });
+    // ログイン後にトークンからメールアドレスを取得
+    const email = getUserEmail();
+    setUser(email ? { email } : null);
     router.push('/');
   };
 

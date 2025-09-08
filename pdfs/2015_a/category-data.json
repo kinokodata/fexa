@@ -1,0 +1,1042 @@
+[
+  {
+    "question_number": 1,
+    "title": "XOR演算の真理値表",
+    "categories": [
+      {
+        "category_id": "8c184f99-2a84-4c39-a9e3-6af43ae081ff",
+        "category_name": "離散数学",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "論理演算の真理値表。離散数学のベン図、論理演算、命題に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 2,
+    "title": "8ビット2の補数表現の数値範囲",
+    "categories": [
+      {
+        "category_id": "8c184f99-2a84-4c39-a9e3-6af43ae081ff",
+        "category_name": "離散数学",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "2進数、数値表現の範囲計算。離散数学の2進数、数値表現に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 3,
+    "title": "逆ポーランド記法への変換",
+    "categories": [
+      {
+        "category_id": "c2b60342-5e10-487b-acd5-62914b445cff",
+        "category_name": "アルゴリズム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "数式の記法変換アルゴリズム。アルゴリズムの表記法・変換に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 4,
+    "title": "スタックを使った配列要素の格納と取り出し",
+    "categories": [
+      {
+        "category_id": "16ca9956-45c3-4bf2-b162-383355a4343c",
+        "category_name": "データ構造",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "スタックのLIFO特性を理解する問題。データ構造のスタックとキューに関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 5,
+    "title": "線形計画法による関数の最大値",
+    "categories": [
+      {
+        "category_id": "4af31adb-378c-4d1e-8d43-aeb85c47a033",
+        "category_name": "業務分析・データ利活用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "線形計画法による最適化問題。業務分析・データ利活用の線形計画法に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 6,
+    "title": "集合の包含排除原理",
+    "categories": [
+      {
+        "category_id": "8c184f99-2a84-4c39-a9e3-6af43ae081ff",
+        "category_name": "離散数学",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "集合の和集合要素数の計算。離散数学の集合、ベン図に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 7,
+    "title": "バブルソートの流れ図判定",
+    "categories": [
+      {
+        "category_id": "c2b60342-5e10-487b-acd5-62914b445cff",
+        "category_name": "アルゴリズム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "整列アルゴリズムの流れ図理解。アルゴリズムの整列、流れ図の理解に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 8,
+    "title": "完全2分木の全ノード数計算",
+    "categories": [
+      {
+        "category_id": "16ca9956-45c3-4bf2-b162-383355a4343c",
+        "category_name": "データ構造",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "木構造の性質を使ったノード数計算。データ構造の木構造、2分木に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 9,
+    "title": "ハッシュ表での線形探査法による格納",
+    "categories": [
+      {
+        "category_id": "c2b60342-5e10-487b-acd5-62914b445cff",
+        "category_name": "アルゴリズム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ハッシュ探索と衝突解決アルゴリズム。アルゴリズムの探索に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 10,
+    "title": "10進数の商を2進数で表現",
+    "categories": [
+      {
+        "category_id": "8c184f99-2a84-4c39-a9e3-6af43ae081ff",
+        "category_name": "離散数学",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "10進数から2進数への基数変換。離散数学の2進数、基数、数値表現に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 11,
+    "title": "文字列照合での単純照合法の比較回数",
+    "categories": [
+      {
+        "category_id": "c2b60342-5e10-487b-acd5-62914b445cff",
+        "category_name": "アルゴリズム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "文字列探索アルゴリズムの計算量。アルゴリズムの文字列処理に関する問題"
+      }
+    ]
+  },
+  {
+    "question_number": 12,
+    "title": "関係データベースの候補キー",
+    "categories": [
+      {
+        "category_id": "eb4865e6-f443-49e9-bf54-a66adb928030",
+        "category_name": "データベース方式",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "関係データベースの候補キーの基本概念。データベース方式の関係データベース理論"
+      }
+    ]
+  },
+  {
+    "question_number": 13,
+    "title": "関数従属関係の判定",
+    "categories": [
+      {
+        "category_id": "56b521e1-773e-4557-963e-c5a9dcf0c0b9",
+        "category_name": "データベース設計",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "データベースの関数従属関係の理解。データベース設計の正規化理論"
+      }
+    ]
+  },
+  {
+    "question_number": 14,
+    "title": "B+木インデックスでの検索計算量",
+    "categories": [
+      {
+        "category_id": "eb4865e6-f443-49e9-bf54-a66adb928030",
+        "category_name": "データベース方式",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "データベースインデックスの検索効率。データベース方式のインデックス技術"
+      }
+    ]
+  },
+  {
+    "question_number": 15,
+    "title": "ウォータフォールモデルの特徴",
+    "categories": [
+      {
+        "category_id": "2cd339f1-f5db-4185-85d5-072bda17fbba",
+        "category_name": "開発プロセス・手法",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ソフトウェア開発モデルの特徴。開発プロセス・手法のソフトウェア開発モデル"
+      }
+    ]
+  },
+  {
+    "question_number": 16,
+    "title": "ガントチャートの用途",
+    "categories": [
+      {
+        "category_id": "58047f2b-1edb-4971-80e9-efd756690ba7",
+        "category_name": "プロジェクトの時間",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "プロジェクト管理における進捗管理手法。プロジェクトの時間管理ツール"
+      }
+    ]
+  },
+  {
+    "question_number": 17,
+    "title": "PERT図でのクリティカルパス分析",
+    "categories": [
+      {
+        "category_id": "58047f2b-1edb-4971-80e9-efd756690ba7",
+        "category_name": "プロジェクトの時間",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "PERT図を用いたプロジェクト日程計画。プロジェクトの時間管理手法"
+      }
+    ]
+  },
+  {
+    "question_number": 18,
+    "title": "アジャイル開発の特徴",
+    "categories": [
+      {
+        "category_id": "2cd339f1-f5db-4185-85d5-072bda17fbba",
+        "category_name": "開発プロセス・手法",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "短期間での反復的開発手法。開発プロセス・手法のアジャイル開発"
+      }
+    ]
+  },
+  {
+    "question_number": 19,
+    "title": "結合テストの説明",
+    "categories": [
+      {
+        "category_id": "bb2b6b79-cd5f-4129-ba44-9e1394132ec2",
+        "category_name": "統合・テスト",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "複数モジュールの統合テスト。統合・テストの統合テストの実施"
+      }
+    ]
+  },
+  {
+    "question_number": 20,
+    "title": "パレート図の説明",
+    "categories": [
+      {
+        "category_id": "4af31adb-378c-4d1e-8d43-aeb85c47a033",
+        "category_name": "業務分析・データ利活用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "品質管理手法の一つ。業務分析・データ利活用の品質管理手法"
+      }
+    ]
+  },
+  {
+    "question_number": 21,
+    "title": "CPUのパイプライン処理",
+    "categories": [
+      {
+        "category_id": "eb2a00bb-f0e8-48b1-9f0a-dfe18b80ac46",
+        "category_name": "プロセッサ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "CPUの命令実行効率化技術。プロセッサのパイプライン処理"
+      }
+    ]
+  },
+  {
+    "question_number": 22,
+    "title": "仮想記憶のページテーブルエントリ数",
+    "categories": [
+      {
+        "category_id": "e95715cb-13e2-4e25-ad44-009a14affc06",
+        "category_name": "オペレーティングシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "仮想記憶管理機構の理解。オペレーティングシステムの仮想記憶"
+      }
+    ]
+  },
+  {
+    "question_number": 23,
+    "title": "キャッシュメモリの制御方式",
+    "categories": [
+      {
+        "category_id": "aa1b7628-61fc-4e19-8b95-bf78dc2f3d4f",
+        "category_name": "メモリ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "キャッシュメモリの書き込み制御方式。メモリのキャッシュメモリ制御"
+      }
+    ]
+  },
+  {
+    "question_number": 24,
+    "title": "磁気ディスク装置の性能指標",
+    "categories": [
+      {
+        "category_id": "1b90d321-8c18-49bb-8ccf-73cbfcbc66db",
+        "category_name": "入出力装置",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "補助記憶装置のアクセス時間構成。入出力装置の補助記憶装置・記憶媒体"
+      }
+    ]
+  },
+  {
+    "question_number": 25,
+    "title": "RAID1の特徴（ミラーリング）",
+    "categories": [
+      {
+        "category_id": "db7e605d-b9cd-44d2-b94c-26c0acf9c9e9",
+        "category_name": "システムの構成",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "システム構成における冗長化技術。システムの構成のRAID"
+      }
+    ]
+  },
+  {
+    "question_number": 26,
+    "title": "フラッシュメモリの特徴",
+    "categories": [
+      {
+        "category_id": "aa1b7628-61fc-4e19-8b95-bf78dc2f3d4f",
+        "category_name": "メモリ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "不揮発性メモリの特性。メモリの記憶装置の種類と特徴"
+      }
+    ]
+  },
+  {
+    "question_number": 27,
+    "title": "プリンタの印刷方式",
+    "categories": [
+      {
+        "category_id": "1b90d321-8c18-49bb-8ccf-73cbfcbc66db",
+        "category_name": "入出力装置",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "出力装置の印刷技術。入出力装置の出力装置"
+      }
+    ]
+  },
+  {
+    "question_number": 28,
+    "title": "システム信頼性指標（MTBF、MTTR、稼働率）",
+    "categories": [
+      {
+        "category_id": "b6eebe85-55f3-4048-9362-17be6a2a124e",
+        "category_name": "システムの評価指標",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "システムの信頼性・可用性指標。システムの評価指標の信頼性指標"
+      }
+    ]
+  },
+  {
+    "question_number": 29,
+    "title": "クライアントサーバシステムの処理分担",
+    "categories": [
+      {
+        "category_id": "db7e605d-b9cd-44d2-b94c-26c0acf9c9e9",
+        "category_name": "システムの構成",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "システム構成における処理分散。システムの構成のクライアントサーバシステム"
+      }
+    ]
+  },
+  {
+    "question_number": 30,
+    "title": "ベンチマークによる性能評価",
+    "categories": [
+      {
+        "category_id": "b6eebe85-55f3-4048-9362-17be6a2a124e",
+        "category_name": "システムの評価指標",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "システム性能測定手法。システムの評価指標のシステムの性能特性と評価"
+      }
+    ]
+  },
+  {
+    "question_number": 31,
+    "title": "プロセスの状態遷移",
+    "categories": [
+      {
+        "category_id": "e95715cb-13e2-4e25-ad44-009a14affc06",
+        "category_name": "オペレーティングシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "OSのプロセス管理機能。オペレーティングシステムのプロセス/タスク管理"
+      }
+    ]
+  },
+  {
+    "question_number": 32,
+    "title": "ファイルシステムのディレクトリ",
+    "categories": [
+      {
+        "category_id": "ac524f88-6a05-4932-b11f-a79224236822",
+        "category_name": "ファイルシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ファイル管理システムの構造。ファイルシステムのディレクトリ管理"
+      }
+    ]
+  },
+  {
+    "question_number": 33,
+    "title": "スプーリング機能",
+    "categories": [
+      {
+        "category_id": "e95715cb-13e2-4e25-ad44-009a14affc06",
+        "category_name": "オペレーティングシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "OSの入出力制御機能。オペレーティングシステムの入出力管理"
+      }
+    ]
+  },
+  {
+    "question_number": 34,
+    "title": "仮想記憶のページフォルト",
+    "categories": [
+      {
+        "category_id": "e95715cb-13e2-4e25-ad44-009a14affc06",
+        "category_name": "オペレーティングシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "仮想記憶システムの動作。オペレーティングシステムの仮想記憶"
+      }
+    ]
+  },
+  {
+    "question_number": 35,
+    "title": "ラウンドロビン方式のタスクスケジューリング",
+    "categories": [
+      {
+        "category_id": "e95715cb-13e2-4e25-ad44-009a14affc06",
+        "category_name": "オペレーティングシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "CPUスケジューリング手法。オペレーティングシステムのプロセス/タスク管理"
+      }
+    ]
+  },
+  {
+    "question_number": 36,
+    "title": "デッドロックの発生条件",
+    "categories": [
+      {
+        "category_id": "e95715cb-13e2-4e25-ad44-009a14affc06",
+        "category_name": "オペレーティングシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "資源管理におけるデッドロック。オペレーティングシステムのプロセス/タスク管理"
+      }
+    ]
+  },
+  {
+    "question_number": 37,
+    "title": "インタープリタの特徴",
+    "categories": [
+      {
+        "category_id": "d3228bcd-b77b-46be-8567-75073da4aecb",
+        "category_name": "開発ツール",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "言語処理系の実行方式。開発ツールの言語処理ツール（インタプリタ）"
+      }
+    ]
+  },
+  {
+    "question_number": 38,
+    "title": "APIの概念",
+    "categories": [
+      {
+        "category_id": "9c3d4723-3171-407d-9f4c-5fc5b5394a97",
+        "category_name": "ミドルウェア",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "アプリケーション開発インタフェース。ミドルウェアのOSなどのAPI"
+      }
+    ]
+  },
+  {
+    "question_number": 39,
+    "title": "オープンソースソフトウェアの特徴",
+    "categories": [
+      {
+        "category_id": "fc14f736-b1fe-4760-9129-3e7cc548ad86",
+        "category_name": "オープンソースソフトウェア",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "OSSの基本概念と利用。オープンソースソフトウェアのOSSの種類と特徴"
+      }
+    ]
+  },
+  {
+    "question_number": 40,
+    "title": "マークアップ言語の説明",
+    "categories": [
+      {
+        "category_id": "41cc2526-ad87-494d-8820-c3ad2c706bb8",
+        "category_name": "その他の言語",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "文書記述言語の特徴。その他の言語のマークアップ言語（HTML）"
+      }
+    ]
+  },
+  {
+    "question_number": 41,
+    "title": "IPアドレスのクラス分類",
+    "categories": [
+      {
+        "category_id": "40dda01d-e4e6-4d3d-844d-0a4bf5b9ba28",
+        "category_name": "ネットワーク方式",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "IPアドレス体系の理解。ネットワーク方式のTCP/IP"
+      }
+    ]
+  },
+  {
+    "question_number": 42,
+    "title": "サブネットマスクによるネットワーク分割",
+    "categories": [
+      {
+        "category_id": "40dda01d-e4e6-4d3d-844d-0a4bf5b9ba28",
+        "category_name": "ネットワーク方式",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "サブネット化技術の理解。ネットワーク方式のTCP/IP"
+      }
+    ]
+  },
+  {
+    "question_number": 43,
+    "title": "DNSの機能",
+    "categories": [
+      {
+        "category_id": "e1fc6d1b-1d25-4eaa-8fba-47a797b8dc6a",
+        "category_name": "通信プロトコル",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ドメイン名解決プロトコル。通信プロトコルのアプリケーション層プロトコル"
+      }
+    ]
+  },
+  {
+    "question_number": 44,
+    "title": "電子メール送信プロトコル（SMTP）",
+    "categories": [
+      {
+        "category_id": "e1fc6d1b-1d25-4eaa-8fba-47a797b8dc6a",
+        "category_name": "通信プロトコル",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "メール通信プロトコル。通信プロトコルのアプリケーション層プロトコル"
+      }
+    ]
+  },
+  {
+    "question_number": 45,
+    "title": "無線LANセキュリティのWPA",
+    "categories": [
+      {
+        "category_id": "1a91b20d-d10b-4be6-98c9-ac57a082b36e",
+        "category_name": "情報セキュリティ対策",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "無線LAN暗号化技術。情報セキュリティ対策のネットワークセキュリティ"
+      }
+    ]
+  },
+  {
+    "question_number": 46,
+    "title": "OSI参照モデルのネットワーク層機能",
+    "categories": [
+      {
+        "category_id": "40dda01d-e4e6-4d3d-844d-0a4bf5b9ba28",
+        "category_name": "ネットワーク方式",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ネットワークアーキテクチャの階層機能。ネットワーク方式のネットワークアーキテクチャ"
+      }
+    ]
+  },
+  {
+    "question_number": 47,
+    "title": "WANの通信サービス（ATM）",
+    "categories": [
+      {
+        "category_id": "a3bffd69-6dd6-4e85-9b7b-81fc82d79b6b",
+        "category_name": "ネットワーク応用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "広域ネットワーク技術。ネットワーク応用のWAN"
+      }
+    ]
+  },
+  {
+    "question_number": 48,
+    "title": "ARPプロトコルの機能",
+    "categories": [
+      {
+        "category_id": "e1fc6d1b-1d25-4eaa-8fba-47a797b8dc6a",
+        "category_name": "通信プロトコル",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "アドレス解決プロトコル。通信プロトコルのネットワーク層プロトコル"
+      }
+    ]
+  },
+  {
+    "question_number": 49,
+    "title": "ファイアウォールの機能",
+    "categories": [
+      {
+        "category_id": "1a91b20d-d10b-4be6-98c9-ac57a082b36e",
+        "category_name": "情報セキュリティ対策",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "ネットワークセキュリティ機器。情報セキュリティ対策のセキュリティ製品・サービス（ファイアウォール）"
+      }
+    ]
+  },
+  {
+    "question_number": 50,
+    "title": "VPNの概念",
+    "categories": [
+      {
+        "category_id": "26acc9de-d92f-4c26-96f4-0091d2313adf",
+        "category_name": "セキュリティ実装技術",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "セキュアな仮想専用線技術。セキュリティ実装技術のセキュアプロトコル"
+      }
+    ]
+  },
+  {
+    "question_number": 51,
+    "title": "情報セキュリティの3要素（CIA）",
+    "categories": [
+      {
+        "category_id": "f74fdc2a-d839-4376-a88f-6f27d34c78bb",
+        "category_name": "情報セキュリティ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "情報セキュリティの基本概念。情報セキュリティの機密性・完全性・可用性"
+      }
+    ]
+  },
+  {
+    "question_number": 52,
+    "title": "暗号化方式（共通鍵・公開鍵）",
+    "categories": [
+      {
+        "category_id": "f74fdc2a-d839-4376-a88f-6f27d34c78bb",
+        "category_name": "情報セキュリティ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "暗号技術の分類。情報セキュリティの暗号技術（共通鍵、公開鍵）"
+      }
+    ]
+  },
+  {
+    "question_number": 53,
+    "title": "ディジタル署名の目的",
+    "categories": [
+      {
+        "category_id": "f74fdc2a-d839-4376-a88f-6f27d34c78bb",
+        "category_name": "情報セキュリティ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "認証技術の目的。情報セキュリティの認証技術（デジタル署名）"
+      }
+    ]
+  },
+  {
+    "question_number": 54,
+    "title": "PKI（公開鍵基盤）",
+    "categories": [
+      {
+        "category_id": "f74fdc2a-d839-4376-a88f-6f27d34c78bb",
+        "category_name": "情報セキュリティ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "公開鍵インフラストラクチャ。情報セキュリティの公開鍵基盤（PKI、認証局）"
+      }
+    ]
+  },
+  {
+    "question_number": 55,
+    "title": "コンピュータウイルスの分類",
+    "categories": [
+      {
+        "category_id": "f74fdc2a-d839-4376-a88f-6f27d34c78bb",
+        "category_name": "情報セキュリティ",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "マルウェアの種類と特徴。情報セキュリティのマルウェア・不正プログラム"
+      }
+    ]
+  },
+  {
+    "question_number": 56,
+    "title": "不正アクセス禁止法",
+    "categories": [
+      {
+        "category_id": "472c5398-2de0-40e9-85a0-411378253770",
+        "category_name": "セキュリティ関連法規",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "セキュリティ関連法律。セキュリティ関連法規の不正アクセス禁止法"
+      }
+    ]
+  },
+  {
+    "question_number": 57,
+    "title": "システム監査人の独立性",
+    "categories": [
+      {
+        "category_id": "9bed6fd4-2503-4e12-ad6e-d92ad9e0d4cf",
+        "category_name": "システム監査",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "監査の客観性確保。システム監査の監査人の独立性"
+      }
+    ]
+  },
+  {
+    "question_number": 58,
+    "title": "リスクマネジメントの対応策",
+    "categories": [
+      {
+        "category_id": "015d1547-cdd0-457d-a608-a5a705f8ac37",
+        "category_name": "経営・組織論",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "企業のリスク管理手法。経営・組織論のリスクマネジメント"
+      }
+    ]
+  },
+  {
+    "question_number": 59,
+    "title": "個人情報保護法の事業者義務",
+    "categories": [
+      {
+        "category_id": "472c5398-2de0-40e9-85a0-411378253770",
+        "category_name": "セキュリティ関連法規",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "個人情報保護に関する法的義務。セキュリティ関連法規の個人情報保護法"
+      }
+    ]
+  },
+  {
+    "question_number": 60,
+    "title": "著作権法とプログラム",
+    "categories": [
+      {
+        "category_id": "fd176ade-fb35-468f-9b48-d7d35d2322be",
+        "category_name": "知的財産適用管理",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "プログラムの知的財産権。知的財産適用管理の著作権管理"
+      }
+    ]
+  },
+  {
+    "question_number": 61,
+    "title": "労働者派遣法の期間制限",
+    "categories": [
+      {
+        "category_id": "0f293be2-0420-469d-8d29-f01805413587",
+        "category_name": "労働関連・取引関連法規",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "労働法に関する知識。労働関連・取引関連法規の労働者派遣法"
+      }
+    ]
+  },
+  {
+    "question_number": 62,
+    "title": "システム開発の契約形態",
+    "categories": [
+      {
+        "category_id": "0f293be2-0420-469d-8d29-f01805413587",
+        "category_name": "労働関連・取引関連法規",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "業務委託の契約形態。労働関連・取引関連法規の契約類型"
+      }
+    ]
+  },
+  {
+    "question_number": 63,
+    "title": "財務諸表の種類（損益計算書）",
+    "categories": [
+      {
+        "category_id": "a2053224-5e82-46f4-8962-bbaeef4d9b5a",
+        "category_name": "会計・財務",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "企業の財務情報。会計・財務の財務諸表"
+      }
+    ]
+  },
+  {
+    "question_number": 64,
+    "title": "損益分岐点の計算",
+    "categories": [
+      {
+        "category_id": "a2053224-5e82-46f4-8962-bbaeef4d9b5a",
+        "category_name": "会計・財務",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "経営分析指標の計算。会計・財務の損益分岐点"
+      }
+    ]
+  },
+  {
+    "question_number": 65,
+    "title": "ABC分析の在庫管理への適用",
+    "categories": [
+      {
+        "category_id": "4af31adb-378c-4d1e-8d43-aeb85c47a033",
+        "category_name": "業務分析・データ利活用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "業務効率化手法。業務分析・データ利活用の業務分析手法"
+      }
+    ]
+  },
+  {
+    "question_number": 66,
+    "title": "QC七つ道具（パレート図）",
+    "categories": [
+      {
+        "category_id": "4af31adb-378c-4d1e-8d43-aeb85c47a033",
+        "category_name": "業務分析・データ利活用",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "品質管理手法の分類。業務分析・データ利活用の品質管理手法"
+      }
+    ]
+  },
+  {
+    "question_number": 67,
+    "title": "コアコンピタンスの概念",
+    "categories": [
+      {
+        "category_id": "015d1547-cdd0-457d-a608-a5a705f8ac37",
+        "category_name": "経営・組織論",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "企業の競争力要素。経営・組織論の経営戦略概念"
+      }
+    ]
+  },
+  {
+    "question_number": 68,
+    "title": "CRM（顧客関係管理）",
+    "categories": [
+      {
+        "category_id": "d46ca0a1-ab40-4f78-b74b-03f8a4ddfcc5",
+        "category_name": "ビジネスシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "顧客管理システムの概念。ビジネスシステムの顧客管理"
+      }
+    ]
+  },
+  {
+    "question_number": 69,
+    "title": "バランススコアカードの4つの視点",
+    "categories": [
+      {
+        "category_id": "cd25ca0a-8cc2-4270-9694-b085573daedf",
+        "category_name": "ビジネス戦略と目標・評価",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "戦略的経営管理手法。ビジネス戦略と目標・評価のバランススコアカード"
+      }
+    ]
+  },
+  {
+    "question_number": 70,
+    "title": "マーケティングミックスの4P",
+    "categories": [
+      {
+        "category_id": "49d6b96b-bd97-47b0-b8de-7ede5a7e3e01",
+        "category_name": "マーケティング",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "マーケティング戦略の基本要素。マーケティングの基本概念"
+      }
+    ]
+  },
+  {
+    "question_number": 71,
+    "title": "技術経営（MOT）",
+    "categories": [
+      {
+        "category_id": "c193a2a1-0ea4-466d-83fd-4d9cfd378fae",
+        "category_name": "技術開発戦略の立案",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "技術を活用した経営手法。技術開発戦略の立案の技術経営（MOT）"
+      }
+    ]
+  },
+  {
+    "question_number": 72,
+    "title": "e-ビジネスのBtoB形態",
+    "categories": [
+      {
+        "category_id": "d46ca0a1-ab40-4f78-b74b-03f8a4ddfcc5",
+        "category_name": "ビジネスシステム",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "電子商取引の形態。ビジネスシステムの電子商取引"
+      }
+    ]
+  },
+  {
+    "question_number": 73,
+    "title": "BPR（ビジネスプロセスリエンジニアリング）",
+    "categories": [
+      {
+        "category_id": "69f55d03-9aca-49be-b0e0-b09ffc70ca8b",
+        "category_name": "業務プロセス",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "業務プロセス改革手法。業務プロセスのBPR"
+      }
+    ]
+  },
+  {
+    "question_number": 74,
+    "title": "企業の社会的責任（CSR）",
+    "categories": [
+      {
+        "category_id": "015d1547-cdd0-457d-a608-a5a705f8ac37",
+        "category_name": "経営・組織論",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "企業の社会貢献。経営・組織論のCSR"
+      }
+    ]
+  },
+  {
+    "question_number": 75,
+    "title": "著作権の発生時期",
+    "categories": [
+      {
+        "category_id": "fd176ade-fb35-468f-9b48-d7d35d2322be",
+        "category_name": "知的財産適用管理",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "知的財産権の基本。知的財産適用管理の著作権管理"
+      }
+    ]
+  },
+  {
+    "question_number": 76,
+    "title": "特許権の要件",
+    "categories": [
+      {
+        "category_id": "fd176ade-fb35-468f-9b48-d7d35d2322be",
+        "category_name": "知的財産適用管理",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "知的財産権の種類。知的財産適用管理の特許管理"
+      }
+    ]
+  },
+  {
+    "question_number": 77,
+    "title": "BCP（事業継続計画）",
+    "categories": [
+      {
+        "category_id": "015d1547-cdd0-457d-a608-a5a705f8ac37",
+        "category_name": "経営・組織論",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "事業継続管理手法。経営・組織論のBCP"
+      }
+    ]
+  },
+  {
+    "question_number": 78,
+    "title": "内部統制の目的",
+    "categories": [
+      {
+        "category_id": "015d1547-cdd0-457d-a608-a5a705f8ac37",
+        "category_name": "経営・組織論",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "企業のガバナンス。経営・組織論のコーポレートガバナンス"
+      }
+    ]
+  },
+  {
+    "question_number": 79,
+    "title": "システム監査人の独立性要件",
+    "categories": [
+      {
+        "category_id": "9bed6fd4-2503-4e12-ad6e-d92ad9e0d4cf",
+        "category_name": "システム監査",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "監査品質の確保。システム監査のシステム監査基準"
+      }
+    ]
+  },
+  {
+    "question_number": 80,
+    "title": "情報システムの可監査性向上",
+    "categories": [
+      {
+        "category_id": "9bed6fd4-2503-4e12-ad6e-d92ad9e0d4cf",
+        "category_name": "システム監査",
+        "relevance_score": 1.0,
+        "is_primary": true,
+        "reason": "監査証跡の確保。システム監査の可監査性"
+      }
+    ]
+  }
+]

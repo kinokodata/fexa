@@ -208,7 +208,6 @@ services:
       - backend
     profiles:
       - tools
-    entrypoint: ["node", "index.js"]
 
   # 総合テスト環境（エンドツーエンドテスト用）
   integration-tests:

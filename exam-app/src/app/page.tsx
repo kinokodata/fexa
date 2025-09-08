@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Container, Typography, Box, Card, CardContent, Grid, Button } from '@mui/material'
+import { Container, Typography, Box, Card, CardContent, Button } from '@mui/material'
 import { Header } from '@/components/Header'
 import { useAuth } from '@/components/AuthProvider'
 import { Login } from '@/components/Login'
@@ -61,9 +61,63 @@ export default function HomePage() {
     )
   }
 
-  const handleExamStart = (exam: Exam) => {
-    const seasonPath = exam.season === 'a' ? 'spring' : 'autumn'
-    router.push(`/exams/${exam.year}/${seasonPath}`)
+  const handleExamStart = async (exam: Exam) => {
+    try {
+      // 試験の全問題を取得
+      const result = await apiClient.getQuestions({
+        year: exam.year,
+        season: exam.season === 'a' ? '春期' : '秋期',
+        limit: 100
+      });
+      
+      if (result.success && result.data && result.data.length > 0) {
+        const questions = result.data;
+        
+        console.log('ExamStart Debug - First question structure:', questions[0]);
+        
+        // 問題セットを作成
+        const questionSet = {
+          examInfo: {
+            year: exam.year,
+            season: exam.season
+          },
+          questions: questions.map(q => {
+            // 問題データにexamプロパティがない場合は、APIに渡されたexam情報を使用
+            const questionExam = q.exam || {
+              year: exam.year,
+              season: exam.season === 'a' ? '春期' : '秋期'
+            };
+            return {
+              id: q.id,
+              question_number: q.question_number,
+              exam: questionExam
+            };
+          }),
+          currentIndex: 0,
+          createdAt: new Date().toISOString(),
+          totalQuestions: questions.length
+        };
+        
+        // APIに問題セットを保存
+        const saveResult = await apiClient.saveQuestionSet(questionSet);
+        
+        if (saveResult.success) {
+          console.log('ExamStart API - Save successful:', saveResult.data);
+          
+          // examinfo付きで最初の問題に遷移
+          const examId = `${exam.year}-${exam.season}`;
+          router.push(`/questions/${questions[0].id}?examinfo=${examId}&hasQuestionSet=true`);
+        } else {
+          console.error('ExamStart API - Save failed:', saveResult.error);
+          alert('問題セットの作成に失敗しました');
+        }
+      } else {
+        alert('問題データの取得に失敗しました');
+      }
+    } catch (error) {
+      console.error('試験開始エラー:', error);
+      alert('試験開始中にエラーが発生しました');
+    }
   }
 
   return (
@@ -87,30 +141,32 @@ export default function HomePage() {
           {loadingExams ? (
             <Typography>試験一覧を読み込み中...</Typography>
           ) : (
-            <Grid container spacing={3}>
+            <Box sx={{ 
+              display: 'grid', 
+              gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr', md: '1fr 1fr 1fr' },
+              gap: 3 
+            }}>
               {exams.map((exam) => (
-                <Grid item xs={12} sm={6} md={4} key={exam.id}>
-                  <Card>
-                    <CardContent>
-                      <Typography variant="h6" component="h3">
-                        {exam.year}年 {exam.season === 'a' ? '春期' : '秋期'}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary" gutterBottom>
-                        全80問・150分
-                      </Typography>
-                      <Button 
-                        variant="contained" 
-                        fullWidth 
-                        sx={{ mt: 2 }}
-                        onClick={() => handleExamStart(exam)}
-                      >
-                        試験開始
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Grid>
+                <Card key={exam.id}>
+                  <CardContent>
+                    <Typography variant="h6" component="h3">
+                      {exam.year}年 {exam.season === 'a' ? '春期' : '秋期'}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                      全80問・150分
+                    </Typography>
+                    <Button 
+                      variant="contained" 
+                      fullWidth 
+                      sx={{ mt: 2 }}
+                      onClick={() => handleExamStart(exam)}
+                    >
+                      演習開始
+                    </Button>
+                  </CardContent>
+                </Card>
               ))}
-            </Grid>
+            </Box>
           )}
         </Box>
 
@@ -125,7 +181,7 @@ export default function HomePage() {
               </Typography>
               <Button 
                 variant="outlined" 
-                onClick={() => router.push('/category')}
+                onClick={() => router.push('/categories')}
               >
                 カテゴリ別練習へ
               </Button>

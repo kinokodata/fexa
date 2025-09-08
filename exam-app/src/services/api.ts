@@ -217,6 +217,36 @@ class ApiClient {
     const query = searchParams.toString();
     return this.request<any[]>(`/api/categories/${categoryId}/questions${query ? `?${query}` : ''}`);
   }
+
+  // === 問題セット関連API ===
+
+  // 問題セット保存
+  async saveQuestionSet(questionSet: any): Promise<ApiResponse<{ message: string }>> {
+    return this.request<{ message: string }>('/api/users/question-set', {
+      method: 'POST',
+      body: JSON.stringify({ questionSet })
+    });
+  }
+
+  // 問題セット取得
+  async getQuestionSet(): Promise<ApiResponse<{ questionSet: any }>> {
+    return this.request<{ questionSet: any }>('/api/users/question-set');
+  }
+
+  // 問題セット削除
+  async deleteQuestionSet(): Promise<ApiResponse<{ message: string }>> {
+    return this.request<{ message: string }>('/api/users/question-set', {
+      method: 'DELETE'
+    });
+  }
+
+  // 問題セット内の現在位置更新
+  async updateQuestionSetPosition(currentIndex: number): Promise<ApiResponse<{ message: string; currentIndex: number }>> {
+    return this.request<{ message: string; currentIndex: number }>('/api/users/question-set/position', {
+      method: 'PATCH',
+      body: JSON.stringify({ currentIndex })
+    });
+  }
 }
 
 const apiClient = new ApiClient();

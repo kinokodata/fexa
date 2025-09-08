@@ -142,8 +142,9 @@ export function ExamSidebar({ questions = [], open, onClose, variant = 'persiste
         '& .MuiDrawer-paper': {
           width: DRAWER_WIDTH,
           boxSizing: 'border-box',
-          top: 64, // Header height
-          height: 'calc(100vh - 64px)',
+          top: `calc(${theme.mixins.toolbar.minHeight}px + 16px)`,
+          height: `calc(100vh - ${theme.mixins.toolbar.minHeight}px - 16px)`,
+          zIndex: theme.zIndex.drawer - 1,
         },
       }}
     >

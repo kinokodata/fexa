@@ -123,7 +123,7 @@ export default function MathRenderer({ text, hasImages = false, shouldShowImages
               {children}
             </td>
           ),
-          code: ({ inline, children, ...props }) => (
+          code: ({ inline, children, ...props }: any) => (
             inline ? (
               <code
                 style={{

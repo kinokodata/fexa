@@ -45,7 +45,7 @@ PDFファイル(ローカル) → インポートツール → Supabase
 
 ### PDFファイル
 - ローカルの `pdfs/` ディレクトリに保存
-- 年度・季節でディレクトリ分け (`pdfs/2024_a/`, `pdfs/2023_h/`)
+- 年度・季節でディレクトリ分け (`pdfs/YYYY_a/` 秋期, `pdfs/YYYY_h/` 春期)
 - Supabaseには保存しない
 
 ### 問題データ
@@ -83,11 +83,23 @@ PDFファイル(ローカル) → インポートツール → Supabase
 3. フロントエンド変更は App Router で実装
 4. TypeScript 型定義の更新
 
-### データ更新
-1. IPAから最新PDFをダウンロード
-2. `pdfs/` ディレクトリに配置
-3. インポートツールで処理
-4. フロントエンドで確認
+### データ更新ワークフロー（完全版）
+1. **PDF取得**: IPAから最新PDFをダウンロード
+2. **配置**: `pdfs/YYYY_a/` または `pdfs/YYYY_h/` に配置
+3. **解析**: Claude Web版でPDFを解析し `text-data.md` を生成（問題・解答・解説）
+4. **エクスポート**: tools/export-markdown で `text-data.md` をデータベースに登録
+5. **検証**: 必要に応じてtools/import-questions でデータベースから逆エクスポート確認
+6. **カテゴリ分類**: Claude Web版で問題とカテゴリの紐づけを行い `category-data.json` を生成
+7. **カテゴリ登録**: tools/export-categories で `category-data.json` をquestion_categoriesテーブルに反映
+8. **タグ抽出**: 必要に応じてtools/extract-tags で問題文・解説からIT用語タグを自動抽出
+9. **確認**: フロントエンドで表示確認（問題・解説・カテゴリ・タグすべて）
+
+### ツール役割分担
+- **Claude Web版（手動）**: PDF解析、カテゴリ分類作業（Claude Codeは関与しない）
+- **export-markdown**: text-data.md → データベース（問題・解説のエクスポート）
+- **import-questions**: データベース → Markdownファイル（検証用インポート）
+- **export-categories**: category-data.json → question_categoriesテーブル（カテゴリ分類の反映）
+- **extract-tags**: 問題文・解説文からIT用語タグを自動抽出してtagsテーブルに登録
 
 ## 運用・保守
 

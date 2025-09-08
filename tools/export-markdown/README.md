@@ -1,31 +1,32 @@
-# Fexa Export Markdown Tool
+# Export Markdown Tool
 
-text-data.mdファイルからSupabaseへ問題データをエクスポートするツールです。
+text-data.mdファイルからSupabaseデータベースへ問題データをインポートするツールです。
 
-## 機能
+## 📋 機能
 
 - Markdownファイルの解析と問題データ抽出
-- Supabaseへのデータ保存（試験・問題・選択肢・画像参照情報）
+- **正解・解説の自動抽出とデータベース保存**
+- Supabaseへのデータ保存（試験・問題・選択肢・解説・画像参照情報）
 - エラー耐性の高いバッチ処理
 - 進捗表示と詳細ログ出力
 - Docker環境での実行サポート
 
-## 使用方法
+## 🚀 使用方法
 
-### Docker環境での実行
+### Docker環境での実行（推奨）
 
 ```bash
-# 単一ファイルのエクスポート
-docker compose run export-markdown node index.js /pdfs/2018_a/text-data.md
+# 単一ファイルのインポート
+docker compose run --rm export-markdown node index.js /pdfs/2010_h/text-data.md
 
 # 年度・季節を明示的に指定
-docker compose run export-markdown node index.js /pdfs/2018_a/text-data.md 2018 秋期
+docker compose run --rm export-markdown node index.js /pdfs/2018_a/text-data.md 2018 秋期
 
-# 単体問題の上書きエクスポート（問題文修正時など）
-docker compose run export-markdown node index.js /pdfs/2018_a/text-data.md --question 9 --overwrite
+# 単体問題の上書きインポート（問題文修正時など）
+docker compose run --rm export-markdown node index.js /pdfs/2018_a/text-data.md --question 9 --overwrite
 
-# 複数ファイルの一括エクスポート
-docker compose exec export-markdown sh -c 'for md in /pdfs/*/text-data.md; do node index.js "$md"; done'
+# 複数ファイルの一括インポート
+docker compose run --rm export-markdown sh -c 'for md in /pdfs/*/text-data.md; do node index.js "$md"; done'
 ```
 
 ### ローカル環境での実行
@@ -53,7 +54,7 @@ SUPABASE_SERVICE_KEY=eyJ...
 SUPABASE_STORAGE_BUCKET=fexa-images
 ```
 
-## 対応フォーマット
+## 📝 対応フォーマット
 
 ### 問題番号
 ```markdown
@@ -61,15 +62,23 @@ SUPABASE_STORAGE_BUCKET=fexa-images
 ## 問 2
 ```
 
+### 正解と解説
+```markdown
+**正解: ア**
+
+16進数2A.4Cを2進数に変換すると...（解説文）
+```
+
 ### 選択肢
 
 **テキスト選択肢:**
 ```markdown
-- ア. 選択肢の内容
-- イ. 選択肢の内容  
-- ウ. 選択肢の内容
-- エ. 選択肢の内容
+- ア 選択肢の内容
+- イ 選択肢の内容  
+- ウ 選択肢の内容
+- エ 選択肢の内容
 ```
+**注意**: `- ア.` のようにピリオドは付けない
 
 **画像選択肢:**
 ```markdown
@@ -86,16 +95,16 @@ SUPABASE_STORAGE_BUCKET=fexa-images
 ![説明](./images/q1_1.png)
 ```
 
-## 処理フロー
+## 🔄 処理フロー
 
 1. Markdownファイルの読み込み
 2. 年度・季節情報の抽出（ディレクトリ名またはファイル内容から）
-3. 問題・選択肢・画像情報の解析（テキスト/画像選択肢の自動識別）
+3. 問題・選択肢・**正解・解説**の解析
 4. Supabaseへのデータ保存（重複チェック付き）
-   - 問題テーブル（questions）
-   - 選択肢テーブル（choices）- has_imageフラグ付き
-   - 問題画像テーブル（question_images）
-   - 選択肢画像テーブル（choice_images）
+   - 試験テーブル（exams）
+   - 問題テーブル（questions）- **explanation**フィールド含む
+   - 選択肢テーブル（choices）- **is_correct**フラグ付き
+   - 画像参照情報（question_images, choice_images）
 
 ## エラーハンドリング
 

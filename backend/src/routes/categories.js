@@ -341,6 +341,225 @@ router.get('/search/questions', async (req, res) => {
   }
 });
 
+// カテゴリによる問題検索（直接的なカテゴリ関連付けを使用）
+router.get('/search/direct', async (req, res) => {
+  try {
+    const supabase = getSupabase();
+    const { 
+      field_name, 
+      major_name, 
+      medium_name, 
+      minor_name,
+      page = 1, 
+      limit = 50  // デフォルトを50に設定
+    } = req.query;
+
+    // 少なくとも1つの条件が必要
+    if (!field_name && !major_name && !medium_name && !minor_name) {
+      return res.status(400).json(error('検索条件を指定してください'));
+    }
+
+    // 階層的検索のためのカテゴリID収集
+    let categoryIds = [];
+
+    if (minor_name) {
+      // 小分類が指定された場合：その小分類のみ
+      const { data: minorCategories, error: minorError } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('level', 4)
+        .eq('name', minor_name);
+      
+      if (minorError) throw minorError;
+      categoryIds = minorCategories?.map(c => c.id) || [];
+
+    } else if (medium_name) {
+      // 中分類が指定された場合：その中分類とその下のすべての小分類
+      const { data: mediumCategory, error: mediumError } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('level', 3)
+        .eq('name', medium_name)
+        .single();
+      
+      if (mediumError) throw mediumError;
+      
+      if (mediumCategory) {
+        // 中分類のIDを追加
+        categoryIds.push(mediumCategory.id);
+        
+        // その下の小分類も追加
+        const { data: childCategories, error: childError } = await supabase
+          .from('categories')
+          .select('id')
+          .eq('parent_id', mediumCategory.id);
+        
+        if (!childError && childCategories) {
+          categoryIds.push(...childCategories.map(c => c.id));
+        }
+      }
+
+    } else if (major_name) {
+      // 大分類が指定された場合：その大分類とその下のすべての中分類・小分類
+      const { data: majorCategory, error: majorError } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('level', 2)
+        .eq('name', major_name)
+        .single();
+      
+      if (majorError) throw majorError;
+      
+      if (majorCategory) {
+        categoryIds.push(majorCategory.id);
+        
+        // 中分類を取得
+        const { data: mediumCategories, error: mediumError } = await supabase
+          .from('categories')
+          .select('id')
+          .eq('parent_id', majorCategory.id);
+        
+        if (!mediumError && mediumCategories) {
+          categoryIds.push(...mediumCategories.map(c => c.id));
+          
+          // 各中分類の下の小分類も取得
+          for (const medium of mediumCategories) {
+            const { data: minorCategories, error: minorError } = await supabase
+              .from('categories')
+              .select('id')
+              .eq('parent_id', medium.id);
+            
+            if (!minorError && minorCategories) {
+              categoryIds.push(...minorCategories.map(c => c.id));
+            }
+          }
+        }
+      }
+
+    } else if (field_name) {
+      // 分野が指定された場合：その分野とその下のすべての階層
+      const { data: fieldCategory, error: fieldError } = await supabase
+        .from('categories')
+        .select('id')
+        .eq('level', 1)
+        .eq('name', field_name)
+        .single();
+      
+      if (fieldError) throw fieldError;
+      
+      if (fieldCategory) {
+        categoryIds.push(fieldCategory.id);
+        
+        // 大分類を取得
+        const { data: majorCategories, error: majorError } = await supabase
+          .from('categories')
+          .select('id')
+          .eq('parent_id', fieldCategory.id);
+        
+        if (!majorError && majorCategories) {
+          categoryIds.push(...majorCategories.map(c => c.id));
+          
+          // 各大分類の下の中分類・小分類も取得
+          for (const major of majorCategories) {
+            const { data: mediumCategories, error: mediumError } = await supabase
+              .from('categories')
+              .select('id')
+              .eq('parent_id', major.id);
+            
+            if (!mediumError && mediumCategories) {
+              categoryIds.push(...mediumCategories.map(c => c.id));
+              
+              for (const medium of mediumCategories) {
+                const { data: minorCategories, error: minorError } = await supabase
+                  .from('categories')
+                  .select('id')
+                  .eq('parent_id', medium.id);
+                
+                if (!minorError && minorCategories) {
+                  categoryIds.push(...minorCategories.map(c => c.id));
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    if (categoryIds.length === 0) {
+      return res.json(success([], {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: 0
+      }));
+    }
+
+
+    // カテゴリに紐づく問題を question_categories テーブル経由で取得
+    const { data: questionCategories, error: questionCategoryError } = await supabase
+      .from('question_categories')
+      .select('question_id')
+      .in('category_id', categoryIds);
+
+    if (questionCategoryError) {
+      logger.error('問題カテゴリ取得エラー:', questionCategoryError);
+      return res.status(500).json(error('問題カテゴリの取得に失敗しました'));
+    }
+
+    if (!questionCategories || questionCategories.length === 0) {
+      return res.json(success([], {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total: 0
+      }));
+    }
+
+    // 重複を除去
+    const uniqueQuestionIds = [...new Set(questionCategories.map(qc => qc.question_id))];
+    const total = uniqueQuestionIds.length;
+
+    // 50問以下の場合はすべて、50問を超える場合はランダムに50問選択
+    let selectedQuestionIds;
+    if (total <= 50) {
+      selectedQuestionIds = uniqueQuestionIds;
+    } else {
+      const shuffledQuestionIds = [...uniqueQuestionIds].sort(() => Math.random() - 0.5);
+      selectedQuestionIds = shuffledQuestionIds.slice(0, 50);
+    }
+
+    // 問題の基本情報のみを取得（高速化のため）
+    const { data: questions, error: questionError } = await supabase
+      .from('questions')
+      .select(`
+        id,
+        question_number,
+        exam:exams(id, year, season)
+      `)
+      .in('id', selectedQuestionIds)
+      .order('question_number', { ascending: true });
+
+    if (questionError) {
+      logger.error('問題取得エラー:', questionError);
+      return res.status(500).json(error('問題の取得に失敗しました'));
+    }
+
+    // レスポンス構造を明確化
+    const response = success(questions, {
+      page: parseInt(page),
+      limit: parseInt(limit),
+      total: total
+    });
+    
+    // totalを直接追加（互換性のため）
+    response.total = total;
+    
+    res.json(response);
+
+  } catch (err) {
+    logger.error('カテゴリによる問題検索エラー:', err);
+    res.status(500).json(error(err.message));
+  }
+});
+
 // 問題にカテゴリを関連付け
 router.post('/assign', authenticateToken, async (req, res) => {
   try {

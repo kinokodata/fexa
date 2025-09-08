@@ -1,11 +1,12 @@
 'use client'
 
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Container, Typography, Box, CircularProgress, Alert, Card, CardContent, FormControl, FormControlLabel, RadioGroup, Radio, Button, Divider, IconButton, useTheme, useMediaQuery } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { Header } from '@/components/Header'
 import { ExamSidebar } from '@/components/ExamSidebar'
+import { QuestionSetSidebar } from '@/components/QuestionSetSidebar'
 import MathRenderer from '@/components/MathRenderer'
 import apiClient from '@/services/api'
 import { Question } from '@/types/api'
@@ -13,6 +14,7 @@ import { Question } from '@/types/api'
 export default function QuestionPage() {
   const params = useParams()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const questionId = params.id as string
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('md'))
@@ -24,6 +26,7 @@ export default function QuestionPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile)
+  const [useQuestionSetSidebar, setUseQuestionSetSidebar] = useState(false)
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -33,16 +36,31 @@ export default function QuestionPage() {
         if (result.success && result.data) {
           setQuestion(result.data)
           
-          // 同じ試験の問題一覧を取得してサイドバー用に設定
-          if (result.data.exam) {
-            const questionsResult = await apiClient.getQuestions({
-              year: result.data.exam.year,
-              season: result.data.exam.season,
-              limit: 100 // 全問題を取得
-            })
-            
-            if (questionsResult.success && questionsResult.data) {
-              setQuestions(questionsResult.data)
+          // カテゴリパラメータまたはhasQuestionSetパラメータがある場合は問題セットサイドバーを使用
+          const categoryParam = searchParams.get('category');
+          const examinfoParam = searchParams.get('examinfo');
+          const hasQuestionSetParam = searchParams.get('hasQuestionSet');
+          
+          console.log('Sidebar Debug - categoryParam:', categoryParam);
+          console.log('Sidebar Debug - examinfoParam:', examinfoParam);
+          console.log('Sidebar Debug - hasQuestionSetParam:', hasQuestionSetParam);
+          
+          if (categoryParam || examinfoParam || hasQuestionSetParam === 'true') {
+            console.log('Sidebar Debug - Using QuestionSetSidebar');
+            setUseQuestionSetSidebar(true)
+          } else {
+            console.log('Sidebar Debug - Using ExamSidebar');
+            // 同じ試験の問題一覧を取得してサイドバー用に設定
+            if (result.data.exam) {
+              const questionsResult = await apiClient.getQuestions({
+                year: result.data.exam.year,
+                season: result.data.exam.season,
+                limit: 100 // 全問題を取得
+              })
+              
+              if (questionsResult.success && questionsResult.data) {
+                setQuestions(questionsResult.data)
+              }
             }
           }
         } else {
@@ -56,7 +74,7 @@ export default function QuestionPage() {
     }
 
     fetchQuestion()
-  }, [questionId])
+  }, [questionId, searchParams.toString()])
 
   const handleAnswerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedAnswer(event.target.value)
@@ -74,7 +92,15 @@ export default function QuestionPage() {
     return (
       <>
         <Header onMenuClick={handleSidebarToggle} />
-        <Container maxWidth="lg" sx={{ py: 4, display: 'flex', justifyContent: 'center' }}>
+        <Container 
+          maxWidth="lg" 
+          sx={{ 
+            py: 4, 
+            pt: `calc(${theme.mixins.toolbar.minHeight}px + 32px)`, // ヘッダー高さ + 余白
+            display: 'flex', 
+            justifyContent: 'center' 
+          }}
+        >
           <CircularProgress />
         </Container>
       </>
@@ -85,7 +111,13 @@ export default function QuestionPage() {
     return (
       <>
         <Header onMenuClick={handleSidebarToggle} />
-        <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Container 
+          maxWidth="lg" 
+          sx={{ 
+            py: 4, 
+            pt: `calc(${theme.mixins.toolbar.minHeight}px + 32px)` // ヘッダー高さ + 余白
+          }}
+        >
           <Alert severity="error">{error}</Alert>
         </Container>
       </>
@@ -96,7 +128,13 @@ export default function QuestionPage() {
     return (
       <>
         <Header onMenuClick={handleSidebarToggle} />
-        <Container maxWidth="lg" sx={{ py: 4 }}>
+        <Container 
+          maxWidth="lg" 
+          sx={{ 
+            py: 4, 
+            pt: `calc(${theme.mixins.toolbar.minHeight}px + 32px)` // ヘッダー高さ + 余白
+          }}
+        >
           <Alert severity="warning">問題が見つかりません</Alert>
         </Container>
       </>
@@ -110,43 +148,52 @@ export default function QuestionPage() {
   return (
     <>
       <Header onMenuClick={handleSidebarToggle} />
-      <Box sx={{ display: 'flex' }}>
-        <ExamSidebar 
-          questions={questions}
-          currentQuestionId={questionId}
-          open={sidebarOpen} 
-          onClose={() => setSidebarOpen(false)}
-          variant={isMobile ? 'temporary' : 'persistent'}
-        />
-        <Container 
-          maxWidth="lg" 
-          sx={{ 
-            py: 4,
-            ml: !isMobile && sidebarOpen ? '240px' : 0,
-            transition: theme.transitions.create(['margin'], {
+      <Box sx={{ 
+        display: 'flex', 
+        mt: `${theme.mixins.toolbar.minHeight}px` // ヘッダー高さ分の上マージン
+      }}>
+        {useQuestionSetSidebar ? (
+          <QuestionSetSidebar
+            currentQuestionId={questionId}
+            open={sidebarOpen}
+            onClose={() => setSidebarOpen(false)}
+            variant={isMobile ? 'temporary' : 'persistent'}
+          />
+        ) : (
+          <ExamSidebar 
+            questions={questions}
+            currentQuestionId={questionId}
+            open={sidebarOpen} 
+            onClose={() => setSidebarOpen(false)}
+            variant={isMobile ? 'temporary' : 'persistent'}
+          />
+        )}
+        
+        {/* Main Content */}
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            pt: 3, // 通常のパディングに戻す
+            width: sidebarOpen ? { md: `calc(100% - 280px)` } : '100%',
+            transition: theme.transitions.create(['width'], {
               easing: theme.transitions.easing.sharp,
               duration: theme.transitions.duration.leavingScreen,
             })
           }}
         >
+          <Container maxWidth="lg" sx={{ px: 0 }}>
           {/* パンくずリスト */}
           <Box sx={{ mb: 3 }}>
             <Typography variant="body2" color="text.secondary">
-              {question.exam?.year}年 {question.exam?.season} / 問{question.question_number}
+              {question.exam?.year}年 {question.exam?.season === 'a' ? '春期' : '秋期'}{question.question_type || '午前'} / 問{question.question_number}
             </Typography>
           </Box>
 
           {/* 問題カード */}
           <Card sx={{ mb: 3 }}>
             <CardContent>
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', mb: 2 }}>
-                <Typography variant="h5" component="h1" gutterBottom>
-                  問{question.question_number}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {question.question_type}
-                </Typography>
-              </Box>
               
               {/* 問題文 */}
               <Box sx={{ mb: 3 }}>
@@ -306,7 +353,8 @@ export default function QuestionPage() {
               )}
             </CardContent>
           </Card>
-        </Container>
+          </Container>
+        </Box>
       </Box>
     </>
   )

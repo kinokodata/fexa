@@ -1,16 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-    // App Routerを使用
-  },
+  reactStrictMode: true,
+  swcMinify: true,
   env: {
-    // 本番環境でのAPI URLを設定
-    API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:3000',
+    API_BASE_URL: process.env.API_BASE_URL || 'http://localhost:43001',
+    NEXT_PUBLIC_API_BASE_URL: process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:43001'
   },
-  images: {
-    domains: ['localhost', 'your-domain.com'],
-  },
-  // Supabase画像URL許可
   images: {
     remotePatterns: [
       {

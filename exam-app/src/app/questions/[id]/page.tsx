@@ -4,6 +4,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { Container, Typography, Box, CircularProgress, Alert, Card, CardContent, FormControl, FormControlLabel, RadioGroup, Radio, Button, Divider, IconButton, useTheme, useMediaQuery } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
+import WarningAmberIcon from '@mui/icons-material/WarningAmber'
 import { Header } from '@/components/Header'
 import { ExamSidebar } from '@/components/ExamSidebar'
 import { QuestionSetSidebar } from '@/components/QuestionSetSidebar'
@@ -27,6 +28,8 @@ export default function QuestionPage() {
   const [error, setError] = useState<string | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(!isMobile)
   const [useQuestionSetSidebar, setUseQuestionSetSidebar] = useState(false)
+  const [questionSet, setQuestionSet] = useState<any>(null)
+  const [currentIndex, setCurrentIndex] = useState(-1)
 
   useEffect(() => {
     const fetchQuestion = async () => {
@@ -48,6 +51,18 @@ export default function QuestionPage() {
           if (categoryParam || examinfoParam || hasQuestionSetParam === 'true') {
             console.log('Sidebar Debug - Using QuestionSetSidebar');
             setUseQuestionSetSidebar(true)
+            
+            // 問題セット情報を取得
+            try {
+              const questionSetResult = await apiClient.getQuestionSet();
+              if (questionSetResult.success && questionSetResult.data) {
+                setQuestionSet(questionSetResult.data.questionSet);
+                const index = questionSetResult.data.questionSet.questions.findIndex((q: any) => q.id === questionId);
+                setCurrentIndex(index);
+              }
+            } catch (error) {
+              console.error('Failed to fetch question set:', error);
+            }
           } else {
             console.log('Sidebar Debug - Using ExamSidebar');
             // 同じ試験の問題一覧を取得してサイドバー用に設定
@@ -83,6 +98,52 @@ export default function QuestionPage() {
   const handleShowAnswer = () => {
     setShowAnswer(true)
   }
+
+  const navigateToQuestion = async (index: number) => {
+    if (!questionSet || index < 0 || index >= questionSet.questions.length) return;
+    
+    const targetQuestion = questionSet.questions[index];
+    
+    // URLパラメータを維持
+    const categoryParam = searchParams.get('category');
+    const examinfoParam = searchParams.get('examinfo');
+    let queryString = '?hasQuestionSet=true';
+    
+    if (categoryParam) {
+      queryString += `&category=${categoryParam}`;
+    } else if (examinfoParam) {
+      queryString += `&examinfo=${examinfoParam}`;
+    }
+    
+    try {
+      // API経由で現在位置を更新
+      const result = await apiClient.updateQuestionSetPosition(index);
+      
+      if (result.success) {
+        setCurrentIndex(index);
+        console.log('Navigation - Position update successful:', result.data);
+      } else {
+        console.error('Navigation - Position update failed:', result.error);
+      }
+    } catch (error) {
+      console.error('Navigation - Position update error:', error);
+    }
+    
+    // 画面遷移
+    router.push(`/questions/${targetQuestion.id}${queryString}`);
+  };
+
+  const goToPreviousQuestion = () => {
+    if (currentIndex > 0) {
+      navigateToQuestion(currentIndex - 1);
+    }
+  };
+
+  const goToNextQuestion = () => {
+    if (currentIndex < questionSet.questions.length - 1) {
+      navigateToQuestion(currentIndex + 1);
+    }
+  };
 
   const handleSidebarToggle = () => {
     setSidebarOpen(!sidebarOpen)
@@ -190,6 +251,19 @@ export default function QuestionPage() {
               {question.exam?.year}年 {question.exam?.season === 'a' ? '春期' : '秋期'}{question.question_type || '午前'} / 問{question.question_number}
             </Typography>
           </Box>
+
+          {/* 未チェック問題の警告 */}
+          {!question.is_checked && (
+            <Alert 
+              severity="warning" 
+              sx={{ mb: 2 }}
+              icon={<WarningAmberIcon />}
+            >
+              <strong>未チェック問題</strong>
+              <br />
+              この問題は管理者による確認がまだ済んでいません。問題文や選択肢、正答が間違っている可能性があります。
+            </Alert>
+          )}
 
           {/* 問題カード */}
           <Card sx={{ mb: 3 }}>
@@ -353,6 +427,39 @@ export default function QuestionPage() {
               )}
             </CardContent>
           </Card>
+
+          {/* 問題ナビゲーション */}
+          {useQuestionSetSidebar && questionSet && currentIndex >= 0 && (
+            <Box sx={{ 
+              display: 'flex', 
+              justifyContent: 'space-between', 
+              alignItems: 'center',
+              py: 2
+            }}>
+              <Button
+                variant="outlined"
+                onClick={goToPreviousQuestion}
+                disabled={currentIndex <= 0}
+                sx={{ minWidth: 120 }}
+              >
+                ← 前の問題
+              </Button>
+              
+              <Typography variant="body2" color="text.secondary">
+                {currentIndex + 1} / {questionSet.questions.length}
+              </Typography>
+              
+              <Button
+                variant="outlined"
+                onClick={goToNextQuestion}
+                disabled={currentIndex >= questionSet.questions.length - 1}
+                sx={{ minWidth: 120 }}
+              >
+                次の問題 →
+              </Button>
+            </Box>
+          )}
+          
           </Container>
         </Box>
       </Box>

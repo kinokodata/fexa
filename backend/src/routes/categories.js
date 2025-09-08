@@ -517,21 +517,49 @@ router.get('/search/direct', async (req, res) => {
     const uniqueQuestionIds = [...new Set(questionCategories.map(qc => qc.question_id))];
     const total = uniqueQuestionIds.length;
 
-    // 50問以下の場合はすべて、50問を超える場合はランダムに50問選択
+    // 50問以下の場合はすべて、50問を超える場合はチェック済み問題を優先して50問選択
     let selectedQuestionIds;
     if (total <= 50) {
       selectedQuestionIds = uniqueQuestionIds;
+      logger.info(`問題選択結果: 総数${total}問 -> 全問題を選択`);
     } else {
-      const shuffledQuestionIds = [...uniqueQuestionIds].sort(() => Math.random() - 0.5);
-      selectedQuestionIds = shuffledQuestionIds.slice(0, 50);
+      // 全問題のis_checkedステータスを取得
+      const { data: allQuestionsStatus, error: statusError } = await supabase
+        .from('questions')
+        .select('id, is_checked')
+        .in('id', uniqueQuestionIds);
+
+      if (statusError) {
+        logger.error('問題ステータス取得エラー:', statusError);
+        // エラーの場合は従来通りランダム選択
+        const shuffledQuestionIds = [...uniqueQuestionIds].sort(() => Math.random() - 0.5);
+        selectedQuestionIds = shuffledQuestionIds.slice(0, 50);
+      } else {
+        // チェック済み問題と未チェック問題を分離
+        const checkedQuestions = allQuestionsStatus.filter(q => q.is_checked).map(q => q.id);
+        const uncheckedQuestions = allQuestionsStatus.filter(q => !q.is_checked).map(q => q.id);
+
+        // チェック済み問題をシャッフル
+        const shuffledChecked = [...checkedQuestions].sort(() => Math.random() - 0.5);
+        const shuffledUnchecked = [...uncheckedQuestions].sort(() => Math.random() - 0.5);
+
+        // 最大50問選択：チェック済み問題を優先、不足分は未チェック問題で補う
+        selectedQuestionIds = [
+          ...shuffledChecked.slice(0, 50),
+          ...shuffledUnchecked.slice(0, Math.max(0, 50 - shuffledChecked.length))
+        ].slice(0, 50);
+
+        logger.info(`問題選択結果: 総数${total}問 -> チェック済み${Math.min(shuffledChecked.length, 50)}問 + 未チェック${Math.max(0, 50 - shuffledChecked.length)}問 = 計${selectedQuestionIds.length}問`);
+      }
     }
 
-    // 問題の基本情報のみを取得（高速化のため）
+    // 問題の基本情報を取得（is_checkedフィールドを追加）
     const { data: questions, error: questionError } = await supabase
       .from('questions')
       .select(`
         id,
         question_number,
+        is_checked,
         exam:exams(id, year, season)
       `)
       .in('id', selectedQuestionIds)

@@ -35,6 +35,7 @@ export interface Question {
   choice_table_markdown?: string;
   choice_table_type?: string;
   explanation?: string; // questionsテーブルの解説フィールド
+  is_checked: boolean; // 問題がチェック済みかどうか
   created_at: string;
   exam: {
     year: number;

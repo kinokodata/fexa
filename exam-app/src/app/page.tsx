@@ -2,12 +2,12 @@
 
 import { useEffect, useState } from 'react'
 import { Container, Typography, Box, Card, CardContent, Button } from '@mui/material'
-import { Header } from '@/components/Header'
-import { useAuth } from '@/components/AuthProvider'
-import { Login } from '@/components/Login'
+import { Header } from '../components/Header'
+import { useAuth } from '../components/AuthProvider'
+import { Login } from '../components/Login'
 import { useRouter } from 'next/navigation'
-import apiClient from '@/services/api'
-import { Exam } from '@/types/api'
+import apiClient from '../services/api'
+import { Exam } from '../types/api'
 
 export default function HomePage() {
   const { user, loading } = useAuth()

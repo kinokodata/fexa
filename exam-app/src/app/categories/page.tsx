@@ -2,12 +2,12 @@
 
 import { useState } from 'react';
 import { Container, Typography, Box, Card, CardContent, Button, CircularProgress, Alert } from '@mui/material';
-import { Header } from '@/components/Header';
-import { useAuth } from '@/components/AuthProvider';
-import { Login } from '@/components/Login';
-import CategorySelector from '@/components/CategorySelector';
+import { Header } from '../../components/Header';
+import { useAuth } from '../../components/AuthProvider';
+import { Login } from '../../components/Login';
+import CategorySelector from '../../components/CategorySelector';
 import { useRouter } from 'next/navigation';
-import apiClient from '@/services/api';
+import apiClient from '../../services/api';
 
 interface Question {
   id: string;

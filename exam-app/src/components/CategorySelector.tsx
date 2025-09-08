@@ -12,7 +12,7 @@ import {
   Card,
   CardContent
 } from '@mui/material';
-import apiClient from '@/services/api';
+import apiClient from '../services/api';
 
 interface Category {
   id: string;

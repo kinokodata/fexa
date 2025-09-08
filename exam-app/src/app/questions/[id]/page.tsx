@@ -5,12 +5,12 @@ import { useEffect, useState } from 'react'
 import { Container, Typography, Box, CircularProgress, Alert, Card, CardContent, FormControl, FormControlLabel, RadioGroup, Radio, Button, Divider, IconButton, useTheme, useMediaQuery } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import WarningAmberIcon from '@mui/icons-material/WarningAmber'
-import { Header } from '@/components/Header'
-import { ExamSidebar } from '@/components/ExamSidebar'
-import { QuestionSetSidebar } from '@/components/QuestionSetSidebar'
-import MathRenderer from '@/components/MathRenderer'
-import apiClient from '@/services/api'
-import { Question } from '@/types/api'
+import { Header } from '../../../components/Header'
+import { ExamSidebar } from '../../../components/ExamSidebar'
+import { QuestionSetSidebar } from '../../../components/QuestionSetSidebar'
+import MathRenderer from '../../../components/MathRenderer'
+import apiClient from '../../../services/api'
+import { Question } from '../../../types/api'
 
 export default function QuestionPage() {
   const params = useParams()

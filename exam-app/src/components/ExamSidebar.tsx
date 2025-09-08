@@ -2,7 +2,7 @@
 
 import { Box, Drawer, List, ListItem, ListItemButton, ListItemText, Typography, Chip, Divider, useTheme, useMediaQuery } from '@mui/material'
 import { useRouter, usePathname } from 'next/navigation'
-import { Question } from '@/types/api'
+import { Question } from '../types/api'
 
 interface ExamSidebarProps {
   questions?: Question[]

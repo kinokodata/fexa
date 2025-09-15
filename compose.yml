@@ -144,30 +144,6 @@ services:
     profiles:
       - tools
 
-  # カテゴリ分類ツール
-  category-classification:
-    build:
-      context: ./tools/category-classification
-      dockerfile: Dockerfile
-    environment:
-      NODE_ENV: development
-      API_BASE_URL: http://backend:3000
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      APPLICATION_SERVICE_USER: ${APPLICATION_SERVICE_USER}
-      APPLICATION_SERVICE_PASSWORD: ${APPLICATION_SERVICE_PASSWORD}
-      # Supabase接続情報（テスト用）
-      SUPABASE_URL: ${SUPABASE_URL}
-      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
-      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
-    volumes:
-      - ./tools/category-classification:/app
-      - /app/node_modules
-    working_dir: /app
-    depends_on:
-      - backend
-    profiles:
-      - tools
-
   # カテゴリエクスポートツール
   export-categories:
     build:
@@ -208,31 +184,6 @@ services:
       - backend
     profiles:
       - tools
-
-  # 総合テスト環境（エンドツーエンドテスト用）
-  integration-tests:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    container_name: fexa-integration-tests
-    environment:
-      NODE_ENV: test
-      # テスト用Supabase接続情報
-      SUPABASE_URL: ${SUPABASE_URL}
-      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
-      SUPABASE_SERVICE_KEY: ${SUPABASE_SERVICE_KEY}
-      # テスト用APIサーバー設定
-      PORT: 3000
-      API_BASE_URL: http://backend:3000
-    volumes:
-      - ./backend:/app
-      - /app/node_modules
-    working_dir: /app
-    command: npm test
-    depends_on:
-      - backend
-    profiles:
-      - test
 
 networks:
   default:

@@ -278,6 +278,16 @@ class ApiClient {
       method: 'DELETE',
     });
   }
+
+  // 画像を削除
+  async deleteImage(
+    imageId: string,
+    type: 'question' | 'choice'
+  ): Promise<ApiResponse<{ message: string }>> {
+    return this.request<{ message: string }>(`/api/images/${imageId}?type=${type}`, {
+      method: 'DELETE',
+    });
+  }
 }
 
 const apiClient = new ApiClient();

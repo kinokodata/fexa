@@ -551,17 +551,17 @@ export default function QuestionDetail() {
 
   const handleDeleteChoiceTable = async () => {
     if (!question?.id || deletingChoiceTable) return;
-    
+
     // 確認ダイアログ
     if (!window.confirm('表形式選択肢を削除してもよろしいですか？\n削除すると元に戻すことはできません。')) {
       return;
     }
-    
+
     try {
       setDeletingChoiceTable(true);
       const { default: apiClient } = await import('../../../../../services/api');
       const result = await apiClient.deleteChoiceTable(question.id);
-      
+
       if (result.success) {
         // 問題データを更新
         setQuestion(prev => prev ? {
@@ -570,8 +570,8 @@ export default function QuestionDetail() {
           has_choice_table: false,
           choice_table_type: undefined
         } : null);
-        
-        
+
+
         setError(null);
         // 成功メッセージは表示せず、削除されたことが視覚的に分かるようにする
       } else {
@@ -581,6 +581,28 @@ export default function QuestionDetail() {
       setError('表形式選択肢の削除中にエラーが発生しました');
     } finally {
       setDeletingChoiceTable(false);
+    }
+  };
+
+  const handleDeleteImage = async (imageId: string, type: 'question' | 'choice', label: string) => {
+    // 確認ダイアログ
+    if (!window.confirm(`${label}の画像を削除してもよろしいですか？\n削除すると元に戻すことはできません。`)) {
+      return;
+    }
+
+    try {
+      const { default: apiClient } = await import('../../../../../services/api');
+      const result = await apiClient.deleteImage(imageId, type);
+
+      if (result.success) {
+        // 問題データを再取得
+        await fetchQuestions();
+        setError(null);
+      } else {
+        setError('画像の削除に失敗しました');
+      }
+    } catch (error) {
+      setError('画像の削除中にエラーが発生しました');
     }
   };
 
@@ -925,13 +947,13 @@ export default function QuestionDetail() {
               {/* アップロード済みの画像を表示 */}
               {images.map((image: any) => (
                 <Box key={image.id} sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                  <Box sx={{ 
+                  <Box sx={{
                     backgroundColor: 'grey.50',
                     borderRadius: 1,
                     p: 2
                   }}>
-                    <img 
-                      src={image.image_url} 
+                    <img
+                      src={image.image_url}
                       alt={image.caption || `${choice.choice_label}の画像`}
                       style={{
                         maxWidth: '400px',
@@ -944,19 +966,36 @@ export default function QuestionDetail() {
                       }}
                     />
                   </Box>
-                  <IconButton
-                    onClick={() => openUploadModal(question?.id || '', choice.id, choice.choice_label)}
-                    sx={{
-                      backgroundColor: 'primary.main',
-                      color: 'white',
-                      boxShadow: 2,
-                      '&:hover': {
-                        backgroundColor: 'primary.dark'
-                      }
-                    }}
-                  >
-                    <EditIcon />
-                  </IconButton>
+                  <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+                    <IconButton
+                      onClick={() => openUploadModal(question?.id || '', choice.id, choice.choice_label)}
+                      sx={{
+                        backgroundColor: 'primary.main',
+                        color: 'white',
+                        boxShadow: 2,
+                        '&:hover': {
+                          backgroundColor: 'primary.dark'
+                        }
+                      }}
+                      title="画像を変更"
+                    >
+                      <EditIcon />
+                    </IconButton>
+                    <IconButton
+                      onClick={() => handleDeleteImage(image.id, 'choice', choice.choice_label)}
+                      sx={{
+                        backgroundColor: 'error.main',
+                        color: 'white',
+                        boxShadow: 2,
+                        '&:hover': {
+                          backgroundColor: 'error.dark'
+                        }
+                      }}
+                      title="画像を削除"
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
                 </Box>
               ))}
               {/* 画像の説明テキスト */}
@@ -1218,12 +1257,43 @@ export default function QuestionDetail() {
               {question.has_image && question.question_images && question.question_images.length > 0 && (
                 <Box sx={{ mt: 2 }}>
                   {question.question_images.map((image: any, index: number) => (
-                    <img 
-                      key={index}
-                      src={image.image_url} 
-                      alt="問題画像" 
-                      style={{ maxWidth: '100%', height: 'auto' }}
-                    />
+                    <Box key={index} sx={{ position: 'relative', display: 'inline-block', mb: 2 }}>
+                      <img
+                        src={image.image_url}
+                        alt="問題画像"
+                        style={{ maxWidth: '100%', height: 'auto', display: 'block' }}
+                      />
+                      <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
+                        <IconButton
+                          onClick={() => openUploadModal(question.id, 'question', '問題画像')}
+                          size="small"
+                          sx={{
+                            backgroundColor: 'primary.main',
+                            color: 'white',
+                            '&:hover': {
+                              backgroundColor: 'primary.dark'
+                            }
+                          }}
+                          title="画像を変更"
+                        >
+                          <EditIcon fontSize="small" />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => handleDeleteImage(image.id, 'question', '問題画像')}
+                          size="small"
+                          sx={{
+                            backgroundColor: 'error.main',
+                            color: 'white',
+                            '&:hover': {
+                              backgroundColor: 'error.dark'
+                            }
+                          }}
+                          title="画像を削除"
+                        >
+                          <DeleteIcon fontSize="small" />
+                        </IconButton>
+                      </Box>
+                    </Box>
                   ))}
                 </Box>
               )}

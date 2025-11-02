@@ -139,11 +139,20 @@ router.post('/upload', authenticateToken, upload.single('image'), async (req, re
 router.delete('/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
+    const { type } = req.query; // 'question' または 'choice'
     const supabase = getSupabase();
+
+    // type パラメータのバリデーション
+    if (!type || (type !== 'question' && type !== 'choice')) {
+      return res.status(400).json(error('typeパラメータ（question または choice）が必要です'));
+    }
+
+    const tableName = type === 'question' ? 'question_images' : 'choice_images';
+    const foreignKeyField = type === 'question' ? 'question_id' : 'choice_id';
 
     // データベースから画像情報を取得
     const { data: imageData, error: fetchError } = await supabase
-      .from('question_images')
+      .from(tableName)
       .select('*')
       .eq('id', id)
       .single();
@@ -155,25 +164,100 @@ router.delete('/:id', authenticateToken, async (req, res) => {
       throw fetchError;
     }
 
+    // 関連するquestion_idまたはchoice_idを保存
+    const relatedId = imageData[foreignKeyField];
+
+    // 問題情報を取得してファイルパスを再構築
+    let questionData;
+    if (type === 'question') {
+      const { data: qData, error: qError } = await supabase
+        .from('questions')
+        .select('question_number, question_type, exam_id')
+        .eq('id', relatedId)
+        .single();
+
+      if (qError) {
+        throw new Error(`問題情報の取得に失敗しました: ${qError.message}`);
+      }
+      questionData = qData;
+    } else {
+      // 選択肢の場合は選択肢から問題情報を取得
+      const { data: cData, error: cError } = await supabase
+        .from('choices')
+        .select('question_id')
+        .eq('id', relatedId)
+        .single();
+
+      if (cError) {
+        throw new Error(`選択肢情報の取得に失敗しました: ${cError.message}`);
+      }
+
+      const { data: qData, error: qError } = await supabase
+        .from('questions')
+        .select('question_number, question_type, exam_id')
+        .eq('id', cData.question_id)
+        .single();
+
+      if (qError) {
+        throw new Error(`問題情報の取得に失敗しました: ${qError.message}`);
+      }
+      questionData = qData;
+    }
+
+    // 試験情報を取得
+    const { data: examData, error: examError } = await supabase
+      .from('exams')
+      .select('year, season')
+      .eq('id', questionData.exam_id)
+      .single();
+
+    if (examError) {
+      throw new Error(`試験情報の取得に失敗しました: ${examError.message}`);
+    }
+
+    // ファイルパスを再構築
+    const seasonCode = examData.season === '春期' ? 'h' : 'a';
+    const timeCode = questionData.question_type === '午前' ? 'am' : 'pm';
+    const fileName = `${examData.year}${seasonCode}/${timeCode}_q${questionData.question_number}/${id}.${imageData.image_type}`;
+
     // Storageから画像ファイルを削除
     const bucketName = process.env.SUPABASE_STORAGE_BUCKET || 'fexa-images';
-    const fileName = imageData.image_url.split('/').pop();
     const { error: storageError } = await supabase.storage
       .from(bucketName)
       .remove([fileName]);
 
     if (storageError) {
       logger.error('Storage削除エラー:', storageError);
+      // ストレージ削除に失敗してもDB削除は続行
     }
 
     // データベースから画像レコードを削除
     const { error: deleteError } = await supabase
-      .from('question_images')
+      .from(tableName)
       .delete()
       .eq('id', id);
 
     if (deleteError) {
       throw deleteError;
+    }
+
+    // 削除後、関連する問題または選択肢に他の画像が残っているかチェック
+    const { data: remainingImages, error: checkError } = await supabase
+      .from(tableName)
+      .select('id')
+      .eq(foreignKeyField, relatedId);
+
+    if (checkError) {
+      logger.error('残り画像チェックエラー:', checkError);
+    }
+
+    // 残りの画像がない場合は has_image フラグを false に更新
+    if (!remainingImages || remainingImages.length === 0) {
+      const targetTable = type === 'question' ? 'questions' : 'choices';
+      await supabase
+        .from(targetTable)
+        .update({ has_image: false })
+        .eq('id', relatedId);
     }
 
     res.json(success({ message: '画像を削除しました' }));
